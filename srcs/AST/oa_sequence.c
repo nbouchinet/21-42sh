@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 05:51:37 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/20 10:53:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:48:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "AST.h"
 
 t_tok	*find_andor_tok(t_tok **lst, t_tok **stop)
 {

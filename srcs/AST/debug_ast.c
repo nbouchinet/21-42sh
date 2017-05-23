@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:45:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 13:01:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:58:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "AST.h"
 
 typedef struct		s_seq
 {

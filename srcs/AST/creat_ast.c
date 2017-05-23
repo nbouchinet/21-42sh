@@ -6,11 +6,24 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 15:55:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/19 23:06:38 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:59:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "AST.h"
+
+void	init_ast(t_ast **ast, char *str, int type)
+{
+	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
+	{
+		*ast = NULL;
+		return ;
+	}
+	(*ast)->str = str ? ft_strdup(str) : NULL;
+	(*ast)->type = type;
+	(*ast)->left = NULL;
+	(*ast)->right = NULL;
+}
 
 void	primary_sequence(t_ast **ast, t_tok **lst)
 {

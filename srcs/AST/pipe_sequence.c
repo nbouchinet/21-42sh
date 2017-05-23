@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:50:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/20 18:51:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:48:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "AST.h"
 
 t_tok	*find_pipe_tok(t_tok **lst, t_tok **stop)
 {
@@ -66,7 +66,7 @@ void	pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		tmp_first = tmp->next;
 		new_sep = tmp;
 		tmp = tmp->next;
-	}
+	} // En faire une fonction
 	if (tmp_first != *lst)
 	{
 		init_ast(&tmp_ast->left, new_sep->str, new_sep->type);

@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 19:08:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/05 17:34:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 20:00:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/sh21.h"
+#include "lexer_parser.h"
 
 int		arg_check(int ac, int i, char **av, char **envp)
 {

@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 11:01:17 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/22 11:23:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:58:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "exec.h"
 
 int		exec_pipe_seq(t_ast **ast, t_env **env, int i)
 {

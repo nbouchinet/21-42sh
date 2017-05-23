@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 13:58:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/21 15:38:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:58:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "exec.h"
 
 int		isexec(char *path)
 {

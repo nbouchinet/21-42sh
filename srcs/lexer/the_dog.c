@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/05 17:34:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 20:00:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/sh21.h"
+#include "lexer_parser.h"
 
 void	delete_lst(t_tok **cmd)
 {

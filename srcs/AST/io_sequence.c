@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 16:41:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/22 17:09:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:48:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "AST.h"
 
 void	io_sequence(t_ast **ast, &tmp, *sep)
 {

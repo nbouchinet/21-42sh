@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 13:07:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:58:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "exec.h"
 
 typedef struct		s_cmd
 {
@@ -111,7 +111,7 @@ int		exec_abs_cmd(t_ast **ast, t_env **env)
 			return (0); // Assugeti a des leaks
 	}
 	else
-		ft_errormsg("21sh: ", (*ast)->left->str, ": Command not found.");
+		ft_errormsg("21sh: ", (ft_strrchr((*ast)->left->str, '/') + 1), ": Command not found.");
 	return (0);
 }
 

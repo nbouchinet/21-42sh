@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 15:44:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 20:00:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/sh21.h"
+#include "lexer_parser.h"
 
 int		zap_space(char *line)
 {

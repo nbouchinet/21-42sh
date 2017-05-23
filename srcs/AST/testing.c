@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:47:37 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/18 14:46:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/23 19:49:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		exec_oa_sequence(t_ast **ast)
 			if (tmp->left->right->type == CMD_SEQ)
 			{
 				ft_putendl("CMD_SEQ Found droite");
-				cmd_seq(tmp->left->right); // IMPLEMENTATION IF exec_oa_sequence() == 0 ? Check rdir : cmd_seq();
+				cmd_seq(tmp->left->right); // IF exec_oa_sequence() == 0 ? Check rdir : cmd_seq();
 				return (1);
 			}
 		}
