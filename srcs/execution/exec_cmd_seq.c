@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:58:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:57:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "header.h"
 
 typedef struct		s_cmd
 {
@@ -18,7 +18,19 @@ typedef struct		s_cmd
 	int			(*f)(t_ast**, t_env**);
 }					t_cmd;
 
+t_env	*find_node(t_env **env, char *var, char *value)
+{
+	t_env	*tmp;
 
+	tmp = *env;
+	if (var != NULL)
+		while (tmp && ft_strcmp(tmp->var, var) != 0)
+			tmp = tmp->next;
+	else
+		while (tmp && ft_strcmp(tmp->value, value) != 0)
+			tmp = tmp->next;
+	return (tmp);
+}
 
 int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 {

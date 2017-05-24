@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 11:47:37 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:49:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:25:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh21.h"
+#include "header.h"
 
 void	cmd_seq(t_ast *ast)
 {

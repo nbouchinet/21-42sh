@@ -6,11 +6,21 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 19:08:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 20:00:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:46:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_parser.h"
+#include "header.h"
+
+int		count_tab(char **ta)
+{
+	int		i;
+
+	i = 0;
+	while (ta[i])
+		i++;
+	return (i);
+}
 
 int		arg_check(int ac, int i, char **av, char **envp)
 {

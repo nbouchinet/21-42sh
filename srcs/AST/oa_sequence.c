@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/16 05:51:37 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:48:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 14:00:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
+#include "header.h"
 
 t_tok	*find_andor_tok(t_tok **lst, t_tok **stop)
 {
@@ -25,7 +25,6 @@ t_tok	*find_andor_tok(t_tok **lst, t_tok **stop)
 
 void	oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
-	int		i = 0;
 	t_tok	*tmp;
 	t_tok	*tmp_first;
 	t_tok	*new_sep;
@@ -35,7 +34,6 @@ void	oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_first = *lst;
 	while ((tmp = find_andor_tok(&tmp_first, sep)) != *sep)
 	{
-		ft_putendn(++i);
 		tmp_first = tmp->next;
 		new_sep = tmp;
 		tmp = tmp->next;

@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 15:55:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:59:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:25:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
+#include "header.h"
 
 void	init_ast(t_ast **ast, char *str, int type)
 {

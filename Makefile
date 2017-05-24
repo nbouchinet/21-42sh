@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/05/23 20:02:26 by zadrien          ###   ########.fr        #
+#    Updated: 2017/05/24 13:57:37 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,21 @@ CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/
 INC= $(addprefix -I , $(HPATH))
-CFILES= main.c lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c	\
+CFILES= main.c print_prompt.c signals.c	\
+		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c	\
 		lexer/jonathan_kent.c lexer/the_dog.c	\
 		AST/oa_sequence.c AST/debug_ast.c AST/pipe_sequence.c AST/creat_ast.c	\
 		execution/exec_cmd_seq.c execution/exec_cmd_tools.c execution/get_env.c	\
-		builtin/unsetenv.c builtin/setenv.c
-		environement/env.c	\
+		builtins/unsetenv.c builtins/setenv.c builtins/exit.c builtins/env.c	\
+		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
+		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
+		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
+		command_line/quotes.c command_line/search_history.c	\
 
 OFILES= $(CFILES:.c=.o)
 
-HFILES= includes/sh21.h includes/AST.h includes/lexer_parser.h includes/exec.h	\
-		libft/libft.h	\
+HFILES= includes/header.h\
+		libft/inc/libftprintf.h	\
 
 OBJ= $(addprefix $(OPATH), $(OFILES))
 
@@ -41,12 +45,12 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -ltermcap libft/libft.a -o $(NAME)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
-	@mkdir -p $(OPATH)/edit_line
+	@mkdir -p $(OPATH)/command_line
 	@mkdir -p $(OPATH)/lexer
 	@mkdir -p $(OPATH)/AST
 	@mkdir -p $(OPATH)/execution
 	@mkdir -p $(OPATH)/environement
-	@mkdir -p $(OPATH)/builtin
+	@mkdir -p $(OPATH)/builtins
 	$(CC) -g -Wall -Werror -Wextra  $(INC) $< -c -o $@
 
 clean:

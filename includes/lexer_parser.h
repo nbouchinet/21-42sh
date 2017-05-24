@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:32:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:40:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 **                 LL - JK - MK - TD              **
 ***************************************************
 */
+
+typedef struct		s_env
+{
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct		s_che
 {

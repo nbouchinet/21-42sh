@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:31:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:47:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ enum 			e_ast
 	IO_FILE,
 	CMD_NAME,
 	SIMP_CMD,
-	CMD_ARG
+	CMD_ARG,
+	IO_SEQ
 };
 
 typedef struct		s_ast

@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:50:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:48:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:25:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
+#include "header.h"
 
 t_tok	*find_pipe_tok(t_tok **lst, t_tok **stop)
 {

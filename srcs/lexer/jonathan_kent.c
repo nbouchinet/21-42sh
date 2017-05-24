@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/23 19:59:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 13:24:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_parser.h"
+#include "header.h"
 
 void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
