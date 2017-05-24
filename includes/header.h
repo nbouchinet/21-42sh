@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 17:52:39 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:52:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 17:06:14 by nmougino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,7 @@
 #include "lexer_parser.h"
 #include "AST.h"
 #include "exec.h"
+
+void		ft_putast(t_ast *root);
+
 #endif
