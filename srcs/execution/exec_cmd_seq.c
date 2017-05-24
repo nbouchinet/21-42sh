@@ -52,7 +52,6 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 	return (0);
 }
 
-
 char	**creat_arg(t_ast **ast, char *cmd)
 {
 	int		i;

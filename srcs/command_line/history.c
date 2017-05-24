@@ -63,7 +63,7 @@ static void		get_max_len(t_his **his)
 static int		call_first_link(t_win *win, char **cmd, t_his **his)
 {
 	first_link((*cmd), his);
-	win->hd ? catcmd(cmd, win) : 0;
+	win->hd ? catcmd(win) : 0;
 	ft_streplace(&(*his)->cmdl, 127, '\n');
 	return (0);
 }
@@ -92,7 +92,7 @@ void        	save_history(t_win *win, char **cmd, t_his **his)
 	(*his)->next->prev = (*his);
 	(*his) = (*his)->next;
 	ft_streplace(&(*his)->cmdl, 127, '\n');
-	win->hd ? catcmd(cmd, win) : 0;
+	win->hd ? catcmd(win) : 0;
 	get_max_len(his);
 	lst_len(*his) >= 31 ? del_first(his) : 0;
 }

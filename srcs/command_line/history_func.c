@@ -31,34 +31,24 @@ int    lst_len(t_his *his)
 	return (count);
 }
 
-void    catcmd(char **cmd, t_win *win)
+void    catcmd(t_win *win)
 {
-	int		i;
-	int		j;
 	t_hdoc	*hd;
-	char	*tmp;
 
-	i = -1;
 	hd = win->hd;
+	win->fd = open(win->hd_path, O_TRUNC);
+	win->fd = open(win->hd_path, O_WRONLY);
 	while (hd)
 	{
 		if (hd->hdoc)
 		{
-			while ((*cmd)[++i] && (*cmd)[i] != '<')
-				;
-			j = i + 1;
-			while ((*cmd)[++j] == ' ')
-				;
-			while ((*cmd)[++j] && (*cmd)[j] != ' ')
-				;
-			tmp = ft_strdup((*cmd) + j);
-			(*cmd)[i] = 0;
-			(*cmd) = ft_strjoinf((*cmd), ft_strjoinf(hd->hdoc, tmp, 3), 3);
-			hd->hdoc = NULL;
+			ft_putstr_fd(hd->hdoc, win->fd);
+			ft_putchar_fd(127, win->fd);
 		}
 		hd = hd->next;
 	}
 	del_hd(win->hd);
+	close(win->fd);
 }
 
 void	del_hd(t_hdoc *hd)
