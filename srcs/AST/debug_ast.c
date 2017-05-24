@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:45:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:25:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 14:26:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,9 @@ void	exec_ast(t_ast **ast, t_env **env)
 	while (tmp)
 	{
 		i = -1;
-		ft_putendl("=======================");
-		ft_putendl("|       RACINE        |");
-		ft_putendl("=======================");
 		while (++i < 3)
-			if (seq[i].type == tmp->type)
-			{
-				if (tmp->type == PIPE_SEQ)
-				{
-					ft_putendl("................");
-					ft_putendl("|   PIPE_SEQ   |");
-					ft_putendl("................");
-				}
-				if (tmp->type == AND_OR)
-				{
-					ft_putendl("................");
-					ft_putendl("|    AND_OR    |");
-					ft_putendl("................");
-				}
-				if (seq[i].f(&tmp, env) == 1)
-					ft_putendl("SUCCESS");
-				else
-					ft_putendl("FAILURE");
-			}
+			if (seq[i].f(&tmp, env) == 1)
+				continue ;
 		tmp = tmp->right;
 	}
 }
@@ -62,7 +42,6 @@ int		cmd_seq(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
-	ft_putendl("~~ CMD_SEQ ~~");
 	if (tmp->type == PIPE_SEQ)
 	{
 		exec_pipe_sequence(&tmp, env);
@@ -121,7 +100,6 @@ void	simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	ft_putendl(tmp->str);
 	init_ast(&tmp_ast->left, tmp->str, CMD_NAME);
 	tmp = tmp->next;
 	while (tmp != *sep)

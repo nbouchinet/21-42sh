@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:57:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/05/24 14:23:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,12 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 					 {"setenv", &ft_setenv}}; //{"unsetenv", &ft_unsetenv},
 							// {"setenv", &ft_setenv}, {"cd", &ft_cd}};
 
-	ft_putendl("AAAAAAAAAAALLLLLLLLLLOOOO");
 	i = -1;
 	tmp = *ast;
 	while (++i < 3)
-	{
-		ft_putendl("~~~~~~~~~~~~~~~~~~~~~~~~");
-		// ft_putendn(tmp->type);
 		if (ft_strcmp(cmd[i].cmd, tmp->left->str) == 0)
-		{
 			if (cmd[i].f(&tmp, env) == 1)
 				return (1);
-		}
-	}
 	if (i == 3)
 		if (exec_binary(&tmp, env))
 			return (1);
