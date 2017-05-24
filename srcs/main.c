@@ -47,12 +47,13 @@ static int	dup_env(char **env, char **new[])
 	return (0);
 }
 
-static int	get_win_data(t_win **win)
+int			get_win_data(t_win **win)
 {
-	if (((*win)->co = tgetnum("co")) == -1)
-		return (1);
-	if (((*win)->li = tgetnum("li")) == -1)
-		return (1);
+	struct winsize	w;
+
+	ioctl(0, TIOCGWINSZ, &w);
+	(*win)->co = w.ws_col;
+	(*win)->li = w.ws_row;
 	return (0);
 }
 

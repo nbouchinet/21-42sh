@@ -112,6 +112,7 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 	{
 		if (cmdl_signal(cmd, save, win) == 1)
 			return ;
+		g_loop == 4 ? winsize(win, &save, cmd) : 0;
 		ft_memset(buf, '\0', 6);
 		read(0, buf, 6);
 		if (PRINT)

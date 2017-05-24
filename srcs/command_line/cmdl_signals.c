@@ -14,6 +14,12 @@
 
 extern int g_loop;
 
+static void		cmdl_wins(int signal)
+{
+	if (signal == 28)
+		g_loop = 4;
+}
+
 void		cmdl_ctrc(int signal)
 {
 	if (signal == 2)
@@ -23,6 +29,7 @@ void		cmdl_ctrc(int signal)
 int		cmdl_signal(char **cmd, char *save, t_win **win)
 {
 	signal(2, cmdl_ctrc);
+	signal(28, cmdl_wins);
 	if (g_loop == 3)
 	{
 		if ((*cmd) && (*cmd)[(*win)->cur - (*win)->pr] != 0)

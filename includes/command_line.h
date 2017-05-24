@@ -114,6 +114,7 @@ void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
 void				findstr(t_his **his, char *cmd);
 void				get_cmdl(char **cmd, t_win **win, char *save, char **env);
 void				get_here_string(char **save, t_win **win);
+int					get_win_data(t_win **win);
 void				heredoc(char **cmd, t_win **win);
 int					lst_len(t_his *his);
 void				init_var(t_win **win);
@@ -123,5 +124,6 @@ void				save_history(t_win *win, char **cmd, t_his **his);
 void				search_history(char **cmd, t_win **win);
 void				handle_pipe_and_or(char **save, t_win **win);
 void				quote_removal(char **cmd, t_win **win);
+void				winsize(t_win **win, char **save, char **cmd);
 
 #endif
