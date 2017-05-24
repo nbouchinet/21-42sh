@@ -31,8 +31,7 @@ void	exec_ast(t_ast **ast, t_env **env)
 	{
 		i = -1;
 		while (++i < 3)
-			if (seq[i].f(&tmp, env) == 1)
-				continue ;
+			seq[i].f(&tmp, env);
 		tmp = tmp->right;
 	}
 }
@@ -47,10 +46,12 @@ int		cmd_seq(t_ast **ast, t_env **env)
 		exec_pipe_sequence(&tmp, env);
 	}
 	else if (tmp->type == CMD_SEQ)
+	{
+		// if (tmp->right->type == IO_SEQ)
+			// io_command(&tmp->right);
 		if (exec_cmd_seq(&tmp->left, env) == 1)
 			return (1);
-	// if (tmp->right)
-	// 	io_command(&tmp->right);
+	}
 	return (0);
 }
 

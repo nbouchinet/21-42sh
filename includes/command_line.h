@@ -71,14 +71,6 @@ typedef struct		s_hdoc
 	struct s_hdoc	*next;
 }					t_hdoc;
 
-typedef struct		s_quote
-{
-	int				bsq;
-	int				bdq;
-	int				esq;
-	int				edq;
-}					t_q;
-
 typedef struct		s_win
 {
 	int				co;
@@ -92,9 +84,10 @@ typedef struct		s_win
 	int				sh;
 	int				ctrld;
 	char			*copy;
+	int 			fd;
+	char			*hd_path;
 	t_hdoc			*hd;
 	t_his			*his;
-	t_q				q;
 	struct termios	term;
 }					t_win;
 
@@ -106,7 +99,7 @@ typedef struct		s_win
 void				arrows(t_win *win, char *cmd, char buf[]);
 void				arrow_left(t_win *win);
 void				arrow_rigth(t_win *win, char *cmd);
-void    			catcmd(char **cmd, t_win *win);
+void    			catcmd(t_win *win);
 void				ccp(char **cmd, char buf[], t_win *win);
 void				check_line(char **save, char **cmd, t_win **win, char buf[]);
 int					check_quotes(char **cmd, t_win **win);

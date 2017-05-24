@@ -21,6 +21,8 @@ static int	unset_shell(t_win **win)
 	if (tcsetattr(0, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "unset-shell: tcsetattr: ERROR\n"));
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
+	(*win)->fd = open((*win)->hd_path, O_TRUNC);
+	close((*win)->fd);
 	free(*win);
 	// free win->hd win->his si win->ctrld;
 	*win = NULL;
@@ -57,6 +59,7 @@ static int	get_win_data(t_win **win)
 static int	set_shell(t_win **win)
 {
 	char			*shl_name;
+	char			buff[1024];
 
 	tputs(tgetstr("nam", NULL), 1, ft_putchar);
 	if (((*win) = (t_win*)malloc(sizeof(t_win))) == NULL)
@@ -73,6 +76,8 @@ static int	set_shell(t_win **win)
 	(*win)->term.c_cc[VTIME] = 1;
 	if (tcsetattr(0, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
+	(*win)->hd_path = ft_strjoinf(getcwd(buff, 1024),
+	ft_strdup("/hdoc/hdoc_file"), 2);
 	return (0);
 }
 
