@@ -24,6 +24,7 @@ static int	unset_shell(t_win **win)
 	(*win)->fd = open((*win)->hd_path, O_TRUNC);
 	close((*win)->fd);
 	free(*win);
+	(*win)->ctrld ? ft_printf("exit\n") : 0;
 	// free win->hd win->his si win->ctrld;
 	*win = NULL;
 	return (0);
@@ -50,8 +51,8 @@ static int	dup_env(char **env, char **new[])
 int			get_win_data(t_win **win)
 {
 	struct winsize	w;
-
-	ioctl(0, TIOCGWINSZ, &w);
+	if (ioctl(0, TIOCGWINSZ, &w))
+		return (fd_printf(2, "Error while accesing windows data\n"));
 	(*win)->co = w.ws_col;
 	(*win)->li = w.ws_row;
 	return (0);
@@ -86,9 +87,18 @@ static void	exec_part(char **line, t_env **env)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	t_tok	*tmp;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
+	tmp = cmd; 
+	// while (tmp)
+	// {
+	// 	ft_putendl(tmp->str);
+	// 	ft_putnbrl(tmp->type);
+	// 	ft_putendl("=============");
+	// 	tmp = tmp->next;
+	// }
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	exec_ast(&ast, env);
@@ -109,7 +119,15 @@ static void	loop(char **env, t_win *win)
 			break ;
 		if (cmd)
 		{
+			win->term.c_lflag |= ICANON;
+			win->term.c_lflag |= ECHO;
+			if (tcsetattr(0, TCSADRAIN, &win->term) == -1)
+				exit(1);
 			exec_part(&cmd, &lstenv);
+			win->term.c_lflag &= ~(ICANON);
+			win->term.c_lflag &= ~(ECHO);
+			if (tcsetattr(0, TCSADRAIN, &win->term) == -1)
+				exit(1);
 			free(cmd);
 		}
 	}

@@ -22,7 +22,7 @@ void	exec_ast(t_ast **ast, t_env **env)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_seq	seq[3] = {{CMD_SEQ, & cmd_seq},
+	static const t_seq	seq[3] = {{CMD_SEQ, &cmd_seq},
 		{PIPE_SEQ, &exec_pipe_sequence}, {AND_OR, &exec_oa_sequence}};
 
 	i = -1;
@@ -31,7 +31,8 @@ void	exec_ast(t_ast **ast, t_env **env)
 	{
 		i = -1;
 		while (++i < 3)
-			seq[i].f(&tmp, env);
+			if (seq[i].type == tmp->type)
+				seq[i].f(&tmp, env);
 		tmp = tmp->right;
 	}
 }
@@ -107,7 +108,7 @@ void	simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	{
 		init_ast(&tmp_ast->right, tmp->str, CMD_ARG);
 		if (tmp->next != *sep)
-		tmp_ast = tmp_ast->right;
+			tmp_ast = tmp_ast->right;
 		tmp = tmp->next;
 	}
 }

@@ -97,6 +97,7 @@ void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	}
 	if (tmp_ast->type == 0)
 	{
+		//init_ast(&tmp_ast->left, NULL, CMD_SEQ)
 		tmp_ast->type = CMD_SEQ;
 		command_sequence(&tmp_ast, lst, sep);
 	}

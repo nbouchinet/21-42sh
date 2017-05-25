@@ -40,10 +40,10 @@ int		seak(char *s)
 {
 	char *name;
 
-	if (ft_strcmp(s, "21sh") == 0)
+	if (ft_strcmp(s, "42sh") == 0)
 		return (1);
 	else if ((name = ft_strrchr(s, '/')))
-		if (ft_strcmp(name + 1, "21sh") == 0)
+		if (ft_strcmp(name + 1, "42sh") == 0)
 			return (1);
 	return (0);
 }

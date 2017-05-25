@@ -60,10 +60,6 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 			*lst = (*lst)->next;
 		}
 	}
-	// (*lst)->str = ft_strdup(" ");
-	// (*lst)->type = SPACE_TOK;
-	// init_token(&(*lst)->next);
-	// *lst = (*lst)->next;
 	(*i) = (*i) + zap_space(line + (*i)) - 1;
 }
 
@@ -77,7 +73,7 @@ void	new_parser(t_tok **cmd, char *line)
 	static const t_key	key[7] = {{'"', &quote}, {' ', &flush}, {'>', &chevron},
 {'<', &chevron}, {';', &question_mark}, {'|', &pipe_pars}, {'&', &and_pars}};
 
-	i = zap_space(line);
+	i = 0;
 	tmp = *cmd;
 	stack = ft_strnew(1024);
 	while (line[i])
