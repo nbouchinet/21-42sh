@@ -92,7 +92,7 @@ void	check_line(char **save, char **cmd, t_win **win, char buf[])
 
 static void		exit_get_cndl(char **cmd, t_win **win, char *save, char buf[])
 {
-	(*cmd) = ft_strdupf(save);
+	(*cmd) = ft_strjoinf(save, (*cmd), 3);
 	save_history(*win, cmd, &(*win)->his);
 	if ((*cmd) && !(*win)->hd)
 		while ((*cmd)[(*win)->cur - (*win)->pr])

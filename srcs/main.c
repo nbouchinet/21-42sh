@@ -79,7 +79,7 @@ static int	set_shell(t_win **win)
 	if (tcsetattr(0, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	(*win)->hd_path = ft_strjoinf(getcwd(buff, 1024),
-	ft_strdup("/hdoc/hdoc_file"), 2);
+	ft_strdup("/includes/hdoc/hdoc_file"), 2);
 	return (0);
 }
 
