@@ -117,6 +117,8 @@ void				get_here_string(char **save, t_win **win);
 int					get_win_data(t_win **win);
 void				heredoc(char **cmd, t_win **win);
 int					lst_len(t_his *his);
+int					mode_off(t_win **win);
+int					mode_on(t_win **win);
 void				init_var(t_win **win);
 void				print_prompt(void);
 void				print_search(char **cmd, char buf[], t_his **his, t_win *win);
@@ -124,6 +126,8 @@ void				save_history(t_win *win, char **cmd, t_his **his);
 void				search_history(char **cmd, t_win **win);
 void				handle_pipe_and_or(char **save, t_win **win);
 void				quote_removal(char **cmd, t_win **win);
+int					set_shell(t_win **win);
+int					unset_shell(t_win **win);
 void				winsize(t_win **win, char **save, char **cmd);
 
 #endif

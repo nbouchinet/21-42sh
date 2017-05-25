@@ -38,7 +38,8 @@ void	primary_sequence(t_ast **ast, t_tok **lst)
 	{
 		if (tmp->type == QM)
 		{
-			secondary_sequence(&tmp_ast, &tmp_first, &tmp);
+			qm_sequence(ast, lst, &tmp);
+			// secondary_sequence(&tmp_ast, &tmp_first, &tmp);
 			if (tmp->next)
 			{
 				init_ast(&tmp_ast->right, NULL, 0);

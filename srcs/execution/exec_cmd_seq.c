@@ -88,10 +88,11 @@ int		time_4_magic(char **arg, char **env)
 		execve(arg[0], arg, env);
 	else
 	{
-		waitpid(son, &status, WUNTRACED | WCONTINUED);
-		// ft_putendl("WTF IS GOIN ON");
 		arg ? ft_freetab(arg) : 0;
 		env ? ft_freetab(env) : 0;
+		if (waitpid(son, &status, WUNTRACED | WCONTINUED) &&
+		WIFSIGNALED(status) && WTERMSIG(status) == 2)
+			write(1, "\n", 1);
 		if (WIFEXITED(status) && !WEXITSTATUS(status))
 			return (1);
 	}

@@ -120,7 +120,7 @@ void	command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	while (tmp && (tmp->type == 9 || tmp->type == QUOTE))
+	while (tmp && (tmp->type == WORD || tmp->type == QUOTE))
 		tmp = tmp->next;
 	init_ast(&tmp_ast->left, NULL, SIMP_CMD);
 	simple_sequence(&tmp_ast->left, lst, &tmp);

@@ -42,7 +42,7 @@ void	oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	{
 		init_ast(&tmp_ast->left, new_sep->str, new_sep->type);
 		tmp_ast = tmp_ast->left;
-		init_ast(&tmp_ast->right, NULL, 0); // to change
+		init_ast(&tmp_ast->right, NULL, 0);
 		tertiary_sequence(&tmp_ast->right, &tmp_first, &tmp); // GEstion PIPE dans command_sequence()
 		oa_sequence(&tmp_ast, lst, &new_sep);
 	}
