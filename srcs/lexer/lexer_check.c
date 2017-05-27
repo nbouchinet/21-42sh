@@ -66,38 +66,38 @@
 // 	return (0);
 // }
 
-static void		swap_link(t_tok	**lst)
-{
-	char		*save_str;
-	int			save_type;
+// static void		swap_link(t_tok	**lst)
+// {
+// 	char		*save_str;
+// 	int			save_type;
 
-	save_str = NULL;
-	while ((*lst) && (*lst)->type != QM)
-	{
-		save_str = (*lst)->str;
-		save_type = (*lst)->type;
+// 	save_str = NULL;
+// 	while ((*lst) && (*lst)->type != QM)
+// 	{
+// 		save_str = (*lst)->str;
+// 		save_type = (*lst)->type;
 		
-		(*lst)->str = n_type != 4 ? (*lst)->next->str : (*lst)->next->next->str;
-		(*lst)->type = n_type != 4 ? (*lst)->next->type : (*lst)->next->next->type;
+// 		(*lst)->str = n_type != 4 ? (*lst)->next->str : (*lst)->next->next->str;
+// 		(*lst)->type = n_type != 4 ? (*lst)->next->type : (*lst)->next->next->type;
 
-		(*lst)->next->str = save_str;
-		(*lst)->next->type = save_type;
-		(*lst) ? (*lst) = (*lst)->next : 0;
-	}
-	(*lst)->next ? (*lst) = (*lst)->next : 0;
-}
+// 		(*lst)->next->str = save_str;
+// 		(*lst)->next->type = save_type;
+// 		(*lst) ? (*lst) = (*lst)->next : 0;
+// 	}
+// 	(*lst)->next ? (*lst) = (*lst)->next : 0;
+// }
 
-void	lexer_check(t_tok **lst)
-{
-	t_tok	*tmp;
+// void	lexer_check(t_tok **lst)
+// {
+// 	t_tok	*tmp;
 
-	tmp = *lst;
-	while (tmp && tmp->next)
-		if (tmp->next && (tmp->type == PIPE || tmp->type == AND || tmp->type == OR ||
-		tmp->type == CHEVRON))
-			tmp->type == PIPE || tmp->type == AND || tmp->type == OR ||
-			(tmp->type == CHEVRON && tmp->next->type == CHEVRON) ?
-			swap_db_link(&tmp) : swap_link(&tmp);
-		else
-			tmp->next ? tmp = tmp->next : 0;
-}
+// 	tmp = *lst;
+// 	while (tmp && tmp->next)
+// 		if (tmp->next && (tmp->type == PIPE || tmp->type == AND || tmp->type == OR ||
+// 		tmp->type == CHEVRON))
+// 			tmp->type == PIPE || tmp->type == AND || tmp->type == OR ||
+// 			(tmp->type == CHEVRON && tmp->next->type == CHEVRON) ?
+// 			swap_db_link(&tmp) : swap_link(&tmp);
+// 		else
+// 			tmp->next ? tmp = tmp->next : 0;
+// }

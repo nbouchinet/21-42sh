@@ -51,7 +51,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 	j = -1;
 	while (++j < 3)
 		if (line[(*i)] == key[j].c &&
-			((*stack)[0] == key[3].c || line[(*i)] == '&'))
+			((*stack)[0] == key[j].c || line[(*i)] == '&'))
 		{
 			st_tok(stack, line[(*i)]);
 			break ;
