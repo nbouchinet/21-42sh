@@ -18,6 +18,7 @@
 *****************************************************************************
 */
 int		exec_cmd_seq(t_ast **ast, t_env **env);
+int     exec_qm_seq(t_ast **ast, t_env **env);
 char	**creat_arg(t_ast **ast, char *cmd);
 int		time_4_magic(char **arg, char **env);
 int		exec_abs_cmd(t_ast **ast, t_env **env);

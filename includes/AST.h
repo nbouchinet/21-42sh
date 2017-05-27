@@ -55,4 +55,6 @@ void	exec_ast(t_ast **ast, t_env **env); // Implent lst_env
 void	primary_sequence(t_ast **ast, t_tok **lst);
 void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+
 #endif

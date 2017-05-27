@@ -25,6 +25,22 @@ void	init_ast(t_ast **ast, char *str, int type)
 	(*ast)->right = NULL;
 }
 
+static t_tok	*test(t_tok **lst)
+{
+	t_tok		*tmp;
+	t_tok		*save;
+
+	tmp = *lst;
+	save = NULL;
+	while (tmp)
+	{
+		if (tmp->type == QM)
+			save = tmp;
+		tmp = tmp->next;
+	}
+	return (save);
+}
+
 void	primary_sequence(t_ast **ast, t_tok **lst)
 {
 	t_tok	*tmp;
@@ -36,10 +52,10 @@ void	primary_sequence(t_ast **ast, t_tok **lst)
 	tmp_first = *lst;
 	while (tmp)
 	{
-		if (tmp->type == QM)
+		if ((tmp = test(&tmp)))
 		{
-			qm_sequence(ast, lst, &tmp);
-			// secondary_sequence(&tmp_ast, &tmp_first, &tmp);
+			tmp_ast->type = QM_SEQ;
+			qm_sequence(&tmp_ast, &tmp_first, &tmp);
 			if (tmp->next)
 			{
 				init_ast(&tmp_ast->right, NULL, 0);
@@ -47,7 +63,7 @@ void	primary_sequence(t_ast **ast, t_tok **lst)
 				tmp_first = tmp->next;
 			}
 		}
-		tmp = tmp->next;
+		tmp ? tmp = tmp->next : 0;
 	}
 	if (tmp_ast->type == 0)
 		secondary_sequence(&tmp_ast, &tmp_first, &tmp);

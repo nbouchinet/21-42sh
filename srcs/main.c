@@ -44,11 +44,13 @@ int			get_win_data(t_win **win)
 
 static void	exec_part(char **line, t_env **env)
 {
+	(void)env;
 	t_ast	*ast;
 	t_tok	*cmd;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
+	// lexer_check(&cmd);
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	exec_ast(&ast, env);

@@ -36,6 +36,7 @@ typedef struct		s_token
 {
 	char			*str;
 	int				type;
+	struct s_data	*data;
 	struct s_token	*next;
 }					t_tok;
 
@@ -83,6 +84,6 @@ void				delete_lst(t_tok **cmd);
 void				st_tok(char **stack, char c);
 void				input(t_tok **cmd);
 void				parser_line(char *line);
-int					lexer_check(t_tok **lst);
+void				lexer_check(t_tok **lst);
 void				delete_lstenv(t_env **cmd);
 #endif

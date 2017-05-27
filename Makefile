@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/05/25 14:56:31 by khabbar          ###   ########.fr        #
+#    Updated: 2017/05/26 14:36:27 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ CFILES= main.c print_prompt.c signals.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
 		command_line/quotes.c command_line/search_history.c	command_line/winsize.c \
-		command_line/set_shell.c
+		command_line/set_shell.c execution/exec_qm_seq.c
 
 OFILES= $(CFILES:.c=.o)
 

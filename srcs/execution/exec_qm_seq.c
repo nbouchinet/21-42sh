@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   the_dog.c                                          :+:      :+:    :+:   */
+/*   exec_qm_seq.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:24:46 by zadrien          ###   ########.fr       */
+/*   Created: 2017/05/26 14:09:08 by khabbar           #+#    #+#             */
+/*   Updated: 2017/05/26 14:09:19 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	delete_lst(t_tok **cmd)
+int     exec_qm_seq(t_ast **ast, t_env **env)
 {
-	t_tok *tmp;
+	t_ast	*tmp;
 
-	while ((*cmd))
-	{
-		tmp = *cmd;
-		(*cmd) = (*cmd)->next;
-		ft_strdel(&tmp->str);
-		free(tmp);
-	}
-}
-
-void	st_tok(char **stack, char c)
-{
-	int		i;
-
-	i = ft_strlen(*stack);
-	(*stack)[i] = c;
+    tmp = *ast;
+    if (tmp->left->type == QM)
+    {
+        exec_qm_seq(&tmp->left, env);
+        exec_ast(&tmp->left->right, env);
+    }
+    else
+	   exec_ast(&tmp->left, env);
+    return (1);
 }

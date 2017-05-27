@@ -22,15 +22,15 @@ void	exec_ast(t_ast **ast, t_env **env)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_seq	seq[3] = {{CMD_SEQ, &cmd_seq},
-		{PIPE_SEQ, &exec_pipe_sequence}, {AND_OR, &exec_oa_sequence}};
+	static const t_seq	seq[4] = {{CMD_SEQ, &cmd_seq},
+		{PIPE_SEQ, &exec_pipe_sequence}, {AND_OR, &exec_oa_sequence}, {QM_SEQ, &exec_qm_seq}};
 
 	i = -1;
 	tmp = *ast;
 	while (tmp)
 	{
 		i = -1;
-		while (++i < 3)
+		while (++i < 4)
 			if (seq[i].type == tmp->type)
 				seq[i].f(&tmp, env);
 		tmp = tmp->right;
@@ -117,6 +117,7 @@ void	command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
 	t_ast	*tmp_ast;
+
 
 	tmp = *lst;
 	tmp_ast = *ast;

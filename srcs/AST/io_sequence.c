@@ -19,6 +19,6 @@ void	io_sequence(t_ast **ast, &tmp, *sep)
 	tmp = *ast;
 	if (tmp->left->type == RDIR)
 	{
-		init_ast()
+		init_ast();
 	}
 }
