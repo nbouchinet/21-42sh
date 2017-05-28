@@ -17,12 +17,16 @@ int     exec_qm_seq(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
     tmp = *ast;
-    if (tmp->left->type == QM)
+    if (tmp->left)
     {
-        exec_qm_seq(&tmp->left, env);
-        exec_ast(&tmp->left->right, env);
-    }
+        if (tmp->left->type == QM)
+        {
+            exec_qm_seq(&tmp->left, env);
+            exec_ast(&tmp->left->right, env);
+        }
+    
     else
 	   exec_ast(&tmp->left, env);
+    }
     return (1);
 }

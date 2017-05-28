@@ -74,6 +74,8 @@ void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp_ast = *ast;
 	tmp_first = *lst;
+	if (*lst == *sep)
+		return ;
 	while ((tmp = find_tok(&tmp_first, sep, &new_sep, 0)) != *sep)
 		;
 	if (tmp_first != *lst)

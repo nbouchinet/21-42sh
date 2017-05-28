@@ -67,7 +67,6 @@ void	primary_sequence(t_ast **ast, t_tok **lst)
 	}
 	if (tmp_ast->type == 0)
 		secondary_sequence(&tmp_ast, &tmp_first, &tmp);
-	tmp_ast->right = NULL;
 }
 
 void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)

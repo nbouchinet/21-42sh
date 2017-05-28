@@ -23,6 +23,7 @@ void	delete_lst(t_tok **cmd)
 		ft_strdel(&tmp->str);
 		free(tmp);
 	}
+	*cmd = NULL;
 }
 
 void	st_tok(char **stack, char c)

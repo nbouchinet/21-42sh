@@ -51,6 +51,8 @@ static void	exec_part(char **line, t_env **env)
 	init_token(&cmd);
 	new_parser(&cmd, *line);
 	lexer_check(&cmd);
+	if (!cmd)
+		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	exec_ast(&ast, env);

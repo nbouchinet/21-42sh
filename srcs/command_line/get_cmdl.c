@@ -92,14 +92,14 @@ void	check_line(char **save, char **cmd, t_win **win, char buf[])
 
 static void		exit_get_cndl(char **cmd, t_win **win, char *save, char buf[])
 {
-	(*cmd) = ft_strjoinf(save, (*cmd), 3);
+	(*cmd) = save ? ft_strjoinf(save, (*cmd), 3) : NULL;
 	save_history(*win, cmd, &(*win)->his);
 	if ((*cmd) && !(*win)->hd)
 		while ((*cmd)[(*win)->cur - (*win)->pr])
 			arrow_rigth(*win, (*cmd));
 	g_loop = EOT ? 0 : write(1, "\n", 1);
 	(*win)->ctrld = EOT ? 1 : 0;
-	(*cmd) = ft_strtrimf((*cmd));
+	(*cmd) ? (*cmd) = ft_strtrimf((*cmd)) : 0;
 }
 
 void        get_cmdl(char **cmd, t_win **win, char *save, char **env)

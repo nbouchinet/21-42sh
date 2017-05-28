@@ -91,6 +91,7 @@ static void	call_chs(t_win **win, char **save)
 	while (tmp)
 		if (!(check_here_string(tmp->hstring)))
 		{
+			save_history(*win, save, &(*win)->his);
 			ft_free(NULL, save);
 			return ;
 		}

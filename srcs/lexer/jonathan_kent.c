@@ -72,8 +72,11 @@ void	question_mark(t_tok **lst, char **stack, char *line, int *i)
 	}
 	st_tok(stack, line[(*i)]);
 	tok_save(lst, stack, QM);
-	init_token(&(*lst)->next);
-	*lst = (*lst)->next;
+	if (check_end(line + (*i) + 1) == 1)
+		{
+			init_token(&(*lst)->next);
+			*lst = (*lst)->next;
+		}
 }
 
 void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
