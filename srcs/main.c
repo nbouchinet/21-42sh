@@ -56,8 +56,8 @@ static void	exec_part(char **line, t_env **env)
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	exec_ast(&ast, env);
-
 }
+
 static void	loop(char **env, t_win *win)
 {
 	char	*cmd;

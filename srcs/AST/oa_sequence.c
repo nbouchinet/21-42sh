@@ -83,7 +83,7 @@ void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		init_ast(&tmp_ast->left, new_sep->str, new_sep->type);
 		tmp_ast = tmp_ast->left;
 		init_ast(&tmp_ast->right, NULL, 0);
-		secondary_sequence(&tmp_ast->right, &tmp_first, &tmp); // GEstion PIPE dans command_sequence()
+		secondary_sequence(&tmp_ast->right, &tmp_first, &tmp); // GEstion AND OR dans command_sequence()
 		qm_sequence(&tmp_ast, lst, &new_sep);
 	}
 	else
