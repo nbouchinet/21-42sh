@@ -106,7 +106,6 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 {
 	char    buf[6];
 
-	(void)env ;
 	init_var(win);
 	while (g_loop)
 	{
@@ -121,6 +120,7 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 		if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
 			exit_sh_mode(*win, &(*win)->his, cmd, buf);
+		COMP ? completion(win, cmd,   env) : 0;
 		DEL && (*cmd) ? del(cmd, *win, &(*win)->his) : 0;
 		CCP ? ccp(cmd, buf, *win) : 0;
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;

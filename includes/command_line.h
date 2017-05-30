@@ -25,6 +25,8 @@
 
 #define PRINT	(buf[0] > 31 && buf[0] < 127)
 
+#define COMP	(buf[0] == 9 && buf[1] == 0)
+
 #define CUT		(buf[0] == -30 && buf[1] == -119 && buf[2] == -120)
 #define CPY		(buf[0] == -61 && buf[1] == -89 && buf[2] == 0)
 #define	PST		(buf[0] == -30 && buf[1] == -120 && buf[2] == -102)
@@ -129,5 +131,6 @@ void				quote_removal(char **cmd, t_win **win);
 int					set_shell(t_win **win);
 int					unset_shell(t_win **win);
 void				winsize(t_win **win, char **save, char **cmd);
+void	    		completion(t_win **win, char **cmd, char **env);
 
 #endif
