@@ -63,7 +63,7 @@ static void		insert(t_ls **head, t_ls *link, int i)
 	}
 }
 
-t_ls			*fill_lst(t_ls **head, char *name)
+t_ls			*fill_lst(t_ls **head, char *name, char *comp, int param)
 {
 	t_ls		*tmp;
 	t_ls		*stock;
@@ -72,7 +72,7 @@ t_ls			*fill_lst(t_ls **head, char *name)
 	i = 0;
 	if (!(tmp = (t_ls *)malloc(sizeof(t_ls))))
 		exit(fd_printf(2, "malloc error\n"));
-	tmp->name = ft_strdup(name);
+	tmp->name = (param == 2 && !ft_strcmp(comp, name) ? ft_strjoin(name, "/") : ft_strdup(name));
 	tmp->next = NULL;
 	if (!(*head))
 		return (tmp);
@@ -176,7 +176,7 @@ static int 		list_len(t_ls **list)
 	return (0);
 }
 
-void			list_exe(char *tmp, char **path, t_win **win, char **cmd)
+int 			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 {
 	struct dirent	*rdd;
 	DIR				*dir;
@@ -192,9 +192,9 @@ void			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 		dir = opendir(path[i]);
 		while ((rdd = readdir(dir)) != 0)
 		{
-			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp) - 1) == 0)
-				!list ? list = fill_lst(&list, rdd->d_name) :
-				fill_lst(&list, rdd->d_name);
+			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
+				!list ? list = fill_lst(&list, rdd->d_name, tmp, 1) :
+				fill_lst(&list, rdd->d_name, tmp, 1);
 		}
 		closedir(dir);
 	}
@@ -203,6 +203,7 @@ void			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 		arrows((*win), (*cmd), buf);
 		write(1, "\n", 1);
 		print_lst(&list, win, (*cmd));
+		return (1);
 	}
 	else if (list)
 	{
@@ -219,10 +220,9 @@ void			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 			arrow_left(*win);
 		write(1, (*cmd), ft_strlen((*cmd)));
 		(*win)->cur += ft_strlen((*cmd));
+		return (1);
 	}
-	else
-		beep();
-	// lst_del();
+	return (0);
 }
 
 char			*get_path(char **str)
@@ -240,8 +240,8 @@ char			*get_path(char **str)
 	if ((*str)[save] == '/')
 	{
 		temp = (*str);
-		path = ft_strsub((*str), 0, save);
-		(*str) = ft_strsub((*str), save + 1, save);
+		path = ft_strsub((*str), 0, save + 1);
+		(*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save));
 		free(temp);
 	}
 	else
@@ -262,12 +262,11 @@ void			list_files(char *tmp, t_win **win, char **cmd)
 	path = get_path(&tmp);
 	if (!(dir = opendir(path)))
 		exit (fd_printf(2, "error\n"));
-	// return ;
 	while ((rdd = readdir(dir)) != 0)
 	{
 		if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
-			!list ? list = fill_lst(&list, rdd->d_name) :
-			fill_lst(&list, rdd->d_name);
+			!list ? list = fill_lst(&list, rdd->d_name, tmp, 2) :
+			fill_lst(&list, rdd->d_name, tmp, 2);
 	}
 	closedir(dir);
 	if (list && list_len(&list) > 1)
@@ -286,7 +285,7 @@ void			list_files(char *tmp, t_win **win, char **cmd)
 		&& (*win)->cur - (*win)->pr > 0)
 			arrow_left(*win);
 		(*cmd)[(*win)->cur - (*win)->pr + ((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
-		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), ft_strjoinf(path, "/", 1) , 1) : 0;
+		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), ft_strdup(path) , 1) : 0;
 		(*cmd) = ft_strjoinf((*cmd), (list)->name, 1);
 		while ((*win)->cur > (*win)->pr)
 			arrow_left(*win);
@@ -318,10 +317,15 @@ void    		completion(t_win **win, char **cmd, char **env)
 	char    *tmp;
 	char	**path;
 
+	if (!(*cmd))
+	{
+		write(1, "RTFM\n", 5);
+		print_prompt();
+	}
 	if ((!env) || (!ft_get_env_var(env, "PATH")) || only_space((*cmd)))
 		return ;
-	i = (*win)->cur - (*win)->pr + 1;
-	while (--i && (*cmd)[i] != ' ' && (*cmd)[i] != '|' && (*cmd)[i] != ';'
+	i = (*win)->cur - (*win)->pr;
+	while (--i > 0 && (*cmd)[i] != ' ' && (*cmd)[i] != '|' && (*cmd)[i] != ';'
 	&& (*cmd)[i] != '&' && (*cmd)[i] != '<' && (*cmd)[i] != '>')
 		;
 	while ((*cmd)[(*win)->cur - (*win)->pr] && (*cmd)[(*win)->cur - (*win)->pr] != ' ' &&
@@ -333,7 +337,7 @@ void    		completion(t_win **win, char **cmd, char **env)
 	first = is_first_word((*cmd), i + 1);
 	path = ft_strsplit(ft_get_env_var(env, "PATH"), ':');
 	if (first)
-		list_exe(tmp, path, win, cmd);
+		list_exe(tmp, path, win, cmd) ? 0 : (list_files(tmp, win, cmd));
 	else
 		list_files(tmp, win, cmd);
 }
