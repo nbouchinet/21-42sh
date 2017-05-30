@@ -63,7 +63,7 @@ static void		insert(t_ls **head, t_ls *link, int i)
 	}
 }
 
-t_ls			*fill_lst(t_ls **head, char *name, char *comp, int param)
+t_ls			*fill_lst(t_ls **head, struct dirent *rdd, char *comp, int param)
 {
 	t_ls		*tmp;
 	t_ls		*stock;
@@ -72,14 +72,15 @@ t_ls			*fill_lst(t_ls **head, char *name, char *comp, int param)
 	i = 0;
 	if (!(tmp = (t_ls *)malloc(sizeof(t_ls))))
 		exit(fd_printf(2, "malloc error\n"));
-	tmp->name = (param == 2 && !ft_strcmp(comp, name) ? ft_strjoin(name, "/") : ft_strdup(name));
+	tmp->name = (param == 2 && !ft_strcmp(comp, rdd->d_name) && rdd->d_type == 4 ?
+	ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	tmp->next = NULL;
 	if (!(*head))
 		return (tmp);
 	else
 	{
 		stock = *head;
-		while (stock && ft_strcmp(stock->name, name) < 0)
+		while (stock && ft_strcmp(stock->name, rdd->d_name) < 0)
 		{
 			i++;
 			stock = stock->next;
@@ -193,8 +194,8 @@ int 			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 		while ((rdd = readdir(dir)) != 0)
 		{
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
-				!list ? list = fill_lst(&list, rdd->d_name, tmp, 1) :
-				fill_lst(&list, rdd->d_name, tmp, 1);
+				!list ? list = fill_lst(&list, rdd, tmp, 1) :
+				fill_lst(&list, rdd, tmp, 1);
 		}
 		closedir(dir);
 	}
@@ -260,13 +261,12 @@ void			list_files(char *tmp, t_win **win, char **cmd)
 
 	list = NULL;
 	path = get_path(&tmp);
-	if (!(dir = opendir(path)))
-		exit (fd_printf(2, "error\n"));
+	dir = opendir(path);
 	while ((rdd = readdir(dir)) != 0)
 	{
 		if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
-			!list ? list = fill_lst(&list, rdd->d_name, tmp, 2) :
-			fill_lst(&list, rdd->d_name, tmp, 2);
+			!list ? list = fill_lst(&list, rdd, tmp, 2) :
+			fill_lst(&list, rdd, tmp, 2);
 	}
 	closedir(dir);
 	if (list && list_len(&list) > 1)
@@ -319,7 +319,7 @@ void    		completion(t_win **win, char **cmd, char **env)
 
 	if (!(*cmd))
 	{
-		write(1, "RTFM\n", 5);
+		write(1, "\033[1mRTFM\n", 9);
 		print_prompt();
 	}
 	if ((!env) || (!ft_get_env_var(env, "PATH")) || only_space((*cmd)))
