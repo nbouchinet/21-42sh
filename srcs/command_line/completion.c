@@ -63,7 +63,7 @@ static void		insert(t_ls **head, t_ls *link, int i)
 	}
 }
 
-t_ls			*fill_lst(t_ls **head, struct dirent *rdd, char *comp, int param)
+t_ls			*fill_lst(t_ls **head, struct dirent *rdd, int param)
 {
 	t_ls		*tmp;
 	t_ls		*stock;
@@ -72,7 +72,7 @@ t_ls			*fill_lst(t_ls **head, struct dirent *rdd, char *comp, int param)
 	i = 0;
 	if (!(tmp = (t_ls *)malloc(sizeof(t_ls))))
 		exit(fd_printf(2, "malloc error\n"));
-	tmp->name = (param == 2 && !ft_strcmp(comp, rdd->d_name) && rdd->d_type == 4 ?
+	tmp->name = (param == 2 && rdd->d_type == 4 ?
 	ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	tmp->next = NULL;
 	if (!(*head))
@@ -177,7 +177,7 @@ static int 		list_len(t_ls **list)
 	return (0);
 }
 
-int 			list_exe(char *tmp, char **path, t_win **win, char **cmd)
+int 			list_exe(char *tmp, char **path, t_win **win, char **cmd, int k)
 {
 	struct dirent	*rdd;
 	DIR				*dir;
@@ -194,8 +194,8 @@ int 			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 		while ((rdd = readdir(dir)) != 0)
 		{
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
-				!list ? list = fill_lst(&list, rdd, tmp, 1) :
-				fill_lst(&list, rdd, tmp, 1);
+				!list ? list = fill_lst(&list, rdd, 1) :
+				fill_lst(&list, rdd, 1);
 		}
 		closedir(dir);
 	}
@@ -208,21 +208,21 @@ int 			list_exe(char *tmp, char **path, t_win **win, char **cmd)
 	}
 	else if (list)
 	{
-		save = ft_strsub((*cmd), (*win)->cur - (*win)->pr,
-		ft_strlen((*cmd)) - (*win)->cur - (*win)->pr);
+		save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));
+		(*cmd)[k + (k ? 1 : 0)] = 0;
+		(*cmd) = ft_strjoinf((*cmd), (list)->name, 1);
+		(*cmd) = ft_strjoinf((*cmd), save, 1);
+		tputs(tgetstr("sc", NULL), 1, ft_putchar);
+		write(1, (*cmd) + ((*win)->cur -(*win)->pr), ft_strlen((*cmd) + ((*win)->cur - (*win)->pr)));
+		tputs(tgetstr("rc", NULL), 1, ft_putchar);
 		while ((*cmd)[(*win)->cur - (*win)->pr] != ' ' && (*cmd)[(*win)->cur - (*win)->pr] != '|'
 		&& (*cmd)[(*win)->cur - (*win)->pr] != ';' && (*cmd)[(*win)->cur - (*win)->pr] != '&' &&
 		(*cmd)[(*win)->cur - (*win)->pr] != '<' && (*cmd)[(*win)->cur - (*win)->pr] != '>'
-		&& (*win)->cur - (*win)->pr)
-			arrow_left(*win);
-		(*cmd)[(*win)->cur - (*win)->pr + ((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
-		(*cmd) = ft_strjoinf((*cmd), (list)->name, 1);
-		while ((*win)->cur > (*win)->pr)
-			arrow_left(*win);
-		write(1, (*cmd), ft_strlen((*cmd)));
-		(*win)->cur += ft_strlen((*cmd));
+		&& (*cmd)[(*win)->cur - (*win)->pr])
+			arrow_rigth(*win, *cmd);
 		return (1);
 	}
+	//lst_del();
 	return (0);
 }
 
@@ -240,9 +240,12 @@ char			*get_path(char **str)
 			save = i;
 	if ((*str)[save] == '/')
 	{
-		temp = (*str);
 		path = ft_strsub((*str), 0, save + 1);
-		(*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save));
+		temp = (*str);
+		if ((*str)[save + 1])
+			(*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save));
+		else
+			(*str) = NULL;
 		free(temp);
 	}
 	else
@@ -250,7 +253,7 @@ char			*get_path(char **str)
 	return (path);
 }
 
-void			list_files(char *tmp, t_win **win, char **cmd)
+void			list_files(char **tmp, t_win **win, char **cmd)
 {
 	struct dirent	*rdd;
 	DIR				*dir;
@@ -260,14 +263,13 @@ void			list_files(char *tmp, t_win **win, char **cmd)
 	char			*path;
 
 	list = NULL;
-	path = get_path(&tmp);
+	path = get_path(tmp);
 	dir = opendir(path);
 	while ((rdd = readdir(dir)) != 0)
-	{
-		if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
-			!list ? list = fill_lst(&list, rdd, tmp, 2) :
-			fill_lst(&list, rdd, tmp, 2);
-	}
+		if ((!(*tmp) && ft_strcmp(rdd->d_name, ".") != 0 && ft_strcmp(rdd->d_name, "..") != 0)
+			|| (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
+			&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
+			!list ? list = fill_lst(&list, rdd, 2) : fill_lst(&list, rdd, 2);
 	closedir(dir);
 	if (list && list_len(&list) > 1)
 	{
@@ -277,20 +279,29 @@ void			list_files(char *tmp, t_win **win, char **cmd)
 	}
 	else if (list)
 	{
-		save = ft_strsub((*cmd), (*win)->cur - (*win)->pr,
-		ft_strlen((*cmd)) - (*win)->cur - (*win)->pr);
+		save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));
+		(*cmd)[(*win)->cur - (*win)->pr] == ' ' ||  (*cmd)[(*win)->cur - (*win)->pr] == '|'
+		|| (*cmd)[(*win)->cur - (*win)->pr] == ';' || (*cmd)[(*win)->cur - (*win)->pr] == '&' ||
+		(*cmd)[(*win)->cur - (*win)->pr] == '<' || (*cmd)[(*win)->cur - (*win)->pr] == '>' ? 
+		arrow_left(*win) : 0;
 		while ((*cmd)[(*win)->cur - (*win)->pr] != ' ' && (*cmd)[(*win)->cur - (*win)->pr] != '|'
 		&& (*cmd)[(*win)->cur - (*win)->pr] != ';' && (*cmd)[(*win)->cur - (*win)->pr] != '&' &&
 		(*cmd)[(*win)->cur - (*win)->pr] != '<' && (*cmd)[(*win)->cur - (*win)->pr] != '>'
 		&& (*win)->cur - (*win)->pr > 0)
 			arrow_left(*win);
 		(*cmd)[(*win)->cur - (*win)->pr + ((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
-		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), ft_strdup(path) , 1) : 0;
+		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), path , 1) : 0;
 		(*cmd) = ft_strjoinf((*cmd), (list)->name, 1);
-		while ((*win)->cur > (*win)->pr)
-			arrow_left(*win);
-		write(1, (*cmd), ft_strlen((*cmd)));
-		(*win)->cur += ft_strlen((*cmd));
+		(*cmd) = ft_strjoinf((*cmd), save, 1);
+		tputs(tgetstr("sc", NULL), 1, ft_putchar);
+		write(1, (*cmd) + ((*win)->cur - (*win)->pr), ft_strlen((*cmd) + ((*win)->cur - (*win)->pr)));
+		tputs(tgetstr("rc", NULL), 1, ft_putchar);
+		arrow_rigth(*win, *cmd);
+		while ((*cmd)[(*win)->cur - (*win)->pr] != ' ' && (*cmd)[(*win)->cur - (*win)->pr] != '|'
+		&& (*cmd)[(*win)->cur - (*win)->pr] != ';' && (*cmd)[(*win)->cur - (*win)->pr] != '&' &&
+		(*cmd)[(*win)->cur - (*win)->pr] != '<' && (*cmd)[(*win)->cur - (*win)->pr] != '>'
+		&& (*cmd)[(*win)->cur - (*win)->pr])
+			arrow_rigth(*win, *cmd);
 	}
 	else
 		beep();
@@ -315,29 +326,34 @@ void    		completion(t_win **win, char **cmd, char **env)
 	int     i;
 	int     first;
 	char    *tmp;
-	char	**path;
 
-	if (!(*cmd))
+	tmp = NULL;
+	if (!(*cmd) || only_space(*cmd))
 	{
 		write(1, "\033[1mRTFM\n", 9);
 		print_prompt();
+		return ;
 	}
-	if ((!env) || (!ft_get_env_var(env, "PATH")) || only_space((*cmd)))
+	if ((!env) || (!ft_get_env_var(env, "PATH")))
 		return ;
 	i = (*win)->cur - (*win)->pr;
+	if (i - 1 < 0 || (*cmd)[i - 1] == ' ' || (*cmd)[i - 1] == '|' || (*cmd)[i - 1] == ';'
+	|| (*cmd)[i - 1] == '&' || (*cmd)[i - 1] == '<' || (*cmd)[i - 1] == '>')
+		return ;
 	while (--i > 0 && (*cmd)[i] != ' ' && (*cmd)[i] != '|' && (*cmd)[i] != ';'
 	&& (*cmd)[i] != '&' && (*cmd)[i] != '<' && (*cmd)[i] != '>')
 		;
+	i += (i < 0 ? 1 : 0); 
 	while ((*cmd)[(*win)->cur - (*win)->pr] && (*cmd)[(*win)->cur - (*win)->pr] != ' ' &&
 	(*cmd)[(*win)->cur - (*win)->pr] != '|' && (*cmd)[(*win)->cur - (*win)->pr] != ';' &&
 	(*cmd)[(*win)->cur - (*win)->pr] != '&' && (*cmd)[(*win)->cur - (*win)->pr] != '<'
 	&& (*cmd)[(*win)->cur - (*win)->pr] != '>')
 		arrow_rigth((*win), (*cmd));
-	tmp = ft_strsub((*cmd), (i ? i + 1 : i), (*win)->cur - (*win)->pr - i);
+	tmp = ft_strsub((*cmd), (i ? i + 1 : i), (*win)->cur - (*win)->pr - i - 1);
 	first = is_first_word((*cmd), i + 1);
-	path = ft_strsplit(ft_get_env_var(env, "PATH"), ':');
 	if (first)
-		list_exe(tmp, path, win, cmd) ? 0 : (list_files(tmp, win, cmd));
+		list_exe(tmp, ft_strsplit(ft_get_env_var(env, "PATH"), ':'), win, cmd, i)
+		? 0 : (list_files(&tmp, win, cmd));
 	else
-		list_files(tmp, win, cmd);
+		list_files(&tmp, win, cmd);
 }

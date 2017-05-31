@@ -131,3 +131,33 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 	}
 	exit_get_cndl(cmd, win, save, buf);
 }
+
+// char			*get_path(char **str)
+// {
+// 	char		*path;
+// 	char		*temp;
+// 	int			i;
+// 	int			save;
+
+// 	save = 0;
+// 	i = -1;
+// 	while ((*str)[++i])
+// 		if ((*str)[i] == '/')
+// 			save = i;
+// 	if ((*str)[save] == '/')
+// 	{
+// 		path = ft_strsub((*str), 0, save);
+// 		if ((*str)[save + 1])
+// 		{
+// 			temp = (*str);
+// 			(*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save));
+// 			free(temp);
+// 		}
+// 		else
+// 			(*str)[0] = 0;
+// 		// (*str)[save + 1] != 0 ? (*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save)) : 0;
+// 	}
+// 	else
+// 		path = ft_strdup(".");
+// 	return (path);
+// }
