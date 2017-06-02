@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   tmp_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/01 14:37:17 by khabbar          ###   ########.fr       */
+/*   Created: 2017/06/01 17:10:08 by khabbar           #+#    #+#             */
+/*   Updated: 2017/06/01 17:10:09 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/libftprintf.h"
+#include "header.h"
 
-void		ft_free(char **tab, char **line)
+void	tmp_pipe(int *p, int flag)
 {
-	int			i;
+	static int	tmp[2];
 
-	i = -1;
-	if (line)
-		ft_strdel(line);
-	if (tab)
+	if (flag == 0)
 	{
-		while (tab[++i])
-			ft_strdel(&tab[i]);
-		free(tab);
+		tmp[0] = p[0];
+		tmp[1] = p[1];
 	}
+	else if (flag == 1 && tmp[0] > -1)
+	{
+		p[0] = tmp[0];
+		p[1] = tmp[1];
+	}
+	else
+	{
+		tmp[0] = -1;
+		tmp[1] = -1;
+		p[0] = tmp[0];
+		p[1] = tmp[1];
+	}		
 }

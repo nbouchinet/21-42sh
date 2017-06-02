@@ -83,7 +83,7 @@ void	check_line(char **save, char **cmd, t_win **win, char buf[])
 	if (!(*win)->hd && check_quotes(cmd, win) == 1)
 		(*save) =  ft_strjoinf((*save), (*cmd), 1);
 	if (!(*win)->quote)
-		(!(*win)->hd) ? get_here_string(save, win) : heredoc(cmd, win);
+		(!(*win)->hd) ? get_here_string(save, win, -1, 0) : heredoc(cmd, win);
 	!(*win)->hd && !(*win)->quote ? (*win)->pr = 3 : 0;
 	(*save) && !(*win)->hd && !(*win)->quote ? handle_pipe_and_or(save, win) : 0;
 	ft_memset((*cmd), 0, ft_strlen(*cmd));
@@ -94,10 +94,11 @@ static void		exit_get_cndl(char **cmd, t_win **win, char *save, char buf[])
 {
 	(*cmd) = save && save[0] ? ft_strjoinf(save, (*cmd), 3) : NULL;
 	save_history(*win, cmd, &(*win)->his);
-	if ((*cmd) && !(*win)->hd)
+	if ((*cmd))
 		while ((*cmd)[(*win)->cur - (*win)->pr])
 			arrow_rigth(*win, (*cmd));
-	g_loop = EOT ? 0 : write(1, "\n", 1);
+	write(1, "\n", 1);
+	g_loop = EOT ? 0 : 1;
 	(*win)->ctrld = EOT ? 1 : 0;
 	(*cmd) ? (*cmd) = ft_strtrimf((*cmd)) : 0;
 }
@@ -120,9 +121,9 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 		if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
 			exit_sh_mode(*win, &(*win)->his, cmd, buf);
-		COMP ? completion(win, cmd,   env) : 0;
+		COMP ? completion(win, cmd, env) : 0;
 		DEL && (*cmd) ? del(cmd, *win, &(*win)->his) : 0;
-		CCP ? ccp(cmd, buf, *win) : 0;
+		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
  		if (RETURN || EOT)
@@ -131,33 +132,3 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 	}
 	exit_get_cndl(cmd, win, save, buf);
 }
-
-// char			*get_path(char **str)
-// {
-// 	char		*path;
-// 	char		*temp;
-// 	int			i;
-// 	int			save;
-
-// 	save = 0;
-// 	i = -1;
-// 	while ((*str)[++i])
-// 		if ((*str)[i] == '/')
-// 			save = i;
-// 	if ((*str)[save] == '/')
-// 	{
-// 		path = ft_strsub((*str), 0, save);
-// 		if ((*str)[save + 1])
-// 		{
-// 			temp = (*str);
-// 			(*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save));
-// 			free(temp);
-// 		}
-// 		else
-// 			(*str)[0] = 0;
-// 		// (*str)[save + 1] != 0 ? (*str) = ft_strsub((*str), save + 1, ft_strlen((*str) + save)) : 0;
-// 	}
-// 	else
-// 		path = ft_strdup(".");
-// 	return (path);
-// }

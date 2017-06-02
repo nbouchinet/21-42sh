@@ -31,24 +31,32 @@ int    lst_len(t_his *his)
 	return (count);
 }
 
-void    catcmd(t_win *win)
+void    catcmd(t_win *win, char **cmd)
 {
 	t_hdoc	*hd;
+	char	*save;
+	int		i;
+	int		j;
 
+	i = -1;
 	hd = win->hd;
-	win->fd = open(win->hd_path, O_TRUNC);
-	win->fd = open(win->hd_path, O_WRONLY);
 	while (hd)
 	{
-		if (hd->hdoc)
-		{
-			ft_putstr_fd(hd->hdoc, win->fd);
-			ft_putchar_fd(127, win->fd);
-		}
+		while ((*cmd)[++i] != '<')
+			;
+		i += ((*cmd)[i + 2] == ' ' ? 3 : 2);
+		save = ft_strdup((*cmd) + i);
+		(*cmd)[i] = 0;
+		(*cmd) = ft_strjoin((*cmd), hd->fd);
+		j = -1;
+		while (save[++j] && save[j] != ' ' && save[j] != '<' && save[j] != '>'
+		&& save[j] != ';' && save[j] != '|' && save[j] != '&')
+				;
+		(*cmd) = ft_strjoin((*cmd), (save + j));
+		free(save);
 		hd = hd->next;
 	}
 	del_hd(win->hd);
-	close(win->fd);
 }
 
 void	del_hd(t_hdoc *hd)
@@ -60,10 +68,7 @@ void	del_hd(t_hdoc *hd)
 	while (tmp)
 	{
 		save = tmp->next;
-		tmp->hstring ? free(tmp->hstring) : 0;
-		tmp->hstring = NULL;
-		tmp->hdoc ? free(tmp->hdoc) : 0;
-		tmp->hdoc = NULL;
+		free(tmp->fd);
 		free(tmp);
 		tmp = save;
 	}

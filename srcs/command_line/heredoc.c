@@ -33,26 +33,32 @@ static int				check_here_string(char *hstring)
 
 void		heredoc(char **cmd, t_win **win)
 {
+	static int		fdt[2] = {-2, -2};
 	t_hdoc	*tmp;
 
+	(*win)->cur = 9;
+	(*win)->pr = 9;
 	tmp = (*win)->hd;
 	while (tmp->next && !tmp->hstring)
 		tmp = tmp->next;
-	(*win)->cur = 9;
-	(*win)->pr = 9;
+	if (fdt[0] == -2 && pipe(fdt) != -1)
+	{
+		tmp_pipe(fdt, 0);
+		tmp->fd = ft_itoa(fdt[0]);
+	}
 	if (ft_strcmp((*cmd), tmp->hstring))
 	{
 		write(1, "\nheredoc> ", 10);
-		tmp->hdoc ? tmp->hdoc = ft_strjoinf(tmp->hdoc, "\n", 1) : 0;
-		tmp->hdoc = ft_strjoinf(tmp->hdoc, (*cmd), 1);
+		write(tab[0], (*cmd), ft_strlen(*cmd));
 		g_loop = 1;
 	}
 	else
 	{
-		ft_free(NULL, &tmp->hstring);
-		tmp->hdoc ? tmp->hdoc = ft_strjoinf(tmp->hdoc, "\n", 1) : 0;
+		ft_strdel(&tmp->hstring);
 		tmp && tmp->next ? write(1, "\nheredoc> ", 10) : 0;
 		g_loop = tmp && tmp->next ? 1 : 0;
+		fdt[0] = -2;
+		fdt[1] = -2;
 	}
 }
 
@@ -68,7 +74,6 @@ static t_hdoc	*push_basck(char **save, int b, int e, t_hdoc **head)
 		if (!(tmp->next = (t_hdoc *)malloc(sizeof(t_hdoc))))
 			exit(fd_printf(2, "malloc_error\n"));
 		tmp->next->hstring = e == b ? NULL : ft_strsub((*save), b, e - b);
-		tmp->next->hdoc = NULL;
 		tmp->next->next = NULL;
 		return (tmp->next);
 	}
@@ -77,7 +82,6 @@ static t_hdoc	*push_basck(char **save, int b, int e, t_hdoc **head)
 		if (!(tmp = (t_hdoc *)malloc(sizeof(t_hdoc))))
 			exit(fd_printf(2, "malloc_error\n"));
 		tmp->hstring = e == b ? NULL : ft_strsub((*save), b, e - b);
-		tmp->hdoc = NULL;
 		tmp->next = NULL;
 	}
 	return (tmp);
@@ -102,22 +106,18 @@ static void	call_chs(t_win **win, char **save)
 	write(1, "\nheredoc> ", 10);
 }
 
-void		get_here_string(char **save, t_win **win)
+void		get_here_string(char **save, t_win **win, int i, int j)
 {
-	int		i;
-	int		j;
-
-	i = -1;
 	while ((*save)[++i])
 	{
 		if ((*save)[i] == '<' && (*save)[i + 1] == '<')
 		{
-			i += (*save)[i + 2] == '-' ? 3 : 2;
+			i += ((*save)[i + 2] == ' ' ? 3 : 2);
 			while ((*save)[i] == ' ')
 				i += 1;
 			j = i;
-			while ((*save)[i] && (*save)[i] != ' ')
-				i += 1;
+			while ((*save)[i++] && ((*save)[i] != ' ' && (*save)[i] != '<'))
+				i += 1 ;
 			if (i == j)
 			{
 				fd_printf(2, "\nsyntax error near unexpected token `newline'");
@@ -127,9 +127,9 @@ void		get_here_string(char **save, t_win **win)
 			}
 			!(*win)->hd ? (*win)->hd = push_basck(save, j, i, &(*win)->hd) :
 			push_basck(save, j, i, &(*win)->hd);
+			i -= (*save)[i] == '<' ? 1 : 0;
 		}
 	}
-	if (!(*win)->hd)
-		return ;
-	call_chs(win, save);
+	if ((*win)->hd)
+		call_chs(win, save);
 }

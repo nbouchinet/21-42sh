@@ -54,9 +54,10 @@ static int		check_lst(t_tok **lst)
 	tmp = (*lst);
 	while (tmp)
 	{
-		if (tmp->type == CHEVRON && (tmp->str[0] == '<' || tmp->str[0] == '&' ||
-		tmp->str[0] == ';' || tmp->str[0] == '>' || tmp->str[0] == ')' ||
-		tmp->str[0] == '|'))
+		if (tmp->type == CHEVRON && (tmp->next->str[0] == '<' 
+		|| tmp->next->str[0] == '&' || tmp->next->str[0] == ';'
+		|| tmp->next->str[0] == '>' || tmp->next->str[0] == ')'
+		|| tmp->next->str[0] == '|'))
 			return (fd_printf
 			(2, "parse error near unexpected token `%s'\n", tmp->str));
 		else if ((tmp->type == QM && tmp->next && tmp->next->type == QM) ||

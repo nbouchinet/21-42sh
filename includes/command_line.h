@@ -54,9 +54,30 @@
 
 #define UD		((UP) || (DWN))
 
+#define SEP		(*cmd)[(*win)->cur - (*win)->pr] != ' ' && \
+				(*cmd)[(*win)->cur - (*win)->pr] != '|' && \
+				(*cmd)[(*win)->cur - (*win)->pr] != ';' && \
+				(*cmd)[(*win)->cur - (*win)->pr] != '&' && \
+				(*cmd)[(*win)->cur - (*win)->pr] != '<' && \
+				(*cmd)[(*win)->cur - (*win)->pr] != '>'
+
+#define OR_SEP	(*cmd)[(*win)->cur - (*win)->pr] == ' ' || \
+				(*cmd)[(*win)->cur - (*win)->pr] == '|' || \
+				(*cmd)[(*win)->cur - (*win)->pr] == ';' || \
+				(*cmd)[(*win)->cur - (*win)->pr] == '&' || \
+				(*cmd)[(*win)->cur - (*win)->pr] == '<' || \
+				(*cmd)[(*win)->cur - (*win)->pr] == '>'
+
 /*
 **	key defines
 */
+
+typedef struct		s_ls
+{
+    char            padx[36];
+    char            *name;
+    struct s_ls		*next;
+}					t_ls;
 
 typedef struct		s_his
 {
@@ -69,7 +90,7 @@ typedef struct		s_his
 typedef struct		s_hdoc
 {
 	char			*hstring;
-	char			*hdoc;
+	char			*fd;
 	struct s_hdoc	*next;
 }					t_hdoc;
 
@@ -101,7 +122,7 @@ typedef struct		s_win
 void				arrows(t_win *win, char *cmd, char buf[]);
 void				arrow_left(t_win *win);
 void				arrow_rigth(t_win *win, char *cmd);
-void    			catcmd(t_win *win);
+void    			catcmd(t_win *win, char **cmd);
 void				ccp(char **cmd, char buf[], t_win *win);
 void				check_line(char **save, char **cmd, t_win **win, char buf[]);
 int					check_quotes(char **cmd, t_win **win);
@@ -115,8 +136,9 @@ void				e(t_win **win, t_his **his, char **cmd, char **save);
 void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
 void				findstr(t_his **his, char *cmd);
 void				get_cmdl(char **cmd, t_win **win, char *save, char **env);
-void				get_here_string(char **save, t_win **win);
+void				get_here_string(char **save, t_win **win, int i, int j);
 int					get_win_data(t_win **win);
+void				handle_pipe_and_or(char **save, t_win **win);
 void				heredoc(char **cmd, t_win **win);
 int					lst_len(t_his *his);
 int					mode_off(t_win **win);
@@ -124,13 +146,29 @@ int					mode_on(t_win **win);
 void				init_var(t_win **win);
 void				print_prompt(void);
 void				print_search(char **cmd, char buf[], t_his **his, t_win *win);
+void				quote_removal(char **cmd, t_win **win);
 void				save_history(t_win *win, char **cmd, t_his **his);
 void				search_history(char **cmd, t_win **win);
-void				handle_pipe_and_or(char **save, t_win **win);
-void				quote_removal(char **cmd, t_win **win);
 int					set_shell(t_win **win);
+void				tmp_pipe(int *p, int flag);
 int					unset_shell(t_win **win);
 void				winsize(t_win **win, char **save, char **cmd);
+
+/*
+**	Completion
+*/
+
+int					call_print_lst(t_win **win, char **cmd, t_ls *list, int i);
 void	    		completion(t_win **win, char **cmd, char **env);
+t_ls				*fill_lst(t_ls **head, struct dirent *rdd, int param);
+char				*ft_get_env_var(char **big, char *little);
+t_ls            	*ft_padd_x(t_ls *ls, int *maxlen);
+t_ls        		*ft_putpaddx(t_ls *ls, int maxlen);
+int 				is_first_word(char *cmd, int i);
+void				list_del(t_ls **list);
+int 				list_exe(char *tmp, char **path, t_win **win, char **cmd, int k);
+void				list_files(char **tmp, t_win **win, char **cmd);
+int					list_len(t_ls **list);
+void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
 
 #endif
