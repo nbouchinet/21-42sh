@@ -117,7 +117,7 @@ void		get_here_string(char **save, t_win **win, int i, int j)
 				i += 1;
 			j = i;
 			while ((*save)[i++] && ((*save)[i] != ' ' && (*save)[i] != '<'))
-				i += 1 ;
+				;
 			if (i == j)
 			{
 				fd_printf(2, "\nsyntax error near unexpected token `newline'");

@@ -90,6 +90,35 @@ static void		loop(t_tok **lst, t_tok **tmp)
 	}
 }
 
+static int		check(t_tok **lst)
+{
+	t_tok		*tmp;
+	int			i;
+
+	tmp = *lst;
+	i = 0;
+	while (tmp->next)
+	{
+		if (tmp->type == CHEVRON)
+		{
+			i = 1;
+			tmp->next ? tmp = tmp->next : 0;
+			if (tmp->next)
+				tmp = tmp->next;
+			else
+				break ;
+			continue ;
+		}
+		i = (tmp->type == QM || tmp->type == AND || tmp->type == OR ? 0 : i);
+		if (i && tmp->type == WORD)
+			return (1);
+		tmp->next ? tmp = tmp->next : 0;
+		if (!tmp->next)
+			break ;
+	}
+	return (0);
+}
+
 void			lexer_check(t_tok **lst)
 {
 	t_tok	*tmp;
@@ -101,7 +130,7 @@ void			lexer_check(t_tok **lst)
 		delete_lst(lst);
 		return ;
 	}
-	while (tmp && tmp->next)
+	while (tmp->next)
 	{
 		if (tmp->type == CHEVRON)
 		{
@@ -112,5 +141,7 @@ void			lexer_check(t_tok **lst)
 		else
 			tmp->next ? tmp = tmp->next : 0;
 	}
+	if (check(lst) == 1)
+		lexer_check(lst);
 	specified_dir(lst);
 }
