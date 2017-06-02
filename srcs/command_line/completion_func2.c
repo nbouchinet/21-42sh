@@ -90,7 +90,7 @@ void		list_del(t_ls **list)
 	while (tmp)
 	{
 		save = tmp->next;
-		free(tmp->name);
+		tmp->name ? free(tmp->name) : 0;
 		free(tmp);
 		tmp = save;
 	}

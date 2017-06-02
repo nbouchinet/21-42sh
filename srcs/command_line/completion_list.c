@@ -20,7 +20,6 @@ static int		display_e(t_ls *list, t_win **win, char **cmd, int k)
 	if (list && list_len(&list) > 1)
 	{
 		i = call_print_lst(win, cmd, list, 1);
-		list_del(&list);
 		return (i);
 	}
 	else if (list)
@@ -99,7 +98,10 @@ static void     display_f(t_ls *list, char **cmd, char *path, t_win **win)
 	char			*save;
 
 	if (list && list_len(&list) > 1)
+	{
 		call_print_lst(win, cmd, list, 0);
+		return ;
+	}
 	else if (list)
 	{
 		save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));

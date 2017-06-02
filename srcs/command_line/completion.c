@@ -32,8 +32,8 @@ int			call_print_lst(t_win **win, char **cmd, t_ls *list, int i)
 		arrows((*win), (*cmd), buf);
 		write(1, "\n", 1);
 		print_lst(&list, win, (*cmd), 0);
+		list_del(&list);
 	}
-	list_del(&list);
 	return (0);
 }
 
@@ -63,6 +63,7 @@ void    		completion(t_win **win, char **cmd, char **env)
 	int     i;
 	char    *tmp;
 
+	tmp = NULL;
 	if (!(*win)->hd && !(*win)->quote)
 		if ((!env) || (!ft_get_env_var(env, "PATH")) || only_space(*cmd, *win))
 			return ;
@@ -83,5 +84,5 @@ void    		completion(t_win **win, char **cmd, char **env)
 		? 0 : (list_files(&tmp, win, cmd));
 	else
 		list_files(&tmp, win, cmd);
-	free(tmp);
+	tmp ? free(tmp) : 0;
 }
