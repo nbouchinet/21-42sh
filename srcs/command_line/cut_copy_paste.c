@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static void	edit_copy(char **cmd, t_win *win)
+static void	edit_cmd(char **cmd, t_win *win)
 {
 	char	*temp;
 	char	*save;
@@ -29,27 +29,28 @@ static void	edit_copy(char **cmd, t_win *win)
 	}
 }
 
-static void     paste(char **cmd, t_win *win)
+static int     paste(char **cmd, t_win *win)
 {
-    int		i;
+	int		i;
 	char	*tmp;
 
 	tmp = NULL;
+	if ((int)ft_strlen((*cmd)) + win->pr + (int)ft_strlen(win->copy)
+	>= win->co * win->li - (win->co + 1))
+		return (beep());
+	ft_putstr(win->copy);
+	i = win->cur - win->pr;
+	win->cur += ft_strlen(win->copy);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	(*cmd) ? del_all(*cmd, win) : 0;
-	i = ft_strlen((*cmd)) + 1;
-	tmp = ft_strjoinf(win->copy, ft_strsub((*cmd), win->cur - win->pr, ft_strlen((*cmd))), 2);
-	edit_copy(cmd, win);
+	ft_putstr(&(*cmd)[i]);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	write(1, tmp, ft_strlen(tmp));
-	free(tmp);
-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	edit_cmd(cmd, win);
 	if (win->cur % win->co == 0)
 		tputs(tgetstr("do", NULL), 1, ft_putchar);
     win->cpy_b = -1;
     win->cpy_e = -1;
 	win->ccp = 0;
+	return (1);
 }
 
 static void		cut_elem(t_win *win, char **cmd, int i)
@@ -85,7 +86,7 @@ void        ccp(char **cmd, char buf[], t_win *win)
 	win->ccp = CUT ? 1 : 2;
 	if ((CUT && win->ccp == 2) || (CPY && win->ccp == 1))
 		return ;
-	win->copy ? ft_free(NULL, &win->copy) : 0;
+	win->copy ? ft_strdel(&win->copy) : 0;
 	if ((CUT || CPY) && win->cpy_b == -1 && win->cpy_e == -1)
 		win->cpy_b = win->cur - win->pr ;
 	else if ((CUT || CPY) && win->cpy_b != -1 && win->cpy_e == -1)

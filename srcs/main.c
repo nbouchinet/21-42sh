@@ -44,13 +44,12 @@ int			get_win_data(t_win **win)
 
 static void	exec_part(char **line, t_env **env)
 {
-	(void)env;
 	t_ast	*ast;
 	t_tok	*cmd;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
-	lexer_check(&cmd);
+	// lexer_check(&cmd);
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);
@@ -69,6 +68,7 @@ static void	loop(char **env, t_win *win)
 	{
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, env);
+		ft_putendl("hello");
 		if (win->ctrld)
 			break ;
 		if (cmd)

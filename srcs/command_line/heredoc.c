@@ -42,10 +42,7 @@ void		heredoc(char **cmd, t_win **win)
 	while (tmp->next && !tmp->hstring)
 		tmp = tmp->next;
 	if (fdt[0] == -2 && pipe(fdt) != -1)
-	{
-		tmp_pipe(fdt, 0);
 		tmp->fd = ft_itoa(fdt[0]);
-	}
 	if (ft_strcmp((*cmd), tmp->hstring))
 	{
 		write(1, "\nheredoc> ", 10);

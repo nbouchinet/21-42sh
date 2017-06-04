@@ -141,7 +141,7 @@ void			lexer_check(t_tok **lst)
 		else
 			tmp->next ? tmp = tmp->next : 0;
 	}
-	if (check(lst) == 1)
+	if (check(lst))
 		lexer_check(lst);
 	specified_dir(lst);
 }

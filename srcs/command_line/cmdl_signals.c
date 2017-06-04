@@ -37,7 +37,7 @@ int		cmdl_signal(char **cmd, char *save, t_win **win)
 				arrow_rigth(*win, *cmd);
 		(*cmd) ? free((*cmd)) : 0;
 		save ? free(save) : 0;
-		(*win)->hd ? del_hd((*win)->hd) : 0;
+		(*win)->hd ? del_hd(&(*win)->hd) : 0;
 		(*cmd) = NULL;
 		write(1, "\n", 1);
 		return (1);

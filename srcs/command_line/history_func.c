@@ -47,24 +47,24 @@ void    catcmd(t_win *win, char **cmd)
 		i += ((*cmd)[i + 2] == ' ' ? 3 : 2);
 		save = ft_strdup((*cmd) + i);
 		(*cmd)[i] = 0;
-		(*cmd) = ft_strjoin((*cmd), hd->fd);
+		(*cmd) = ft_strjoinf((*cmd), hd->fd, 1);
 		j = -1;
 		while (save[++j] && save[j] != ' ' && save[j] != '<' && save[j] != '>'
 		&& save[j] != ';' && save[j] != '|' && save[j] != '&')
 				;
-		(*cmd) = ft_strjoin((*cmd), (save + j));
+		(*cmd) = ft_strjoinf((*cmd), (save + j), 1);
 		free(save);
 		hd = hd->next;
 	}
-	del_hd(win->hd);
+	del_hd(&win->hd);
 }
 
-void	del_hd(t_hdoc *hd)
+void	del_hd(t_hdoc **hd)
 {
 	t_hdoc		*tmp;
 	t_hdoc		*save;
 
-	tmp = hd;
+	tmp = *hd;
 	while (tmp)
 	{
 		save = tmp->next;
@@ -72,5 +72,5 @@ void	del_hd(t_hdoc *hd)
 		free(tmp);
 		tmp = save;
 	}
-	hd = NULL;
+	*hd = NULL;
 }

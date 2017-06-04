@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/06/01 18:55:06 by khabbar          ###   ########.fr        #
+#    Updated: 2017/06/03 14:07:06 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFILES= main.c print_prompt.c signals.c	\
 		lexer/jonathan_kent.c lexer/the_dog.c	\
 		AST/oa_sequence.c AST/debug_ast.c AST/pipe_sequence.c AST/creat_ast.c	\
 		execution/exec_cmd_seq.c execution/exec_cmd_tools.c execution/get_env.c	\
-		builtins/unsetenv.c builtins/setenv.c builtins/exit.c builtins/env.c	\
+		builtins/unsetenv.c builtins/setenv.c builtins/env.c \
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\

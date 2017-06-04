@@ -19,6 +19,8 @@ static void        move_history(t_his **his, char **cmd, char buf, t_win *win)
     char    *tmp;
 
     tmp = (*cmd);
+	win->cpy_b = -1;
+	win->cpy_e = -1;
 	if ((buf == 65 && !(*his)->prev) || (buf == 66 && !(*his)->next))
         return ;
 	while (win->cur > win->pr)
@@ -43,11 +45,14 @@ static void        move_history(t_his **his, char **cmd, char buf, t_win *win)
     win->cur += (int)ft_strlen(*cmd);
 }
 
-static void print(char **cmd, char buf[], t_win *win)
+static int print(char **cmd, char buf[], t_win *win)
 {
 	char	*tmp;
 	char	*temp;
 
+	temp = NULL;
+	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
+		return (beep());
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	del_all(*cmd, win);
 	tmp = ft_strjoinf(buf, ft_strsub((*cmd), win->cur - win->pr,
@@ -55,12 +60,10 @@ static void print(char **cmd, char buf[], t_win *win)
 	if (!(*cmd) || (*cmd)[win->cur - win->pr] == 0)
 		(*cmd) = ft_strjoinf((*cmd), buf, 1);
 	else if ((temp = (*cmd)))
-	{
 		(*cmd) = ft_strjoinf(ft_strjoinf(ft_strsub((*cmd), 0, win->cur -
 		win->pr), buf, 1), ft_strsub((*cmd), win->cur - win->pr,
 		ft_strlen((*cmd))), 3);
-		free(temp);
-	}
+	temp ? free(temp) : 0;
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	write(1, tmp, ft_strlen(tmp));
@@ -68,8 +71,10 @@ static void print(char **cmd, char buf[], t_win *win)
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("nd", NULL), 1, ft_putchar);
 	win->cur += 1;
+	win->cpy_b != -1 ? win->cpy_b += 1 : 0;
 	if (win->cur % win->co == 0)
 		tputs(tgetstr("do", NULL), 1, ft_putchar);
+	return (1);
 }
 
 void	check_line(char **save, char **cmd, t_win **win, char buf[])

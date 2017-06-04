@@ -75,7 +75,7 @@ void	new_parser(t_tok **cmd, char *line)
 
 	i = 0;
 	tmp = *cmd;
-	stack = ft_strnew(1024);
+	stack = ft_strnew(2048);
 	while (line[i])
 	{
 		j = -1;

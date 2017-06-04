@@ -130,7 +130,7 @@ void				cmdl_ctrc(int signal);
 int					cmdl_signal(char **cmd, char *save, t_win **win);
 void				del(char **cmd, t_win *win, t_his **his);
 void				del_all(char *cmd, t_win *win);
-void				del_hd(t_hdoc *hd);
+void				del_hd(t_hdoc **hd);
 void 				del_his(char **cmd, t_win *win, t_his **his);
 void				e(t_win **win, t_his **his, char **cmd, char **save);
 void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
