@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:24:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 17:09:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void 	specified_dir(t_tok **lst)
 	int				i;
 	t_tok			*tmp;
 	static const	t_lex	dir[6] = {{">", RDIR}, {"<", BDIR}, {">>", RRDIR},
-					{"<<", BBDIR}, {">&", RDIR}, {"<&", BDIR}};
+					{"<<", BBDIR}, {">&", AGRE}, {"<&", BGRE}};
 	tmp = *lst;
 	while (tmp)
 	{
@@ -54,7 +54,7 @@ static int		check_lst(t_tok **lst)
 	tmp = (*lst);
 	while (tmp)
 	{
-		if (tmp->type == CHEVRON && (tmp->next->str[0] == '<' 
+		if (tmp->type == CHEVRON && (tmp->next->str[0] == '<'
 		|| tmp->next->str[0] == '&' || tmp->next->str[0] == ';'
 		|| tmp->next->str[0] == '>' || tmp->next->str[0] == ')'
 		|| tmp->next->str[0] == '|'))

@@ -1,0 +1,13 @@
+total 288
+-rw-r--r--    1 zadrien  2016_paris     588 Jun  4 17:05 -
+-rwxr-xr-x    1 zadrien  2016_paris  119832 Jun  4 17:04 42sh
+-rw-r--r--    1 zadrien  2016_paris     824 Jun  3 13:27 42sh_unit_test
+-rw-r--r--    1 zadrien  2016_paris    2709 Jun  4 16:22 Makefile
+-rw-r--r--    1 zadrien  2016_paris      23 Jun  3 13:27 auteur
+-rw-r--r--    1 zadrien  2016_paris      27 Jun  4 17:07 dqoiwdq
+-rw-r--r--    1 zadrien  2016_paris      27 Jun  4 17:07 frofr
+drwxr-xr-x    8 zadrien  2016_paris     272 Jun  4 14:43 includes
+drwxr-xr-x  125 zadrien  2016_paris    4250 Jun  3 13:27 libft
+drwxr-xr-x   12 zadrien  2016_paris     408 Jun  4 16:19 obj
+drwxr-xr-x   11 zadrien  2016_paris     374 Jun  4 14:43 srcs
+-rw-r--r--    1 zadrien  2016_paris       0 Jun  4 17:07 toto
