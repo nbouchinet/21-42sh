@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 14:20:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 17:44:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ static void	exec_part(char **line, t_env **env)
 	init_token(&cmd);
 	new_parser(&cmd, *line);
 	// lexer_check(&cmd);
+	specified_dir(&cmd);
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
+	ft_putast(ast);
 	exec_ast(&ast, env);
+	// free_ast(&ast);
 }
 
 static void	loop(char **env, t_win *win)

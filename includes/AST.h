@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:47:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 17:23:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ void	primary_sequence(t_ast **ast, t_tok **lst);
 void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-
+void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+t_tok	*find_rdir_tok(t_tok **lst, t_tok **stop);
+void	free_ast(t_ast **ast);
 #endif

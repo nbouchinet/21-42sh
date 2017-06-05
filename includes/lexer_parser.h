@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:40:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 16:25:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ enum 				e_token
 	AND,
 	OR,
 	CHEVRON,
-	IO_NUMBER,
+	IO_N,
 	QUOTE,
 	SPACE_TOK,
-	WORD
+	WORD,
+	FILENAME
 };
 
 enum				e_dir
@@ -63,7 +64,9 @@ enum				e_dir
 	RDIR = 22,
 	BDIR,
 	RRDIR,
-	BBDIR
+	BBDIR,
+	AGRE,
+	BGRE
 };
 
 void				init_token(t_tok **lst);
@@ -85,4 +88,5 @@ void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 void				delete_lstenv(t_env **cmd);
+void 				specified_dir(t_tok **lst);
 #endif

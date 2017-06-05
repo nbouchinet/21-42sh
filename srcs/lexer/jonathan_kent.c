@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:24:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 16:25:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 
 	if (ft_strlen(*stack) > 0)
 	{
-		tok_save(lst, stack, io_number(*stack) ? IO_NUMBER : WORD);
+		tok_save(lst, stack, io_number(*stack) ? IO_N : WORD);
 		init_token(&(*lst)->next);
 		*lst = (*lst)->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:59:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 15:44:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ void	increase_shlvl(t_env **env);
 char	**get_env(t_env **lst, char *s);
 int		isexec(char *path);
 char	*create_path(char *env, char *cmd);
+
+
+typedef struct		s_rdir
+{
+	int				t;
+	void			(*f)(t_ast**);
+}					t_rdir;
+
+void	agre(t_ast **ast);
+void	bgre(t_ast **ast);
+int		*std_value(int fd, int oldfd);
+void	restore_std(t_ast **ast);
+void	switch_std(int fd, int newfd);
+void	rdir_rrdir(t_ast **ast);
+int		exec_io_seq(t_ast **ast);
 
 
 /*

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:45:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 14:26:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/04 17:14:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,42 @@ int		cmd_seq(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
-	if (tmp->type == PIPE_SEQ)
+	// if (tmp->type == PIPE_SEQ)
+	// 	exec_pipe_seq(&tmp, env);
+	if (tmp->type == CMD_SEQ)
 	{
-		exec_pipe_sequence(&tmp, env);
-	}
-	else if (tmp->type == CMD_SEQ)
-	{
-		// if (tmp->right->type == IO_SEQ)
-			// io_command(&tmp->right);
+		if (tmp->right && tmp->right->type == IO_SEQ)
+			exec_io_seq(&tmp->right->left);
 		if (exec_cmd_seq(&tmp->left, env) == 1)
+		{
+			if (tmp->right && tmp->right->type == IO_SEQ)
+				restore_std(&tmp->right->left);
 			return (1);
+		}
 	}
+	if (tmp->right && tmp->right->type == IO_SEQ)
+		restore_std(&tmp->right->left);
 	return (0);
 }
+
+// int		cmd_seq(t_ast **ast, t_env **env)
+// {
+// 	t_ast	*tmp;
+//
+// 	tmp = *ast;
+// 	if (tmp->type == PIPE_SEQ)
+// 	{
+// 		exec_pipe_sequence(&tmp, env);
+// 	}
+// 	else if (tmp->type == CMD_SEQ)
+// 	{
+// 		// if (tmp->right->type == IO_SEQ)
+// 			// io_command(&tmp->right);
+// 		if (exec_cmd_seq(&tmp->left, env) == 1)
+// 			return (1);
+// 	}
+// 	return (0);
+// }
 
 void	simple_command(t_ast **ast)
 {
@@ -128,6 +151,6 @@ void	command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	if (tmp != *sep)
 	{
 		init_ast(&tmp_ast->right, NULL, IO_SEQ);
-		// io_sequence(&tmp_ast->right, &tmp, sep); // recursive call
+		io_sequence(&tmp_ast->right, &tmp, sep); // recursive call
 	}
 }
