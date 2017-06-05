@@ -69,6 +69,7 @@ void				init_env(t_env **lst, char **env);
 int					ft_unsetenv(t_ast **ast, t_env **env);
 int					ft_env(t_ast **ast, t_env **env);
 int					ft_setenv(t_ast **lst, t_env **env);
+int					ft_echo(t_ast **ast, t_env **env);
 char				**creat_arg_env(t_ast **ast);
 int					countab(char **tob);
 

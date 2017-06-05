@@ -36,15 +36,16 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 {
 	int			i;
 	t_ast		*tmp;
-	static const t_cmd	cmd[3] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
-					 {"setenv", &ft_setenv}, /*{"cd", &ft_cd}*/};
+	static const t_cmd	cmd[4] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
+					 {"setenv", &ft_setenv}, {"echo", &ft_echo},
+					 /*{"cd", &ft_cd}*/};
 					 
 					 		//{"unsetenv", &ft_unsetenv},
 							// {"setenv", &ft_setenv}, {"cd", &ft_cd}};
 
 	i = -1;
 	tmp = *ast;
-	while (++i < 3)
+	while (++i < 4)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->str) == 0)
 			if (cmd[i].f(&tmp, env) == 1)
 				return (1);
