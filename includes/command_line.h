@@ -107,8 +107,6 @@ typedef struct		s_win
 	int				sh;
 	int				ctrld;
 	char			*copy;
-	int 			fd;
-	char			*hd_path;
 	t_hdoc			*hd;
 	t_his			*his;
 	struct termios	term;

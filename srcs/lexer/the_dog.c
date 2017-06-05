@@ -28,8 +28,9 @@ void	delete_lst(t_tok **cmd)
 
 void	st_tok(char **stack, char c)
 {
-	int		i;
+	char	tmp[2];
 
-	i = ft_strlen(*stack);
-	(*stack)[i] = c;
+	tmp[0] = c;
+	tmp[1] = 0;
+	(*stack) = ft_strjoinf((*stack), tmp, 1);
 }

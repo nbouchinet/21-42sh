@@ -53,6 +53,7 @@ void		del(char **cmd, t_win *win, t_his **his)
 	if (win->cur == win->pr)
 		return ;
 	arrow_left(win);
+	win->cpy_b -= win->cpy_b != -1 ? 1 : 0;
 	i = win->cur - win->pr - 1;
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	(*cmd) ? del_all(*cmd, win) : 0;
@@ -69,7 +70,7 @@ void        del_all(char *cmd, t_win *win)
 	int     i;
 	int		j;
 
-	i = win->cur - win->pr - 2;
+	i = win->cur - win->pr - 1;
 	j = ft_strlen(cmd);
 	while (++i < j)
 		write (1, " ", 1);

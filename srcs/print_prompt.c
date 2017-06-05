@@ -17,5 +17,5 @@ void		print_prompt(void)
 	char		prompt[1024];
 
 	getcwd(prompt, 1024);
-	ft_printf("%@%@%@\n$> ", H_YELLOW, prompt, I);
+	ft_printf("%@42sh: %@%@\n$> ", H_YELLOW, prompt, I);
 }

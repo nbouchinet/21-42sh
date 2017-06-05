@@ -12,10 +12,31 @@
 
 #include "header.h"
 
-int     cd(t_ast **ast, t_env **env)
+static int	check(t_env **env, char **arg)
 {
-    char    **arg;
+	int		len;
 
-    arg = creat_arg_env(&(*ast)->rigth);
-    
+	len = ft_tab_len(arg);
+	if (len == 2)
+		return (fd_printf(2, "cd: string not in pwd: %s\n", arg[0]));
+	else if (len > 2)
+		return (fd_printf(2, "cd: too many arguments\n");
+	if (arg[0][0] == '~' && !(*env))
+		return (fd_printf(2, "cd: HOME not set\n"));
+	else if (arg[0][0] == '-' && arg[0][0] == 0 && !(*env))
+		return (fd_printf(2, "cd: OLDPWD not set\n"));
+	if ((*env))
+	{
+
+	}
+}
+
+int     	cd(t_ast **ast, t_env **env)
+{
+	char	**arg;
+	int		opt;
+
+	arg = creat_arg_env(&(*ast)->rigth);
+	if (!check(env, arg))
+		return ;
 }

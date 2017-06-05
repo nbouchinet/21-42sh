@@ -32,5 +32,5 @@ void	tmp_pipe(int *p, int flag)
 		tmp[1] = -1;
 		p[0] = tmp[0];
 		p[1] = tmp[1];
-	}		
+	}
 }

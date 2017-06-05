@@ -48,32 +48,31 @@ static void        move_history(t_his **his, char **cmd, char buf, t_win *win)
 static int print(char **cmd, char buf[], t_win *win)
 {
 	char	*tmp;
-	char	*temp;
+	char	*save;
+	int		i;
 
-	temp = NULL;
 	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
 		return (beep());
-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	del_all(*cmd, win);
-	tmp = ft_strjoinf(buf, ft_strsub((*cmd), win->cur - win->pr,
-	ft_strlen((*cmd)) - (win->cur - win->pr)), 2);
-	if (!(*cmd) || (*cmd)[win->cur - win->pr] == 0)
+	i = win->cur - win->pr;
+	if (!(*cmd) || !((*cmd)[i]))
 		(*cmd) = ft_strjoinf((*cmd), buf, 1);
-	else if ((temp = (*cmd)))
-		(*cmd) = ft_strjoinf(ft_strjoinf(ft_strsub((*cmd), 0, win->cur -
-		win->pr), buf, 1), ft_strsub((*cmd), win->cur - win->pr,
-		ft_strlen((*cmd))), 3);
-	temp ? free(temp) : 0;
-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	else
+	{
+		tmp = ft_strsub((*cmd), i, ft_strlen((*cmd) + i));
+		save = (*cmd);
+		(*cmd) = ft_strjoinf(ft_strsub((*cmd), 0, i), buf, 1);
+		free(save);
+		(*cmd) = ft_strjoinf((*cmd), tmp, 3);
+	}
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	write(1, tmp, ft_strlen(tmp));
-	(*cmd) ? free(tmp) : 0;
+	ft_putstr(&(*cmd)[i]);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	tputs(tgetstr("nd", NULL), 1, ft_putchar);
 	win->cur += 1;
 	win->cpy_b != -1 ? win->cpy_b += 1 : 0;
 	if (win->cur % win->co == 0)
 		tputs(tgetstr("do", NULL), 1, ft_putchar);
+	else
+		tputs(tgetstr("nd", NULL), 1, ft_putchar);
 	return (1);
 }
 
@@ -120,10 +119,16 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 		g_loop == 4 ? winsize(win, &save, cmd) : 0;
 		ft_memset(buf, '\0', 6);
 		read(0, buf, 6);
-		if (PRINT)
+		if (buf[0] == 12 && !buf[1])
+		{
+			tputs(tgetstr("cl", NULL), 1, ft_putchar);
+			print_prompt();
+			write(1, (*cmd), ft_strlen(*cmd));
+		}
+		else if (PRINT)
 			!(*win)->sh ? print(cmd, buf, *win) : print_search(cmd, buf,
 			&(*win)->his, *win);
-		if (MOVE)
+		else if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
 			exit_sh_mode(*win, &(*win)->his, cmd, buf);
 		COMP ? completion(win, cmd, env) : 0;

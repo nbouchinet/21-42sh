@@ -68,7 +68,6 @@ static void	loop(char **env, t_win *win)
 	{
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, env);
-		ft_putendl("hello");
 		if (win->ctrld)
 			break ;
 		if (cmd)
