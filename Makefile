@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/06/04 16:22:43 by zadrien          ###   ########.fr        #
+#    Updated: 2017/06/05 17:07:51 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CFILES= main.c print_prompt.c signals.c	\
 		command_line/quotes.c command_line/search_history.c	command_line/winsize.c \
 		command_line/set_shell.c execution/exec_qm_seq.c command_line/completion.c \
 		command_line/completion_func.c command_line/completion_func2.c \
-		command_line/completion_list.c command_line/tmp_pipe.c
+		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
 
 OFILES= $(CFILES:.c=.o)
 

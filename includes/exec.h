@@ -71,5 +71,6 @@ int					ft_env(t_ast **ast, t_env **env);
 int					ft_setenv(t_ast **lst, t_env **env);
 char				**creat_arg_env(t_ast **ast);
 int					countab(char **tob);
+int					ft_cd(t_ast **arg, t_env **env);
 
 #endif
