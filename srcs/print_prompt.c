@@ -17,10 +17,10 @@ void		print_prompt(t_env *env)
 	char	buff[1024];
 
 	if (env)
-		ft_printf("%@42sh: %s%@\n$> ", H_YELLOW, lst_at(&env, "PWD")->value, I);
+		ft_printf("%@42sh: %s%@\n$> ", GREEN, lst_at(&env, "PWD")->value, I);
 	else
 	{
 		getcwd(buff, 1024);
-		ft_printf("%@42sh: %s%@\n$> ", H_YELLOW, buff, I);
+		ft_printf("%@42sh: %s%@\n$> ", GREEN, buff, I);
 	}
 }
