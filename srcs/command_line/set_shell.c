@@ -37,7 +37,8 @@ int			unset_shell(t_win **win)
 	if (mode_off(win) != 0)
 		return (-1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
-	(*win)->ctrld ? ft_printf("exit\n") : 0;
+	write(1, "Bye\n", 4);
+	// (*win)->ctrld ? ft_printf("exit\n") : 0;
 	// free win->hd win->his;
 	*win = NULL;
 	return (0);

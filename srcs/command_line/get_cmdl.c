@@ -92,7 +92,7 @@ void	check_line(char **save, char **cmd, t_win **win, char buf[])
 	(*win)->sh = 0;
 }
 
-static void		exit_get_cndl(char **cmd, t_win **win, char *save, char buf[])
+static void		exit_get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 {
 	(*cmd) = save && save[0] ? ft_strjoinf(save, (*cmd), 3) : NULL;
 	save_history(*win, cmd, &(*win)->his);
@@ -140,5 +140,5 @@ void        get_cmdl(char **cmd, t_win **win, char *save)
 			e(win, &(*win)->his, cmd, &save);
 		}
 	}
-	exit_get_cndl(cmd, win, save, buf);
+	exit_get_cmdl(cmd, win, save, buf);
 }

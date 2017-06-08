@@ -12,6 +12,8 @@
 
 #include "header.h"
 
+extern int	g_loop;
+
 typedef struct		s_cmd
 {
 	char			*cmd;
@@ -48,7 +50,9 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 				return (1);
 			return (0);
 		}
-	if (i == 4)
+	if (!ft_strcmp("exit", tmp->left->str))
+		g_loop = 0;
+	else if (i == 4)
 		if (exec_binary(&tmp, env))
 			return (1);
 	return (0);
