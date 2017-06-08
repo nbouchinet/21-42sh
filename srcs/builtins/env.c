@@ -50,15 +50,17 @@ void	ft_freetab(char **trash)
 	free(trash);
 }
 
-void	init_env(t_env **lst, char **env)
+int		init_env(t_env **lst, char **env)
 {
 	int		i;
 	char	**envtab;
 	t_env	*tmp;
 
 	i = -1;
-	if (!(*lst = (t_env*)malloc(sizeof(t_env))))
-		return ;
+	env && !env[0] ? *lst = NULL : 0;
+	if (env && env[0])
+		if (!(*lst = (t_env*)malloc(sizeof(t_env))))
+			return (fd_printf(2, "malloc error\n"));
 	tmp = *lst;
 	while (env[++i])
 	{
@@ -68,10 +70,11 @@ void	init_env(t_env **lst, char **env)
 		if (env[i + 1])
 		{
 			if (!(tmp->next = (t_env*)malloc(sizeof(t_env))))
-				return ;
+				return (fd_printf(2, "malloc error\n"));
 			tmp = tmp->next;
 		}
 		ft_freetab(envtab);
 	}
-	tmp->next = NULL;
+	tmp ? tmp->next = NULL : 0;
+	return (0);
 }

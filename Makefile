@@ -27,7 +27,7 @@ CFILES= main.c print_prompt.c signals.c	\
 		AST/io_sequence.c	\
 		execution/exec_cmd_seq.c execution/exec_cmd_tools.c execution/get_env.c	\
 		execution/exec_io_seq.c execution/exec_io_seq2.c	\
-		builtins/unsetenv.c builtins/setenv.c builtins/env.c \
+		builtins/unsetenv.c builtins/setenv.c builtins/env.c builtins/ft_echo.c \
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\

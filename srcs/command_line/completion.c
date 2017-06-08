@@ -44,7 +44,7 @@ static int		only_space(char *cmd, t_win *win)
 	if (!cmd)
 	{
 		write(1, "\033[1mRTFM\n", 9);
-		print_prompt();
+		print_prompt(win->lstenv);
 		return (1);
 	}
 	i = -1;
@@ -54,18 +54,19 @@ static int		only_space(char *cmd, t_win *win)
 	while (win->cur > win->pr)
 		arrow_left(win);
 	write(1, "\033[1mRTFM\n", 9);
-	print_prompt();
+	print_prompt(win->lstenv);
 	return (1);
 }
 
-void    		completion(t_win **win, char **cmd, char **env)
+void    		completion(t_win **win, char **cmd)
 {
 	int     i;
 	char    *tmp;
 
 	tmp = NULL;
 	if (!(*win)->hd && !(*win)->quote)
-		if ((!env) || (!ft_get_env_var(env, "PATH")) || only_space(*cmd, *win))
+		if ((!((*win)->lstenv)) || (!(lst_at(&(*win)->lstenv, "PATH")))
+		|| only_space(*cmd, *win))
 			return ;
 	i = (*win)->cur - (*win)->pr;
 	if (i - 1 < 0 || (*cmd)[i - 1] == '|' || (*cmd)[i - 1] == ';' 
@@ -79,9 +80,9 @@ void    		completion(t_win **win, char **cmd, char **env)
 		arrow_rigth((*win), (*cmd));
 	tmp = (*cmd)[(*win)->cur - (*win)->pr - 1] == ' ' ? NULL : 
 	ft_strsub((*cmd), (i ? i + 1 : i), (*win)->cur - (*win)->pr - i - (i ? 1 : 0));
-	if (tmp && is_first_word((*cmd), i + 1))
-		list_exe(tmp, ft_strsplit(ft_get_env_var(env, "PATH"), ':'), win, cmd, i)
-		? 0 : (list_files(&tmp, win, cmd));
+	if (tmp && is_first_word((*cmd), (*win)->cur - (*win)->pr))
+		list_exe(tmp, ft_strsplit(lst_at(&(*win)->lstenv, "PATH")->value, ':'),
+		win, cmd, i) ? 0 : (list_files(&tmp, win, cmd));
 	else
 		list_files(&tmp, win, cmd);
 	tmp ? free(tmp) : 0;

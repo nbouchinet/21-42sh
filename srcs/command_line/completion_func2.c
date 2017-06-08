@@ -12,15 +12,14 @@
 
 #include "header.h"
 
-t_ls            *ft_padd_x(t_ls *ls, int *maxlen)
+void			ft_padd_x(t_ls **ls, int *maxlen)
 {
     t_ls    *tmp;
     int     save;
 
-    tmp = ls;
+    tmp = *ls;
     (*maxlen) = 0;
     if (tmp)
-    {
         while (tmp)
         {
             save = ft_strlen(tmp->name);
@@ -28,9 +27,8 @@ t_ls            *ft_padd_x(t_ls *ls, int *maxlen)
                 (*maxlen) = save;
             tmp = tmp->next;
         }
-    }
     (*maxlen) += 5;
-    return (ft_putpaddx(ls, (*maxlen)));
+    ft_putpaddx(ls, (*maxlen));
 }
 
 void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
@@ -38,13 +36,14 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
 	unsigned long	winsize;
 	t_ls			*tmp;
 
+	ft_padd_x(head, &len);
 	tmp = (*head);
-	ft_padd_x(*head, &len);
 	winsize = (*win)->co - len - 5;
+	len = 0;
 	while (tmp)
 	{
 		len += ft_printf("%s", tmp->name);
-		if ((len + ft_strlen(tmp->padx) < winsize))
+		if ((len + ft_strlen(tmp->padx)) < winsize)
 			len += ft_printf("%s", tmp->padx);
 		else
 			tmp->next ? ft_printf("%n\n", &len) : 0;
@@ -52,8 +51,8 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
 	}
 	write(1, "\n", 1);
 	if ((*win)->pr == 3)
-		print_prompt();
-	else if ((*win)->hd)
+		print_prompt((*win)->lstenv);
+	if ((*win)->hd)
 		write(1, "heredoc> ", ft_strlen("heredoc> "));
 	else if ((*win)->quote)
 		write(1, (*win)->quote == 1 ? "quote> " : "dquote> ",

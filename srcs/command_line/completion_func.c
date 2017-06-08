@@ -22,19 +22,6 @@ int 		is_first_word(char *cmd, int i)
 	return (0);
 }
 
-char     *ft_get_env_var(char **big, char *little)
-{
-		size_t  i;
-
-		i = -1;
-		if (!big)
-				return (NULL);
-		while (big[++i])
-			if (ft_strenv(big[i], little))
-				return (big[i] + ft_strlen(little) + 1);
-		return (NULL);
-}
-
 static void		insert(t_ls **head, t_ls *link, int i)
 {
 	t_ls		*tmp;
@@ -83,13 +70,13 @@ t_ls			*fill_lst(t_ls **head, struct dirent *rdd, int param)
 	}
 }
 
-t_ls        *ft_putpaddx(t_ls *ls, int maxlen)
+void			ft_putpaddx(t_ls **ls, int maxlen)
 {
     int			i;
     int			save;
     t_ls		*tmp;
 
-    tmp = ls;
+    tmp = *ls;
     while (tmp)
     {
         i = 0;
@@ -102,5 +89,4 @@ t_ls        *ft_putpaddx(t_ls *ls, int maxlen)
         tmp->padx[i] = 0;
         tmp = tmp->next;
     }
-    return (ls);
 }

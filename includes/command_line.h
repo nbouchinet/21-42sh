@@ -13,6 +13,8 @@
 #ifndef COMMAND_LINE_H
 # define COMMAND_LINE_H
 
+#include "lexer_parser.h"
+
 /*
 **	define
 */
@@ -72,9 +74,16 @@
 **	key defines
 */
 
+typedef struct		s_env
+{
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct		s_ls
 {
-    char            padx[36];
+    char            padx[512];
     char            *name;
     struct s_ls		*next;
 }					t_ls;
@@ -109,6 +118,7 @@ typedef struct		s_win
 	char			*copy;
 	t_hdoc			*hd;
 	t_his			*his;
+	t_env			*lstenv;
 	struct termios	term;
 }					t_win;
 
@@ -133,7 +143,7 @@ void 				del_his(char **cmd, t_win *win, t_his **his);
 void				e(t_win **win, t_his **his, char **cmd, char **save);
 void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
 void				findstr(t_his **his, char *cmd);
-void				get_cmdl(char **cmd, t_win **win, char *save, char **env);
+void				get_cmdl(char **cmd, t_win **win, char *save);
 void				get_here_string(char **save, t_win **win, int i, int j);
 int					get_win_data(t_win **win);
 void				handle_pipe_and_or(char **save, t_win **win);
@@ -142,7 +152,7 @@ int					lst_len(t_his *his);
 int					mode_off(t_win **win);
 int					mode_on(t_win **win);
 void				init_var(t_win **win);
-void				print_prompt(void);
+void				print_prompt(t_env *env);
 void				print_search(char **cmd, char buf[], t_his **his, t_win *win);
 void				quote_removal(char **cmd, t_win **win);
 void				save_history(t_win *win, char **cmd, t_his **his);
@@ -157,16 +167,18 @@ void				winsize(t_win **win, char **save, char **cmd);
 */
 
 int					call_print_lst(t_win **win, char **cmd, t_ls *list, int i);
-void	    		completion(t_win **win, char **cmd, char **env);
+void	    		completion(t_win **win, char **cmd);
 t_ls				*fill_lst(t_ls **head, struct dirent *rdd, int param);
-char				*ft_get_env_var(char **big, char *little);
-t_ls            	*ft_padd_x(t_ls *ls, int *maxlen);
-t_ls        		*ft_putpaddx(t_ls *ls, int maxlen);
+void				ft_padd_x(t_ls **ls, int *maxlen);
+void				ft_putpaddx(t_ls **ls, int maxlen);
 int 				is_first_word(char *cmd, int i);
 void				list_del(t_ls **list);
 int 				list_exe(char *tmp, char **path, t_win **win, char **cmd, int k);
 void				list_files(char **tmp, t_win **win, char **cmd);
 int					list_len(t_ls **list);
 void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
+
+
+void				delete_lstenv(t_env **cmd);
 
 #endif

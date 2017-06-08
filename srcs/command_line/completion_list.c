@@ -52,7 +52,8 @@ int 			list_exe(char *tmp, char **path, t_win **win, char **cmd, int k)
 	i = -1;
 	while (path[++i])
 	{
-		dir = opendir(path[i]);
+		if (!(dir = opendir(path[i])))
+			return (-1);
 		while ((rdd = readdir(dir)) != 0)
 		{
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0)
@@ -62,7 +63,7 @@ int 			list_exe(char *tmp, char **path, t_win **win, char **cmd, int k)
 		closedir(dir);
 	}
 	i = display_e(list, win, cmd, k);
-	ft_free(path, NULL);
+	ft_strdel(path);
 	return (i);
 }
 
@@ -106,7 +107,7 @@ static void     display_f(t_ls *list, char **cmd, char *path, t_win **win)
 	{
 		save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));
 		OR_SEP ? arrow_left(*win) : 0;
-		while (SEP && (*win)->cur - (*win)->pr)
+		while (SEP && (*cmd)[(*win)->cur - (*win)->pr] != '/' && (*win)->cur - (*win)->pr)
 			arrow_left(*win);
 		(*cmd)[(*win)->cur - (*win)->pr + ((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
 		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), path , 1) : 0;
@@ -134,11 +135,14 @@ void			list_files(char **tmp, t_win **win, char **cmd)
 
 	list = NULL;
 	path = (*tmp) ? get_path(tmp) : ft_strdup(".");
-	dir = opendir(path);
+	if (!(dir = opendir(path)))
+		return ;
 	while ((rdd = readdir(dir)) != 0)
 		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
-			&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
-			!list ? list = fill_lst(&list, rdd, 2) : fill_lst(&list, rdd, 2);
+		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
+			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
+				!list ? list = fill_lst(&list, rdd, 2) :
+				fill_lst(&list, rdd, 2);
 	closedir(dir);
     display_f(list, cmd, path, win);
 	free(path);

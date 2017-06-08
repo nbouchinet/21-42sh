@@ -10,12 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/inc/libftprintf.h"
+#include "header.h"
 
-void		print_prompt(void)
+void		print_prompt(t_env *env)
 {
-	char		prompt[1024];
+	char	buff[1024];
 
-	getcwd(prompt, 1024);
-	ft_printf("%@42sh: %@%@\n$> ", H_YELLOW, prompt, I);
+	if (env)
+		ft_printf("%@42sh: %s%@\n$> ", H_YELLOW, lst_at(&env, "PWD")->value, I);
+	else
+	{
+		getcwd(buff, 1024);
+		ft_printf("%@42sh: %s%@\n$> ", H_YELLOW, buff, I);
+	}
 }

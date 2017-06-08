@@ -69,10 +69,8 @@ static int print(char **cmd, char buf[], t_win *win)
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	win->cur += 1;
 	win->cpy_b != -1 ? win->cpy_b += 1 : 0;
-	if (win->cur % win->co == 0)
-		tputs(tgetstr("do", NULL), 1, ft_putchar);
-	else
-		tputs(tgetstr("nd", NULL), 1, ft_putchar);
+	win->cur % win->co ? tputs(tgetstr("nd", NULL), 1, ft_putchar) : 
+	tputs(tgetstr("do", NULL), 1, ft_putchar);
 	return (1);
 }
 
@@ -107,7 +105,7 @@ static void		exit_get_cndl(char **cmd, t_win **win, char *save, char buf[])
 	(*cmd) ? (*cmd) = ft_strtrimf((*cmd)) : 0;
 }
 
-void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
+void        get_cmdl(char **cmd, t_win **win, char *save)
 {
 	char    buf[6];
 
@@ -122,7 +120,7 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 		if (buf[0] == 12 && !buf[1])
 		{
 			tputs(tgetstr("cl", NULL), 1, ft_putchar);
-			print_prompt();
+			print_prompt((*win)->lstenv);
 			write(1, (*cmd), ft_strlen(*cmd));
 		}
 		else if (PRINT)
@@ -131,14 +129,16 @@ void        get_cmdl(char **cmd, t_win **win, char *save, char **env)
 		else if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
 			exit_sh_mode(*win, &(*win)->his, cmd, buf);
-		COMP ? completion(win, cmd, env) : 0;
+		COMP ? completion(win, cmd) : 0;
 		DEL && (*cmd) ? del(cmd, *win, &(*win)->his) : 0;
 		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
  		if (RETURN || EOT)
+		{
 			!(*win)->sh ? check_line(&save, cmd, win, buf) :
 			e(win, &(*win)->his, cmd, &save);
+		}
 	}
 	exit_get_cndl(cmd, win, save, buf);
 }

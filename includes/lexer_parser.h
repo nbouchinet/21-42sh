@@ -20,13 +20,6 @@
 ***************************************************
 */
 
-typedef struct		s_env
-{
-	char			*var;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
-
 typedef struct		s_che
 {
 	char			c;
@@ -87,6 +80,6 @@ void				st_tok(char **stack, char c);
 void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
-void				delete_lstenv(t_env **cmd);
+// void				delete_lstenv(t_env **cmd);
 void 				specified_dir(t_tok **lst);
 #endif

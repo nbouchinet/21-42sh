@@ -21,7 +21,7 @@ void        winsize(t_win **win, char **save, char **cmd)
 	line = (*save) ? (*save) : (*cmd);
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	get_win_data(win);
-	print_prompt();
+	print_prompt((*win)->lstenv);
 	write(1, line, ft_strlen(line));
 	g_loop = 1;
 }

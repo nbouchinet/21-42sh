@@ -14,24 +14,6 @@
 
 extern int g_loop;
 
-static int	dup_env(char **env, char **new[])
-{
-	int		i;
-
-	i = -1;
-	if (!(*new = (char **)malloc(sizeof(char *) * (ft_tablen(env) + 1))))
-		return (fd_printf(2, "Exiting: malloc error\n"));
-	i = -1;
-	while (env[++i])
-		if (ft_strenv(env[i], "SHLVL") != NULL)
-			(*new)[i] = ft_strjoinf("SHLVL=",
-			ft_itoa(ft_atoi(&env[i][6]) + 1), 2);
-		else
-			(*new)[i] = ft_strdup(env[i]);
-	(*new)[i] = NULL;
-	return (0);
-}
-
 int			get_win_data(t_win **win)
 {
 	struct winsize	w;
@@ -49,34 +31,31 @@ static void	exec_part(char **line, t_env **env)
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
-	// lexer_check(&cmd);
+	lexer_check(&cmd);
 	specified_dir(&cmd);
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
-	ft_putast(ast);
+	// ft_putast(ast);
 	exec_ast(&ast, env);
 	// free_ast(&ast);
 }
 
-static void	loop(char **env, t_win *win)
+static void	loop(t_win *win)
 {
 	char	*cmd;
-	t_env	*lstenv;
 
-	if (env)
-		init_env(&lstenv, env);
 	while (g_loop)
 	{
 		cmd = NULL;
-		get_cmdl(&cmd, &win, NULL, env);
+		get_cmdl(&cmd, &win, NULL);
 		if (win->ctrld)
 			break ;
 		if (cmd)
 		{
 			mode_off(&win);
-			exec_part(&cmd, &lstenv);
+			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);
 			free(cmd);
 		}
@@ -87,14 +66,12 @@ static void	loop(char **env, t_win *win)
 int         main(int ac, char *av[], char *env[])
 {
 	t_win	*win;
-	char	**new;
 
 	ac = 0;
-	if (!env)
-		return (0);
 	(void)av;
-	new = NULL;
-	if (set_shell(&win) != 0 || get_win_data(&win) != 0 || dup_env(env, &new) != 0)
+	// if (env && !env[0])
+		// return (0); // a changer
+	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
 		return (1);
 	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
@@ -102,6 +79,6 @@ int         main(int ac, char *av[], char *env[])
 	win->his->prev = NULL;
     win->his->next = NULL;
 	win->his->len = 0;
-	loop(new, win);
+	loop(win);
 	return (0);
 }

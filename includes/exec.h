@@ -62,13 +62,15 @@ int		exec_io_seq(t_ast **ast);
 ***************************************
 */
 
+t_env 				*lst_at(t_env **env, char *cmp);
 t_env				*find_node(t_env **env, char *var, char *value);
 void				print_env(t_env *lst);
 void				ft_freetab(char **tob);
-void				init_env(t_env **lst, char **env);
+int					init_env(t_env **lst, char **env);
 int					ft_unsetenv(t_ast **ast, t_env **env);
 int					ft_env(t_ast **ast, t_env **env);
 int					ft_setenv(t_ast **lst, t_env **env);
+int					ft_echo(t_ast **ast, t_env **env);
 char				**creat_arg_env(t_ast **ast);
 int					countab(char **tob);
 int					ft_cd(t_ast **arg, t_env **env);
