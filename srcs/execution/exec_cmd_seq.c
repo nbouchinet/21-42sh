@@ -12,8 +12,6 @@
 
 #include "header.h"
 
-extern int	g_loop;
-
 typedef struct		s_cmd
 {
 	char			*cmd;
@@ -38,21 +36,19 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 {
 	int			i;
 	t_ast		*tmp;
-	static const t_cmd	cmd[4] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
-				 {"setenv", &ft_setenv}, {"cd", &ft_cd}};
+	static const t_cmd	cmd[5] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
+				 {"setenv", &ft_setenv}, {"cd", &ft_cd}, {"exit", &ft_exit}};
 
 	i = -1;
 	tmp = *ast;
-	while (++i < 4)
+	while (++i < 5)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->str) == 0)
 		{
 			if (cmd[i].f(&tmp, env) == 1)
 				return (1);
 			return (0);
 		}
-	if (!ft_strcmp("exit", tmp->left->str))
-		g_loop = 0;
-	else if (i == 4)
+	else if (i == 5)
 		if (exec_binary(&tmp, env))
 			return (1);
 	return (0);

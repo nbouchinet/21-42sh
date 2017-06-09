@@ -88,6 +88,6 @@ void		init_var(t_win **win)
 	(*win)->sh = 0;
 	(*win)->ctrld = 0;
 	(*win)->hd = NULL;
-	g_loop = 1;
+	g_loop = 256;
 	print_prompt((*win)->lstenv);
 }
