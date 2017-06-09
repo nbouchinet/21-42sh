@@ -18,7 +18,7 @@ int			mode_on(t_win **win)
 	(*win)->term.c_lflag &= ~(ECHO);
 	(*win)->term.c_cc[VMIN] = 1;
 	(*win)->term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &(*win)->term) == -1)
+	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
 }

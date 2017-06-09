@@ -74,6 +74,7 @@
 **	key defines
 */
 
+
 typedef struct		s_env
 {
 	char			*var;

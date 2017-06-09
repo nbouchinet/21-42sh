@@ -25,18 +25,6 @@ static void    del_first(t_his **his)
 	tmp->prev = NULL;
 }
 
-static void		first_link(char *cmd, t_his **his)
-{
-	t_his	*tmp;
-
-	tmp = (t_his *)malloc(sizeof(t_his));
-	tmp->cmdl = ft_strsub(cmd, 0, ft_strlen(cmd) - 1);
-	tmp->len = ft_strlen(cmd) + 1;
-	tmp->prev = NULL;
-	tmp->next = (*his);
-	(*his)->prev = tmp;
-}
-
 static void		get_max_len(t_his **his)
 {
 	t_his	*tmp;
@@ -60,12 +48,19 @@ static void		get_max_len(t_his **his)
 	}
 }
 
-static int		call_first_link(t_win *win, char **cmd, t_his **his)
+static void		first_link(t_win *win, char **cmd, t_his **his)
 {
-	first_link((*cmd), his);
+	t_his	*tmp;
+
+	if (!(tmp = (t_his *)malloc(sizeof(t_his))))
+		exit (fd_printf(2, "malloc error\n"));
+	tmp->cmdl = ft_strsub((*cmd), 0, ft_strlen((*cmd)) - 1);
+	tmp->len = ft_strlen((*cmd)) + 1;
+	tmp->prev = NULL;
+	tmp->next = (*his);
+	(*his)->prev = tmp;
 	win->hd ? catcmd(win, cmd) : 0;
 	ft_streplace(&(*his)->cmdl, 127, '\n');
-	return (0);
 }
 
 void        	save_history(t_win *win, char **cmd, t_his **his)
@@ -76,7 +71,7 @@ void        	save_history(t_win *win, char **cmd, t_his **his)
 		return ;
 	if (!(*his)->next && !(*his)->prev)
 	{
-		call_first_link(win, cmd, his);
+		first_link(win, cmd, his);
 		return ;
 	}
 	while ((*his)->next)
