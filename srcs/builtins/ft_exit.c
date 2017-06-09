@@ -27,7 +27,7 @@ int		ft_exit(t_ast **ast, t_env **env)
 		if (!ft_isdigit(arg[0][i]))
 		{
 			fd_printf(2, "42sh: exit: %@: numeric argument required\n", arg[0]);
-			ft_free(arg, NULL);	
+			ft_free(arg, NULL);
 			return (((g_loop = 255) > 0 ? 0 : 0));
 		}
 	if (arg[1] && fd_printf(2, "42sh: exit: too many arguments\n"))
