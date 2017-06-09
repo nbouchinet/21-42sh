@@ -48,7 +48,7 @@ int		exec_cmd_seq(t_ast **ast, t_env **env) // Keep the path ?
 				return (1);
 			return (0);
 		}
-	else if (i == 5)
+	if (i == 5)
 		if (exec_binary(&tmp, env))
 			return (1);
 	return (0);

@@ -100,7 +100,7 @@ static void		exit_get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 		while ((*cmd)[(*win)->cur - (*win)->pr])
 			arrow_rigth(*win, (*cmd));
 	write(1, "\n", 1);
-	g_loop = EOT ? 0 : 1;
+	g_loop = EOT ? 0 : 256;
 	(*win)->ctrld = EOT ? 1 : 0;
 	(*cmd) ? (*cmd) = ft_strtrimf((*cmd)) : 0;
 }
@@ -120,7 +120,12 @@ void        get_cmdl(char **cmd, t_win **win, char *save)
 		if (buf[0] == 12 && !buf[1])
 		{
 			tputs(tgetstr("cl", NULL), 1, ft_putchar);
-			print_prompt((*win)->lstenv);
+			if ((!(*win)->quote && !(*win)->hd) || (*win)->sh)
+				print_prompt((*win)->lstenv);
+			else if ((*win)->quote)
+				(*win)->quote == 1 ? write(1, "quote> ", 7) : write(1, "dquote> ", 8);
+			else if ((*win)->hd)
+				write(1, "heredoc> ", 9);
 			write(1, (*cmd), ft_strlen(*cmd));
 		}
 		else if (PRINT)
