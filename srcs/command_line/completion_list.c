@@ -107,10 +107,11 @@ static void     display_f(t_ls *list, char **cmd, char *path, t_win **win)
 	{
 		save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));
 		OR_SEP ? arrow_left(*win) : 0;
-		while (SEP && (*cmd)[(*win)->cur - (*win)->pr] != '/' && (*win)->cur - (*win)->pr)
+		while (SEP && (*win)->cur - (*win)->pr)
 			arrow_left(*win);
 		(*cmd)[(*win)->cur - (*win)->pr + ((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
-		path[0] != '.' ? (*cmd) = ft_strjoinf((*cmd), path , 1) : 0;
+		(*cmd) = path[0] == '.' && path[1] != '.' ? ft_strjoinf((*cmd), path + 1, 1) :
+		ft_strjoinf((*cmd), path, 1);
 		(*cmd) = ft_strjoinf((*cmd), (list)->name, 1);
 		(*cmd) = ft_strjoinf((*cmd), save, 3);
 		tputs(tgetstr("sc", NULL), 1, ft_putchar);

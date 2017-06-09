@@ -101,8 +101,6 @@ static void		build_path(char **path, char *arg, t_env **env)
 
 	i = -1;
 	(*path) = ft_strdup(lst_at(env, "PWD")->value);
-	if ((*path)[0] == '/' && (*path)[1] == 0 && !ft_strcmp(arg, ".."))
-		return ;
 	(*path)[ft_strlen(*path) - 1] == '/' ? (*path)[ft_strlen(*path) - 1] = 0 : 0;
 	rpath = ft_strsplit(arg, '/');
 	while (rpath[++i])
@@ -123,7 +121,7 @@ static void		build_path(char **path, char *arg, t_env **env)
 	}
 }
 
-static int		check(t_env **lstenv, char *arg, char **path)
+static void		get_path(t_env **lstenv, char *arg, char **path)
 {
 	char	*tmp;
 
@@ -149,9 +147,7 @@ static int		check(t_env **lstenv, char *arg, char **path)
 			: ft_strjoinf(ft_strjoin(tmp, "/"), arg, 1);
 		}
 	}
-	else
-		build_path(path, arg, lstenv);
-	return (0);
+	!(*path) ? build_path(path, arg, lstenv) : 0;
 }
 
 static int		check_arg(int len, char *arg, t_env **lstenv)
@@ -181,19 +177,11 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	i = 0;
 	path = NULL;
 	targ = creat_arg_env(&(*ast)->right);
-	if (targ && get_opt(targ, &i, &opt))
-		return (0);
-	if (targ)
-		if (check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env))
+	if ((targ && get_opt(targ, &i, &opt)) ||
+	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
 			return (0);
 	arg = targ ? targ[i] : NULL;
-	if (check(env, arg, &path) != 0)
-		return (0);
-	if ((path[0] == '.' && path[1] == 0))
-	{
-		ft_free(targ, NULL);
-		return (1);
-	}
+	get_path(env, arg, &path);
 	if (chdirectory(&path, opt, arg))
 		return (0);
 	mod_env(env, path);
