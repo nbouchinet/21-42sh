@@ -39,7 +39,8 @@ static void	exec_part(char **line, t_env **env)
 	primary_sequence(&ast, &cmd);
 	// ft_putast(ast);
 	exec_ast(&ast, env);
-	// free_ast(&ast);
+	destroy_ast(&ast);
+	destroy_tok(&cmd);
 }
 
 static void	loop(t_win *win)

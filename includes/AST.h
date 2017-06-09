@@ -58,5 +58,6 @@ void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 t_tok	*find_rdir_tok(t_tok **lst, t_tok **stop);
-void	free_ast(t_ast **ast);
+void	destroy_ast(t_ast **head);
+
 #endif
