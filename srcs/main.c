@@ -69,8 +69,7 @@ int         main(int ac, char *av[], char *env[])
 
 	ac = 0;
 	(void)av;
-	// if (env && !env[0])
-		// return (0); // a changer
+	env = check_env(env);
 	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
 		return (1);
 	if (!(win->his = (t_his *)malloc(sizeof(t_his))))

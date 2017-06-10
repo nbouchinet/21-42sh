@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/06/09 13:50:39 by khabbar          ###   ########.fr        #
+#    Updated: 2017/06/10 15:08:56 by hpelat           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CPATH= srcs/
 OPATH= obj/
 HPATH= includes/ libft/
 INC= $(addprefix -I , $(HPATH))
-CFILES= main.c print_prompt.c signals.c	\
+CFILES= main.c print_prompt.c signals.c	check_env.c \
 		ft_putast.c destroy_ast.c \
 		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c	\
 		lexer/jonathan_kent.c lexer/the_dog.c	\
