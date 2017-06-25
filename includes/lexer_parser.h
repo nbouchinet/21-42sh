@@ -83,5 +83,6 @@ void				lexer_check(t_tok **lst);
 // void				delete_lstenv(t_env **cmd);
 void 				specified_dir(t_tok **lst);
 void				destroy_tok(t_tok **head);
+int					fill_tmp(char tmp[], char c);
 
 #endif

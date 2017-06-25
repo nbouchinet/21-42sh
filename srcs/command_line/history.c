@@ -54,8 +54,8 @@ static void		first_link(t_win *win, char **cmd, t_his **his)
 
 	if (!(tmp = (t_his *)malloc(sizeof(t_his))))
 		exit (fd_printf(2, "malloc error\n"));
-	tmp->cmdl = ft_strsub((*cmd), 0, ft_strlen((*cmd)) - 1);
-	tmp->len = ft_strlen((*cmd)) + 1;
+	tmp->cmdl = ft_strtrim((*cmd));
+	tmp->len = ft_strlen((*cmd));
 	tmp->prev = NULL;
 	tmp->next = (*his);
 	(*his)->prev = tmp;
@@ -80,7 +80,7 @@ void        	save_history(t_win *win, char **cmd, t_his **his)
 	(*his) = (*his)->prev;
 	if (!((*his)->next = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "save-hisroty: malloc error\n"));
-	(*his)->next->cmdl = ft_strsub((*cmd), 0, ft_strlen(*cmd) - 1);
+	(*his)->next->cmdl = ft_strtrim((*cmd));
 	(*his)->next->prev = (*his);
 	(*his)->next->next = tmp;
 	(*his) = (*his)->next;

@@ -12,15 +12,24 @@
 
 #include "header.h"
 
-void		print_prompt(t_env *env)
+extern int		g_loop;
+
+void		print_prompt(t_win **win)
 {
 	char	buff[1024];
 
-	if (env)
-		ft_printf("%@42sh: %s%@\n$> ", H_YELLOW, lst_at(&env, "PWD")->value, I);
+	if ((*win)->lstenv)
+		ft_printf("%@42sh: %s%@", H_YELLOW, lst_at(&(*win)->lstenv, "PWD")->value, I);
 	else
 	{
 		getcwd(buff, 1024);
-		ft_printf("%@42sh: %s\n%@$> ", H_YELLOW, buff, I);
+		ft_printf("%@42sh: %s\n%", H_YELLOW, buff, I);
 	}
+	if ((!(*win)->quote && !(*win)->hd))
+		write(1, "\n$> ", 4);
+	else if ((*win)->quote)
+		(*win)->quote == 1 ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
+	else if ((*win)->hd)
+		write(1, "heredoc> ", 9);
+	g_loop = 256;
 }

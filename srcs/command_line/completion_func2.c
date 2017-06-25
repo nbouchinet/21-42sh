@@ -51,7 +51,7 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
 	}
 	write(1, "\n", 1);
 	if ((*win)->pr == 3)
-		print_prompt((*win)->lstenv);
+		print_prompt(win);
 	if ((*win)->hd)
 		write(1, "heredoc> ", ft_strlen("heredoc> "));
 	else if ((*win)->quote)

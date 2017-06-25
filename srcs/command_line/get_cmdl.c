@@ -54,7 +54,7 @@ static int print(char **cmd, char buf[], t_win *win)
 	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
 		return (beep());
 	i = win->cur - win->pr;
-	if (!(*cmd) || !((*cmd)[i]))
+	if (!(*cmd) || ((*cmd)[i]) == 0)
 		(*cmd) = ft_strjoinf((*cmd), buf, 1);
 	else
 	{
@@ -65,7 +65,7 @@ static int print(char **cmd, char buf[], t_win *win)
 		(*cmd) = ft_strjoinf((*cmd), tmp, 3);
 	}
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	ft_putstr(&(*cmd)[i]);
+	write(1, (*cmd) + i, ft_strlen((&(*cmd)[i])));
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	win->cur += 1;
 	win->cpy_b != -1 ? win->cpy_b += 1 : 0;
@@ -114,21 +114,10 @@ void        get_cmdl(char **cmd, t_win **win, char *save)
 	{
 		if (cmdl_signal(cmd, save, win) == 1)
 			return ;
-		g_loop == 4 ? winsize(win, &save, cmd) : 0;
 		ft_memset(buf, '\0', 6);
 		read(0, buf, 6);
-		if (buf[0] == 12 && !buf[1])
-		{
-			tputs(tgetstr("cl", NULL), 1, ft_putchar);
-			if ((!(*win)->quote && !(*win)->hd) || (*win)->sh)
-				print_prompt((*win)->lstenv);
-			else if ((*win)->quote)
-				(*win)->quote == 1 ? write(1, "quote> ", 7) : write(1, "dquote> ", 8);
-			else if ((*win)->hd)
-				write(1, "heredoc> ", 9);
-			write(1, (*cmd), ft_strlen(*cmd));
-		}
-		else if (PRINT)
+		buf[0] == 12 && !buf[1] ? ctrl_l(win, cmd) : 0;
+		if (PRINT)
 			!(*win)->sh ? print(cmd, buf, *win) : print_search(cmd, buf,
 			&(*win)->his, *win);
 		else if (MOVE)
@@ -140,10 +129,8 @@ void        get_cmdl(char **cmd, t_win **win, char *save)
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
  		if (RETURN || EOT)
-		{
 			!(*win)->sh ? check_line(&save, cmd, win, buf) :
 			e(win, &(*win)->his, cmd, &save);
-		}
 	}
 	exit_get_cmdl(cmd, win, save, buf);
 }

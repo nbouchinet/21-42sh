@@ -16,8 +16,10 @@ int			mode_on(t_win **win)
 {
 	(*win)->term.c_lflag &= ~(ICANON);
 	(*win)->term.c_lflag &= ~(ECHO);
-	(*win)->term.c_cc[VMIN] = 1;
-	(*win)->term.c_cc[VTIME] = 0;
+	// (*win)->term.c_cc[VMIN] = 1;
+	// (*win)->term.c_cc[VTIME] = 0;
+	(*win)->term.c_cc[VMIN] = 0;
+	(*win)->term.c_cc[VTIME] = 1;
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
@@ -38,7 +40,6 @@ int			unset_shell(t_win **win)
 		return (-1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
 	write(1, "Bye\n", 4);
-	// (*win)->ctrld ? ft_printf("exit\n") : 0;
 	// free win->hd win->his;
 	*win = NULL;
 	return (0);

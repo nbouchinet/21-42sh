@@ -89,5 +89,5 @@ void		init_var(t_win **win)
 	(*win)->ctrld = 0;
 	(*win)->hd = NULL;
 	g_loop = 256;
-	print_prompt((*win)->lstenv);
+	print_prompt(win);
 }

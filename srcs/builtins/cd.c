@@ -47,6 +47,7 @@ static int		chdirectory(char **path, int opt, char *arg)
 {
 	struct 	stat	st;
 	char	buff[1024];
+	char	*bs;
 	int 	i;
 
 	if (lstat((*path), &st) == -1)
@@ -60,7 +61,8 @@ static int		chdirectory(char **path, int opt, char *arg)
 		if (i && opt == 1)
 		{
 			readlink((*path), buff, 1024);
-			arg[0] = 0;
+			bs = ft_strrchr((*path), '/');
+			*(bs + 1) = 0;
 			(*path) = ft_strjoinf((*path), buff, 1);
 		}
 	}

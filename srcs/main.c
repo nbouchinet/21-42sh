@@ -46,7 +46,7 @@ static void	loop(t_win *win)
 {
 	char	*cmd;
 
-	while (g_loop == 256)
+	while (g_loop)
 	{
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL);

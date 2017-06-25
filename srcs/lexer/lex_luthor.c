@@ -12,16 +12,6 @@
 
 #include "header.h"
 
-int		zap_space(char *line)
-{
-	int		i;
-
-	i = 0;
-	while (line[i] && is_space(line[i]) == 1)
-		i++;
-	return (i);
-}
-
 void	init_token(t_tok **lst)
 {
 	if (!((*lst) = (t_tok*)malloc(sizeof(t_tok))))
@@ -46,7 +36,7 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	}
 	(*lst)->str[i] = '\0';
 	(*lst)->type = type;
-	ft_bzero(*stack, ft_strlen(*stack) + 1);
+	ft_strdel(stack);
 }
 
 void	flush(t_tok **lst, char **stack, char *line, int *i)
@@ -60,7 +50,9 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 			*lst = (*lst)->next;
 		}
 	}
-	(*i) = (*i) + zap_space(line + (*i)) - 1;
+	while (line[(*i)] && line[(*i)] == ' ')
+		(*i) += 1;
+	(*i) -= 1;
 }
 
 
@@ -70,7 +62,7 @@ void	new_parser(t_tok **cmd, char *line)
 	int					j;
 	char				*stack;
 	t_tok				*tmp;
-	static const t_key	key[7] = {{'"', &quote}, {' ', &flush}, {'>', &chevron},
+	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush}, {'>', &chevron},
 {'<', &chevron}, {';', &question_mark}, {'|', &pipe_pars}, {'&', &and_pars}};
 
 	i = 0;
@@ -79,15 +71,15 @@ void	new_parser(t_tok **cmd, char *line)
 	while (line[i])
 	{
 		j = -1;
-		while (++j < 7)
+		while (++j < 8)
 			if (line[i] == key[j].i)
 			{
 				key[j].f(&tmp, &stack, line, &i);
 				break ;
 			}
-		j == 7 ? st_tok(&stack, line[i]) : 0;
+		j == 8 ? st_tok(&stack, line[i]) : 0;
 		i++;
 	}
-	ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;
-	free(stack);
+	stack && ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;
+	stack ? free(stack) : 0;
 }

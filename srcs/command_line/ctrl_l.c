@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   winsize.c                                          :+:      :+:    :+:   */
+/*   ctrl_c.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/24 13:47:15 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:47:18 by khabbar          ###   ########.fr       */
+/*   Created: 2017/06/10 16:48:33 by khabbar           #+#    #+#             */
+/*   Updated: 2017/06/10 16:48:59 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-extern int  g_loop;
-
-void        winsize(t_win **win, char **save, char **cmd)
+void		ctrl_l(t_win **win, char **cmd)
 {
-	char    *line;
+    char    buf[3];
 
-	line = (*save) ? (*save) : (*cmd);
+	ft_putendl("hello");
+	buf[0] = 27;
+	buf[1] = 91;
+	buf[2] = 68;
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
-	get_win_data(win);
-	print_prompt(win);
-	write(1, line, ft_strlen(line));
-	g_loop = 1;
+	if ((*win)->sh)
+		exit_sh_mode(*win, &(*win)->his, cmd, buf);
+	else
+	{
+		tputs(tgetstr("cl", NULL), 1, ft_putchar);
+		print_prompt(win);
+		write(1, (*cmd), ft_strlen(*cmd));
+	}
 }

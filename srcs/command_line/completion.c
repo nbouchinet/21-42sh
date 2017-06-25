@@ -44,7 +44,7 @@ static int		only_space(char *cmd, t_win *win)
 	if (!cmd)
 	{
 		write(1, "\033[1mRTFM\n", 9);
-		print_prompt(win->lstenv);
+		print_prompt(&win);
 		return (1);
 	}
 	i = -1;
@@ -54,7 +54,7 @@ static int		only_space(char *cmd, t_win *win)
 	while (win->cur > win->pr)
 		arrow_left(win);
 	write(1, "\033[1mRTFM\n", 9);
-	print_prompt(win->lstenv);
+	print_prompt(&win);
 	return (1);
 }
 
