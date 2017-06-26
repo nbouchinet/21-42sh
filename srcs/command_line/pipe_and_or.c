@@ -68,9 +68,9 @@ void	handle_pipe_and_or(char **save, t_win **win)
 			break ;
 	c = (*save)[i];
 	i += (*save)[i + 1] == c ? 1 : 0;
-	while ((*save)[++i] == ' ')
+	while ((*save)[i] && ((*save)[++i] == ' ' || (*save)[++i] == '\\'))
 		;
-	if ((*save)[i] == 0)
+	if ((*save)[i] == 0 || (*save)[i] == '\\')
 	{
 		if (ft_strstr((*save), "||"))
 				pipe_and_or(2, win);

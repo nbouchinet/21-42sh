@@ -88,6 +88,12 @@ void	check_line(char **save, char **cmd, t_win **win, char buf[])
 		(!(*win)->hd) ? get_here_string(save, win, -1, 0) : heredoc(cmd, win);
 	!(*win)->hd && !(*win)->quote ? (*win)->pr = 3 : 0;
 	(*save) && !(*win)->hd && !(*win)->quote ? handle_pipe_and_or(save, win) : 0;
+	if ((*save) && (*save)[ft_strlen(*save) - 2] == '\\')
+	{
+		write(1, "\n$> ", 4);
+		(*win)->cur = 3;
+		g_loop = 1;
+	}
 	ft_memset((*cmd), 0, ft_strlen(*cmd));
 	(*win)->sh = 0;
 }
