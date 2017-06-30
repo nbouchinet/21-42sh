@@ -157,7 +157,7 @@ int					mode_on(t_win **win);
 void				init_var(t_win **win);
 void				print_prompt(t_win **win);
 void				print_search(char **cmd, char buf[], t_his **his, t_win *win);
-void				quote_removal(char **cmd, t_win **win);
+void				quote_removal(char **cmd);
 void				save_history(t_win *win, char **cmd, t_his **his);
 void				search_history(char **cmd, t_win **win);
 int					set_shell(t_win **win);

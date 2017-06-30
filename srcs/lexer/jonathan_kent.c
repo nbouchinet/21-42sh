@@ -14,20 +14,22 @@
 
 void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
-	int		j;
+	char	tmp[2];
+	char	quote;
 
-	j = 0;
 	if (ft_strlen(*stack) > 1)
 	{
 		tok_save(lst, stack, WORD);
 		init_token(&(*lst)->next);
 		*lst = (*lst)->next;
 	}
-	if (line[(*i) + 1])
-		(*stack)[j++] = line[(*i)++];
-	while (line[(*i)] && line[(*i)] != '"')
-		(*stack)[j++] = line[(*i)++];
-	(*stack)[j] = line[(*i)];
+	if (line[(*i) + 1] && fill_tmp(tmp, line[(*i)++]))
+		(*stack) = ft_strdup(tmp);
+	quote = (*stack)[0];
+	while (line[(*i)] && line[(*i)] != quote && fill_tmp(tmp, line[(*i)++]))
+		(*stack) = ft_strjoinf((*stack), tmp, 1);
+	fill_tmp(tmp, line[(*i)++]);
+	(*stack) = ft_strjoinf((*stack), tmp, 1);
 	tok_save(lst, stack, QUOTE);
 	if (check_end(line + ((*i) + 1)))
 	{

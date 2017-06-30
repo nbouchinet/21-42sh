@@ -47,7 +47,7 @@ static void	loop(t_win *win)
 	char	*cmd;
 	int		save;
 
-	while (g_loop == 256)
+	while (g_loop)
 	{
 		save = g_loop;
 		cmd = NULL;

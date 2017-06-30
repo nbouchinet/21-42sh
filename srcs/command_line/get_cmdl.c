@@ -54,7 +54,7 @@ static int		print(char **cmd, char buf[], t_win *win)
 	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
 		return (beep());
 	i = win->cur - win->pr;
-	if (!(*cmd) || !((*cmd)[i]))
+	if (!(*cmd) || ((*cmd)[i]) == 0)
 		(*cmd) = ft_strjoinf((*cmd), buf, 1);
 	else
 	{
@@ -69,6 +69,13 @@ static int		print(char **cmd, char buf[], t_win *win)
 	!(win->cur % win->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 	while (win->cur - win->pr - 1 > i)
 		arrow_left(win);
+	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	write(1, (*cmd) + i, ft_strlen((&(*cmd)[i])));
+	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	win->cur += 1;
+	win->cpy_b != -1 ? win->cpy_b += 1 : 0;
+	win->cur % win->co ? tputs(tgetstr("nd", NULL), 1, ft_putchar) : 
+	tputs(tgetstr("do", NULL), 1, ft_putchar);
 	return (1);
 }
 
@@ -84,6 +91,7 @@ void			check_line(char **save, char **cmd, t_win **win, char buf[])
 	if (!(*win)->hd && check_quotes(cmd, win))
 		(*save) = ft_strjoinf((*save), (*cmd), 1);
 	if (!(*win)->quote)
+<<<<<<< HEAD
 		(!(*win)->hd) ? get_here_string(save, win, -1, 0) :
 		heredoc(cmd, win, buf);
 	if ((*save) && !(*win)->hd && !(*win)->quote)
@@ -94,6 +102,16 @@ void			check_line(char **save, char **cmd, t_win **win, char buf[])
 		write(1, "\n$> ", 4);
 		g_loop = 256;
 		(*win)->cur = 3;
+=======
+		(!(*win)->hd) ? get_here_string(save, win, -1, 0) : heredoc(cmd, win);
+	!(*win)->hd && !(*win)->quote ? (*win)->pr = 3 : 0;
+	(*save) && !(*win)->hd && !(*win)->quote ? handle_pipe_and_or(save, win) : 0;
+	if ((*save) && (*save)[ft_strlen(*save) - 2] == '\\')
+	{
+		write(1, "\n$> ", 4);
+		(*win)->cur = 3;
+		g_loop = 1;
+>>>>>>> 9064cb8b3d11d96fefa51c522c3e0d1cd1bd57f9
 	}
 	ft_memset((*cmd), 0, ft_strlen(*cmd));
 	!(*win)->hd && !(*win)->quote && !(*win)->pao ? (*win)->pr = 3 : 0;
@@ -124,9 +142,14 @@ void			get_cmdl(char **cmd, t_win **win, char *save)
 			return ;
 		ft_memset(buf, '\0', 6);
 		read(0, buf, 6);
+<<<<<<< HEAD
 		if (buf[0] == 12 && !buf[1])
 			ctrl_l(win, cmd);
 		else if (PRINT)
+=======
+		buf[0] == 12 && !buf[1] ? ctrl_l(win, cmd) : 0;
+		if (PRINT)
+>>>>>>> 9064cb8b3d11d96fefa51c522c3e0d1cd1bd57f9
 			!(*win)->sh ? print(cmd, buf, *win) : print_search(cmd, buf,
 					&(*win)->his, *win);
 		else if (MOVE)
@@ -137,9 +160,15 @@ void			get_cmdl(char **cmd, t_win **win, char *save)
 		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
+<<<<<<< HEAD
 		if (RETURN || EOT)
 			!(*win)->sh ? check_line(&save, cmd, win, buf) :
 				e(win, &(*win)->his, cmd, &save);
+=======
+ 		if (RETURN || EOT)
+			!(*win)->sh ? check_line(&save, cmd, win, buf) :
+			e(win, &(*win)->his, cmd, &save);
+>>>>>>> 9064cb8b3d11d96fefa51c522c3e0d1cd1bd57f9
 	}
 	exit_get_cmdl(cmd, win, &save);
 }

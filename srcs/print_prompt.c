@@ -12,6 +12,8 @@
 
 #include "header.h"
 
+extern int		g_loop;
+
 void		print_prompt(t_win **win)
 {
 	char	buff[1024];
@@ -29,4 +31,5 @@ void		print_prompt(t_win **win)
 		(*win)->quote == 1 ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
 	else if ((*win)->hd)
 		write(1, "heredoc> ", 9);
+	g_loop = 256;
 }

@@ -95,11 +95,8 @@ void	exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[])
 	}
 	i = -1;
 	j = (*cmd) ? ft_strlen((*cmd)) + (*his)->len + 23 : win->pr + 2;
-	while (win->cur > -1)
-	{
+	while (win->cur-- > -1)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
-		win->cur -= 1;
-	}
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	while (++i < j)
 		write(1, " ", 1);

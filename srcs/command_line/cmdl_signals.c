@@ -42,6 +42,7 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 	g_loop == 6 ? print_prompt(win) : 0;
 	if (g_loop == 3)
 	{
+		g_loop = 256;
 		if ((*cmd) && (*cmd)[(*win)->cur - (*win)->pr] != 0)
 			while ((*cmd)[(*win)->cur - (*win)->pr])
 				arrow_rigth(*win, *cmd);
