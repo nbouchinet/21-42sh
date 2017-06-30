@@ -6,18 +6,22 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/01 13:07:08 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/01 13:07:20 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:33:37 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int 		is_first_word(char *cmd, int i)
+int				is_first_word(char *cmd, int i)
 {
 	while (--i && cmd[i] == ' ')
 		;
+	while (i && ft_isalnum(cmd[i]))
+		i--;
+	while (i && cmd[i] == ' ')
+		i--;
 	if (cmd[i] == ';' || i == 0 || cmd[i] == '|' ||
-	(cmd[i] == '&' && i > 0 && cmd[i - 1] == '&'))
+			(cmd[i] == '&' && i > 0 && cmd[i - 1] == '&'))
 		return (1);
 	return (0);
 }
@@ -53,7 +57,7 @@ t_ls			*fill_lst(t_ls **head, struct dirent *rdd, int param)
 	if (!(tmp = (t_ls *)malloc(sizeof(t_ls))))
 		exit(fd_printf(2, "malloc error\n"));
 	tmp->name = (param == 2 && rdd->d_type == 4 ?
-	ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+			ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	tmp->next = NULL;
 	if (!(*head))
 		return (tmp);
@@ -72,21 +76,21 @@ t_ls			*fill_lst(t_ls **head, struct dirent *rdd, int param)
 
 void			ft_putpaddx(t_ls **ls, int maxlen)
 {
-    int			i;
-    int			save;
-    t_ls		*tmp;
+	int			i;
+	int			save;
+	t_ls		*tmp;
 
-    tmp = *ls;
-    while (tmp)
-    {
-        i = 0;
-        save = ft_strlen(tmp->name);
-        while (i < maxlen - save)
-        {
-            tmp->padx[i] = ' ';
-            i += 1;
-        }
-        tmp->padx[i] = 0;
-        tmp = tmp->next;
-    }
+	tmp = *ls;
+	while (tmp)
+	{
+		i = 0;
+		save = ft_strlen(tmp->name);
+		while (i < maxlen - save)
+		{
+			tmp->padx[i] = ' ';
+			i += 1;
+		}
+		tmp->padx[i] = 0;
+		tmp = tmp->next;
+	}
 }

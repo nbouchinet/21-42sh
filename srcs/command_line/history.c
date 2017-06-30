@@ -6,15 +6,15 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/25 17:42:31 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:51:24 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void    del_first(t_his **his)
+static void		del_first(t_his **his)
 {
-	t_his   *tmp;
+	t_his		*tmp;
 
 	tmp = *his;
 	while (tmp->prev)
@@ -52,18 +52,19 @@ static void		first_link(t_win *win, char **cmd, t_his **his)
 {
 	t_his	*tmp;
 
+	(void)win;
 	if (!(tmp = (t_his *)malloc(sizeof(t_his))))
-		exit (fd_printf(2, "malloc error\n"));
-	tmp->cmdl = ft_strsub((*cmd), 0, ft_strlen((*cmd)) - 1);
+		exit(fd_printf(2, "malloc error\n"));
+	tmp->cmdl = ft_strdup((*cmd));
 	tmp->len = ft_strlen((*cmd)) + 1;
 	tmp->prev = NULL;
 	tmp->next = (*his);
 	(*his)->prev = tmp;
 	win->hd ? catcmd(win, cmd) : 0;
-	ft_streplace(&(*his)->cmdl, 127, '\n');
+	ft_streplace(&tmp->cmdl, 127, ' ');
 }
 
-void        	save_history(t_win *win, char **cmd, t_his **his)
+void			save_history(t_win *win, char **cmd, t_his **his)
 {
 	t_his	*tmp;
 
@@ -80,13 +81,13 @@ void        	save_history(t_win *win, char **cmd, t_his **his)
 	(*his) = (*his)->prev;
 	if (!((*his)->next = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "save-hisroty: malloc error\n"));
-	(*his)->next->cmdl = ft_strsub((*cmd), 0, ft_strlen(*cmd) - 1);
+	(*his)->next->cmdl = ft_strdup((*cmd));
 	(*his)->next->prev = (*his);
 	(*his)->next->next = tmp;
 	(*his) = (*his)->next;
 	(*his)->next->prev = (*his);
 	(*his) = (*his)->next;
-	ft_streplace(&(*his)->cmdl, 127, '\n');
+	ft_streplace(&(*his)->cmdl, 127, ' ');
 	win->hd ? catcmd(win, cmd) : 0;
 	get_max_len(his);
 	lst_len(*his) >= 31 ? del_first(his) : 0;

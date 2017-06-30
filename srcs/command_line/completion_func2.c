@@ -5,30 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/01 13:11:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/01 13:11:10 by khabbar          ###   ########.fr       */
+/*   Created: 2017/06/30 17:34:07 by khabbar           #+#    #+#             */
+/*   Updated: 2017/06/30 17:35:07 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void			ft_padd_x(t_ls **ls, int *maxlen)
+void				ft_padd_x(t_ls **ls, int *maxlen)
 {
-    t_ls    *tmp;
-    int     save;
+	t_ls	*tmp;
+	int		save;
 
-    tmp = *ls;
-    (*maxlen) = 0;
-    if (tmp)
-        while (tmp)
-        {
-            save = ft_strlen(tmp->name);
-            if (save > (*maxlen))
-                (*maxlen) = save;
-            tmp = tmp->next;
-        }
-    (*maxlen) += 5;
-    ft_putpaddx(ls, (*maxlen));
+	tmp = *ls;
+	(*maxlen) = 0;
+	if (tmp)
+		while (tmp)
+		{
+			save = ft_strlen(tmp->name);
+			if (save > (*maxlen))
+				(*maxlen) = save;
+			tmp = tmp->next;
+		}
+	(*maxlen) += 5;
+	ft_putpaddx(ls, (*maxlen));
 }
 
 void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
@@ -51,16 +51,16 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len)
 	}
 	write(1, "\n", 1);
 	if ((*win)->pr == 3)
-		print_prompt((*win)->lstenv);
+		print_prompt(win);
 	if ((*win)->hd)
 		write(1, "heredoc> ", ft_strlen("heredoc> "));
 	else if ((*win)->quote)
 		write(1, (*win)->quote == 1 ? "quote> " : "dquote> ",
-	(*win)->quote == 1 ? ft_strlen("quote> ") : ft_strlen("dquote> "));
+			(*win)->quote == 1 ? ft_strlen("quote> ") : ft_strlen("dquote> "));
 	write(1, cmd, ft_strlen(cmd));
 }
 
-int 		list_len(t_ls **list)
+int					list_len(t_ls **list)
 {
 	int			len;
 	t_ls		*tmp;
@@ -80,7 +80,7 @@ int 		list_len(t_ls **list)
 	return (0);
 }
 
-void		list_del(t_ls **list)
+void				list_del(t_ls **list)
 {
 	t_ls		*tmp;
 	t_ls		*save;

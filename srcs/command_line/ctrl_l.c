@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tmp_pipe.c                                         :+:      :+:    :+:   */
+/*   ctrl_l.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/01 17:10:08 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:55:19 by khabbar          ###   ########.fr       */
+/*   Created: 2017/06/10 16:48:33 by khabbar           #+#    #+#             */
+/*   Updated: 2017/06/30 17:41:49 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	tmp_pipe(int *p, int flag)
+void		ctrl_l(t_win **win, char **cmd)
 {
-	static int	tmp[2];
+	char	buf[3];
 
-	if (flag == 0)
-	{
-		tmp[0] = p[0];
-		tmp[1] = p[1];
-	}
-	else if (flag == 1 && tmp[0] > -1)
-	{
-		p[0] = tmp[0];
-		p[1] = tmp[1];
-	}
+	buf[0] = 27;
+	buf[1] = 91;
+	buf[2] = 68;
+	tputs(tgetstr("cl", NULL), 1, ft_putchar);
+	if ((*win)->sh)
+		exit_sh_mode(*win, &(*win)->his, cmd, buf);
 	else
 	{
-		tmp[0] = -1;
-		tmp[1] = -1;
-		p[0] = tmp[0];
-		p[1] = tmp[1];
+		tputs(tgetstr("cl", NULL), 1, ft_putchar);
+		print_prompt(win);
+		write(1, (*cmd), ft_strlen(*cmd));
 	}
 }

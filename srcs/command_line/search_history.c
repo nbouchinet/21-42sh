@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 15:01:47 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:53:57 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	print_search(char **cmd, char buf[], t_his **his, t_win *win)
 			write(1, " ", 1);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
 		tputs(tgetstr("sc", NULL), 1, ft_putchar);
-		ft_printf("%c%@ %@", (*cmd)[win->cur - win->pr - 1], "':", (*his)->cmdl);
+		ft_printf("%c%@ %@", (*cmd)[win->cur - win->pr - 1], "':",
+		(*his)->cmdl);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
 		win->cur % win->co == 0 ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
@@ -108,7 +109,7 @@ void	exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[])
 	win->sh = 0;
 	findstr(his, *cmd);
 	ft_free(NULL, cmd);
-	(*cmd) = (*his)->cmdl;
+	(*cmd) = ft_strdup((*his)->cmdl);
 	ft_putstr((*cmd));
 	win->cur = ft_strlen(*cmd) + 3;
 }
@@ -120,7 +121,6 @@ void	e(t_win **win, t_his **his, char **cmd, char **save)
 	buf[0] = 27;
 	buf[1] = 91;
 	buf[2] = 68;
-
 	exit_sh_mode(*win, his, cmd, buf);
 	check_line(save, cmd, win, buf);
 }

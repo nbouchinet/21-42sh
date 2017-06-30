@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/30 18:01:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:28:25 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	arrow_rigth(t_win *win, char *cmd)
+void		arrow_rigth(t_win *win, char *cmd)
 {
 	if (!cmd || !cmd[win->cur - win->pr])
 	{
@@ -26,7 +26,7 @@ void	arrow_rigth(t_win *win, char *cmd)
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
 }
 
-void	arrow_left(t_win *win)
+void		arrow_left(t_win *win)
 {
 	int		i;
 
@@ -47,7 +47,7 @@ void	arrow_left(t_win *win)
 	win->cur -= 1;
 }
 
-static void up_dwn(t_win *win, char *cmd, char buf[])
+static void	up_dwn(t_win *win, char *cmd, char buf[])
 {
 	int		tmp;
 	int		len;
@@ -65,7 +65,7 @@ static void up_dwn(t_win *win, char *cmd, char buf[])
 			arrow_rigth(win, cmd);
 }
 
-void        arrows(t_win *win, char *cmd, char buf[])
+void		arrows(t_win *win, char *cmd, char buf[])
 {
 	if (ARR_L || ARR_R)
 		ARR_L ? arrow_left(win) : arrow_rigth(win, cmd);

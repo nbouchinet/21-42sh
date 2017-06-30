@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 17:18:51 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:52:38 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 extern int g_loop;
 
-static void    pipe_and_or(int i, t_win **win)
+static void		pipe_and_or(int i, t_win **win)
 {
-	g_loop = 1;
+	g_loop = 256;
+	(*win)->pao = 1;
 	if (i == 1)
 	{
 		ft_putstr("\npipe> ");
@@ -37,27 +38,7 @@ static void    pipe_and_or(int i, t_win **win)
 	}
 }
 
-static void		put_space(char **save)
-{
-	char	*tmp;
-	int		i;
-	int		j;
-
-	i = -1;
-
-	while ((*save)[++i])
-		if ((*save)[i] == '|' || (*save)[i] == '&')
-			break ;
-	if ((*save)[i + 1] == ' ')
-		return ;
-	j = (*save)[i + 1] == '|' || (*save)[i] == '&' ? i + 2 : i + 1;
-	tmp = ft_strsub((*save), j, ft_strlen(*save) - j);
-	(*save)[j] = 0;
-	(*save) = ft_strjoinf((*save), " ", 1);
-	(*save) = ft_strjoinf((*save), tmp, 1);
-}
-
-void	handle_pipe_and_or(char **save, t_win **win)
+void			handle_pipe_and_or(char **save, t_win **win)
 {
 	int		i;
 	char	c;
@@ -68,17 +49,17 @@ void	handle_pipe_and_or(char **save, t_win **win)
 			break ;
 	c = (*save)[i];
 	i += (*save)[i + 1] == c ? 1 : 0;
-	while ((*save)[++i] == ' ')
+	while ((*save)[i] && ((*save)[++i] == ' ' || (*save)[++i] == '\\'))
 		;
-	if ((*save)[i] == 0)
+	if ((*save)[i] == 0 || (*save)[i] == '\\')
 	{
 		if (ft_strstr((*save), "||"))
-				pipe_and_or(2, win);
+			pipe_and_or(2, win);
 		else if (ft_strstr((*save), "|"))
-				pipe_and_or(1, win);
+			pipe_and_or(1, win);
 		else if (ft_strstr((*save), "&&"))
-				pipe_and_or(3, win);
+			pipe_and_or(3, win);
 		else
-			put_space(save);
+			(*win)->pao = 0;
 	}
 }

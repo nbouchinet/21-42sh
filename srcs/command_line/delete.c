@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 18:17:30 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:45:25 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 extern int	g_loop;
 
-void 	del_his(char **cmd, t_win *win, t_his **his)
+void		del_his(char **cmd, t_win *win, t_his **his)
 {
-	int 	i;
+	int		i;
 	int		j;
 
 	if (win->cur == win->pr)
@@ -27,7 +27,7 @@ void 	del_his(char **cmd, t_win *win, t_his **his)
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	while (i < j)
 	{
-		write (1, " ", 1);
+		write(1, " ", 1);
 		i += 1;
 	}
 	i = win->cur - win->pr - 1;
@@ -61,19 +61,20 @@ void		del(char **cmd, t_win *win, t_his **his)
 		(*cmd)[i] = (*cmd)[i + 1];
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	write(1, (*cmd) + win->cur - win->pr, ft_strlen((*cmd) + win->cur - win->pr));
+	write(1, (*cmd) + win->cur - win->pr,
+	ft_strlen((*cmd) + win->cur - win->pr));
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 }
 
-void        del_all(char *cmd, t_win *win)
+void		del_all(char *cmd, t_win *win)
 {
-	int     i;
+	int		i;
 	int		j;
 
 	i = win->cur - win->pr - 1;
 	j = ft_strlen(cmd);
 	while (++i < j)
-		write (1, " ", 1);
+		write(1, " ", 1);
 }
 
 void		init_var(t_win **win)
@@ -87,7 +88,8 @@ void		init_var(t_win **win)
 	(*win)->quote = 0;
 	(*win)->sh = 0;
 	(*win)->ctrld = 0;
+	(*win)->pao = 0;
 	(*win)->hd = NULL;
 	g_loop = 256;
-	print_prompt((*win)->lstenv);
+	print_prompt(win);
 }

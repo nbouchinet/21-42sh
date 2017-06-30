@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:17:29 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:52:09 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int    lst_len(t_his *his)
+int		lst_len(t_his *his)
 {
 	t_his	*tmp;
 	int		count;
@@ -31,7 +31,7 @@ int    lst_len(t_his *his)
 	return (count);
 }
 
-void    catcmd(t_win *win, char **cmd)
+void	catcmd(t_win *win, char **cmd)
 {
 	t_hdoc	*hd;
 	char	*save;
@@ -50,8 +50,8 @@ void    catcmd(t_win *win, char **cmd)
 		(*cmd) = ft_strjoinf((*cmd), hd->fd, 1);
 		j = -1;
 		while (save[++j] && save[j] != ' ' && save[j] != '<' && save[j] != '>'
-		&& save[j] != ';' && save[j] != '|' && save[j] != '&')
-				;
+				&& save[j] != ';' && save[j] != '|' && save[j] != '&')
+			;
 		(*cmd) = ft_strjoinf((*cmd), (save + j), 1);
 		free(save);
 		hd = hd->next;
@@ -68,8 +68,9 @@ void	del_hd(t_hdoc **hd)
 	while (tmp)
 	{
 		save = tmp->next;
-		free(tmp->fd);
-		free(tmp);
+		tmp->fd ? ft_strdel(&tmp->fd) : 0;
+		tmp->hstring ? ft_strdel(&tmp->hstring) : 0;
+		tmp ? free(tmp) : 0;
 		tmp = save;
 	}
 	*hd = NULL;

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 14:11:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 13:29:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 17:53:05 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,71 +52,3 @@ int			check_quotes(char **cmd, t_win **win)
 	(*win)->pr = (*win)->quote == 1 ? 8 : 9;
 	return (1);
 }
-
-// static void	remove_dquote(char **cmd, t_win **win)
-// {
-// 	int		i;
-
-// 	i = (*win)->q.bdq;
-// 	while ((*cmd)[i])
-// 	{
-// 		(*cmd)[i] = (*cmd)[i + 1];
-// 		i += 1;
-// 	}
-// 	i = (*win)->q.edq - 1;
-// 	while ((*cmd)[i])
-// 	{
-// 		(*cmd)[i] = (*cmd)[i + 1];
-// 		i += 1;
-// 	}
-// 	ft_printf("\n%s\n", (*cmd));
-// }
-
-// static void	remove_squote(char **cmd, t_win **win)
-// {
-// 	int		i;
-
-// 	i = (*win)->q.bsq;
-// 	while ((*cmd)[i])
-// 	{
-// 		(*cmd)[i] = (*cmd)[i + 1];
-// 		i += 1;
-// 	}
-// 	i = (*win)->q.esq;
-// 	while ((*cmd)[i])
-// 	{
-// 		(*cmd)[i] = (*cmd)[i + 1];
-// 		i += 1;
-// 	}
-// 	ft_printf("\n%s\n", (*cmd));
-// }
-
-// void		quote_removal(char **cmd, t_win **win)
-// {
-// 	int		i;
-
-// 	i = -1;
-// 	(*win)->q.bsq = 0;
-// 	(*win)->q.bdq = 0;
-// 	(*win)->q.esq = 0;
-// 	(*win)->q.bdq = 0;
-// 	while ((*cmd)[++i])
-// 	{
-// 		if ((*cmd)[i] == '\'' && !(*win)->q.bsq && !(*win)->q.bdq)
-// 			(*win)->q.bsq = i;
-// 		else if (((*cmd)[i] == '\'') && (*win)->q.bsq && !(*win)->q.bdq)
-// 		{
-// 			(*win)->q.esq = i;
-// 			if (!(*win)->q.bdq && !(*win)->q.edq)
-// 				remove_squote(cmd, win);
-// 		}
-// 		if ((*cmd)[i] == '\"' && !(*win)->q.bdq && !(*win)->q.bsq)
-// 			(*win)->q.bdq = i;
-// 		else if (((*cmd)[i] == '\"') && (*win)->q.bdq && !(*win)->q.bsq)
-// 		{
-// 			(*win)->q.edq = i;
-// 			if (!(*win)->q.bsq && !(*win)->q.esq)
-// 				remove_dquote(cmd, win);
-// 		}
-// 	}
-// }

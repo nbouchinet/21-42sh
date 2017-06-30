@@ -18,7 +18,7 @@ int			get_win_data(t_win **win)
 {
 	struct winsize	w;
 	if (ioctl(0, TIOCGWINSZ, &w) == -1)
-		return (fd_printf(2, "Error while accesing window data\n"));
+		return (fd_printf(2, "Error while accesing terminal data\n"));
 	(*win)->co = w.ws_col;
 	(*win)->li = w.ws_row;
 	return (0);
@@ -45,9 +45,11 @@ static void	exec_part(char **line, t_env **env)
 static void	loop(t_win *win)
 {
 	char	*cmd;
+	int		save;
 
 	while (g_loop == 256)
 	{
+		save = g_loop;
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL);
 		if (win->ctrld)
