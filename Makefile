@@ -6,7 +6,7 @@
 #    By: khabbar <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/06/29 11:30:19 by khabbar          ###   ########.fr        #
+#    Updated: 2017/06/30 18:40:00 by khabbar          ###   ########.fr        #
 #    Created: 2017/06/25 14:54:28 by khabbar           #+#    #+#              #
 #    Updated: 2017/06/25 14:54:52 by khabbar          ###   ########.fr        #
 #                                                                              #
@@ -44,14 +44,6 @@ CFILES= main.c print_prompt.c signals.c	check_env.c ft_putast.c destroy_ast.c \
 		command_line/completion_func.c command_line/completion_func2.c \
 		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
 		command_line/ctrl_l.c
-		builtins/ft_exit.c command_line/arrows.c command_line/cmdl_signals.c \
-		command_line/cut_copy_paste.c command_line/delete.c command_line/get_cmdl.c \
-		command_line/heredoc.c command_line/history_func.c command_line/history.c \
-		command_line/pipe_and_or.c command_line/quotes.c command_line/search_history.c	\
-		command_line/winsize.c command_line/set_shell.c execution/exec_qm_seq.c \
-		command_line/completion.c command_line/completion_func.c \
-		command_line/completion_func2.c command_line/completion_list.c \
-		command_line/tmp_pipe.c builtins/cd.c command_line/ctrl_l.c \
 
 OFILES= $(CFILES:.c=.o)
 
