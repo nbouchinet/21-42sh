@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/04 17:23:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 19:11:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,21 @@ typedef struct		s_ast
 	struct s_ast	*right;
 }					t_ast;
 
-void	init_ast(t_ast **ast, char *str, int type);
-int		cmd_seq(t_ast **ast, t_env **env); // Implent lst_env
-void	simple_command(t_ast **ast);
-int		exec_oa_sequence(t_ast **ast, t_env **env); // Implent lst_env
-void	simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-void	command_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-t_tok	*find_andor_tok(t_tok **lst, t_tok **stop);
-void	oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-t_tok	*find_pipe_tok(t_tok **lst, t_tok **stop);
-void	pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-int		exec_pipe_sequence(t_ast **ast, t_env **env); // Implent lst_env
-void	exec_ast(t_ast **ast, t_env **env); // Implent lst_env
-void	primary_sequence(t_ast **ast, t_tok **lst);
-void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-void	qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-t_tok	*find_rdir_tok(t_tok **lst, t_tok **stop);
-void	destroy_ast(t_ast **head);
+void				init_ast(t_ast **ast, char *str, int type);
+void				primary_sequence(t_ast **ast, t_tok **lst);
+void				secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				command_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				io_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+t_tok				*find_q_tok(t_tok **lst);
+t_tok				*find_qm_tok(t_tok **lst, t_tok **stop);
+t_tok				*multi_qm(t_tok **lst);
+void				ft_putast(t_ast *root); //  TO DELETE
+void				destroy_ast(t_ast **head);
+void				destroy_tok(t_tok **head);
 
 #endif

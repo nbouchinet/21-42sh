@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_ast.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 13:45:25 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/09 13:45:33 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/06/30 19:18:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	destroy_tok(t_tok **head)
 	tmp = *head;
 	while (tmp)
 	{
-		save = tmp->next;
+		save = tmp->n;
 		ft_strdel(&tmp->str);
 		free(tmp);
 		tmp = save;

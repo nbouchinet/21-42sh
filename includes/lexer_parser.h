@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/04 16:25:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 19:17:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 # define LEXER_PARSER_H
 
 /*
-******************************************************
-**                       LEXER                     **
-**                 LL - JK - MK - TD              **
-***************************************************
+********************************************************************************
+**                                     LEXER                                  **
+********************************************************************************
 */
+typedef struct		s_lex
+{
+	char			*ch;
+	int				type;
+}					t_lex;
 
 typedef struct		s_che
 {
@@ -29,7 +33,7 @@ typedef struct		s_token
 {
 	char			*str;
 	int				type;
-	struct s_token	*next;
+	struct s_token	*n;
 }					t_tok;
 
 typedef struct		s_key
@@ -49,7 +53,7 @@ enum 				e_token
 	QUOTE,
 	SPACE_TOK,
 	WORD,
-	FILENAME
+	FIL
 };
 
 enum				e_dir
@@ -62,6 +66,7 @@ enum				e_dir
 	BGRE
 };
 
+void				input(t_tok **cmd);
 void				init_token(t_tok **lst);
 void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
@@ -73,6 +78,7 @@ void				pipe_pars(t_tok **lst, char **stack, char *line, int *i);
 void				and_pars(t_tok **lst, char **stack, char *line, int *i);
 int					arg_check(int ac, int i, char **av, char **envp);
 int					io_number(char *str);
+void				specified_dir(t_tok **lst);
 int					is_space(char c);
 int					check_end(char *line);
 void				delete_lst(t_tok **cmd);
@@ -80,9 +86,5 @@ void				st_tok(char **stack, char c);
 void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
-// void				delete_lstenv(t_env **cmd);
-void 				specified_dir(t_tok **lst);
-void				destroy_tok(t_tok **head);
 int					fill_tmp(char tmp[], char c);
-
 #endif

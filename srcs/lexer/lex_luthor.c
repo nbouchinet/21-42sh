@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:24:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 19:15:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_token(t_tok **lst)
 		return ;
 	(*lst)->type = 0;
 	(*lst)->str = NULL;
-	(*lst)->next = NULL;
+	(*lst)->n = NULL;
 }
 
 void	tok_save(t_tok **lst, char **stack, int type)
@@ -46,8 +46,8 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, WORD);
 		if (check_end(line + (*i)) == 1)
 		{
-			init_token(&(*lst)->next);
-			*lst = (*lst)->next;
+			init_token(&(*lst)->n);
+			*lst = (*lst)->n;
 		}
 	}
 	while (line[(*i)] && line[(*i)] == ' ')

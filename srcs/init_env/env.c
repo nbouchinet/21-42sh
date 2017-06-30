@@ -1,36 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   the_dog.c                                          :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:15:54 by zadrien          ###   ########.fr       */
+/*   Created: 2017/06/29 10:55:26 by zadrien           #+#    #+#             */
+/*   Updated: 2017/06/30 19:19:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	delete_lst(t_tok **cmd)
+void	delete_lstenv(t_env **cmd)
 {
-	t_tok *tmp;
+	t_env *tmp;
 
 	while ((*cmd))
 	{
 		tmp = *cmd;
-		(*cmd) = (*cmd)->n;
-		ft_strdel(&tmp->str);
+		(*cmd) = (*cmd)->next;
+		ft_strdel(&tmp->var);
+		ft_strdel(&tmp->value);
 		free(tmp);
 	}
-	*cmd = NULL;
 }
 
-void	st_tok(char **stack, char c)
+void	print_env(t_env *lst)
 {
-	char	tmp[2];
+	while (lst)
+	{
+		ft_putstr(lst->var);
+		ft_putchar('=');
+		ft_putstr(lst->value);
+		ft_putchar('\n');
+		lst = lst->next;
+	}
+}
 
-	tmp[0] = c;
-	tmp[1] = 0;
-	(*stack) = ft_strjoinf((*stack), tmp, 1);
+void	ft_freetab(char **trash)
+{
+	int		i;
+
+	i = -1;
+	if (!trash)
+		return ;
+	while (trash[++i])
+		ft_strdel(&trash[i]);
+	free(trash);
 }

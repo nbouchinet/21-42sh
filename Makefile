@@ -3,12 +3,12 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: khabbar <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/06/30 18:40:00 by khabbar          ###   ########.fr        #
-#    Created: 2017/06/25 14:54:28 by khabbar           #+#    #+#              #
-#    Updated: 2017/06/25 14:54:52 by khabbar          ###   ########.fr        #
+#    Updated: 2017/06/30 19:24:58 by zadrien          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,19 +28,21 @@ HPATH= includes/ libft/
 
 INC= $(addprefix -I , $(HPATH))
 
-CFILES= main.c print_prompt.c signals.c	check_env.c ft_putast.c destroy_ast.c \
+CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c \
-		lexer/jonathan_kent.c lexer/the_dog.c AST/oa_sequence.c AST/debug_ast.c \
-		AST/pipe_sequence.c AST/creat_ast.c	AST/io_sequence.c \
-		execution/exec_cmd_seq.c execution/exec_cmd_tools.c execution/get_env.c	\
-		execution/exec_io_seq.c execution/exec_io_seq2.c \
+		lexer/jonathan_kent.c lexer/the_dog.c AST/ast_tools.c AST/creat_ast.c \
+		AST/creat_io_seq.c AST/creat_pipe_seq.c AST/creat_qm_oa.c AST/destroy_ast.c \
+		init_env/check_env.c \
+		execution/bin_fin_help2.c execution/bin_fin_helper.c execution/binary_finders.c	\
+		execution/env_tools.c execution/exec_seq.c execution/exec_tools.c \
+		execution/get_env.c execution/main_exec.c execution/redirection.c \
 		builtins/unsetenv.c builtins/setenv.c builtins/env.c builtins/ft_echo.c \
 		builtins/ft_exit.c \
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
 		command_line/quotes.c command_line/search_history.c	command_line/winsize.c \
-		command_line/set_shell.c execution/exec_qm_seq.c command_line/completion.c \
+		command_line/set_shell.c command_line/completion.c \
 		command_line/completion_func.c command_line/completion_func2.c \
 		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
 		command_line/ctrl_l.c
@@ -66,6 +68,7 @@ $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)/execution
 	@mkdir -p $(OPATH)/environement
 	@mkdir -p $(OPATH)/builtins
+	@mkdir -p $(OPATH)/init_env
 	$(CC) -g -Wall -Werror -Wextra  $(INC) $< -c -o $@
 
 clean:

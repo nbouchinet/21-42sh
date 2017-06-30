@@ -5,75 +5,48 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/19 15:55:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:25:14 by zadrien          ###   ########.fr       */
+/*   Created: 2017/06/29 10:33:27 by zadrien           #+#    #+#             */
+/*   Updated: 2017/06/30 18:50:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	init_ast(t_ast **ast, char *str, int type)
+static void		init_next_node(t_ast **ast, t_tok **lst, t_tok **next)
 {
-	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
-	{
-		*ast = NULL;
-		return ;
-	}
-	(*ast)->str = str ? ft_strdup(str) : NULL;
-	(*ast)->type = type;
-	(*ast)->left = NULL;
-	(*ast)->right = NULL;
+	init_ast(&(*ast)->right, NULL, 0);
+	(*ast) = (*ast)->right;
+	(*lst) = (*next)->n;
 }
 
-static t_tok	*test(t_tok **lst)
-{
-	t_tok		*tmp;
-	t_tok		*save;
-
-	tmp = *lst;
-	save = NULL;
-	while (tmp)
-	{
-		if (tmp->type == QM)
-			save = tmp;
-		tmp = tmp->next;
-	}
-	return (save);
-}
-
-void	primary_sequence(t_ast **ast, t_tok **lst)
+void			primary_sequence(t_ast **ast, t_tok **lst)
 {
 	t_tok	*tmp;
 	t_tok	*tmp_first;
 	t_ast	*tmp_ast;
 
 	tmp = *lst;
-	tmp_ast = *ast;
 	tmp_first = *lst;
+	tmp_ast = *ast;
 	while (tmp)
 	{
-		if ((tmp = test(&tmp)))
+		if ((tmp = multi_qm(&tmp)))
 		{
 			tmp_ast->type = QM_SEQ;
 			qm_sequence(&tmp_ast, &tmp_first, &tmp);
-			if (tmp->next)
-			{
-				init_ast(&tmp_ast->right, NULL, 0);
-				tmp_ast = tmp_ast->right;
-				tmp_first = tmp->next;
-			}
+			if (tmp->n)
+				init_next_node(&tmp_ast, &tmp_first, &tmp);
 		}
-		tmp ? tmp = tmp->next : 0;
+		tmp ? (tmp = tmp->n) : 0;
 	}
-	if (tmp_ast->type == 0)
-		secondary_sequence(&tmp_ast, &tmp_first, &tmp);
+	tmp_ast->type == 0 ? secondary_sequence(&tmp_ast, &tmp_first, &tmp) : 0;
 }
 
-void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
+void			secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
-	t_tok					*tmp;
-	t_tok					*tmp_first;
-	t_ast					*tmp_ast;
+	t_tok	*tmp;
+	t_tok	*tmp_first;
+	t_ast	*tmp_ast;
 
 	tmp = *lst;
 	tmp_ast = *ast;
@@ -86,13 +59,13 @@ void	secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 			oa_sequence(&tmp_ast, &tmp_first, sep);
 			break ;
 		}
-		tmp = tmp->next;
+		tmp = tmp->n;
 	}
 	if (tmp_ast->type == 0)
 		tertiary_sequence(&tmp_ast, &tmp_first, sep);
 }
 
-void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
+void			tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
 	t_ast	*tmp_ast;
@@ -107,14 +80,13 @@ void	tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 				init_ast(&tmp_ast, NULL, 0);
 			tmp_ast->type = PIPE_SEQ;
 			pipe_sequence(&tmp_ast, lst, sep);
-			break;
+			break ;
 		}
-		tmp = tmp->next;
+		tmp = tmp->n;
 	}
 	if (tmp_ast->type == 0)
 	{
-		//init_ast(&tmp_ast->left, NULL, CMD_SEQ)
 		tmp_ast->type = CMD_SEQ;
 		command_sequence(&tmp_ast, lst, sep);
 	}
-} // Stable and Working
+}

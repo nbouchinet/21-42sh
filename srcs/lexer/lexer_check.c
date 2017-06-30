@@ -6,28 +6,22 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/04 17:09:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 19:16:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-typedef struct		s_lex
-{
-	char			*ch;
-	int				type;
-}					t_lex;
-
 int		cmp_sep(t_tok *tmp)
 {
 	if (tmp->type == SPACE_TOK)
-		tmp = tmp->next;
+		tmp = tmp->n;
 	if (tmp->type <= CHEVRON)
 		return (1);
 	return (0);
 }
 
-void 	specified_dir(t_tok **lst)
+void	specified_dir(t_tok **lst)
 {
 	int				i;
 	t_tok			*tmp;
@@ -43,7 +37,7 @@ void 	specified_dir(t_tok **lst)
 				if (ft_strcmp(dir[i].ch, tmp->str) == 0)
 					tmp->type = dir[i].type;
 			}
-		tmp = tmp->next;
+		tmp = tmp->n;
 	}
 }
 
@@ -54,18 +48,18 @@ static int		check_lst(t_tok **lst)
 	tmp = (*lst);
 	while (tmp)
 	{
-		if (tmp->type == CHEVRON && (tmp->next->str[0] == '<'
-		|| tmp->next->str[0] == '&' || tmp->next->str[0] == ';'
-		|| tmp->next->str[0] == '>' || tmp->next->str[0] == ')'
-		|| tmp->next->str[0] == '|'))
+		if (tmp->type == CHEVRON && (tmp->n->str[0] == '<'
+		|| tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
+		|| tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
+		|| tmp->n->str[0] == '|'))
 			return (fd_printf
 			(2, "parse error near unexpected token `%s'\n", tmp->str));
-		else if ((tmp->type == QM && tmp->next && tmp->next->type == QM) ||
-		(tmp == *lst && tmp->type == QM && !tmp->next))
+		else if ((tmp->type == QM && tmp->n && tmp->n->type == QM) ||
+		(tmp == *lst && tmp->type == QM && !tmp->n))
 			return (fd_printf
 			(2, "parse error near unexpected token `newline'\n"));
 		else
-			tmp = tmp->next;
+			tmp = tmp->n;
 	}
 	return (0);
 }
@@ -77,16 +71,16 @@ static void		loop(t_tok **lst, t_tok **tmp)
 
 	save_str = NULL;
 	save_type = 0;
-	while ((*lst)->next && (*lst)->next->type != QM)
+	while ((*lst)->n && (*lst)->n->type != QM)
 	{
 		save_str = (*lst)->str;
 		save_type = (*lst)->type;
-		(*lst)->str = (*lst)->next->str;
-		(*lst)->type = (*lst)->next->type;
-		(*lst)->next->str = save_str;
-		(*lst)->next->type = save_type;
+		(*lst)->str = (*lst)->n->str;
+		(*lst)->type = (*lst)->n->type;
+		(*lst)->n->str = save_str;
+		(*lst)->n->type = save_type;
 		!(*tmp) ? (*tmp) = (*lst) : 0;
-		(*lst)->next ? (*lst) = (*lst)->next : 0;
+		(*lst)->n ? (*lst) = (*lst)->n : 0;
 	}
 }
 
@@ -97,14 +91,14 @@ static int		check(t_tok **lst)
 
 	tmp = *lst;
 	i = 0;
-	while (tmp->next)
+	while (tmp->n)
 	{
 		if (tmp->type == CHEVRON)
 		{
 			i = 1;
-			tmp->next ? tmp = tmp->next : 0;
-			if (tmp->next)
-				tmp = tmp->next;
+			tmp->n ? tmp = tmp->n : 0;
+			if (tmp->n)
+				tmp = tmp->n;
 			else
 				break ;
 			continue ;
@@ -112,8 +106,8 @@ static int		check(t_tok **lst)
 		i = (tmp->type == QM || tmp->type == AND || tmp->type == OR ? 0 : i);
 		if (i && tmp->type == WORD)
 			return (1);
-		tmp->next ? tmp = tmp->next : 0;
-		if (!tmp->next)
+		tmp->n ? tmp = tmp->n : 0;
+		if (!tmp->n)
 			break ;
 	}
 	return (0);
@@ -130,7 +124,7 @@ void			lexer_check(t_tok **lst)
 		delete_lst(lst);
 		return ;
 	}
-	while (tmp->next)
+	while (tmp->n)
 	{
 		if (tmp->type == CHEVRON)
 		{
@@ -139,7 +133,7 @@ void			lexer_check(t_tok **lst)
 			save_addr ? loop(&save_addr, &save_addr) : 0;
 		}
 		else
-			tmp->next ? tmp = tmp->next : 0;
+			tmp->n ? tmp = tmp->n : 0;
 	}
 	if (check(lst))
 		lexer_check(lst);

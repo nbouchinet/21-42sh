@@ -6,26 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/20 14:12:58 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:25:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 18:54:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		countnode(t_env *env)
-{
-	int		i;
-
-	i = 0;
-	if (!env)
-		return (i);
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
 
 void	addvalue(t_env **env, char *str)
 {
@@ -40,10 +25,10 @@ int		seak(char *s)
 {
 	char *name;
 
-	if (ft_strcmp(s, "42sh") == 0)
+	if (ft_strcmp(s, "21sh") == 0)
 		return (1);
 	else if ((name = ft_strrchr(s, '/')))
-		if (ft_strcmp(name + 1, "42sh") == 0)
+		if (ft_strcmp(name + 1, "21sh") == 0)
 			return (1);
 	return (0);
 }
@@ -61,37 +46,6 @@ char	*var_value(int i, char *var, char *value)
 	return (str);
 }
 
-void	reduc_shlvl(t_env **env, char *s)
-{
-	int		i;
-	t_env	*tmp;
-	char	*c;
-
-	if (seak(s) == 0)
-		return ;
-	if (!(tmp = find_node(env, "SHLVL", NULL)))
-		return ;
-	i = ft_atoi(tmp->value);
-	i--;
-	c = ft_itoa(i);
-	addvalue(&tmp, c);
-	free(c);
-}
-
-void	increase_shlvl(t_env **env)
-{
-	int		i;
-	t_env	*tmp;
-	char	*c;
-
-	if (!(tmp = find_node(env, "SHLVL", NULL)))
-		return ;
-	i = ft_atoi(tmp->value) + 1;
-	c = ft_itoa(i);
-	addvalue(&tmp, c);
-	free(c);
-}
-
 char	**get_env(t_env **lst, char *s)
 {
 	int		i;
@@ -100,7 +54,8 @@ char	**get_env(t_env **lst, char *s)
 	t_env	*tmp;
 
 	j = 0;
-	i = countnode(*lst);
+	if ((i = countnode(*lst)) == 0)
+		return (NULL);
 	if (!(newenv = (char**)malloc(sizeof(char*) * (i + 1))))
 		return (NULL);
 	tmp = *lst;
