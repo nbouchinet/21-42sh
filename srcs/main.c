@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 19:45:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/06/30 20:01:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ extern int g_loop;
 int			get_win_data(t_win **win)
 {
 	struct winsize	w;
+
 	if (ioctl(0, TIOCGWINSZ, &w) == -1)
 		return (fd_printf(2, "Error while accesing terminal data\n"));
 	(*win)->co = w.ws_col;
@@ -47,12 +48,13 @@ static void	loop(t_win *win)
 {
 	char	*cmd;
 	int		save;
+	char	buf[6];
 
 	while (g_loop)
 	{
 		save = g_loop;
 		cmd = NULL;
-		get_cmdl(&cmd, &win, NULL);
+		get_cmdl(&cmd, &win, NULL, buf);
 		if (win->ctrld)
 			break ;
 		if (cmd)
