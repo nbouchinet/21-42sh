@@ -45,7 +45,7 @@ CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		command_line/set_shell.c command_line/completion.c \
 		command_line/completion_func.c command_line/completion_func2.c \
 		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
-		command_line/ctrl_l.c
+		command_line/ctrl_l.c command_line/heredoc_func.c
 
 OFILES= $(CFILES:.c=.o)
 
