@@ -12,14 +12,39 @@
 
 #include "header.h"
 
-int			mode_on(t_win **win)
+static void		save_his_session(t_win **win)
+{
+	int			fd;
+	t_his		*tmp;
+	t_his		*save;
+
+	if (!(*win)->his)
+		return ;
+	while ((*win)->his->prev)
+		(*win)->his = (*win)->his->prev;
+	tmp = (*win)->his;
+	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
+			fd_printf(2, "Could no write history list to history file\n");
+
+	while (tmp && ft_strcmp(tmp->cmdl, "") && fd != -1)
+	{
+		save = tmp->next;
+		ft_putendl_fd(tmp->cmdl, fd);
+		ft_strdel(&tmp->cmdl);
+		free(tmp);
+		tmp = save;
+	}
+	fd != -1 ? close(fd) : 0;
+}
+
+int				mode_on(t_win **win)
 {
 	(*win)->term.c_lflag &= ~(ICANON);
 	(*win)->term.c_lflag &= ~(ECHO);
-	// (*win)->term.c_cc[VMIN] = 1;
-	// (*win)->term.c_cc[VTIME] = 0;
-	(*win)->term.c_cc[VMIN] = 0;
-	(*win)->term.c_cc[VTIME] = 1;
+	(*win)->term.c_cc[VMIN] = 1;
+	(*win)->term.c_cc[VTIME] = 0;
+		// (*win)->term.c_cc[VMIN] = 0;
+		// (*win)->term.c_cc[VTIME] = 1;
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
@@ -39,10 +64,9 @@ int			unset_shell(t_win **win)
 	if (mode_off(win) != 0)
 		return (-1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
+	save_his_session(win);
+	(*win)->hd ? del_hd(&(*win)->hd) : 0;
 	write(1, "Bye\n", 4);
-	// (*win)->ctrld ? ft_printf("exit\n") : 0;
-	// free win->hd win->his;
-	*win = NULL;
 	return (0);
 }
 

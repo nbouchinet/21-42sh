@@ -64,26 +64,6 @@ static int		check_lst(t_tok **lst)
 	return (0);
 }
 
-static void		loop(t_tok **lst, t_tok **tmp)
-{
-	char		*save_str;
-	int			save_type;
-
-	save_str = NULL;
-	save_type = 0;
-	while ((*lst)->n && (*lst)->n->type != QM)
-	{
-		save_str = (*lst)->str;
-		save_type = (*lst)->type;
-		(*lst)->str = (*lst)->n->str;
-		(*lst)->type = (*lst)->n->type;
-		(*lst)->n->str = save_str;
-		(*lst)->n->type = save_type;
-		!(*tmp) ? (*tmp) = (*lst) : 0;
-		(*lst)->n ? (*lst) = (*lst)->n : 0;
-	}
-}
-
 static int		check(t_tok **lst)
 {
 	t_tok		*tmp;
@@ -111,6 +91,28 @@ static int		check(t_tok **lst)
 			break ;
 	}
 	return (0);
+}
+
+static void		loop(t_tok **lst, t_tok **tmp)
+{
+	char		*save_str;
+	int			save_type;
+
+	save_str = NULL;
+	save_type = 0;
+	ft_putendl((*lst)->n->str);
+	ft_putnbrl((*lst)->n->type);
+	while ((*lst)->n && (*lst)->n->type != QM)
+	{
+		save_str = (*lst)->str;
+		save_type = (*lst)->type;
+		(*lst)->str = (*lst)->n->str;
+		(*lst)->type = (*lst)->n->type;
+		(*lst)->n->str = save_str;
+		(*lst)->n->type = save_type;
+		!(*tmp) ? (*tmp) = (*lst) : 0;
+		(*lst)->n ? (*lst) = (*lst)->n : 0;
+	}
 }
 
 void			lexer_check(t_tok **lst)

@@ -38,7 +38,7 @@ void	execution(char **arg, char **env, t_ast **rdir)
 	exit(EXIT_SUCCESS);
 }
 
-int		abs_cmd(t_ast **ast, t_env **env)
+void	abs_cmd(t_ast **ast, t_env **env)
 {
 	char	**arg;
 	char	**t_env;
@@ -53,10 +53,10 @@ int		abs_cmd(t_ast **ast, t_env **env)
 	}
 	else
 		ft_errormsg("21sh: ", (*ast)->left->left->str, ": Command not found.");
-	return (0);
+	exit(EXIT_FAILURE);
 }
 
-int		rlt_cmd(t_ast **ast, t_env **env)
+void	rlt_cmd(t_ast **ast, t_env **env)
 {
 	t_env	*e_n;
 	char	**arg;
@@ -75,5 +75,5 @@ int		rlt_cmd(t_ast **ast, t_env **env)
 	}
 	else
 		ft_errormsg("21sh: ", tmp->left->left->str, ": Command not found.");
-	return (0);
+	exit(EXIT_FAILURE);
 }

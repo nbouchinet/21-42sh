@@ -68,7 +68,7 @@ int				ft_echo(t_ast **ast, t_env **env)
 	int		i;
 	char	**arg;
 
-	if (!(arg = creat_arg_env(&(*ast)->right)) || !arg[0])
+	if (!(arg = creat_arg_env(&(*ast)->left->right)) || !arg[0])
 		return (write(1, "\n", 1));
 	i = (arg[0] && !ft_strcmp(arg[0], "-n") ? 1 : 0);
 	while (arg[i])

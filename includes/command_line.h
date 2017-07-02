@@ -16,7 +16,7 @@
 #include "lexer_parser.h"
 
 /*
-**	define
+**	Key bidings
 */
 
 #define UP		buf[0] == 27 && buf[1] == 91 && buf[2] == 65
@@ -167,7 +167,6 @@ void				search_history(char **cmd, t_win **win);
 int					set_shell(t_win **win);
 void				tmp_pipe(int *p, int flag);
 int					unset_shell(t_win **win);
-void				winsize(t_win **win, char **save, char **cmd);
 
 /*
 **	Completion

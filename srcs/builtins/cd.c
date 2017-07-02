@@ -178,7 +178,7 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	opt = 2;
 	i = 0;
 	path = NULL;
-	targ = creat_arg_env(&(*ast)->right);
+	targ = creat_arg_env(&(*ast)->left->right);
 	if ((targ && get_opt(targ, &i, &opt)) ||
 	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
 			return (0);

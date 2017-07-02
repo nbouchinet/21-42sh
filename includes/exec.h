@@ -12,6 +12,17 @@
 
 #ifndef EXEC_H
 # define EXEC_H
+
+#define C	1
+#define D	2
+#define A	4
+#define N	8
+#define R	16
+#define W	32
+#define P	64
+#define S	128
+#define HIS_USAGE 	"history: usage: history [-c] [-d offset] [n] or\
+					history -awrn [filename] or history -ps arg [arg...]"
 /*
 ********************************************************************************
 **                                   EXECUTION                                **
@@ -42,8 +53,8 @@ int					qm_seq(t_ast **ast, t_env **env, int type);
 int					exec_oa(t_ast **ast, t_env **env, int type);
 void				cmd_seq(t_ast **ast, t_env **env);
 void				pipe_seq(t_ast **ast, t_env **env, int i);
-int					rlt_cmd(t_ast **ast, t_env **env);
-int					abs_cmd(t_ast **ast, t_env **env);
+void				rlt_cmd(t_ast **ast, t_env **env);
+void				abs_cmd(t_ast **ast, t_env **env);
 void				execution(char **arg, char **env, t_ast **rdir);
 int					io_seq(t_ast **ast);
 int					wtf_rdir(t_ast **ast);
@@ -84,6 +95,9 @@ void				deletefirstnode(t_env **lst);
 void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
 t_env 				*lst_at(t_env **env, char *cmp);
+int     			ft_cd(t_ast **ast, t_env **env);
+int					ft_echo(t_ast **ast, t_env **env);
+int					ft_exit(t_ast **ast, t_env **env);
 /*
 ********************************************************************************
 **                                  INIT_ENV                                  **

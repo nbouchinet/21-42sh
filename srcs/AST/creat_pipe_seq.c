@@ -32,7 +32,7 @@ void			pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_first = *lst;
 	if ((tmp = find_pipe_tok(&tmp_first, sep)) != *sep)
 	{
-		init_ast(&tmp_ast->left, tmp->str, tmp->type);
+		init_ast(&tmp_ast->right, tmp->str, tmp->type);
 		tmp_ast = tmp_ast->right;
 		init_ast(&tmp_ast->left, NULL, CMD_SEQ);
 		command_sequence(&tmp_ast->left, &tmp_first, &tmp);

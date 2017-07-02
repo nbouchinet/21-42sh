@@ -55,18 +55,19 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_cmd	cmd[3] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
-		{"setenv", &ft_setenv}};
+	static const t_cmd	cmd[6] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
+		{"setenv", &ft_setenv}, {"cd", &ft_cd}, {"echo", &ft_echo},
+		{"exit", &ft_exit}};
 
 //		{"unsetenv", &ft_unsetenv},
 //		//{"setenv", &ft_setenv}, {"cd", &ft_cd}};
 	i = -1;
 	tmp = *ast;
-	while (type != PIPE_SEQ && ++i < 3)
+	while (type != PIPE_SEQ && ++i < 6)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->left->str) == 0)
 			if ((cmd[i].f(&tmp, env) == 1))
 				return (1);
-	if (type == PIPE_SEQ || i == 3)
+	if (type == PIPE_SEQ || i == 6)
 		if (status_process(&tmp, env, type))
 			return (1);
 	return (0);

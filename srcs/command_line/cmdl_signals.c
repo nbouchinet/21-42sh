@@ -14,6 +14,17 @@
 
 extern int g_loop;
 
+static void		winsize(t_win **win, char **save, char **cmd)
+{
+	char	*line;
+
+	line = (*save) ? (*save) : (*cmd);
+	tputs(tgetstr("cl", NULL), 1, ft_putchar);
+	get_win_data(win);
+	print_prompt(win);
+	write(1, line, ft_strlen(line));
+}
+
 static void		cmdl_wins(int signal)
 {
 	if (signal == 28)
@@ -35,8 +46,8 @@ static void		canon_mode(int signal)
 int				cmdl_signal(char **cmd, char *save, t_win **win)
 {
 	signal(2, cmdl_ctrc);
-	signal(28, cmdl_wins);
 	signal(21, canon_mode);
+	signal(28, cmdl_wins);
 	g_loop == 4 ? winsize(win, &save, cmd) : 0;
 	g_loop == 6 ? mode_on(win) : 0;
 	g_loop == 6 ? print_prompt(win) : 0;
@@ -46,7 +57,7 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 			while ((*cmd)[(*win)->cur - (*win)->pr])
 				arrow_rigth(*win, *cmd);
 		(*cmd) ? free((*cmd)) : 0;
-		save ? free(save) : 0;
+		save ? ft_strdel(&save) : 0;
 		(*win)->hd ? del_hd(&(*win)->hd) : 0;
 		(*cmd) = NULL;
 		write(1, "\n", 1);

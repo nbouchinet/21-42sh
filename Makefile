@@ -41,7 +41,7 @@ CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
-		command_line/quotes.c command_line/search_history.c	command_line/winsize.c \
+		command_line/quotes.c command_line/search_history.c \
 		command_line/set_shell.c command_line/completion.c \
 		command_line/completion_func.c command_line/completion_func2.c \
 		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \

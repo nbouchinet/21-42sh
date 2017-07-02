@@ -20,7 +20,7 @@ int		ft_exit(t_ast **ast, t_env **env)
 	char	**arg;
 
 	(void)env;
-	if (!(arg = creat_arg_env(&(*ast)->right)))
+	if (!(arg = creat_arg_env(&(*ast)->left->right)))
 		return ((g_loop = 0) ? 1 : 1);
 	i = (arg[0][0] == '-' && arg[0][1] ? 0 : -1);
 	while (arg[0][++i])
