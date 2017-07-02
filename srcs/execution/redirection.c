@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:54:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/02 17:55:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,16 @@ int		io_seq(t_ast **ast)
 	tmp = *ast;
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
 	{
-		if (tmp->right)
-			if (io_seq(&tmp->right) == 0)
-				return (0);
 		i = -1;
 		while (++i < 4)
 			if (tmp->type == rdir[i].t)
 				if (rdir[i].f(&tmp) == 1)
+				{
+					if (tmp->right)
+						if (io_seq(&tmp->right) == 0)
+							return (0);
 					return (1);
+				}
 	}
 	return (0);
 }
