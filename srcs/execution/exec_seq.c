@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:22:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:54:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/02 16:17:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ int		exec_oa(t_ast **ast, t_env **env, int type)
 	{
 		if (tmp->left->type == CMD_SEQ)
 			if (exec_cmd_seq(&tmp->left, env, tmp->left->type) == 1)
-			{
-				ft_putendl_fd("OK ?", 2);
 				return (1);
-			}
 	}
 	return (0);
 }
