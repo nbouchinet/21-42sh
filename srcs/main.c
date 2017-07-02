@@ -38,13 +38,14 @@ static void	exec_part(char **line, t_env **env)
 	tmp = cmd;
 	while (tmp)
 	{
-		ft_putendl(tmp->str);
+		ft_printf("%@%s%@\n", RED, tmp->str, I);
 		tmp = tmp->n;
 	}
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
+	ft_putast(ast);
 	exec_ast(&ast, env);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);

@@ -64,55 +64,39 @@ static int		check_lst(t_tok **lst)
 	return (0);
 }
 
-static int		check(t_tok **lst)
-{
-	t_tok		*tmp;
-	int			i;
 
-	tmp = *lst;
-	i = 0;
-	while (tmp->n)
-	{
-		if (tmp->type == CHEVRON)
+static int		loop(t_tok **lst, t_tok **command)
+{
+	t_tok		*save_lst;
+	t_tok		*save_next;
+	t_tok		*save_last;
+
+	save_lst = (*lst);
+	save_last = NULL;
+	save_next = NULL;
+	while ((*lst)->type != WORD)
+		if ((*lst)->type == CHEVRON)
 		{
-			i = 1;
-			tmp->n ? tmp = tmp->n : 0;
-			if (tmp->n)
-				tmp = tmp->n;
+			(*lst) = (*lst)->n;
+			if ((*lst)->n && ((*lst)->n->type != QM && (*lst)->n->type != AND &&
+			(*lst)->n->type != OR && (*lst)->n->type != PIPE) && (*lst)->n->type != IO_N)
+			{
+				(*lst)->n->type != CHEVRON ? save_last = (*lst) : 0;
+				(*lst) = (*lst)->n;
+				save_last ? save_last->n = NULL : 0;
+			}
 			else
-				break ;
-			continue ;
+				return (0);
 		}
-		i = (tmp->type == QM || tmp->type == AND || tmp->type == OR ? 0 : i);
-		if (i && tmp->type == WORD)
-			return (1);
-		tmp->n ? tmp = tmp->n : 0;
-		if (!tmp->n)
-			break ;
-	}
-	return (0);
-}
-
-static void		loop(t_tok **lst, t_tok **tmp)
-{
-	char		*save_str;
-	int			save_type;
-
-	save_str = NULL;
-	save_type = 0;
-	ft_putendl((*lst)->n->str);
-	ft_putnbrl((*lst)->n->type);
-	while ((*lst)->n && (*lst)->n->type != QM)
-	{
-		save_str = (*lst)->str;
-		save_type = (*lst)->type;
-		(*lst)->str = (*lst)->n->str;
-		(*lst)->type = (*lst)->n->type;
-		(*lst)->n->str = save_str;
-		(*lst)->n->type = save_type;
-		!(*tmp) ? (*tmp) = (*lst) : 0;
-		(*lst)->n ? (*lst) = (*lst)->n : 0;
-	}
+		else
+			(*lst) = (*lst)->n;
+	(*command)->n = (*lst);
+	while ((*lst)->n && (*lst)->n->type == WORD)
+		(*lst) = (*lst)->n;
+	save_next = (*lst)->n;
+	(*lst)->n = save_lst;
+	save_last->n = save_next;
+	return (1);
 }
 
 void			lexer_check(t_tok **lst)
@@ -128,16 +112,16 @@ void			lexer_check(t_tok **lst)
 	}
 	while (tmp->n)
 	{
-		if (tmp->type == CHEVRON)
+		if (tmp->type == CHEVRON | tmp->type == IO_N)
 		{
-			save_addr = NULL;
-			loop(&tmp, &save_addr);
-			save_addr ? loop(&save_addr, &save_addr) : 0;
+			if (loop(&tmp, &save_addr))
+				tmp = (*lst);
 		}
 		else
+		{
+			save_addr = tmp;
 			tmp->n ? tmp = tmp->n : 0;
+		}
 	}
-	if (check(lst))
-		lexer_check(lst);
 	specified_dir(lst);
 }

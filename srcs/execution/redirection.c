@@ -81,14 +81,14 @@ int		io_seq(t_ast **ast)
 	tmp = *ast;
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
 	{
+		if (tmp->right)
+			if (io_seq(&tmp->right) == 0)
+				return (0);
 		i = -1;
 		while (++i < 4)
 			if (tmp->type == rdir[i].t)
 				if (rdir[i].f(&tmp) == 1)
 				{
-					if (tmp->right)
-						if (io_seq(&tmp->right) == 0)
-							return (0);
 					return (1);
 				}
 	}
