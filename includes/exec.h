@@ -21,8 +21,10 @@
 #define W	32
 #define P	64
 #define S	128
-#define HIS_USAGE 	"history: usage: history [-c] [-d offset] [n] or\
-					history -awrn [filename] or history -ps arg [arg...]"
+#define HIS_USAGE 	"history: usage: history [-c] [-d offset] [n] or "\
+					"history -awrn [filename] or history -ps arg [arg...]\n"
+#define HIS_MSG		"history position out of range"
+
 /*
 ********************************************************************************
 **                                   EXECUTION                                **
@@ -98,6 +100,7 @@ t_env 				*lst_at(t_env **env, char *cmp);
 int     			ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
+int					ft_history(t_ast **ast, t_env **env);
 /*
 ********************************************************************************
 **                                  INIT_ENV                                  **

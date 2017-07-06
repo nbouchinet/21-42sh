@@ -167,6 +167,7 @@ void				search_history(char **cmd, t_win **win);
 int					set_shell(t_win **win);
 void				tmp_pipe(int *p, int flag);
 int					unset_shell(t_win **win);
+t_win				*win_sgt(void);
 
 /*
 **	Completion
