@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:23:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:28:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,43 @@ int     			ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
 int					ft_history(t_ast **ast, t_env **env);
+
+/*
+*************************************HASHING***********************************
+*/
+# define PRINT 64
+# define PUT 65
+# define FIND 66
+
+typedef struct		s_hash
+{
+	int				abs_key;
+	int				rlt_key;
+	int				hits;
+	char			*path;
+	struct s_hash	*next;
+}					t_hash;
+
+typedef struct		s_mod
+{
+	int				mod;
+	int				(*f)(t_ast**, t_hash**);
+}					t_mod;
+
+int		init_hash(t_hash **lst, char *cmd);
+int		hashing(t_ast **ast, t_env **env);
+int		builtin_hash(t_ast **ast, t_hash **table);
+int		hash(t_ast **ast, int mod);
+int		search_mod(t_ast **ast, t_hash **table);
+int		put_cmd(t_ast **ast, t_hash **table);
+int		search(t_ast **ast, t_hash **table, int i);
+int		find_search(t_ast **ast, t_hash **table);
+int		hash_cmd(char *cmd);
+void	remove_cmd(t_ast **ast, t_hash **table);
+void	clean_cmd(t_hash **table, t_hash **prev, t_hash **curr);
+int		count_opt(t_ast **ast);
+int		check_opt(char *opt);
+
 /*
 ********************************************************************************
 **                                  INIT_ENV                                  **

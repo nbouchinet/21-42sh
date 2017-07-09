@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 13:50:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:38:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:27:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ static int	status_process(t_ast **ast, t_env **env, int type)
 
 	status = exec_bina(ast, env, -1, type);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
+	{
+		if (type != PIPE_SEQ && (e_n = find_node(env, "PATH", NULL)) &&
+			find_cmd_bin(&tmp->left->left, ft_strsplit(e_n->value, ':')) == 1)
+			hash(&tmp->left, PUT);
 		return (1);
+	}
 	return (0);
 }
 
@@ -55,15 +60,13 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_cmd	cmd[7] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
+	static const t_cmd	cmd[8] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
 		{"setenv", &ft_setenv}, {"cd", &ft_cd}, {"echo", &ft_echo},
-		{"exit", &ft_exit}, {"history", &ft_history}};
+		{"exit", &ft_exit}, {"history", &ft_history}, {"hash", &hashing}};
 
-//		{"unsetenv", &ft_unsetenv},
-//		//{"setenv", &ft_setenv}, {"cd", &ft_cd}};
 	i = -1;
 	tmp = *ast;
-	while (type != PIPE_SEQ && ++i < 7)
+	while (type != PIPE_SEQ && ++i < 8)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->left->str) == 0)
 		{
 			if ((cmd[i].f(&tmp, env) == 1))
@@ -71,7 +74,7 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 			else
 				break ;
 		}
-	if (type == PIPE_SEQ || i == 7)
+	if (type == PIPE_SEQ || i == 8)
 		if (status_process(&tmp, env, type))
 			return (1);
 	return (0);

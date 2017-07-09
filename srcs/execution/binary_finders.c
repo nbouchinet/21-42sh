@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 15:48:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:22:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:22:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,28 @@ void	execution(char **arg, char **env, t_ast **rdir)
 
 void	abs_cmd(t_ast **ast, t_env **env)
 {
+	int		i;
 	char	**arg;
 	char	**t_env;
 	t_ast	*tmp;
 
 	tmp = *ast;
-	if (find_bin(&tmp->left->left) == 1)
-	{
-		arg = creat_arg(&tmp->left->right, tmp->left->left->str);
-		t_env = get_env(env, tmp->left->left->str);
-		execution(arg, t_env, &tmp->right);
-	}
-	else
-		ft_errormsg("21sh: ", (*ast)->left->left->str, ": Command not found.");
-	exit(EXIT_FAILURE);
+	i = hash(&tmp->left->left, FIND);
+	if (i == 0)
+		if (find_bin(&tmp->left->left) == 0)
+		{
+			ft_errormsg("21sh: ", (*ast)->left->left->str,
+				": Command not found.");
+			exit(EXIT_FAILURE);
+		}
+	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
+	t_env = get_env(env, tmp->left->left->str);
+	execution(arg, t_env, &tmp->right);
 }
 
 void	rlt_cmd(t_ast **ast, t_env **env)
 {
+	int		i;
 	t_env	*e_n;
 	char	**arg;
 	char	**t_env;
@@ -66,14 +70,15 @@ void	rlt_cmd(t_ast **ast, t_env **env)
 	tmp = *ast;
 	if (!(e_n = find_node(env, "PATH", NULL)))
 		ft_errormsg("21sh:", NULL, "PATH not set.");
-	else if (find_cmd_bin(&tmp->left->left, ft_strsplit(e_n->value, ':')) == 1)
-	{
-		arg = creat_arg(&tmp->left->right, tmp->left->left->str);
-		t_env = env ?
-			get_env(env, (ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
-		execution(arg, t_env, &tmp->right);
-	}
-	else
-		ft_errormsg("21sh: ", tmp->left->left->str, ": Command not found.");
-	exit(EXIT_FAILURE);
+	i = hash(&tmp->left->left, FIND);
+	if (i == 0)
+		if (find_cmd_bin(&tmp->left->left, ft_strsplit(e_n->value, ':')) == 0)
+		{
+			ft_errormsg("21sh: ", tmp->left->left->str, ": Command not found.");
+			exit(EXIT_FAILURE);
+		}
+	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
+	t_env = env ?
+		get_env(env, (ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
+	execution(arg, t_env, &tmp->right);
 }
