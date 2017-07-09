@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/09 14:11:58 by zadrien          ###   ########.fr        #
+#    Updated: 2017/07/09 15:38:01 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -37,7 +37,8 @@ CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		execution/env_tools.c execution/exec_seq.c execution/exec_tools.c \
 		execution/get_env.c execution/main_exec.c execution/redirection.c \
 		builtins/unsetenv.c builtins/setenv.c builtins/env.c builtins/ft_echo.c \
-		builtins/ft_exit.c builtins/history.c \
+		builtins/ft_exit.c builtins/history.c builtins/hash.c builtins/hash_tools.c\
+		builtins/builtin_hash.c \
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
@@ -69,7 +70,7 @@ $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)/environement
 	@mkdir -p $(OPATH)/builtins
 	@mkdir -p $(OPATH)/init_env
-	$(CC) -g -Wall -Werror -Wextra  $(INC) $< -c -o $@
+	$(CC) $(CFLAGS)  $(INC) $< -c -o $@
 
 clean:
 	make -C libft clean

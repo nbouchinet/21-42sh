@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:28:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:31:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int					ft_history(t_ast **ast, t_env **env);
 /*
 *************************************HASHING***********************************
 */
-# define PRINT 64
+# define BUILTIN 64
 # define PUT 65
 # define FIND 66
 

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:27:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:35:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,6 @@ int		reset_table(t_hash **table)
 			}
 	}
 	return (1);
-}
-
-void	remove_cmd(t_ast **ast, t_hash **table)
-{
-	int		key;
-	t_ast	*tmp;
-	t_hash	*hash;
-	t_hash	*prev;
-
-	tmp = *ast;
-	prev = *table;
-	while (tmp)
-	{
-		key = hash_cmd(tmp->str);
-		hash = *table;
-		while (hash)
-		{
-			if (key == hash->rlt_key || key == hash->abs_key)
-			{
-				ft_putendl("FIND");
-				clean_cmd(table, &prev, &hash);
-				break ;
-			}
-			hash = hash->next;
-			prev = hash;
-		}
-		tmp = tmp->right;
-	}
 }
 
 void	print_hash(t_hash **table)

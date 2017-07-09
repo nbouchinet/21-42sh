@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 13:50:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:27:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:32:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 static int	status_process(t_ast **ast, t_env **env, int type)
 {
 	int		status;
+	t_env	*e_n;
+	t_ast	*tmp;
 
+	tmp = *ast;
 	status = exec_bina(ast, env, -1, type);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 	{

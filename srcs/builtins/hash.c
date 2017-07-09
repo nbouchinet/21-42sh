@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:27:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 15:36:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int		search(t_ast **ast, t_hash **table, int i)
 	t_hash	*tmp;
 	t_ast	*tmp_a;
 
-	ft_putendl("search function");
 	tmp_a = i == 1 ? (*ast) : (*ast)->left;
 	key = hash_cmd(tmp_a->str);
 	if (*table)
@@ -86,7 +85,7 @@ int		hash(t_ast **ast, int mod)
 	int					i;
 	static t_hash		*table = NULL;
 	static const t_mod  state[3] = {{FIND, &find_search}, {PUT, &put_cmd},
-									{PRINT, &builtin_hash}};
+									{BUILTIN, &builtin_hash}};
 	i = -1;
 	while (++i < 3)
 		if (state[i].mod == mod)
