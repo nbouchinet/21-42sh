@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/09 13:55:02 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 13:57:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:37:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/libftprintf.h"
 
 char	*ft_strndup(const char *s1, int len)
 {

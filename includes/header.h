@@ -6,13 +6,19 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 17:52:39 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/24 17:06:14 by nmougino         ###   ########.fr       */
+/*   Updated: 2017/07/09 14:35:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
 
+typedef struct		s_env
+{
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 #include "../libft/inc/libftprintf.h"
 #include <sys/types.h>
 #include <sys/stat.h>

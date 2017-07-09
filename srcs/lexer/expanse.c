@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 14:09:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:43:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/s21h.h"
+#include "header.h"
 
 static char		*replace_env(char *str, int s, int len, t_env **env)
 {
@@ -82,7 +82,7 @@ void			expanse(t_tok **lst, t_env **env)
 	tmp = *lst;
 	while (tmp)
 	{
-		if (tmp->type == QUOTE || tmp->type == WORD)
+		if (tmp->type == DQUOTE || tmp->type == WORD)
 		{
 			tmp->type == WORD ? tild(&tmp->str, env) : 0;
 			check_expanse(&tmp->str, env);

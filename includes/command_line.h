@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_line.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:03:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/04/24 13:09:55 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:34:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,6 @@
 /*
 **	key defines
 */
-
-
-typedef struct		s_env
-{
-	char			*var;
-	char			*value;
-	struct s_env	*next;
-}					t_env;
 
 typedef struct		s_ls
 {
