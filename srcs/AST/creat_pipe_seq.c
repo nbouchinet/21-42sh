@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:49:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:29:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	while (tmp && (tmp->type == WORD || tmp->type == QUOTE))
+	while (tmp && (tmp->type == WORD || tmp->type == QUOTE ||
+		tno->type == DQUOTE))
 		tmp = tmp->n;
 	init_ast(&tmp_ast->left, NULL, SIMP_CMD);
 	simple_sequence(&tmp_ast->left, lst, &tmp);

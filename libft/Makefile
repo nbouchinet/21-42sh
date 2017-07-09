@@ -6,7 +6,7 @@
 #    By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 18:14:45 by khabbar           #+#    #+#              #
-#    Updated: 2017/05/24 14:04:21 by zadrien          ###   ########.fr        #
+#    Updated: 2017/07/09 14:05:39 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRC = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	  ft_order_x.c ft_order_b.c ft_plusminus.c ft_get_wchar.c \
 	  ft_tmp_ls.c ft_space.c ft_maj.c ft_intlen.c fd_printf.c ft_tablen.c \
 	  ft_free.c ft_strat.c ft_strtrimf.c ft_strenv.c ft_strdupf.c \
-	  ft_streplace.c ft_errormsg.c
+	  ft_streplace.c ft_errormsg.c ft_strndup.c	\
 
 OBJ = ${SRC:.c=.o}
 

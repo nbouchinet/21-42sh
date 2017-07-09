@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/06 09:52:46 by khabbar          ###   ########.fr        #
+#    Updated: 2017/07/09 14:11:58 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -29,7 +29,7 @@ HPATH= includes/ libft/
 INC= $(addprefix -I , $(HPATH))
 
 CFILES= main.c print_prompt.c signals.c ft_putast.c	\
-		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c \
+		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c lexer/expanse.c \
 		lexer/jonathan_kent.c lexer/the_dog.c AST/ast_tools.c AST/creat_ast.c \
 		AST/creat_io_seq.c AST/creat_pipe_seq.c AST/creat_qm_oa.c AST/destroy_ast.c \
 		init_env/check_env.c \
@@ -45,7 +45,7 @@ CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		command_line/set_shell.c command_line/completion.c \
 		command_line/completion_func.c command_line/completion_func2.c \
 		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
-		command_line/ctrl_l.c command_line/heredoc_func.c
+		command_line/ctrl_l.c command_line/heredoc_func.c \
 
 OFILES= $(CFILES:.c=.o)
 

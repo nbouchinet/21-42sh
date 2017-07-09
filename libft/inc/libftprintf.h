@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/01 14:33:41 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:05:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char				*ft_strjoinf(char *s1, char *s2, int w);
 char				*ft_strat(char **env, int i);
 char				*ft_strtrimf(char *s);
 char				*ft_strenv(char *s1, char *s2);
-
+char				*ft_strndup(const char *s1, int len);
 void				ft_errormsg(char *env, char *cmd, char *str); // Maybe to delete
 void				ft_putendn(int i);
 #endif

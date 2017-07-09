@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:17:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/09 14:28:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ enum 				e_token
 	QUOTE,
 	SPACE_TOK,
 	WORD,
-	FIL
+	FIL,
+	DQUOTE
 };
 
 enum				e_dir
@@ -87,4 +88,5 @@ void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
+void				expanse(t_tok **lst, t_env **env);
 #endif
