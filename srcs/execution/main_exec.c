@@ -17,14 +17,18 @@ static int	status_process(t_ast **ast, t_env **env, int type)
 	int		status;
 	t_env	*e_n;
 	t_ast	*tmp;
+	char	**arg;
 
 	tmp = *ast;
 	status = exec_bina(ast, env, -1, type);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 	{
 		if (type != PIPE_SEQ && (e_n = find_node(env, "PATH", NULL)) &&
-			find_cmd_bin(&tmp->left->left, ft_strsplit(e_n->value, ':')) == 1)
+		    find_cmd_bin(&tmp->left->left, (arg = ft_strsplit(e_n->value, ':'))) == 1)
+		  {
 			hash(&tmp->left, PUT);
+			ft_freetab(arg);
+		  }
 		return (1);
 	}
 	return (0);
