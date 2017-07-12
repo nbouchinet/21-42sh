@@ -22,10 +22,7 @@ t_tok	*find_rdi_tok(t_tok **lst, t_tok **stop)
 	else
 		tmp = tmp->n;
 	while (tmp && tmp != *stop && tmp->type != IO_N && (tmp->type < RDIR || tmp->type > BGRE))
-	{
-		ft_putendl(tmp->str);
 		tmp = tmp->n;
-	}
 	return (tmp);
 }
 
