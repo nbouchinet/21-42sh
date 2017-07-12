@@ -19,7 +19,7 @@ static void   process_des_and_mod(char **array, char **tmp, t_bang *bang, int i)
 
   if (bang->des)
     (*tmp) = ft_strdup(array[bang->des]);
-  else
+  else if (bang->x && bang->y)
     while (bang->x <= bang->y)
       (*tmp) = ft_strjoinf(ft_strjoinf(*tmp, array[bang->x++], 1), " ", 1);
   (bang->mod & H && (ptr = ft_strchr(*tmp, '/')) ? (*ptr) = 0 : 0);
@@ -107,12 +107,10 @@ int           do_sub(t_his *his, t_bang *bang, char **cmd, char *arr)
   int       ret;
 
   tmp = NULL;
-  (void)cmd;
   ret = bang->n ? get_line(his, bang, &tmp) : get_match(his, bang, &tmp, arr);
   if (ret)
     return (1);
   array = ft_strsplit(tmp, ' ');
-  ft_strdel(&tmp);
   if (check_des(bang, ft_tablen(array)))
     return (1);
   !bang->s1 ? process_des_and_mod(array, &tmp, bang, -1) : 0;

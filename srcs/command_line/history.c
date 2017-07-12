@@ -56,7 +56,7 @@ void 				fill_buf(char *tmp, char **cmd, int i, int j)
 	}
 	!buf ? buf = ft_strdup(*cmd) : 0;
 	while (buf[++i])
-		if (buf[i] == '!' || buf[i] == '^')
+		if (buf[i] == '!')
 		{
 			b = i ;
 			buf[i + 1] == '!' ? i += 1 : 0;
