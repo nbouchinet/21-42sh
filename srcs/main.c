@@ -87,10 +87,12 @@ int         main(int ac, char *av[], char *env[])
 	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
 	win->his->cmdl = ft_strdup("");
+	win->his->add = 1;
 	win->his->prev = NULL;
-    win->his->next = NULL;
+  win->his->next = NULL;
 	win->his->len = 0;
 	g_loop = 256;
+	// hist_read(&win->his, 0, 0);
 	loop(win);
 	return (g_loop);
 }

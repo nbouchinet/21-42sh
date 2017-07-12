@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/01 14:37:17 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/12 17:19:11 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-void		ft_free(char **tab, char **line)
+int		ft_free(char **tab, char **line)
 {
 	int			i;
 
@@ -25,4 +25,5 @@ void		ft_free(char **tab, char **line)
 			ft_strdel(&tab[i]);
 		free(tab);
 	}
+	return (1);
 }

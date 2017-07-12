@@ -36,7 +36,7 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	}
 	(*lst)->str[i] = '\0';
 	(*lst)->type = type;
-	ft_strdel(stack);
+	ft_memset(*stack, 0, ft_strlen(*stack));
 }
 
 void	flush(t_tok **lst, char **stack, char *line, int *i)
@@ -63,11 +63,11 @@ void	new_parser(t_tok **cmd, char *line)
 	char				*stack;
 	t_tok				*tmp;
 	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush}, {'>', &chevron},
-{'<', &chevron}, {';', &question_mark}, {'|', &pipe_pars}, {'&', &and_pars}};
+	{'<', &chevron}, {';', &question_mark}, {'|', &pipe_pars}, {'&', &and_pars}};
 
 	i = 0;
 	tmp = *cmd;
-	stack = NULL;
+	stack = ft_memalloc(100);
 	while (line[i])
 	{
 		j = -1;

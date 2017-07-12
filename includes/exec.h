@@ -21,15 +21,22 @@
 #define W	32
 #define P	64
 #define S	128
-#define HIS_USAGE 	"history: usage: history [-c] [-d offset] [n] or "\
+#define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
 					"history -awrn [filename] or history -ps arg [arg...]\n"
-#define HIS_MSG		"history position out of range"
+#define HM			"history position out of range"
+#define HO			"invalid option"
 
 /*
 ********************************************************************************
 **                                   EXECUTION                                **
 ********************************************************************************
 */
+typedef struct 		s_hist
+{
+	int				op;
+	void			(*f)(t_his **his, int offset, int len);
+}					t_hist;
+
 typedef struct		s_rdir
 {
 	int				t;
@@ -101,6 +108,11 @@ int     			ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
 int					ft_history(t_ast **ast, t_env **env);
+void				hist_clear(t_his **his, int offset, int len);
+void				hist_del(t_his **his, int offset, int len);
+void				hist_append(t_his **his, int offset, int len);
+void				hist_read(t_his **his, int offset, int len);
+void				hist_sarg(t_his **his, int offset, int len);
 
 /*
 *************************************HASHING***********************************

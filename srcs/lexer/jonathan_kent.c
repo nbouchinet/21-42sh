@@ -14,7 +14,6 @@
 
 void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
-	char	tmp[2];
 	char	quote;
 
 	if (ft_strlen(*stack) > 1)
@@ -24,10 +23,10 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 		*lst = (*lst)->n;
 	}
 	quote = line[(*i)++];
-	while (line[(*i)] && line[(*i)] != quote && fill_tmp(tmp, line[(*i)++]))
-		(*stack) = ft_strjoinf((*stack), tmp, 1);
+	while (line[(*i)] && line[(*i)] != quote)
+		st_tok(stack, line[(*i)++]);
 	tok_save(lst, stack, quote == '\'' ? QUOTE : DQUOTE);
-	if (check_end(line + ((*i) + 1)))
+	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
 		init_token(&(*lst)->n);
 		*lst = (*lst)->n;

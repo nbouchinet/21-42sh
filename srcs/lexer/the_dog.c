@@ -28,9 +28,22 @@ void	delete_lst(t_tok **cmd)
 
 void	st_tok(char **stack, char c)
 {
-	char	tmp[2];
+	char					word[2];
+	char					*tmp;
+	static size_t	len = 100;
 
-	tmp[0] = c;
-	tmp[1] = 0;
-	(*stack) = ft_strjoinf((*stack), tmp, 1);
+	word[0] = c;
+	word[1] = 0;
+	if (ft_strlen(*stack) >= len)
+	{
+			tmp = (*stack);
+			if (!((*stack) = (char *)malloc(sizeof(char) * (len + 100))))
+				exit(fd_printf(2, "malloc error\n"));
+			(*stack) = ft_strcpy((*stack), tmp);
+			(*stack) = ft_strcat((*stack), word);
+			free(tmp);
+			len += 100;
+	}
+	else
+			ft_strcat((*stack), word);
 }

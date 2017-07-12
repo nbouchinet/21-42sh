@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/09 14:05:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/12 17:19:54 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t				ft_strlen(const char *str);
 size_t				ft_strlcat(char *dst, char *src, size_t size);
 
 void				ft_streplace(char **str, char c, char r);
-void				ft_free(char **tab, char **line);
+int					ft_free(char **tab, char **line);
 void				display_int_tab(int **tab);
 void				ft_putnbrl(int c);
 void				*ft_memset(void *b, int c, size_t len);
@@ -87,7 +87,7 @@ int					ft_iterative_factorial(int nb);
 int					convert_to_d(char *tab, int base);
 
 char				*ft_strdup(const char *src);
-char				*ft_strdupf(char *src);
+char				*ft_strdupf(char **src);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t len);
 char				*ft_strcat(char *s1, const char *s2);

@@ -71,51 +71,78 @@
 				(*cmd)[(*win)->cur - (*win)->pr] == '>'
 
 /*
-**	key defines
+**	bang options
 */
+
+#define 	H				1
+#define 	T 			2
+#define 	RB 			4
+#define 	E 			8
+#define 	PB 			16
+#define 	Q 			32
+#define 	X 			64
+
+typedef struct		s_bang
+{
+		int						n;
+		char					*string;
+		char					*s1;
+		char					*s2;
+
+		int						des;
+		int						x;
+		int						y;
+
+		int						mod;
+		int						s;
+
+		int						b;
+		int						e;
+}									t_bang;
 
 typedef struct		s_ls
 {
-    char            padx[512];
-    char            *name;
+    char          padx[512];
+    char          *name;
     struct s_ls		*next;
-}					t_ls;
+}									t_ls;
 
 typedef struct		s_his
 {
-	size_t			len;
-	char			*cmdl;
-	struct s_his	*next;
-	struct s_his	*prev;
-}					t_his;
+	size_t					len;
+	int							add;
+	char						*cmdl;
+	struct s_his		*next;
+	struct s_his		*prev;
+}									t_his;
 
 typedef struct		s_hdoc
 {
-	char			*hstring;
-	char			*fd;
-	struct s_hdoc	*next;
-}					t_hdoc;
+	char						*hstring;
+	char						*fd;
+	struct s_hdoc		*next;
+}									t_hdoc;
 
 typedef struct		s_win
 {
-	int				co;
-	int				li;
-	int				pr;
-	int				cur;
-	int				cpy_b;
-	int				cpy_e;
-	int				ccp;
-	int				quote;
-	int				sh;
-	int				ctrld;
-	int				pao;
-	int				tmp;
-	char			*copy;
-	t_hdoc			*hd;
-	t_his			*his;
-	t_env			*lstenv;
+	int							co;
+	int							li;
+	int							pr;
+	int							cur;
+	int							cpy_b;
+	int							cpy_e;
+	int							ccp;
+	int							quote;
+	int							sh;
+	int							ctrld;
+	int							pao;
+	int							tmp;
+	char						*copy;
+	t_hdoc					*hd;
+	t_his						*his;
+	t_env						*lstenv;
 	struct termios	term;
-}					t_win;
+}									t_win;
 
 
 /*
@@ -125,7 +152,7 @@ typedef struct		s_win
 void				arrows(t_win *win, char *cmd, char buf[]);
 void				arrow_left(t_win *win);
 void				arrow_rigth(t_win *win, char *cmd);
-void    			catcmd(t_win *win, char **cmd);
+void    		catcmd(t_win *win, char **cmd);
 void				call_chs(t_win **win, char **save);
 void				ccp(char **cmd, char buf[], t_win *win);
 void				check_line(char **save, char **cmd, t_win **win, char buf[]);
@@ -167,7 +194,7 @@ t_win				*win_sgt(void);
 
 int					call_print_lst(t_win **win, char **cmd, t_ls *list, int i);
 void				display_list(t_ls *list, char **cmd, char *path, t_win **win);
-void	    		completion(t_win **win, char **cmd);
+void	    	completion(t_win **win, char **cmd);
 t_ls				*fill_lst(t_ls **head, struct dirent *rdd, int param);
 void				ft_padd_x(t_ls **ls, int *maxlen);
 void				ft_putpaddx(t_ls **ls, int maxlen);
@@ -178,7 +205,12 @@ void				list_files(char **tmp, t_win **win, char **cmd);
 int					list_len(t_ls **list);
 void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
 
-
 void				delete_lstenv(t_env **cmd);
+
+int         bang_bang(char **cmd, char *str, t_bang *bang);
+int         do_sub(t_his *his, t_bang *bang, char **cmd, char *array);
+void 				fill_buf(char *tmp, char **cmd, int i, int j);
+int					mod_cmd(char **cmd, char **array, t_bang *bang);
+
 
 #endif

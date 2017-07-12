@@ -26,10 +26,10 @@ static void		save_his_session(t_win **win)
 	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 			fd_printf(2, "Could no write history list to history file\n");
 
-	while (tmp && ft_strcmp(tmp->cmdl, "") && fd != -1)
+	while (tmp && fd != -1)
 	{
 		save = tmp->next;
-		ft_putendl_fd(tmp->cmdl, fd);
+		!tmp->add ? ft_putendl_fd(tmp->cmdl, fd) : 0;
 		ft_strdel(&tmp->cmdl);
 		free(tmp);
 		tmp = save;

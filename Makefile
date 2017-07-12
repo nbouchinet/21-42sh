@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/09 15:38:01 by zadrien          ###   ########.fr        #
+#    Updated: 2017/07/10 17:40:38 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -37,8 +37,8 @@ CFILES= main.c print_prompt.c signals.c ft_putast.c	\
 		execution/env_tools.c execution/exec_seq.c execution/exec_tools.c \
 		execution/get_env.c execution/main_exec.c execution/redirection.c \
 		builtins/unsetenv.c builtins/setenv.c builtins/env.c builtins/ft_echo.c \
-		builtins/ft_exit.c builtins/history.c builtins/hash.c builtins/hash_tools.c\
-		builtins/builtin_hash.c \
+		builtins/ft_exit.c builtins/history.c builtins/history_opt.c  lexer/bang_bang.c \
+		lexer/bang_sub.c builtins/hash.c builtins/hash_tools.c builtins/builtin_hash.c \
 		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
 		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
 		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\

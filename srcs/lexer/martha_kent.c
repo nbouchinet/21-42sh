@@ -73,10 +73,3 @@ int		check_end(char *line)
 		return (0);
 	return (1);
 }
-
-int		fill_tmp(char tmp[], char c)
-{
-	tmp[0] = c;
-	tmp[1] = 0;
-	return (1);
-}

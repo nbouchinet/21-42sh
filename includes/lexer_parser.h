@@ -12,12 +12,14 @@
 
 #ifndef LEXER_PARSER_H
 # define LEXER_PARSER_H
+#include "command_line.h"
 
 /*
 ********************************************************************************
 **                                     LEXER                                  **
 ********************************************************************************
 */
+
 typedef struct		s_lex
 {
 	char			*ch;
@@ -73,6 +75,7 @@ void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
 void				new_parser(t_tok **cmd, char *line);
 void				quote(t_tok **lst, char **stack, char *line, int *i);
+void 				bang(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
 void				question_mark(t_tok **lst, char **stack, char *line, int *i);
 void				pipe_pars(t_tok **lst, char **stack, char *line, int *i);
@@ -89,4 +92,5 @@ void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
 void				expanse(t_tok **lst, t_env **env);
+
 #endif
