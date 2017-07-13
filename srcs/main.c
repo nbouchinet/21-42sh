@@ -29,18 +29,11 @@ static void	exec_part(char **line, t_env **env)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tmp;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
 	lexer_check(&cmd);
 	expanse(&cmd, env);
-	tmp = cmd;
-	while (tmp)
-	{
-		ft_printf("%@%s%@\n", RED, tmp->str, I);
-		tmp = tmp->n;
-	}
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);

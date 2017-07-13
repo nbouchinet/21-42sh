@@ -26,10 +26,11 @@ enum 			e_ast
 	PIPE_SEQ,
 	AND_OR,
 	IO_FILE,
-	CMD_NAME,
+	CMD_NAME_ABS,
 	SIMP_CMD,
 	CMD_ARG,
-	IO_SEQ
+	IO_SEQ,
+	CMD_NAME_RLT
 };
 
 typedef struct		s_ast

@@ -52,7 +52,8 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	init_ast(&tmp_ast->left, tmp->str, CMD_NAME);
+	init_ast(&tmp_ast->left, tmp->str,
+		 ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
 	tmp = tmp->n;
 	while (tmp != *sep)
 	{

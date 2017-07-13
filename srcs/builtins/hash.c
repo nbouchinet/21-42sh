@@ -39,12 +39,17 @@ int		search(t_ast **ast, t_hash **table, int i)
 		{
 			if (tmp->rlt_key == key || tmp->abs_key == key)
 			{
+			  if (tmp_a->type == CMD_NAME_RLT ?
+			      (!ft_strcmp(tmp_a->str, ft_strrchr(tmp->path, '/'))) :
+			      (!ft_strcmp(tmp_a->str, tmp->path)))
+			    {
 				ft_strdel(&tmp_a->str);
 				tmp_a->str = ft_strdup(tmp->path);
 				tmp->hits++;
 				if (isexec(tmp_a->str) == 1)
 					return (1);
 				return (0);
+			    }
 			}
 			tmp = tmp->next;
 		}
