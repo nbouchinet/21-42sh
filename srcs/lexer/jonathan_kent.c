@@ -55,8 +55,11 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 		}
 	j == 3 ? (*i)-- : (*i);
 	tok_save(lst, stack, CHEVRON);
-	init_token(&(*lst)->n);
-	*lst = (*lst)->n;
+	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
+	{
+		init_token(&(*lst)->n);
+		*lst = (*lst)->n;
+	}
 }
 
 void	question_mark(t_tok **lst, char **stack, char *line, int *i)
