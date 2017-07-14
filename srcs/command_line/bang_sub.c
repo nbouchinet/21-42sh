@@ -12,32 +12,17 @@
 
 #include "header.h"
 
-static void   process_des_and_mod(char **array, char **tmp, t_bang *bang, int i)
+static void   process_des_and_mod(char **array, char **tmp, t_bang *bang)
 {
-  char        *ptr;
-  char        **arr;
-
-  if (bang->des)
+  ft_putnbrl(bang->mod);
+  ft_putendl(*tmp);
+  bang->des != -5 || bang->x ? ft_strdel(tmp) : 0;
+  if (bang->des != -5)
     (*tmp) = ft_strdup(array[bang->des]);
   else if (bang->x && bang->y)
     while (bang->x <= bang->y)
       (*tmp) = ft_strjoinf(ft_strjoinf(*tmp, array[bang->x++], 1), " ", 1);
-  (bang->mod & H && (ptr = ft_strchr(*tmp, '/')) ? (*ptr) = 0 : 0);
-  (bang->mod & T && (ptr = ft_strchr(*tmp, '/')) ? (*tmp) = ptr + 1 : 0);
-  (bang->mod & RB && (ptr = ft_strchr(*tmp, '.')) ? (*ptr) = 0 : 0);
-  (bang->mod & E && (ptr = ft_strchr(*tmp, '.')) ? (*tmp) = ptr : 0);
-  bang->mod & Q ? (*tmp) = ft_strjoinf(ft_strjoinf("\"", (*tmp), 2), "\"", 1)
-  : 0;
-  if (bang->mod & X)
-  {
-    arr = ft_strsplit((*tmp), ' ');
-    ft_strdel(tmp);
-    while (arr[++i])
-    {
-      arr[i] = ft_strjoinf(ft_strjoinf("\"", arr[i], 2), "\"", 1);
-      (*tmp) = ft_strjoinf(ft_strjoinf(*tmp, arr[i], 3), " ", 1);
-    }
-  }
+  process_mod(tmp, bang, -1, NULL);
 }
 
 static int    check_des(t_bang *bang, int len)
@@ -113,7 +98,7 @@ int           do_sub(t_his *his, t_bang *bang, char **cmd, char *arr)
   array = ft_strsplit(tmp, ' ');
   if (check_des(bang, ft_tablen(array)))
     return (1);
-  !bang->s1 ? process_des_and_mod(array, &tmp, bang, -1) : 0;
+  !bang->s1 ? process_des_and_mod(array, &tmp, bang) : 0;
   !bang->s1 ? fill_buf(tmp, cmd, -1, 0) : 0;
   bang->s1 ? ret = mod_cmd(cmd, array, bang) : 0;
   ft_free(array, &tmp);

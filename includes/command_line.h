@@ -168,6 +168,7 @@ void 				del_his(char **cmd, t_win *win, t_his **his);
 void				e(t_win **win, t_his **his, char **cmd, char **save);
 void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
 void				findstr(t_his **his, char *cmd);
+void 				get_be(t_win *win, char buf[]);
 void				get_cmdl(char **cmd, t_win **win, char *save, char buf[]);
 void				get_here_string(char **save, t_win **win, int i, int j);
 int					get_win_data(t_win **win);
@@ -205,12 +206,17 @@ void				list_files(char **tmp, t_win **win, char **cmd);
 int					list_len(t_ls **list);
 void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
 
-void				delete_lstenv(t_env **cmd);
 
-int         bang_bang(char **cmd, char *str, t_bang *bang);
+/*
+**	Bang
+*/
+
+int         bang_bang(char **cmd, char *str, t_bang *bang, int len);
 int         do_sub(t_his *his, t_bang *bang, char **cmd, char *array);
-void 				fill_buf(char *tmp, char **cmd, int i, int j);
+int 				fill_buf(char *tmp, char **cmd, int i, int j);
 int					mod_cmd(char **cmd, char **array, t_bang *bang);
+void   			process_mod(char **tmp, t_bang *bang, int i, char *ptr);
 
+void				delete_lstenv(t_env **cmd);
 
 #endif

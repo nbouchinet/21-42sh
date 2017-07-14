@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/12 17:19:11 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/13 13:51:44 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_free(char **tab, char **line)
 	if (tab)
 	{
 		while (tab[++i])
-			ft_strdel(&tab[i]);
+			tab[i] ? ft_strdel(&tab[i]) : 0;
 		free(tab);
 	}
 	return (1);

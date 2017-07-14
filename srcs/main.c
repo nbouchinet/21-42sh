@@ -59,6 +59,7 @@ static void	loop(t_win *win)
 			break ;
 		if (cmd)
 		{
+			ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);

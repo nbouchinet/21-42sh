@@ -91,12 +91,9 @@ static void		swap(char **cmd, t_win *win, int j, int i)
 
 static void		mark_be(char **cmd, char buf[], t_win *win)
 {
-	int		i;
+	int				 i;
 
-	if ((CUT || CPY) && win->cpy_b == -1 && win->cpy_e == -1)
-		win->cpy_b = win->cur - win->pr;
-	else if ((CUT || CPY) && win->cpy_b != -1 && win->cpy_e == -1)
-		win->cpy_e = win->cur - win->pr;
+	get_be(win, buf);
 	if (win->cpy_e == -1)
 		return ;
 	if (win->cpy_b > (int)ft_strlen(*cmd) + 1)
