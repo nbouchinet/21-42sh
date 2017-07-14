@@ -21,9 +21,18 @@ t_tok	*find_rdi_tok(t_tok **lst, t_tok **stop)
 		tmp = tmp->n->n;
 	else
 		tmp = tmp->n;
-	while (tmp && tmp != *stop && tmp->type != IO_N && (tmp->type < RDIR || tmp->type > BGRE))
+	while (tmp && tmp != *stop && tmp->type != IO_N && (tmp->type < RDIR ||
+	tmp->type > BGRE))
 		tmp = tmp->n;
 	return (tmp);
+}
+
+static void 	exec_else(t_tok *t_f, t_ast *t_a)
+{
+	init_ast(&t_a->right, t_f->type == IO_N ? t_f->str : NULL, t_f->type == IO_N ?
+	t_f->n->type : t_f->type);
+	t_a = t_a->right;
+	init_ast(&t_a->left, t_f->type == IO_N ? t_f->n->n->str : t_f->n->str, FIL);
 }
 
 void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
@@ -51,9 +60,5 @@ void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		io_sequence(&t_a, lst, io ? &io : &rdir);
 	}
 	else
-	{
-		init_ast(&t_a->right, t_f->type == IO_N ? t_f->str : NULL, t_f->type == IO_N ? t_f->n->type : t_f->type);
-		t_a = t_a->right;
-		init_ast(&t_a->left, t_f->type == IO_N ? t_f->n->n->str : t_f->n->str, FIL);
-	}
+		exec_else(t_f, t_a);
 }

@@ -24,10 +24,10 @@ static int	status_process(t_ast **ast, t_env **env, int type)
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 	{
 		if (type != PIPE_SEQ && (e_n = find_node(env, "PATH", NULL)) &&
-		    find_cmd_bin(&tmp->left->left, (arg = ft_strsplit(e_n->value, ':'))) == 1)
+		find_cmd_bin(&tmp->left->left, (arg = ft_strsplit(e_n->value, ':'))) == 1)
 		  {
-			hash(&tmp->left, PUT);
-			ft_freetab(arg);
+				hash(&tmp->left, PUT);
+				ft_freetab(arg);
 		  }
 		return (1);
 	}

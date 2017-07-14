@@ -48,16 +48,18 @@ static int		check_lst(t_tok **lst)
 	tmp = (*lst);
 	while (tmp)
 	{
-		if (tmp->type == CHEVRON && (tmp->n->str[0] == '<'
+		if (tmp->type == CHEVRON && tmp->n->type == 0)
+			return (fd_printf(2, "parse error near unexpected token `%s'\n",
+			tmp->str));
+		else if (tmp->type == CHEVRON && tmp->n && (tmp->n->str[0] == '<'
 		|| tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
 		|| tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
 		|| tmp->n->str[0] == '|'))
-			return (fd_printf
-			(2, "parse error near unexpected token `%s'\n", tmp->str));
+			return (fd_printf (2, "parse error near unexpected token `%s'\n",
+			tmp->str));
 		else if ((tmp->type == QM && tmp->n && tmp->n->type == QM) ||
 		(tmp == *lst && tmp->type == QM && !tmp->n))
-			return (fd_printf
-			(2, "parse error near unexpected token `newline'\n"));
+			return (fd_printf(2, "parse error near unexpected token `newline'\n"));
 		else
 			tmp = tmp->n;
 	}
