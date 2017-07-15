@@ -14,24 +14,6 @@
 
 extern int g_loop;
 
-static void		move_history(t_his **his, char **cmd, char buf, t_win *win)
-{
-	char		*tmp;
-
-	tmp = (*cmd);
-	win->cpy_b = -1;
-	win->cpy_e = -1;
-	if ((buf == 65 && !(*his)->prev) || (buf == 66 && !(*his)->next))
-		return ;
-	while (win->cur > win->pr)
-		arrow_left(win);
-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	del_all(*cmd, win);
-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	get_history(his, tmp, cmd, buf);
-	win->cur += (int)ft_strlen(*cmd);
-}
-
 static int		print(char **cmd, char buf[], t_win *win)
 {
 	char	*tmp;
@@ -57,34 +39,6 @@ static int		print(char **cmd, char buf[], t_win *win)
 	while (win->cur - win->pr - 1 > i)
 		arrow_left(win);
 	return (1);
-}
-
-void			check_line(char **save, char **cmd, t_win **win, char buf[])
-{
-	if ((!(*cmd) || !(*cmd)[0] || EOT) &&
-	!(*win)->hd && !(*win)->pao && !(*win)->quote)
-	{
-		(EOT && (!(*cmd) || !(*cmd)[0])) ? (*win)->ctrld = 1 : 0;
-		(!(*cmd) || !(*cmd)[0]) ? g_loop = 0 : 0;
-		return ;
-	}
-	if (!(*win)->hd && check_quotes(cmd, win))
-		(*save) = ft_strjoinf((*save), (*cmd), 1);
-	if (!(*win)->quote)
-		(!(*win)->hd) ? get_here_string(save, win, -1, 0) :
-		heredoc(cmd, win, buf);
-	if ((*save) && !(*win)->hd && !(*win)->quote)
-		handle_pipe_and_or(save, win);
-	if ((*save) && !(*win)->hd && !(*win)->quote && !(*win)->pao &&
-			(*save)[ft_strlen((*save)) - 1] == '\\')
-	{
-		write(1, "\n$> ", 4);
-		g_loop = 256;
-		(*win)->cur = 3;
-	}
-	ft_memset((*cmd), 0, ft_strlen(*cmd));
-	!(*win)->hd && !(*win)->quote && !(*win)->pao ? (*win)->pr = 3 : 0;
-	(*win)->sh = 0;
 }
 
 static void		exit_get_cmdl(char **cmd, t_win **win, char **save)
@@ -122,9 +76,8 @@ void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
-		if (RETURN || EOT)
-			!(*win)->sh ? check_line(&save, cmd, win, buf) :
-				e(win, &(*win)->his, cmd, &save);
+		if ((RETURN || EOT) && check_cmdl(&save, cmd, win, buf))
+			return ;
 	}
 	exit_get_cmdl(cmd, win, &save);
 }

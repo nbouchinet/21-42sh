@@ -12,6 +12,24 @@
 
 #include "header.h"
 
+void		move_history(t_his **his, char **cmd, char buf, t_win *win)
+{
+	char		*tmp;
+
+	tmp = (*cmd);
+	win->cpy_b = -1;
+	win->cpy_e = -1;
+	if ((buf == 65 && !(*his)->prev) || (buf == 66 && !(*his)->next))
+		return ;
+	while (win->cur > win->pr)
+		arrow_left(win);
+	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	del_all(*cmd, win);
+	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	get_history(his, tmp, cmd, buf);
+	win->cur += (int)ft_strlen(*cmd);
+}
+
 static void get_bang(int *i, int *b, t_bang *bang, char **cmd)
 {
   ft_memset(bang, 0, sizeof(bang));

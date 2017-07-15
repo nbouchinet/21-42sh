@@ -55,16 +55,19 @@ static void	loop(t_win *win)
 		save = g_loop;
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, buf);
-		if (win->ctrld)
+		if (win->ctrld && !cmd)
 			break ;
 		if (cmd)
 		{
+			ft_putendl("ici");
 			ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);
 			free(cmd);
 		}
+		if (win->ctrld)
+			break ;
 	}
 	unset_shell(&win);
 }

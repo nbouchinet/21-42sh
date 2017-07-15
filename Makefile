@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/13 16:15:24 by khabbar          ###   ########.fr        #
+#    Updated: 2017/07/15 13:50:40 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -28,26 +28,66 @@ HPATH= includes/ libft/
 
 INC= $(addprefix -I , $(HPATH))
 
-CFILES= main.c print_prompt.c signals.c ft_putast.c	\
-		lexer/lex_luthor.c lexer/lexer_check.c lexer/martha_kent.c lexer/expanse.c \
-		lexer/jonathan_kent.c lexer/the_dog.c AST/ast_tools.c AST/creat_ast.c \
-		AST/creat_io_seq.c AST/creat_pipe_seq.c AST/creat_qm_oa.c AST/destroy_ast.c \
-		init_env/check_env.c \
-		execution/bin_fin_help2.c execution/bin_fin_helper.c execution/binary_finders.c	\
-		execution/env_tools.c execution/exec_seq.c execution/exec_tools.c \
-		execution/get_env.c execution/main_exec.c execution/redirection.c \
-		builtins/unsetenv.c builtins/setenv.c builtins/env.c builtins/ft_echo.c \
-		builtins/ft_exit.c builtins/history.c builtins/history_opt.c \
-	   	builtins/hash.c builtins/hash_tools.c builtins/builtin_hash.c \
-		command_line/arrows.c command_line/cmdl_signals.c command_line/cut_copy_paste.c	\
-		command_line/delete.c command_line/get_cmdl.c command_line/heredoc.c	\
-		command_line/history_func.c command_line/history.c command_line/pipe_and_or.c	\
-		command_line/quotes.c command_line/search_history.c \
-		command_line/set_shell.c command_line/completion.c \
-		command_line/completion_func.c command_line/completion_func2.c \
-		command_line/completion_list.c command_line/tmp_pipe.c builtins/cd.c \
-		command_line/ctrl_l.c command_line/heredoc_func.c command_line/bang_bang.c \
-		command_line/bang_sub.c command_line/bang_func.c command_line/ccp_func.c
+CFILES= main.c \
+				print_prompt.c \
+				signals.c ft_putast.c	\
+				lexer/lex_luthor.c \
+				lexer/lexer_check.c \
+				lexer/martha_kent.c \
+				lexer/expanse.c \
+				lexer/jonathan_kent.c \
+				lexer/the_dog.c \
+				AST/ast_tools.c \
+				AST/creat_ast.c \
+				AST/creat_io_seq.c \
+				AST/creat_pipe_seq.c \
+				AST/creat_qm_oa.c \
+				AST/destroy_ast.c \
+				init_env/check_env.c \
+				execution/bin_fin_help2.c \
+				execution/bin_fin_helper.c \
+				execution/binary_finders.c	\
+				execution/env_tools.c \
+				execution/exec_seq.c \
+				execution/exec_tools.c \
+				execution/get_env.c \
+				execution/main_exec.c \
+				execution/redirection.c \
+				builtins/cd.c \
+				builtins/unsetenv.c \
+				builtins/setenv.c \
+				builtins/env.c \
+				builtins/ft_echo.c \
+				builtins/ft_exit.c \
+				builtins/history.c \
+				builtins/history_opt.c \
+	  		builtins/hash.c \
+				builtins/hash_tools.c \
+				builtins/builtin_hash.c \
+				command_line/arrows.c \
+				command_line/check_cmdl.c \
+				command_line/cmdl_signals.c \
+				command_line/ccp_func.c \
+				command_line/cut_copy_paste.c	\
+				command_line/ctrl_l.c \
+				command_line/delete.c \
+				command_line/get_cmdl.c \
+				command_line/set_shell.c \
+				command_line/tmp_pipe.c \
+				command_line/heredoc/heredoc_func.c \
+				command_line/heredoc/heredoc.c	\
+				command_line/history/history_func.c \
+				command_line/history/history.c \
+				command_line/history/search_history.c \
+				command_line/pipe_and_or_quote/pipe_and_or.c \
+				command_line/pipe_and_or_quote/quotes.c \
+				command_line/completion/completion.c \
+				command_line/completion/completion_func.c \
+				command_line/completion/completion_func2.c \
+				command_line/completion/completion_list.c \
+				command_line/bang/bang_bang.c \
+				command_line/bang/bang_sub.c \
+				command_line/bang/bang_func.c
 
 OFILES= $(CFILES:.c=.o)
 
@@ -65,6 +105,11 @@ $(NAME): $(OBJ)
 
 $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)/command_line
+	@mkdir -p $(OPATH)/command_line/bang
+	@mkdir -p $(OPATH)/command_line/completion
+	@mkdir -p $(OPATH)/command_line/history
+	@mkdir -p $(OPATH)/command_line/heredoc
+	@mkdir -p $(OPATH)/command_line/pipe_and_or_quote
 	@mkdir -p $(OPATH)/lexer
 	@mkdir -p $(OPATH)/AST
 	@mkdir -p $(OPATH)/execution

@@ -17,10 +17,7 @@ extern int g_loop;
 void	search_history(char **cmd, t_win **win)
 {
 	if ((*cmd))
-	{
-		free(*cmd);
-		*cmd = NULL;
-	}
+		ft_strdel(cmd);
 	while ((*win)->cur--)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
@@ -113,5 +110,5 @@ void	e(t_win **win, t_his **his, char **cmd, char **save)
 	buf[1] = 91;
 	buf[2] = 68;
 	exit_sh_mode(*win, his, cmd, buf);
-	check_line(save, cmd, win, buf);
+	check_cmdl(save, cmd, win, buf);
 }
