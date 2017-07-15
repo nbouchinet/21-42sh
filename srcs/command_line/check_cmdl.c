@@ -39,22 +39,22 @@ static int					check_line(char **save, char **cmd, t_win **win, char buf[])
 {
 	if (EOT && !(*win)->hd)
 	{
-		save_history(*win, save, &(*win)->his);
+		save ? save_history(*win, save, &(*win)->his) : 0;
 		EOT && save && ((*cmd && !(*cmd)[0]) || !(*cmd)) ? ft_strdel(save) : 0;
 		EOT && cmd && ((*cmd && !(*cmd)[0]) || !(*cmd)) ? ft_strdel(cmd) : 0;
 		if (EOT && (*win)->pao)
-			return (fd_printf(2, "\n42sh: syntax error: unexpected end of file\n"));
+			return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
 		else if (EOT && (*win)->quote)
-			return (fd_printf(2, "\n42sh: unexpected EOF while looking for matching\
-			`%c' \n42sh: syntax error: unexpected end of file\n",\
+			return (fd_printf(2, "\n42sh: unexpected EOF while looking for matching "
+			"`%c' \n42sh: syntax error: unexpected end of file",\
 			(*win)->quote == 1 ? '\'' : '\"'));
 		EOT && (!(*cmd) || !(*cmd)[0]) ? (*win)->ctrld = 1 : 0;
 		return ((*win)->ctrld ? 1 : 0);
 	}
 	else if (RETURN && ((*save) || (*cmd)))
-		checker(save, cmd, win, buf);
+    checker(save, cmd, win, buf);
 	else if (!(*save) || (!(*cmd) || !(*cmd)[0]))
-			g_loop = 0;
+    g_loop = 0;
 	return (0);
 }
 
@@ -68,7 +68,7 @@ int  check_cmdl(char **save, char **cmd, t_win **win, char buf[])
   else
   {
     e(win, &(*win)->his, cmd, save);
-    return(0);
+    return(1);
   }
   return (0);
 }

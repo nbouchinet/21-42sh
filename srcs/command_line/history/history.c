@@ -103,6 +103,7 @@ void			save_history(t_win *win, char **cmd, t_his **his)
 	if (!((*his)->next = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "save-hisroty: malloc error\n"));
 	(*his)->next->cmdl = ft_strdup((*cmd));
+	(*his)->next->len = ft_strlen((*cmd)) + 1;
 	(*his)->next->prev = (*his);
 	(*his)->next->next = tmp;
 	(*his) = (*his)->next;

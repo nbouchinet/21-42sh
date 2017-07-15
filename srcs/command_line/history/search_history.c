@@ -96,7 +96,7 @@ void	exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[])
 	win->pr = 3;
 	win->sh = 0;
 	findstr(his, *cmd);
-	ft_free(NULL, cmd);
+	ft_strdel(cmd);
 	(*cmd) = ft_strdup((*his)->cmdl);
 	ft_putstr((*cmd));
 	win->cur = ft_strlen(*cmd) + 3;
@@ -110,5 +110,8 @@ void	e(t_win **win, t_his **his, char **cmd, char **save)
 	buf[1] = 91;
 	buf[2] = 68;
 	exit_sh_mode(*win, his, cmd, buf);
+	buf[0] = 10;
+	buf[1] = 0;
+	buf[2] = 0;
 	check_cmdl(save, cmd, win, buf);
 }

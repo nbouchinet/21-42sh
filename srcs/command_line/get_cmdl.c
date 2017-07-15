@@ -77,7 +77,7 @@ void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
 		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
 		if ((RETURN || EOT) && check_cmdl(&save, cmd, win, buf))
-			return ;
+			break ;
 	}
 	exit_get_cmdl(cmd, win, &save);
 }
