@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:22:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/02 16:17:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/07/16 19:40:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,25 @@ int		qm_seq(t_ast **ast, t_env **env, int type)
 
 int		exec_oa(t_ast **ast, t_env **env, int type)
 {
-	int		i;
 	t_ast	*tmp;
 
-	i = 0;
 	tmp = *ast;
-	if ((tmp->left->type == AND && exec_oa(&tmp->left, env, type) == 1) ||
-	(tmp->left->type == OR && (i = exec_oa(&tmp->left, env, type))))
+	if (tmp->left->type == OR)
 	{
-		if (i == 1)
-			return (1);
-		if (exec_cmd_seq(&tmp->left->right, env, tmp->left->right->type) == 1)
-			return (1);
+		if (exec_oa(&tmp->left, env, type) == 0)
+			return (exec_cmd_seq(&tmp->left->right, env,
+				tmp->left->right->type));
+		return (1);
 	}
-	else
+	else if (tmp->left->type == AND)
 	{
-		if (tmp->left->type == CMD_SEQ)
-			if (exec_cmd_seq(&tmp->left, env, tmp->left->type) == 1)
-				return (1);
+		if (exec_oa(&tmp->left, env, type) == 1)
+			return (exec_cmd_seq(&tmp->left->right, env,
+				tmp->left->right->type));
 	}
+	else if (tmp->left->type == PIPE_SEQ)
+		return (exec_cmd_seq(&tmp->left, env, PIPE_SEQ));
+	else if (tmp->left->type == CMD_SEQ)
+		return (exec_cmd_seq(&tmp->left, env, CMD_SEQ));
 	return (0);
 }
