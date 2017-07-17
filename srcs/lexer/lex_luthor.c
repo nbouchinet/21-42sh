@@ -35,7 +35,11 @@ void	tok_save(t_tok **lst, char **stack, int type)
 		i++;
 	}
 	(*lst)->str[i] = '\0';
-	(*lst)->type = type;
+	// (*lst)->type = type;
+	if (type == WORD && ft_isalpha((*lst)->str[0]) && ft_strchr((*lst)->str, '='))
+		(*lst)->type = LOCAL;
+	else
+		(*lst)->type = type;
 	ft_memset(*stack, 0, ft_strlen(*stack));
 }
 

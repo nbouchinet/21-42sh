@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/12 17:19:54 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/15 17:51:32 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int					convert_to_d(char *tab, int base);
 
 char				*ft_strdup(const char *src);
 char				*ft_strdupf(char **src);
+char				*ft_strdups(char *src, char **dest);
 char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strncpy(char *dest, const char *src, size_t len);
 char				*ft_strcat(char *s1, const char *s2);

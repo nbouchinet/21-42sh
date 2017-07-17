@@ -56,7 +56,8 @@ enum 				e_token
 	SPACE_TOK,
 	WORD,
 	FIL,
-	DQUOTE
+	DQUOTE,
+	LOCAL
 };
 
 enum				e_dir

@@ -31,6 +31,13 @@
 **                                   EXECUTION                                **
 ********************************************************************************
 */
+typedef struct		s_local
+{
+		char						*var;
+		char						*val;
+		struct s_local	*n;
+}									t_local;
+
 typedef struct 		s_hist
 {
 	int				op;
@@ -113,6 +120,9 @@ void				hist_del(t_his **his, int offset, int len);
 void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
+int   			local(char *str);
+t_local			*local_sgt(void);
+int 				check_local(t_ast *tmp, int type);
 
 /*
 *************************************HASHING***********************************

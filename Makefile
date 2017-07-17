@@ -64,6 +64,7 @@ CFILES= main.c \
 	  		builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
+				builtins/local.c \
 				command_line/arrows.c \
 				command_line/check_cmdl.c \
 				command_line/cmdl_signals.c \

@@ -29,6 +29,7 @@ static void	exec_part(char **line, t_env **env)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	t_tok	*tok;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
@@ -36,6 +37,12 @@ static void	exec_part(char **line, t_env **env)
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
+		tok = cmd;
+	while (tok)
+	{
+		ft_printf("%@%s%@\n", BLUE, tok->str, I);
+		tok = tok->n;
+	}
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	ft_putast(ast);
@@ -59,7 +66,6 @@ static void	loop(t_win *win)
 			break ;
 		if (cmd)
 		{
-			ft_putendl("ici");
 			ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
@@ -68,6 +74,12 @@ static void	loop(t_win *win)
 		}
 		if (win->ctrld)
 			break ;
+		t_local *loc = local_sgt();
+		while (loc)
+		{
+			ft_printf("%s=%s\n", loc->var, loc->val);
+			loc = loc->n;
+		}
 	}
 	unset_shell(&win);
 }
