@@ -19,6 +19,7 @@ typedef struct		s_env
 	char			*value;
 	struct s_env	*next;
 }					t_env;
+
 #include "../libft/inc/libftprintf.h"
 #include <sys/types.h>
 #include <sys/stat.h>

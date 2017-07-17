@@ -22,7 +22,7 @@
 #define P	64
 #define S	128
 #define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
-					"history -awrn [filename] or history -ps arg [arg...]\n"
+								"history -awrn [filename] or history -ps arg [arg...]\n"
 #define HM			"history position out of range"
 #define HO			"invalid option"
 
@@ -121,9 +121,10 @@ void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
 int   			local(char *str);
-t_local			*local_sgt(void);
+t_local			**local_sgt(int i);
 int 				check_local(t_ast *tmp, int type);
-
+int   			ft_unset(t_ast **ast, t_env **env);
+int   			ft_export(t_ast **ast, t_env **env);
 /*
 *************************************HASHING***********************************
 */

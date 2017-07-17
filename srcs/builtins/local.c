@@ -28,20 +28,20 @@ int 		check_local(t_ast *tmp, int type)
 	return (0);
 }
 
-t_local		*local_sgt(void)
+t_local		**local_sgt(int i)
 {
 	static t_local *loc = NULL;
 
-	if (!loc)
+	if (!loc && i == 1)
 	{
 		if (!(loc = (t_local*)malloc(sizeof(t_local))))
 			exit(fd_printf(2, "malloc error\n"));
     loc->var = NULL;
     loc->val = NULL;
     loc->n = NULL;
-		return (loc);
+		return (&loc);
 	}
-	return (loc);
+	return (&loc);
 }
 
 static void stock_loc(int match, char **arr, t_local *loc)
@@ -58,7 +58,6 @@ static void stock_loc(int match, char **arr, t_local *loc)
   {
     loc->var = ft_strdups(arr[0], &loc->var);
     loc->val = ft_strdups(arr[1], &loc->val);
-    loc->n = NULL;
   }
 }
 
@@ -68,8 +67,7 @@ int   local(char *str)
   char      **arr;
   int       match;
 
-	ft_putendl("hello");
-  loc = local_sgt();
+  loc = *local_sgt(1);
   arr = ft_strsplit(str, '=');
   match = 0;
   if (!loc->var)

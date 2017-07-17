@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/15 13:50:40 by khabbar          ###   ########.fr        #
+#    Updated: 2017/07/17 14:11:34 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -57,14 +57,16 @@ CFILES= main.c \
 				builtins/unsetenv.c \
 				builtins/setenv.c \
 				builtins/env.c \
-				builtins/ft_echo.c \
-				builtins/ft_exit.c \
+				builtins/echo.c \
+				builtins/exit.c \
 				builtins/history.c \
 				builtins/history_opt.c \
 	  		builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
 				builtins/local.c \
+				builtins/unset.c \
+				builtins/export.c \
 				command_line/arrows.c \
 				command_line/check_cmdl.c \
 				command_line/cmdl_signals.c \

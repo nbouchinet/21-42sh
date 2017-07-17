@@ -74,10 +74,10 @@ static void	loop(t_win *win)
 		}
 		if (win->ctrld)
 			break ;
-		t_local *loc = local_sgt();
+		t_local *loc = *local_sgt(0);
 		while (loc)
 		{
-			ft_printf("%s=%s\n", loc->var, loc->val);
+			ft_printf("PRINT: %s=%s\n", loc->var, loc->val);
 			loc = loc->n;
 		}
 	}
