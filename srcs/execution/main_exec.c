@@ -67,16 +67,16 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
+	static const t_cmd	cmd[11] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_env},
 		{"setenv", &ft_setenv}, {"cd", &ft_cd}, {"echo", &ft_echo},
 		{"exit", &ft_exit}, {"history", &ft_history}, {"hash", &hashing},
-		{"unset", &ft_unset}, {"export", &ft_export}};
+		{"unset", &ft_unset}, {"export", &ft_export}, {"read", &ft_read}};
 
 	i = -1;
 	tmp = *ast;
 	if (check_local(tmp, type))
 		return (1);
-	while (type != PIPE_SEQ && ++i < 10)
+	while (type != PIPE_SEQ && ++i < 11)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->left->str) == 0)
 		{
 			if ((cmd[i].f(&tmp, env) == 1))
@@ -84,7 +84,7 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 			else
 				break ;
 		}
-	if (type == PIPE_SEQ || i == 10)
+	if (type == PIPE_SEQ || i == 11)
 		if (status_process(&tmp, env, type))
 			return (1);
 	return (0);

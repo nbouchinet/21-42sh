@@ -35,6 +35,7 @@ void        hist_clear(t_his **his, int offset, int len)
 	(*his)->add = 1;
 	(*his)->prev = NULL;
 	(*his)->next = NULL;
+	(*his)->len = 0;
 }
 
 void        hist_del(t_his **his, int offset, int len)
@@ -42,19 +43,23 @@ void        hist_del(t_his **his, int offset, int len)
 	t_his 	*tmp;
 	t_his	*save_prev;
 
+	save_prev = NULL;
 	tmp = *his;
 	if (offset > len)
 	{
 		fd_printf(2, "history: %d: %s\n", offset, HM);
 		return ;
 	}
-	while (offset--)
+	while (offset-- > 1)
 	{
 		save_prev = tmp;
 		tmp = tmp->next;
 	}
 	ft_strdel(&tmp->cmdl);
-	save_prev->next = tmp->next;
+	if (save_prev)
+		save_prev->next = tmp->next;
+	else
+		(*his) = tmp->next;
 	tmp->next->prev = save_prev;
 	free(tmp);
 }

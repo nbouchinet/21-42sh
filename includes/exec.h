@@ -31,6 +31,16 @@
 **                                   EXECUTION                                **
 ********************************************************************************
 */
+
+typedef struct		s_read
+{
+	char						delim;
+	int							opt;
+	int							nchars;
+	int							time;
+	int							fd;
+}									t_read;
+
 typedef struct		s_local
 {
 		char						*var;
@@ -120,11 +130,13 @@ void				hist_del(t_his **his, int offset, int len);
 void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
+void 				no_options(t_his **his, int offset, int len, int i);
 int   			local(char *str);
 t_local			**local_sgt(int i);
 int 				check_local(t_ast *tmp, int type);
 int   			ft_unset(t_ast **ast, t_env **env);
 int   			ft_export(t_ast **ast, t_env **env);
+int   			ft_read(t_ast **ast, t_env **env);
 /*
 *************************************HASHING***********************************
 */
