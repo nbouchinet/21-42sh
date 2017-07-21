@@ -62,13 +62,14 @@ CFILES= main.c \
 				builtins/history.c \
 				builtins/history_opt.c \
 				builtins/history_no_opt.c \
-		  		builtins/hash.c \
+		  	builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
 				builtins/local.c \
 				builtins/unset.c \
 				builtins/export.c \
 				builtins/read.c \
+				builtins/read_opt1.c \
 				command_line/arrows.c \
 				command_line/check_cmdl.c \
 				command_line/cmdl_signals.c \

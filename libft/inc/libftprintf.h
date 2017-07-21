@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/15 17:51:32 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/07/20 17:58:38 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_display_tab(char **tab);
 
 size_t				ft_intlen(size_t nbr);
+int					ft_strdigit(char *str);
 int					ft_tablen(char **tab);
 int					get_next_line(const int fd, char **line);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);

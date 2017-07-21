@@ -13,18 +13,6 @@
 #ifndef EXEC_H
 # define EXEC_H
 
-#define C	1
-#define D	2
-#define A	4
-#define N	8
-#define R	16
-#define W	32
-#define P	64
-#define S	128
-#define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
-								"history -awrn [filename] or history -ps arg [arg...]\n"
-#define HM			"history position out of range"
-#define HO			"invalid option"
 
 /*
 ********************************************************************************
@@ -32,27 +20,7 @@
 ********************************************************************************
 */
 
-typedef struct		s_read
-{
-	char						delim;
-	int							opt;
-	int							nchars;
-	int							time;
-	int							fd;
-}									t_read;
 
-typedef struct		s_local
-{
-		char						*var;
-		char						*val;
-		struct s_local	*n;
-}									t_local;
-
-typedef struct 		s_hist
-{
-	int				op;
-	void			(*f)(t_his **his, int offset, int len);
-}					t_hist;
 
 typedef struct		s_rdir
 {
@@ -109,6 +77,62 @@ t_env				*find_node(t_env **env, char *var, char *value);
 /*
 *************************************BUILT-IN***********************************
 */
+#define C	1
+#define D	2
+#define A	4
+#define N	8
+#define R	16
+#define W	32
+#define P	64
+#define S	128
+#define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
+					"history -awrn [filename] or history -ps arg [arg...]\n"
+#define HM			"history position out of range"
+#define HO			"invalid option"
+
+typedef struct 		s_hist
+{
+	int				op;
+	void			(*f)(t_his **his, int offset, int len);
+}					t_hist;
+
+#define AR	1
+#define DR	2
+#define NR	4
+#define PR	8
+#define RR	16
+#define SR	32
+#define TR	64
+#define UR	128
+#define RU	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"\
+ 						"[-a array] [-n nchars] [-d delim] [name ...]"
+
+typedef struct		s_read
+{
+	char						*delim;
+	char						*local;
+	char						*stack;
+	int							opt;
+	int							nchars;
+	time_t						time;
+	time_t						endwait;
+	int							fd;
+	int							eot;
+}								t_read;
+
+typedef struct		s_opt
+{
+	char						c[2];
+	int							(*f)(t_read *var, char **arg, int *i, int j);
+}								t_opt;
+
+typedef struct		s_local
+{
+	char						*var;
+	char						*val;
+	struct s_local	*n;
+}								t_local;
+
 int					ft_setenv(t_ast **ast, t_env **env);
 void				add_env(t_env **env, char **arg);
 void				add_var(t_env **env, char *var, char *value);
@@ -131,12 +155,20 @@ void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
 void 				no_options(t_his **his, int offset, int len, int i);
-int   			local(char *str);
-t_local			**local_sgt(int i);
+int   				local(char *str);
+t_local				**local_sgt(int i);
 int 				check_local(t_ast *tmp, int type);
-int   			ft_unset(t_ast **ast, t_env **env);
-int   			ft_export(t_ast **ast, t_env **env);
-int   			ft_read(t_ast **ast, t_env **env);
+int   				ft_unset(t_ast **ast, t_env **env);
+int   				ft_export(t_ast **ast, t_env **env);
+int   				ft_read(t_ast **ast, t_env **env);
+int					aname(t_read *var, char **arg, int *i, int j);
+int					delim(t_read *var, char **arg, int *i, int j);
+int					nchars(t_read *var, char **arg, int *i, int j);
+int					prompt(t_read *var, char **arg, int *i, int j);
+int					back_slash(t_read *var, char **arg, int *i, int j);
+int					silent(t_read *var, char **arg, int *i, int j);
+int					rtimeout(t_read *var, char **arg, int *i, int j);
+int					fd(t_read *var, char **arg, int *i, int j);
 /*
 *************************************HASHING***********************************
 */
