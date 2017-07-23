@@ -82,7 +82,7 @@ static void		first_link(t_win *win, char **cmd, t_his **his)
 	tmp->next = (*his);
 	(*his)->prev = tmp;
 	win->hd ? catcmd(win, cmd) : 0;
-	ft_streplace(&tmp->cmdl, 127, '\n');
+	ft_streplace(&tmp->cmdl, 127, ' ');
 }
 
 void			save_history(t_win *win, char **cmd, t_his **his)

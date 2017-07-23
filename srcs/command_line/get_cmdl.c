@@ -47,7 +47,7 @@ static void		exit_get_cmdl(char **cmd, t_win **win, char **save)
 		ft_strtrimf(ft_strjoinf((*save), (*cmd), 3)) : NULL;
 	save_history(*win, cmd, &(*win)->his);
 	(*cmd) ? end(*win, *cmd, NULL) : 0;
-	write(1, "\n", 1);
+	!(*win)->ctrld ? write(1, "\n", 1) : 0;
 	(*win)->copy ? ft_strdel(&(*win)->copy) : 0;
 	g_loop = 256;
 }

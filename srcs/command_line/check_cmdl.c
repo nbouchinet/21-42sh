@@ -58,10 +58,11 @@ int	check_line(char **save, char **cmd, t_win **win, char buf[])
 		EOT && save && ((*cmd && !(*cmd)[0]) || !(*cmd)) ? ft_strdel(save) : 0;
 		EOT && cmd && ((*cmd && !(*cmd)[0]) || !(*cmd)) ? ft_strdel(cmd) : 0;
 		if (EOT && (*win)->pao)
-			return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
+			return (fd_printf(2, "\n42sh: syntax error: unexpected "
+			"end of file"));
 		else if (EOT && (*win)->quote)
-			return (fd_printf(2, "\n42sh: unexpected EOF while looking for matching "
-			"`%c' \n42sh: syntax error: unexpected end of file",\
+			return (fd_printf(2, "\n42sh: unexpected EOF while looking "
+			"for matching `%c' \n42sh: syntax error: unexpected end of file",\
 			(*win)->quote == 1 ? '\'' : '\"'));
 		EOT && (!(*cmd) || !(*cmd)[0]) ? (*win)->ctrld = 1 : 0;
 		return ((*win)->ctrld ? 1 : 0);
