@@ -54,26 +54,22 @@ static void	exec_part(char **line, t_env **env)
 static void	loop(t_win *win)
 {
 	char	*cmd;
-	int		save;
 	char	buf[6];
 
 	while (g_loop)
 	{
-		save = g_loop;
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, buf);
-		if (win->ctrld && !cmd)
+		if (win->ctrld)
 			break ;
-		if (cmd)
+		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
 		{
 			ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);
-			free(cmd);
 		}
-		if (win->ctrld)
-			break ;
+		cmd ? free(cmd) : 0;
 		t_local *loc = *local_sgt(0);
 		while (loc)
 		{

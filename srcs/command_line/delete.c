@@ -21,7 +21,7 @@ void		del_his(char **cmd, t_win *win, t_his **his)
 
 	if (win->cur == win->pr)
 		return ;
-	arrow_left(win);
+	arrow_left(win, NULL, NULL);
 	i = win->cur - win->pr - 1;
 	j = i + (*his)->len + 5;
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
@@ -52,7 +52,7 @@ void		del(char **cmd, t_win *win, t_his **his)
 	}
 	if (win->cur == win->pr)
 		return ;
-	arrow_left(win);
+	arrow_left(win, NULL, NULL);
 	win->cpy_b -= win->cpy_b != -1 ? 1 : 0;
 	i = win->cur - win->pr - 1;
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);

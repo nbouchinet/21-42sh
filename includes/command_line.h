@@ -19,8 +19,8 @@
 **	Key bidings
 */
 
-#define UP		buf[0] == 27 && buf[1] == 91 && buf[2] == 65
-#define DWN		buf[0] == 27 && buf[1] == 91 && buf[2] == 66
+#define UP		buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0
+#define DWN		buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0
 
 #define OPT_C	buf[0] != -61 && buf[1] != -89 && buf[2] != 0
 #define OPT_V	buf[0] != -30 && buf[1] != -120 && buf[2] != -102
@@ -37,10 +37,10 @@
 
 #define EOT		(buf[0] == 4 && buf[1] == 0)
 
-#define ARR_L	(buf[0] == 27 && buf[1] == 91 && buf[2] == 68)
-#define ARR_R	(buf[0] == 27 && buf[1] == 91 && buf[2] == 67)
-#define HOME	buf[0] == 27 && buf[1] == 91 && buf[2] == 72
-#define END		buf[0] == 27 && buf[1] == 91 && buf[2] == 70
+#define ARR_L	(buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
+#define ARR_R	(buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
+#define HOME	buf[0] == 27 && buf[1] == 91 && buf[2] == 72 && buf[3] == 0
+#define END		buf[0] == 27 && buf[1] == 91 && buf[2] == 70 && buf[3] == 0
 #define OPT_L	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68)
 #define OPT_R	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67)
 #define OPT_U	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 65)
@@ -70,92 +70,77 @@
 				(*cmd)[(*win)->cur - (*win)->pr] == '<' || \
 				(*cmd)[(*win)->cur - (*win)->pr] == '>'
 
-/*
-**	bang options
-*/
 
-#define 	H				1
-#define 	T 			2
-#define 	RB 			4
-#define 	E 			8
-#define 	PB 			16
-#define 	Q 			32
-#define 	X 			64
 
-typedef struct		s_bang
+typedef struct			s_his
 {
-		int						n;
-		char					*string;
-		char					*s1;
-		char					*s2;
-
-		int						des;
-		int						x;
-		int						y;
-
-		int						mod;
-		int						s;
-
-		int						b;
-		int						e;
-}									t_bang;
-
-typedef struct		s_ls
-{
-    char          padx[512];
-    char          *name;
-    struct s_ls		*next;
-}									t_ls;
-
-typedef struct		s_his
-{
-	size_t					len;
-	int							add;
-	char						*cmdl;
+	size_t				len;
+	int					add;
+	char				*cmdl;
 	struct s_his		*next;
 	struct s_his		*prev;
-}									t_his;
+}						t_his;
 
-typedef struct		s_hdoc
+typedef struct			s_hdoc
 {
-	char						*hstring;
-	char						*fd;
+	char				*hstring;
+	char				*fd;
 	struct s_hdoc		*next;
-}									t_hdoc;
+}						t_hdoc;
 
-typedef struct		s_win
+typedef struct			s_win
 {
-	int							co;
-	int							li;
-	int							pr;
-	int							cur;
-	int							cpy_b;
-	int							cpy_e;
-	int							ccp;
-	int							quote;
-	int							sh;
-	int							ctrld;
-	int							pao;
-	int							tmp;
-	char						*copy;
-	t_hdoc					*hd;
-	t_his						*his;
-	t_env						*lstenv;
-	struct termios	term;
-}									t_win;
-
+	int					co;
+	int					li;
+	int					pr;
+	int					cur;
+	int					cpy_b;
+	int					cpy_e;
+	int					ccp;
+	int					quote;
+	int					sh;
+	int					ctrld;
+	int					pao;
+	int					tmp;
+	char				*copy;
+	t_hdoc				*hd;
+	t_his				*his;
+	t_env				*lstenv;
+	struct termios		term;
+}						t_win;
 
 /*
 **	cmdl handling functions.
 */
 
+/*
+**	arrow func
+*/
+
+typedef struct 			s_arrow
+{
+	int					a;
+	int					b;
+	int					c;
+	int					d;
+	void 				(*f)(t_win *win, char *cmd, char buf[]);
+}						t_arrow;
+
 void				arrows(t_win *win, char *cmd, char buf[]);
-void				arrow_left(t_win *win);
-void				arrow_rigth(t_win *win, char *cmd);
-void    		catcmd(t_win *win, char **cmd);
+void				arrow_left(t_win *win, char *cmd, char buf[]);
+void				arrow_rigth(t_win *win, char *cmd, char buf[]);
+void 				up_dwn(t_win *win, char *cmd, char buf[]);
+void 				home(t_win *win, char *cmd, char buf[]);
+void 				end(t_win *win, char *cmd, char buf[]);
+void 				opt_left(t_win *win, char *cmd, char buf[]);
+void 				opt_right(t_win *win, char *cmd, char buf[]);
+
+
+void    			catcmd(t_win *win, char **cmd);
 void				call_chs(t_win **win, char **save);
 void				ccp(char **cmd, char buf[], t_win *win);
 int					check_cmdl(char **save, char **cmd, t_win **win, char buf[]);
+int					check_line(char **save, char **cmd, t_win **win, char buf[]);
 int					check_input(int i, char buf[], char **cmd);
 int					check_quotes(char **cmd, t_win **win);
 int					cmdl_signal(char **cmd, char *save, t_win **win);
@@ -194,9 +179,16 @@ t_win				*win_sgt(void);
 **	Completion
 */
 
+typedef struct			s_ls
+{
+    char				padx[512];
+    char				*name;
+    struct s_ls			*next;
+}						t_ls;
+
 int					call_print_lst(t_win **win, char **cmd, t_ls *list, int i);
 void				display_list(t_ls *list, char **cmd, char *path, t_win **win);
-void	    	completion(t_win **win, char **cmd);
+void	    		completion(t_win **win, char **cmd);
 t_ls				*fill_lst(t_ls **head, struct dirent *rdd, int param);
 void				ft_padd_x(t_ls **ls, int *maxlen);
 void				ft_putpaddx(t_ls **ls, int maxlen);
@@ -212,11 +204,38 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
 **	Bang
 */
 
-int         bang_bang(char **cmd, char *str, t_bang *bang, int len);
-int         do_sub(t_his *his, t_bang *bang, char **cmd, char *array);
+/*
+**	bang options
+*/
+
+#define 	H			1
+#define 	T 			2
+#define 	RB 			4
+#define 	E 			8
+#define 	PB 			16
+#define 	Q 			32
+#define 	X 			64
+
+typedef struct			s_bang
+{
+	int					n;
+	char				*string;
+	char				*s1;
+	char				*s2;
+	int					des;
+	int					x;
+	int					y;
+	int					mod;
+	int					s;
+	int					b;
+	int					e;
+}						t_bang;
+
+int     		    bang_bang(char **cmd, char *str, t_bang *bang, int len);
+int 		        do_sub(t_his *his, t_bang *bang, char **cmd, char *array);
 int 				fill_buf(char *tmp, char **cmd, int i, int j);
 int					mod_cmd(char **cmd, char **array, t_bang *bang);
-void   			process_mod(char **tmp, t_bang *bang, int i, char *ptr);
+void   				process_mod(char **tmp, t_bang *bang, int i, char *ptr);
 
 void				delete_lstenv(t_env **cmd);
 

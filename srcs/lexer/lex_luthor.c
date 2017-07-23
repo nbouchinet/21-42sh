@@ -24,6 +24,7 @@ void	init_token(t_tok **lst)
 void	tok_save(t_tok **lst, char **stack, int type)
 {
 	int		i;
+	char	*bs;
 
 	i = ft_strlen(*stack);
 	if (!((*lst)->str = (char*)malloc(sizeof(char) * (i + 1))))
@@ -39,6 +40,11 @@ void	tok_save(t_tok **lst, char **stack, int type)
 		(*lst)->type = LOCAL;
 	else
 		(*lst)->type = type;
+	if ((*lst)->type != QUOTE && (bs = ft_strchr((*lst)->str, '\\')) &&
+	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
+	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' && *(bs + 1) != '\\')
+		ft_strleft(&(*lst)->str, '\\');
+	ft_putendl((*lst)->str);
 	ft_memset(*stack, 0, ft_strlen(*stack));
 }
 

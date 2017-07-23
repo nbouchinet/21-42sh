@@ -31,13 +31,16 @@ static int    check_des(t_bang *bang, int len)
   bang->y != 0 && (bang->y == -1) ? bang->y = (len - 1) : 0;
   bang->y != 0 && (bang->y == -2) ? bang->y = (len - 2) : 0;
   if ((bang->x < 0 || bang->y < 0))
-    return (fd_printf(2, "\n42sh: %d: bad word specifier", bang->x < 0 ? bang->x : bang->y));
+    return (fd_printf(2, "\n42sh: %d: bad word specifier",
+	bang->x < 0 ? bang->x : bang->y));
   else if ((bang->des && bang->des > len))
     return (fd_printf(2, "\n42sh: %d: bad word specifier", bang->des));
   else if (bang->x > len || bang->y > len)
-    return (fd_printf(2, "\n42sh: %d-%d: bad word specifier", bang->x, bang->y));
+    return (fd_printf(2, "\n42sh: %d-%d: bad word specifier",
+	bang->x, bang->y));
   else if (bang->x > bang->y)
-    return (fd_printf(2, "\n42sh: %d-%d: bad word specifier", bang->x, bang->y));
+    return (fd_printf(2, "\n42sh: %d-%d: bad word specifier",
+	bang->x, bang->y));
   return (0);
 }
 

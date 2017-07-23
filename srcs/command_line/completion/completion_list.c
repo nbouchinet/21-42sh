@@ -33,7 +33,7 @@ static int			display_e(t_ls *list, t_win **win, char **cmd, int k)
 		ft_strlen((*cmd) + ((*win)->cur - (*win)->pr)));
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
 		while (SEP && (*cmd)[(*win)->cur - (*win)->pr])
-			arrow_rigth(*win, *cmd);
+			arrow_rigth(*win, *cmd, NULL);
 		list_del(&list);
 		return (1);
 	}

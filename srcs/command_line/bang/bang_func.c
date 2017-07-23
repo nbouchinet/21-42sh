@@ -12,24 +12,18 @@
 
 #include "header.h"
 
-void   process_mod(char **tmp, t_bang *bang, int i, char *ptr)
+void   process_mod(char **tmp, t_bang *b, int i, char *ptr)
 {
   char        **arr;
 
-  bang->mod & H && (ptr = ft_strchr(*tmp, '/')) ? (*ptr) = 0 : 0;
-  bang->mod & RB && (ptr = ft_strchr(*tmp, '.')) ? (*ptr) = 0 : 0;
-  bang->mod & Q ? (*tmp) = ft_strjoinf(ft_strjoinf("\'", (*tmp), 2), "\'", 1): 0;
-  if (bang->mod & T && (ptr = ft_strchr(*tmp, '/')))
-  {
-    ft_strdel(tmp);
-    (*tmp) = ft_strdup(ptr + 1);
-  }
-  if (bang->mod & E && (ptr = ft_strchr(*tmp, '.')))
-  {
-    ft_strdel(tmp);
-    (*tmp) = ft_strdup(ptr);
-  }
-  if (bang->mod & X && (arr = ft_strsplit((*tmp), ' ')))
+  b->mod & H && (ptr = ft_strchr(*tmp, '/')) ? (*ptr) = 0 : 0;
+  b->mod & RB && (ptr = ft_strchr(*tmp, '.')) ? (*ptr) = 0 : 0;
+  b->mod & Q ? (*tmp) = ft_strjoinf(ft_strjoinf("\'", (*tmp), 2), "\'", 1): 0;
+  if (b->mod & T && (ptr = ft_strchr(*tmp, '/')))
+    (*tmp) = ft_strdups(ptr + 1, tmp);
+  if (b->mod & E && (ptr = ft_strchr(*tmp, '.')))
+    (*tmp) = ft_strdups(ptr, tmp);
+  if (b->mod & X && (arr = ft_strsplit((*tmp), ' ')))
   {
     ft_strdel(tmp);
     while (arr[++i])
@@ -54,8 +48,7 @@ int      mod_cmd(char **cmd, char **array, t_bang *bang)
   while (array[++ret])
     if (!ft_strcmp(array[ret], bang->s1))
     {
-      ft_strdel(&array[ret]);
-      array[ret] = ft_strdup(bang->s2);
+      array[ret] = ft_strdups(bang->s2, &array[ret]);
       break ;
     }
   if (!array[ret])
@@ -76,30 +69,30 @@ static int  last_bang(char **cmd, char **buf)
   return (1);
 }
 
-int 				fill_buf(char *tmp, char **cmd, int i, int j)
+int 		fill_buf(char *tmp, char **cmd, int i, int j)
 {
-	static char	*buf = NULL;
-	char				*sub;
-	int					b;
-	int					e;
+	static char		*buf = NULL;
+	char			*sub;
+	int				b;
+	int				e;
 
-  !buf ? buf = ft_strdup(*cmd) : 0;
+	!buf ? buf = ft_strdup(*cmd) : 0;
 	if (j)
-    return (last_bang(cmd, &buf));
+    	return (last_bang(cmd, &buf));
 	while (buf[++i])
 		if (buf[i] == '!')
 		{
 			b = i ;
 			buf[i + 1] == '!' ? i += 1 : 0;
-			while (buf[++i] && buf[i] != '<' && buf[i] != '>' && buf[i] != '\"' &&
-      buf [i] != '\'' && buf[i] != ';' && buf[i] != '|' && buf[i] != '&' &&
-      buf[i] != '!')
-        ;
+			while (buf[++i] && buf[i] != '<' && buf[i] != '>' && buf[i] != '\"'
+			&& buf [i] != '\'' && buf[i] != ';' && buf[i] != '|' &&
+			buf[i] != '&' && buf[i] != '!')
+        		;
 			e = i;
 			sub = ft_strdup(buf + e);
 			buf[b] = 0;
-			buf = ft_strjoinf(ft_strjoinf(ft_strjoinf(buf, tmp, 1), " ", 1), sub, 3);
+			buf = ft_strjoinf(ft_strjoinf(buf, tmp, 1), sub, 3);
 			break ;
 		}
-  return (0);
+	return (0);
 }

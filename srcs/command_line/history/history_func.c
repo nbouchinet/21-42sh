@@ -96,16 +96,20 @@ void	del_hd(t_hdoc **hd)
 
 int		check_input(int i, char buf[], char **cmd)
 {
+	int		tmp;
+
 	if (!(ARR_L || ARR_R) || !(*cmd))
 	{
-		i = 19;
+		i = 19 + ft_strlen(*cmd) * 2;
+		tmp = i;
 		while (i--)
 			tputs(tgetstr("le", NULL), 1, ft_putchar);
 		ft_putstr("$> ");
 		tputs(tgetstr("sc", NULL), 1, ft_putchar);
-		while (++i < 21)
+		while (++i < tmp)
 			write(1, " ", 1);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
+		write(1, *cmd, ft_strlen(*cmd));
 		return (1);
 	}
 	return (0);

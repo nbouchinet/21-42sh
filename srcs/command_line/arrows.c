@@ -12,8 +12,9 @@
 
 #include "header.h"
 
-void		arrow_rigth(t_win *win, char *cmd)
+void		arrow_rigth(t_win *win, char *cmd, char buf[])
 {
+	(void)buf;
 	if (!cmd || !cmd[win->cur - win->pr])
 	{
 		beep();
@@ -26,10 +27,12 @@ void		arrow_rigth(t_win *win, char *cmd)
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
 }
 
-void		arrow_left(t_win *win)
+void		arrow_left(t_win *win, char *cmd, char buf[])
 {
 	int		i;
 
+	(void)buf;
+	(void)cmd;
 	if (win->cur == win->pr)
 	{
 		beep();
@@ -47,48 +50,21 @@ void		arrow_left(t_win *win)
 	win->cur -= 1;
 }
 
-static void	up_dwn(t_win *win, char *cmd, char buf[])
+void 		arrows(t_win *win, char *cmd, char buf[])
 {
-	int		tmp;
-	int		len;
+	int						i;
+	static const t_arrow	arr[8] = {{27, 91, 68, 0,&arrow_left},
+	{27, 91, 67, 0,&arrow_rigth}, {27, 91, 72, 0, &home},
+	{27, 91, 70, 0, &end}, {27, 27, 91, 68, &opt_left},
+	{27, 27, 91, 67, &opt_right}, {27, 27, 91, 65, &up_dwn},
+	{27, 27, 91, 66, &up_dwn}};
 
-	tmp = win->co + 1;
-	len = ft_strlen(cmd);
-	if (OPT_D && win->cur + win->co - win->pr >= len && len >= win->co)
-		while (cmd[win->cur - win->pr])
-			arrow_rigth(win, cmd);
-	else if (OPT_U && win->cur >= win->co)
-		while (--tmp)
-			arrow_left(win);
-	else if (OPT_D && len >= win->co - win->pr)
-		while (--tmp)
-			arrow_rigth(win, cmd);
-}
-
-void		arrows(t_win *win, char *cmd, char buf[])
-{
-	if (ARR_L || ARR_R)
-		ARR_L ? arrow_left(win) : arrow_rigth(win, cmd);
-	else if (HOME && cmd)
-		while (win->cur > 3)
-			arrow_left(win);
-	else if (END && cmd)
-		while (cmd[win->cur - win->pr])
-			arrow_rigth(win, cmd);
-	else if (OPT_L && cmd)
-	{
-		while (cmd[win->cur - win->pr] != ' ' && win->cur > win->pr)
-			arrow_left(win);
-		while (cmd[win->cur - win->pr] == ' ' && win->cur > win->pr)
-			arrow_left(win);
-	}
-	else if (OPT_R && cmd)
-	{
-		while (cmd[win->cur - win->pr] != ' ' && cmd[win->cur - win->pr] != 0)
-			arrow_rigth(win, cmd);
-		while (cmd[win->cur - win->pr] == ' ' && cmd[win->cur - win->pr] != 0)
-			arrow_rigth(win, cmd);
-	}
-	else if (cmd && (OPT_U || OPT_D))
-		up_dwn(win, cmd, buf);
+	i = -1;
+	while (++i < 8)
+		if (buf[0] == arr[i].a && buf[1] == arr[i].b && buf[2] == arr[i].c &&
+		buf[3] == arr[i].d)
+		{
+			arr[i].f(win, cmd, buf);
+			return ;
+		}
 }

@@ -24,7 +24,7 @@ void	search_history(char **cmd, t_win **win)
 	write(1, "  ", 2);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	ft_putstr("(reverse-i-search)`");
-	(*win)->pr = ft_strlen("(reverse-i-search)`");
+	(*win)->pr = 19;
 	(*win)->cur = 19;
 	ft_putstr("': ");
 	tputs(tgetstr("le", NULL), 1, ft_putchar);
@@ -96,8 +96,7 @@ void	exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[])
 	win->pr = 3;
 	win->sh = 0;
 	findstr(his, *cmd);
-	ft_strdel(cmd);
-	(*cmd) = ft_strdup((*his)->cmdl);
+	(*cmd) = ft_strdups((*his)->cmdl, cmd);
 	ft_putstr((*cmd));
 	win->cur = ft_strlen(*cmd) + 3;
 }
@@ -109,9 +108,10 @@ void	e(t_win **win, t_his **his, char **cmd, char **save)
 	buf[0] = 27;
 	buf[1] = 91;
 	buf[2] = 68;
+	*cmd = ft_strdups((*his)->cmdl, cmd);
 	exit_sh_mode(*win, his, cmd, buf);
 	buf[0] = 10;
 	buf[1] = 0;
 	buf[2] = 0;
-	check_cmdl(save, cmd, win, buf);
+	check_line(save, cmd, win, buf);
 }

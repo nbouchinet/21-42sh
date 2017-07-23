@@ -73,7 +73,7 @@ static void		swap(char **cmd, t_win *win, int j, int i)
 		win->cpy_b = win->cpy_e;
 		win->cpy_e = tmp;
 		while (win->cur - win->pr < win->cpy_e)
-			arrow_rigth(win, *cmd);
+			arrow_rigth(win, NULL, NULL);
 	}
 	else if (j == 1)
 	{

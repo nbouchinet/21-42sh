@@ -14,8 +14,26 @@
 
 extern int g_loop;
 
+static void  bs_inhib(t_win **win, char *save, int len, int count)
+{
+
+	while (save[len] =='\\' && len > 0)
+	{
+		count++;
+		len -= 1;
+	}
+	if (count % 2)
+	{
+		write(1, "\n$> ", 4);
+		g_loop = 256;
+		(*win)->cur = 3;
+	}
+}
+
 static void  checker(char **save, char **cmd, t_win **win, char buf[])
 {
+	int		len;
+
 	if (!(*win)->hd && check_quotes(cmd, win))
 		(*save) = ft_strjoinf((*save), (*cmd), 1);
 	if (!(*win)->quote)
@@ -23,19 +41,16 @@ static void  checker(char **save, char **cmd, t_win **win, char buf[])
 		heredoc(cmd, win, buf);
 	if ((*save) && !(*win)->hd && !(*win)->quote)
 		handle_pipe_and_or(save, win);
-	if ((*save) && !(*win)->hd && !(*win)->quote && !(*win)->pao &&
-	(*save)[ft_strlen((*save)) - 1] == '\\')
-	{
-		write(1, "\n$> ", 4);
-		g_loop = 256;
-		(*win)->cur = 3;
-	}
+	len = ft_strlen((*save)) - 1;
+	if ((*cmd)[0] && (*save) && !(*win)->hd && !(*win)->quote && !(*win)->pao &&
+	(*save)[len] == '\\')
+		bs_inhib(win, *save, len, 0);
 	ft_memset((*cmd), 0, ft_strlen(*cmd));
 	!(*win)->hd && !(*win)->quote && !(*win)->pao ? (*win)->pr = 3 : 0;
 	(*win)->sh = 0;
 }
 
-static int					check_line(char **save, char **cmd, t_win **win, char buf[])
+int	check_line(char **save, char **cmd, t_win **win, char buf[])
 {
 	if (EOT && !(*win)->hd)
 	{
@@ -52,9 +67,9 @@ static int					check_line(char **save, char **cmd, t_win **win, char buf[])
 		return ((*win)->ctrld ? 1 : 0);
 	}
 	else if (RETURN && ((*save) || (*cmd)))
-    checker(save, cmd, win, buf);
+		checker(save, cmd, win, buf);
 	else if (!(*save) || (!(*cmd) || !(*cmd)[0]))
-    g_loop = 0;
+    	g_loop = 0;
 	return (0);
 }
 

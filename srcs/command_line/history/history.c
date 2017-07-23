@@ -22,7 +22,7 @@ void		move_history(t_his **his, char **cmd, char buf, t_win *win)
 	if ((buf == 65 && !(*his)->prev) || (buf == 66 && !(*his)->next))
 		return ;
 	while (win->cur > win->pr)
-		arrow_left(win);
+		arrow_left(win, NULL, NULL);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	del_all(*cmd, win);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
@@ -53,7 +53,7 @@ static int 	is_bang(char **cmd, int i, int b, int e)
 		(*cmd)[i + 1] != '\t' && (*cmd)[i + 1] != '=' && (*cmd)[i + 1] != '\0'))
 		{
 			k = 1;
-      get_bang(&i, &b, &bang, cmd);
+      		get_bang(&i, &b, &bang, cmd);
 			e = i;
 			bang.b = b;
 			bang.e = e;

@@ -53,9 +53,7 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 	g_loop == 6 ? print_prompt(win) : 0;
 	if (g_loop == 3)
 	{
-		if ((*cmd) && (*cmd)[(*win)->cur - (*win)->pr] != 0)
-			while ((*cmd)[(*win)->cur - (*win)->pr])
-				arrow_rigth(*win, *cmd);
+		(*cmd) ? end(*win, *cmd, NULL) : 0;
 		(*cmd) ? free((*cmd)) : 0;
 		save ? ft_strdel(&save) : 0;
 		(*win)->hd ? del_hd(&(*win)->hd) : 0;

@@ -17,9 +17,9 @@ void			display_list(t_ls *list, char **cmd, char *path, t_win **win)
 	char		*save;
 
 	save = ft_strdup((*cmd) + ((*win)->cur - (*win)->pr));
-	OR_SEP ? arrow_left(*win) : 0;
+	OR_SEP ? arrow_left(*win, NULL, NULL) : 0;
 	while (SEP && (*win)->cur - (*win)->pr)
-		arrow_left(*win);
+		arrow_left(*win, NULL, NULL);
 	(*cmd)[(*win)->cur - (*win)->pr +
 	((*win)->cur - (*win)->pr ? 1 : 0)] = 0;
 	(*cmd) = path[0] == '.' && path[1] != '.' ?
@@ -30,21 +30,16 @@ void			display_list(t_ls *list, char **cmd, char *path, t_win **win)
 	write(1, (*cmd) + ((*win)->cur - (*win)->pr),
 			ft_strlen((*cmd) + ((*win)->cur - (*win)->pr)));
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	arrow_rigth(*win, *cmd);
+	arrow_rigth(*win, *cmd, NULL);
 	while (SEP && (*cmd)[(*win)->cur - (*win)->pr])
-		arrow_rigth(*win, *cmd);
+		arrow_rigth(*win, *cmd, NULL);
 }
 
 int				call_print_lst(t_win **win, char **cmd, t_ls *list, int i)
 {
-	char		buf[3];
-
-	buf[0] = 27;
-	buf[1] = 91;
-	buf[2] = 70;
 	if (i)
 	{
-		arrows((*win), (*cmd), buf);
+		end(*win, NULL, NULL);
 		write(1, "\n", 1);
 		print_lst(&list, win, (*cmd), 0);
 		list_del(&list);
@@ -52,7 +47,7 @@ int				call_print_lst(t_win **win, char **cmd, t_ls *list, int i)
 	}
 	else
 	{
-		arrows((*win), (*cmd), buf);
+		end(*win, NULL, NULL);
 		write(1, "\n", 1);
 		print_lst(&list, win, (*cmd), 0);
 		list_del(&list);
@@ -74,8 +69,7 @@ static int		only_space(char *cmd, t_win *win)
 	while (cmd[++i])
 		if (cmd[i] != ' ' && cmd[i] != 0)
 			return (0);
-	while (win->cur > win->pr)
-		arrow_left(win);
+	home(win, NULL, NULL);
 	write(1, "\033[1mRTFM\n", 9);
 	print_prompt(&win);
 	return (1);
@@ -91,7 +85,7 @@ static void		get_comp(t_win **win, char **cmd, int i, char *tmp)
 		;
 	i += (i < 0 ? 1 : 0);
 	while ((*cmd)[(*win)->cur - (*win)->pr] && SEP)
-		arrow_rigth((*win), (*cmd));
+		arrow_rigth((*win), (*cmd), NULL);
 	if ((*cmd)[(*win)->cur - (*win)->pr - 1] != ' ')
 		tmp = ft_strsub((*cmd), (i ? i + 1 : i),
 		(*win)->cur - (*win)->pr - i - (i ? 1 : 0));

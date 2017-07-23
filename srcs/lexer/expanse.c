@@ -24,13 +24,20 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	var = ft_strsub(str, s + 1, len - 1);
 	if ((var_env = find_node(env, var, NULL)))
 		beg = ft_strjoinf(beg, var_env->value, 1);
-	beg = ft_strjoinf(beg, end, 1);
-	ft_strdel(&end);
+	else
+	{
+		free(beg);
+		free(end);
+		free(var);
+		return (NULL);
+	}
+	beg = ft_strjoinf(beg, end, 3);
+	free(var);
 	return (beg);
 }
 
 
-static void		check_expanse(char **str, t_env **env)
+static int		check_expanse(char **str, t_env **env)
 {
 	int		i;
 	int		end;
@@ -50,9 +57,17 @@ static void		check_expanse(char **str, t_env **env)
 				ft_strdel(&tmp);
 				i = 0;
 			}
+			else
+				return (1);
+		}
+		else if (i == 0 && (*str)[i] == '\\')
+		{
+			ft_strleft(str, (*str)[i]);
+			return (0);
 		}
 		else
 			i++;
+	return (0);
 }
 
 static void		tild(char **str, t_env **env)
@@ -67,10 +82,8 @@ static void		tild(char **str, t_env **env)
 		{
 			tmp = ft_strdup((*str) + 1);
 			tmp2 = ft_strdup(var_env->value);
-			tmp2 = ft_strjoinf(tmp2, tmp, 1);
-			ft_strdel(&tmp);
-			*str = ft_strdup(tmp2);
-			ft_strdel(&tmp2);
+			tmp2 = ft_strjoinf(tmp2, tmp, 3);
+			*str = ft_strdupf(&tmp2);
 		}
 	}
 }
@@ -78,15 +91,28 @@ static void		tild(char **str, t_env **env)
 void			expanse(t_tok **lst, t_env **env)
 {
 	t_tok	*tmp;
+	t_tok	*prev;
+	t_tok	*save;
 
 	tmp = *lst;
+	prev = NULL;
+	save = NULL;
 	while (tmp)
 	{
 		if (tmp->type == DQUOTE || tmp->type == WORD)
 		{
 			tmp->type == WORD ? tild(&tmp->str, env) : 0;
-			check_expanse(&tmp->str, env);
+			if (check_expanse(&tmp->str, env))
+			{
+				save = tmp;
+				!prev ? *lst = tmp->n : 0;
+				prev ? prev->n = tmp->n : 0;
+			}
 		}
+		prev = tmp;
 		tmp = tmp->n;
+		save ? free(save->str) : 0;
+		save ? free(save) : 0;
+		save ? save = NULL : 0;
 	}
 }

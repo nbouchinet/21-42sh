@@ -37,7 +37,7 @@ static int		print(char **cmd, char buf[], t_win *win)
 	win->cur += ft_strlen((*cmd) + i);
 	!(win->cur % win->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 	while (win->cur - win->pr - 1 > i)
-		arrow_left(win);
+		arrow_left(win, NULL, NULL);
 	return (1);
 }
 
@@ -46,9 +46,7 @@ static void		exit_get_cmdl(char **cmd, t_win **win, char **save)
 	(*cmd) = (*save) && (*save)[0] ?
 		ft_strtrimf(ft_strjoinf((*save), (*cmd), 3)) : NULL;
 	save_history(*win, cmd, &(*win)->his);
-	if ((*cmd))
-		while ((*cmd)[(*win)->cur - (*win)->pr])
-			arrow_rigth(*win, (*cmd));
+	(*cmd) ? end(*win, *cmd, NULL) : 0;
 	write(1, "\n", 1);
 	(*win)->copy ? ft_strdel(&(*win)->copy) : 0;
 	g_loop = 256;
