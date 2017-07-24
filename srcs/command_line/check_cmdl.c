@@ -16,13 +16,12 @@ extern int g_loop;
 
 static void  bs_inhib(t_win **win, char *save, int len, int count)
 {
-
-	while (save[len] =='\\' && len > 0)
+	while (save[len] == '\\' && len > 0)
 	{
 		count++;
 		len -= 1;
 	}
-	if (count % 2)
+	if (len == 0 || count % 2)
 	{
 		write(1, "\n$> ", 4);
 		g_loop = 256;
@@ -41,10 +40,10 @@ static void  checker(char **save, char **cmd, t_win **win, char buf[])
 		heredoc(cmd, win, buf);
 	if ((*save) && !(*win)->hd && !(*win)->quote)
 		handle_pipe_and_or(save, win);
-	len = ft_strlen((*save)) - 1;
-	if ((*cmd)[0] && (*save) && !(*win)->hd && !(*win)->quote && !(*win)->pao &&
-	(*save)[len] == '\\')
-		bs_inhib(win, *save, len, 0);
+	len = ft_strlen((*cmd)) - 1;
+	if ((*cmd) && !(*win)->hd && !(*win)->quote && !(*win)->pao &&
+	(*cmd)[len] == '\\')
+		bs_inhib(win, *cmd, len, 0);
 	ft_memset((*cmd), 0, ft_strlen(*cmd));
 	!(*win)->hd && !(*win)->quote && !(*win)->pao ? (*win)->pr = 3 : 0;
 	(*win)->sh = 0;

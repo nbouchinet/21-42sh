@@ -44,7 +44,6 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
 	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' && *(bs + 1) != '\\')
 		ft_strleft(&(*lst)->str, '\\');
-	ft_putendl((*lst)->str);
 	ft_memset(*stack, 0, ft_strlen(*stack));
 }
 

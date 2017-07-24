@@ -208,13 +208,13 @@ void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
 **	bang options
 */
 
-#define 	H			1
-#define 	T 			2
+#define 	HB			1
+#define 	TB 			2
 #define 	RB 			4
-#define 	E 			8
+#define 	EB 			8
 #define 	PB 			16
-#define 	Q 			32
-#define 	X 			64
+#define 	QB 			32
+#define 	XB 			64
 
 typedef struct			s_bang
 {

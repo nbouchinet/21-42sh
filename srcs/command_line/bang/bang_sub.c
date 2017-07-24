@@ -14,8 +14,6 @@
 
 static void   process_des_and_mod(char **array, char **tmp, t_bang *bang)
 {
-  ft_putnbrl(bang->mod);
-  ft_putendl(*tmp);
   bang->des != -5 || bang->x ? ft_strdel(tmp) : 0;
   if (bang->des != -5)
     (*tmp) = ft_strdup(array[bang->des]);
@@ -94,6 +92,7 @@ int           do_sub(t_his *his, t_bang *bang, char **cmd, char *arr)
   char      *tmp;
   int       ret;
 
+	ft_printf("%@%d%@\n", RED, bang->des, I);
   tmp = NULL;
   ret = bang->n ? get_line(his, bang, &tmp) : get_match(his, bang, &tmp, arr);
   if (ret)

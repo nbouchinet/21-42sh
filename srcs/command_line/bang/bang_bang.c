@@ -14,16 +14,17 @@
 
 static int    get_modifiers(char *arr, t_bang *bang)
 {
-  arr[0] == 'h' ? bang->mod |= H : 0;
-  arr[0] == 't' ? bang->mod |= T : 0;
-  arr[0] == 'r' ? bang->mod |= RB : 0;
-  arr[0] == 'e' ? bang->mod |= E : 0;
-  arr[0] == 'p' ? bang->mod |= PB : 0;
-  arr[0] == 'q' ? bang->mod |= Q : 0;
-  arr[0] == 'x' ? bang->mod |= X : 0;
-  if (!ft_strchr("htrepqx", arr[0]))
-    return (fd_printf(2, "\n42sh: %c: unrecognized history modifier", arr[0]));
-  return (0);
+	arr[0] == 'h' ? bang->mod |= HB : 0;
+	arr[0] == 't' ? bang->mod |= TB : 0;
+	arr[0] == 'r' ? bang->mod |= RB : 0;
+	arr[0] == 'e' ? bang->mod |= EB : 0;
+	arr[0] == 'p' ? bang->mod |= PB : 0;
+	arr[0] == 'q' ? bang->mod |= QB : 0;
+	arr[0] == 'x' ? bang->mod |= XB : 0;
+	if (!ft_strchr("htrepqx", arr[0]))
+		return (fd_printf(2, "\n42sh: %c: unrecognized history modifier",\
+		arr[0]));
+	return (0);
 }
 
 static int    get_designators(char *arr, t_bang *bang)
@@ -56,7 +57,7 @@ static int    get_designators(char *arr, t_bang *bang)
 
 static int    get_event(char *arr, t_bang *bang, t_his *his)
 {
-    char      **sub;
+	char      **sub;
 
     if (arr[0] >= '0' && arr[0] <= '9')
       bang->n = ft_atoi(arr) - 1;
@@ -84,35 +85,36 @@ static int    get_event(char *arr, t_bang *bang, t_his *his)
 
 static int    his_error(char *str)
 {
-  fd_printf(2, "\n42sh: %c%c: event not found", str[0] ==  '^' ?
-  '!' : str[0], str[0] == '^' ? '!' : str[1]);
-  ft_free(NULL, &str);
-  return (1);
+	fd_printf(2, "\n42sh: %c%c: event not found", str[0] ==  '^' ?
+	'!' : str[0], str[0] == '^' ? '!' : str[1]);
+	ft_free(NULL, &str);
+	return (1);
 }
 
 int           bang_bang(char **cmd, char *str, t_bang *bang, int len)
 {
-  t_his       *his;
-  char        **array;
+  t_his		*his;
+  char		**array;
 
-  str[0] == ':' ? str = ft_strjoinf("!", str, 2) : 0;
-  his = win_sgt()->his;
-  if (!his->prev)
-    return (his_error(str));
-  while (his->prev)
-    his = his->prev;
-  array = ft_strsplit(str, ':');
-  len = ft_tablen(array);
-  if (0 < len && get_event(array[0], bang, his))
+	str[0] == ':' ? str = ft_strjoinf("!", str, 2) : 0;
+	his = win_sgt()->his;
+	if (!his->prev)
+		return (his_error(str));
+	while (his->prev)
+  		his = his->prev;
+	array = ft_strsplit(str, ':');
+	len = ft_tablen(array);
+	if (0 < len && get_event(array[0], bang, his))
+		return (ft_free(array, &str));
+	if (1 < len && ((array[1][0] >= '0' && array[1][0] <= '9') ||
+		array[1][0] == '^' || array[1][0] == '$') &&
+		get_designators(array[1], bang))
     return (ft_free(array, &str));
-  if (1 < len && array[1][0] >= '0' && array[1][0] <= '9' &&
-  get_designators(array[1], bang))
-    return (ft_free(array, &str));
-  if ((2 < len && ft_isalpha(array[2][0]) && get_modifiers(array[2], bang)) ||
-  (1 < len && ft_isalpha(array[1][0]) && get_modifiers(array[1], bang)))
-    return (ft_free(array, &str));
-  if ((len = do_sub(his, bang, cmd, array[0])))
-    return (len == 2 ? ft_free(array, &str) + 1 : ft_free(array, &str));
-  ft_free(array, &str);
-  return (0);
+	if ((2 < len && ft_isalpha(array[2][0]) && get_modifiers(array[2], bang)) ||
+  	(1 < len && ft_isalpha(array[1][0]) && get_modifiers(array[1], bang)))
+		return (ft_free(array, &str));
+	if ((len = do_sub(his, bang, cmd, array[0])))
+		return (len == 2 ? ft_free(array, &str) + 1 : ft_free(array, &str));
+	ft_free(array, &str);
+	return (bang->mod & PB ? 1 : 0);
 }

@@ -94,7 +94,7 @@ static void	add_to_hist(t_his **his, char *line, t_his *tmp, int i)
 		if (!(tmp = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
 		tmp->cmdl = ft_strdup(line);
-		tmp->add = 0;
+		tmp->add = 1;
 		tmp->prev = NULL;
 		tmp->next = (*his);
 		(*his)->prev = tmp;
@@ -107,7 +107,7 @@ static void	add_to_hist(t_his **his, char *line, t_his *tmp, int i)
 	if (!((*his)->next = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "save-hisroty: malloc error\n"));
 	(*his)->next->cmdl = ft_strdup(line);
-	(*his)->next->add = 0;
+	(*his)->next->add = 1;
 	(*his)->next->prev = (*his);
 	(*his)->next->next = tmp;
 	(*his) = (*his)->next;
@@ -117,16 +117,18 @@ static void	add_to_hist(t_his **his, char *line, t_his *tmp, int i)
 
 void		hist_read(t_his **his, int offset, int len)
 {
-	char	*line;
-	int		fd;
 	t_his	*head;
 	t_his	*tmp;
+	char	*line;
+	int		fd;
+	int		count;
 
 	(void)offset;
 	(void)len;
-	line = NULL;
 	head = *his;
 	tmp = NULL;
+	line = NULL;
+	len == -50 ? count = 30 : -1;
 	if ((fd = open(".42sh_history", O_RDONLY)) == -1)
 		return ;
 	while (get_next_line(fd, &line) > 0)
@@ -136,6 +138,9 @@ void		hist_read(t_his **his, int offset, int len)
 		else
 			add_to_hist(his, line, tmp, 1);
 		ft_strdel(&line);
+		count != -1 ? count -= 1 : 0;
+		if (!count)
+			break ;
 	}
 }
 

@@ -94,10 +94,10 @@ int         main(int ac, char *av[], char *env[])
 	win->his->cmdl = ft_strdup("");
 	win->his->add = 1;
 	win->his->prev = NULL;
-  win->his->next = NULL;
+  	win->his->next = NULL;
 	win->his->len = 0;
 	g_loop = 256;
-	// hist_read(&win->his, 0, 0);
+	hist_read(&win->his, 0, -50);
 	loop(win);
 	return (g_loop);
 }
