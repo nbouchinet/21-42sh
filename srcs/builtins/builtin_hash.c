@@ -15,18 +15,18 @@
 int		clear_table(t_hash **table)
 {
 	t_hash	*tmp;
+	t_hash	*save;
 
-	if (*table)
+	tmp = *table;
+	while (tmp)
 	{
-		while ((*table))
-		{
-			tmp = *table;
-			(*table) = (*table)->next;
-			ft_strdel(&tmp->path);
-			free(tmp);
-			tmp = NULL;
-		}
+		save = tmp->next;
+		ft_strdel(&tmp->path);
+		free(tmp);
+		tmp = NULL;
+		tmp = save;
 	}
+	*table = NULL;
 	return (1);
 }
 
@@ -56,18 +56,15 @@ void	print_hash(t_hash **table)
 		tmp = *table;
 		if (tmp)
 		{
-			ft_putstr("hits\t");
-			ft_putendl("command");
+			ft_printf("hits\tcommand\n");
 			while (tmp)
 			{
-				ft_putnbr(tmp->hits);
-				ft_putchar('\t');
-				ft_putendl(tmp->path);
+				ft_printf("%4d\t%s\n", tmp->hits, tmp->path);
 				tmp = tmp->next;
 			}
 		}
 	}
-} // USE ft_printf for padding
+}
 
 int		builtin_hash(t_ast **ast, t_hash **table)
 {

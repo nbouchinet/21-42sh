@@ -29,29 +29,29 @@ static int    get_modifiers(char *arr, t_bang *bang)
 
 static int    get_designators(char *arr, t_bang *bang)
 {
-    char      **sub;
+	char	**sub;
 
     if (arr[0] >= '0' && arr[0] <= '9' && !ft_strchr(arr, '-') &&
     !ft_strchr(arr, '*'))
-      bang->des = ft_atoi(arr);
+		bang->des = ft_atoi(arr);
     else if (arr[0] == '^')
-      bang->des = 1;
+		bang->des = 1;
     else if (arr[0] == '$')
-      bang->des = -1;
+		bang->des = -1;
     else if (ft_strchr(arr, '-'))
     {
-      sub = ft_strsplit(arr, '-');
-      bang->x = ft_atoi(sub[0]);
-      bang->y = sub[1] ? ft_atoi(sub[1]) : -2;
-      ft_free(sub, NULL);
-    }
+		sub = ft_strsplit(arr, '-');
+		bang->x = ft_atoi(sub[0]);
+		bang->y = sub[1] ? ft_atoi(sub[1]) : -2;
+		ft_free(sub, NULL);
+	}
     else if (ft_strchr(arr, '*'))
     {
-      bang->x = arr[0] == '*' ? 1 : ft_atoi(arr);
-      bang->y = -1;
+		bang->x = arr[0] == '*' ? 1 : ft_atoi(arr);
+		bang->y = -1;
     }
     else
-      return (fd_printf(2, "\n42sh: !%s: event not found", arr));
+		return (fd_printf(2, "\n42sh: !%s: event not found", arr));
     return (0);
 }
 
@@ -60,27 +60,27 @@ static int    get_event(char *arr, t_bang *bang, t_his *his)
 	char      **sub;
 
     if (arr[0] >= '0' && arr[0] <= '9')
-      bang->n = ft_atoi(arr) - 1;
+		bang->n = ft_atoi(arr) - 1;
     else if (arr[0] == '-' && arr[1] && arr[1] >= '0' && arr[1] <= '9')
-    bang->n = (ft_atoi(arr + 1) - 1) * -1;
+		bang->n = (ft_atoi(arr + 1) - 1) * -1;
     else if (arr[0] == '!')
-      bang->n = 0;
-    else if (arr[0] == '?')
-      bang->string = arr + 1;
+		bang->n = 0;
+	else if (arr[0] == '?')
+		bang->string = arr + 1;
     else if (arr[0] == '^')
     {
-      sub = ft_strsplit(arr, '^');
-      bang->s1 = ft_strdup(sub[0]);
-      bang->s2 = ft_strdup(sub[1]);
-      ft_free(sub, NULL);
-    }
+		sub = ft_strsplit(arr, '^');
+		bang->s1 = ft_strdup(sub[0]);
+		bang->s2 = ft_strdup(sub[1]);
+		ft_free(sub, NULL);
+	}
     else if (ft_isalpha(arr[0]))
-      bang->string = arr;
+		bang->string = arr;
     else
-      return (fd_printf(2, "\n42sh: !%s: event not found", arr));
+		return (fd_printf(2, "\n42sh: !%s: event not found", arr));
     if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > lst_len(his))
-      return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
-    return (0);
+		return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
+	return (0);
 }
 
 static int    his_error(char *str)

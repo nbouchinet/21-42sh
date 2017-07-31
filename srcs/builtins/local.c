@@ -14,15 +14,12 @@
 
 int 		check_local(t_ast *tmp, int type)
 {
-	if (type != PIPE_SEQ && ft_isalpha(tmp->left->left->str[0]) &&
-	ft_strchr(tmp->left->left->str, '='))
+	if (type != PIPE_SEQ && ft_strchr(tmp->left->left->str, '='))
 		return (local(tmp->left->left->str));
 	else if (type == PIPE_SEQ && tmp->right->left->left->left->str &&
-	ft_isalpha(tmp->right->left->left->left->str[0]) &&
 	ft_strchr(tmp->right->left->left->left->str, '='))
 		return (local(tmp->right->left->left->left->str));
 	else if (type == PIPE_SEQ && tmp->right->right->left->left->str &&
-	ft_isalpha(tmp->right->right->left->left->str[0]) &&
 	ft_strchr(tmp->right->right->left->left->str, '='))
 		return (local(tmp->right->right->left->left->str));
 	return (0);

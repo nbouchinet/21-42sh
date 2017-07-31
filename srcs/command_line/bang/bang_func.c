@@ -20,7 +20,7 @@ void   process_mod(char **tmp, t_bang *b, int i, char *ptr)
 	b->mod & RB && (ptr = ft_strchr(*tmp, '.')) ? (*ptr) = 0 : 0;
 	b->mod & QB ? (*tmp) = ft_strjoinf(ft_strjoinf("\'", (*tmp), 2), "\'", 1): 0;
 	b->mod & PB ? write(1, *tmp, ft_strlen(*tmp)) : 0;
-	if (b->mod & TB && (ptr = ft_strchr(*tmp, '/')))
+	if (b->mod & TB && (ptr = ft_strchr(*tmp, '/')) && *(ptr + 1))
 		(*tmp) = ft_strdups(ptr + 1, tmp);
 	if (b->mod & EB && (ptr = ft_strchr(*tmp, '.')))
 		(*tmp) = ft_strdups(ptr, tmp);
