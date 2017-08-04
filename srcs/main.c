@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/04 16:04:11 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/04 16:10:26 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int         main(int ac, char *av[], char *env[])
 {
 	t_win	*win;
 
-	ft_putendl("caca");
 	ac = 0;
 	(void)av;
 	env = check_env(env);
