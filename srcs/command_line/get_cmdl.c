@@ -14,15 +14,15 @@
 
 extern int g_loop;
 
-static int		print(char **cmd, char buf[], t_win *win)
+static int		print(char **cmd, char buf[], t_win *win, int i)
 {
 	char	*tmp;
 	char	*save;
-	int		i;
+	int		len;
 
+	len = (int)ft_strlen((*cmd));
 	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
 		return (beep());
-	i = win->cur - win->pr;
 	if (!(*cmd) || !((*cmd)[i]))
 		(*cmd) = ft_strjoinf((*cmd), buf, 1);
 	else
@@ -36,6 +36,7 @@ static int		print(char **cmd, char buf[], t_win *win)
 	write(1, (*cmd) + i, ft_strlen((*cmd) + i));
 	win->cur += ft_strlen((*cmd) + i);
 	!(win->cur % win->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
+	i += (len = (int)ft_strlen((*cmd)) - len) > 1 ? len : 0;
 	while (win->cur - win->pr - 1 > i)
 		arrow_left(win, NULL, NULL);
 	return (1);
@@ -64,8 +65,8 @@ void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 		if (buf[0] == 12 && !buf[1])
 			ctrl_l(win, cmd);
 		else if (PRINT)
-			!(*win)->sh ? print(cmd, buf, *win) : print_search(cmd, buf,
-					&(*win)->his, *win);
+			!(*win)->sh ? print(cmd, buf, *win, (*win)->cur - (*win)->pr)
+			: print_search(cmd, buf, &(*win)->his, *win);
 		else if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
 					exit_sh_mode(*win, &(*win)->his, cmd, buf);
