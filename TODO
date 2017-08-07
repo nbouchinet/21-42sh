@@ -1,0 +1,15 @@
+							: unsetenv :
+Multiple vars to handle
+							: env :
+Launch binary.
+Flags to handle : env -i -u.
+while env -i is lauch alone, do not print env
+							: setenv :
+Just segfault.
+							: backward-search :
+(BASH DO IT)
+Browse history backward. and let termcaps highlight command.
+							: frontward-search :
+Same that backward-search but frontward.
+							:cmd+c | cmd+v:
+move the cursor to strlen(cmd+c) to the right, could it debug the cmd+c spam bug ?
