@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 17:51:25 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 18:01:25 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/08/04 14:38:14 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 	while (g_loop)
 	{
 		if (cmdl_signal(cmd, save, win) == 1)
-			return ;
+					return ;
 		ft_memset(buf, '\0', 6);
 		read(0, buf, 6);
 		if (buf[0] == 12 && !buf[1])
@@ -68,7 +68,7 @@ void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
 					&(*win)->his, *win);
 		else if (MOVE)
 			!(*win)->sh ? arrows(*win, *cmd, buf) :
-				exit_sh_mode(*win, &(*win)->his, cmd, buf);
+					exit_sh_mode(*win, &(*win)->his, cmd, buf);
 		COMP ? completion(win, cmd) : 0;
 		DEL && (*cmd) ? del(cmd, *win, &(*win)->his) : 0;
 		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/11 15:01:47 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:53:57 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/08/04 14:48:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[])
 	(*cmd) = ft_strdups((*his)->cmdl, cmd);
 	ft_putstr((*cmd));
 	win->cur = ft_strlen(*cmd) + 3;
+	
 }
 
 void	e(t_win **win, t_his **his, char **cmd, char **save)

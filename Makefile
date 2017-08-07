@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/07/18 16:38:42 by khabbar          ###   ########.fr        #
+#    Updated: 2017/08/04 12:04:04 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -28,7 +28,7 @@ HPATH= includes/ libft/
 
 INC= $(addprefix -I , $(HPATH))
 
-CFILES= main.c \
+CFILES= 		main.c \
 				print_prompt.c \
 				signals.c ft_putast.c	\
 				lexer/lex_luthor.c \

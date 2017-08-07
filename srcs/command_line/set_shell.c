@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:54:43 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/08/04 15:19:37 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				mode_on(t_win **win)
 	// (*win)->term.c_cc[VMIN] = 1;
 	// (*win)->term.c_cc[VTIME] = 0;
 	(*win)->term.c_cc[VMIN] = 0;
-	(*win)->term.c_cc[VTIME] = 1;
+	(*win)->term.c_cc[VTIME] = 5;
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
