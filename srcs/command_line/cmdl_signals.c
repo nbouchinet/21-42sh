@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:29:01 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/08/22 16:55:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ static void		cmdl_ctrc(int signal)
 		g_loop = 3;
 }
 
+void	ctrl_z(int signal)
+{
+	if (signal == SIGTSTP)
+	{
+		job_control(NULL, NULL, SUS);
+		g_loop = 3;
+	}
+
+}
+
 static void		canon_mode(int signal)
 {
 	if (signal == 21)
@@ -48,6 +58,7 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 	signal(2, cmdl_ctrc);
 	signal(21, canon_mode);
 	signal(28, cmdl_wins);
+	signal(18, ctrl_z);
 	g_loop == 4 ? winsize(win, &save, cmd) : 0;
 	g_loop == 6 ? mode_on(win) : 0;
 	g_loop == 6 ? print_prompt(win) : 0;

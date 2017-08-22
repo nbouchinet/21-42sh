@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/13 18:24:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 16:57:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static void	exec_part(char **line, t_env **env)
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	ft_putast(ast);
-	exec_ast(&ast, env);
+	job_ast(&ast, env);
+	// exec_ast(&ast, env);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);
 }
@@ -58,6 +59,8 @@ static void	loop(t_win *win)
 
 	while (g_loop)
 	{
+		job_control(NULL, NULL, UPT); // AST NULL
+		job_control(NULL, NULL, CHK);
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, buf);
 		if (win->ctrld)
@@ -65,9 +68,9 @@ static void	loop(t_win *win)
 		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
 		{
 			ft_printf("\n%@%s%@\n", RED, cmd, I);
-			// mode_off(&win);
+			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
-			// mode_on(&win);
+			mode_on(&win);
 		}
 		cmd ? free(cmd) : 0;
 		t_local *loc = *local_sgt(0);

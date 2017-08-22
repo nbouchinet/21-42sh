@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/08/04 12:04:04 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/08/22 16:44:43 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -70,6 +70,8 @@ CFILES= 		main.c \
 				builtins/export.c \
 				builtins/read.c \
 				builtins/read_opt1.c \
+				builtins/fg.c \
+				builtins/builtin_env.c \
 				command_line/arrows.c \
 				command_line/arrow_func.c \
 				command_line/check_cmdl.c \
@@ -94,7 +96,17 @@ CFILES= 		main.c \
 				command_line/completion/completion_list.c \
 				command_line/bang/bang_bang.c \
 				command_line/bang/bang_sub.c \
-				command_line/bang/bang_func.c
+				command_line/bang/bang_func.c \
+				job_control/creat_process.c \
+				job_control/foreground.c \
+				job_control/init_tools.c \
+				job_control/job_control.c \
+				job_control/job_exec_seq.c \
+				job_control/job_exec.c \
+				job_control/job_handle_utils.c \
+				job_control/job_handle.c \
+				job_control/job_pipe.c \
+				job_control/job_tools.c \
 
 OFILES= $(CFILES:.c=.o)
 
@@ -123,6 +135,7 @@ $(OPATH)%.o: $(CPATH)%.c $(HFILES)
 	@mkdir -p $(OPATH)/environement
 	@mkdir -p $(OPATH)/builtins
 	@mkdir -p $(OPATH)/init_env
+	@mkdir -p $(OPATH)/job_control
 	$(CC) $(CFLAGS)  $(INC) $< -c -o $@
 
 clean:
