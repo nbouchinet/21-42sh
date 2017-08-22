@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/04 16:10:26 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/13 18:24:52 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ static void	loop(t_win *win)
 		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
 		{
 			ft_printf("\n%@%s%@\n", RED, cmd, I);
-			mode_off(&win);
+			// mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
-			mode_on(&win);
+			// mode_on(&win);
 		}
 		cmd ? free(cmd) : 0;
 		t_local *loc = *local_sgt(0);
