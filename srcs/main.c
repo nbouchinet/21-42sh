@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 16:57:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 18:36:55 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int         main(int ac, char *av[], char *env[])
 	env = check_env(env);
 	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
 		return (1);
+	init_shell();
 	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
 	win->his->cmdl = ft_strdup("");

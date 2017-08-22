@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/22 16:46:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 22:53:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		tmp = *table;
 		while (tmp)
 		{
-			if (kill(tmp->first_process->pid, 0) == 0)
+			if (kill(tmp->first_process->pid, 0) < 0)
 			{
 				delete_tnode(&tmp, &prev, table);
 				break ;

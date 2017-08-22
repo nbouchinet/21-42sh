@@ -6,11 +6,31 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 16:23:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 18:17:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void	print_job(t_job **job)
+{
+	int			i;
+	int			j;
+	t_process *p;
+
+	j = 1;
+	printf("[Jobs = %s]\n", (*job)->command);
+	p = (*job)->first_process;
+	while (p)
+	{
+		i = -1;
+		printf("Process numero %d\n", j++);
+		while (p->argv[++i])
+			printf("argv[%d] = %s\n", i, p->argv[i]);
+		printf("Status: %s\n", (p->completed ? "Complete" : (p->stopped ? "Stopped" : "In progress")));
+		p = p->next;
+	}
+}
 
 int		job_pipe(t_ast **ast, t_env **env)
 {
