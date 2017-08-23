@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 16:57:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 17:19:02 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,21 @@ static void	loop(t_win *win)
 
 int         main(int ac, char *av[], char *env[])
 {
-	t_win	*win;
-
+	//	win	*win;
 	ac = 0;
 	(void)av;
 	env = check_env(env);
-	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
+	if (set_shell(&g_win)|| get_win_data(&g_win) || init_env(&(g_win->lstenv), env))
 		return (1);
-	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
+	if (!(g_win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
-	win->his->cmdl = ft_strdup("");
-	win->his->add = 1;
-	win->his->prev = NULL;
-  	win->his->next = NULL;
-	win->his->len = 0;
+	g_win->his->cmdl = ft_strdup("");
+	g_win->his->add = 1;
+	g_win->his->prev = NULL;
+	g_win->his->next = NULL;
+	g_win->his->len = 0;
 	g_loop = 256;
-	hist_read(&win->his, 0, -50);
-	loop(win);
+	hist_read(&g_win->his, 0, -50);
+	loop(g_win);
 	return (g_loop);
 }
