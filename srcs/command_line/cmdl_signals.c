@@ -6,7 +6,11 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/08/22 17:58:38 by nbouchin         ###   ########.fr       */
+=======
+/*   Updated: 2017/08/22 21:41:40 by zadrien          ###   ########.fr       */
+>>>>>>> 0a08fd6c1c7f3c39df8774549ac5aef5c91c7464
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +37,13 @@ static void		cmdl_wins(int signal)
 
 static void		cmdl_ctrc(int signal)
 {
+	ft_putendl_fd("NTMMMMM", 2);
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	if (signal == 2)
+	{
+		ft_putendl("PASS");
 		g_loop = 3;
+	}
 }
 
 void	ctrl_z(int signal)
@@ -44,7 +53,6 @@ void	ctrl_z(int signal)
 		job_control(NULL, NULL, SUS);
 		g_loop = 3;
 	}
-
 }
 
 static void		canon_mode(int signal)

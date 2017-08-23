@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 16:23:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/22 22:36:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,8 @@ int		exec_job(t_job **job, t_env **env, t_ast **ast)
 	job_control(job, ast, ADD);
 	status = exec_pro(&(*job)->first_process, env, &(*job)->pgid);
 	mark_process_status(job);
-	if (WIFSTOPPED(status))
-	{
-
-	}
-	else if (WIFEXITED(status) && !WEXITSTATUS(status))
-	{
+	if (job_is_stopped(*job))
 		return (1);
-	}
 	return (0);
 } //Implement multiple stopped and completed pinter
 
@@ -76,18 +70,21 @@ int		exec_pro(t_process **lst, t_env **env, pid_t *pgid)
 {
 	char		**n_env;
 	t_process	*tmp;
-	pid_t 		status;
-	pid_t 		pid;
 
-	status = 0;
-	pid = 0;
 	tmp = *lst;
 	n_env = get_env(env, tmp->argv[0]);
 	if (!(tmp->pid = fork()))
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
+		signal(SIGTTIN, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL);
+		signal(SIGCHLD, SIG_DFL);
 		if (tmp->rdir)
 			io_seq(&tmp->rdir);
 		execve(tmp->argv[0], tmp->argv, n_env);
+		exit(EXIT_SUCCESS);
 	}
 	else
 	{
@@ -95,5 +92,5 @@ int		exec_pro(t_process **lst, t_env **env, pid_t *pgid)
 		waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 	}
 	ft_freetab(n_env);
-	return (status);
+	return (tmp->status);
 }
