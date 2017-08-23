@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 21:41:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 14:24:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int				mode_on(t_win **win)
 	(*win)->term.c_cc[VTIME] = 0;
 	// (*win)->term.c_cc[VMIN] = 0;
 	// (*win)->term.c_cc[VTIME] = 1;
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
@@ -88,6 +89,21 @@ int			set_shell(t_win **win)
 	char			*shl_name;
 
 	tputs(tgetstr("nam", NULL), 1, ft_putchar);
+	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+		kill (- g_shell_pgid, SIGTTIN);
+	signal (SIGINT, SIG_IGN);
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGTSTP, SIG_IGN);
+	signal (SIGTTIN, SIG_IGN);
+	signal (SIGTTOU, SIG_IGN);
+	signal (SIGCHLD, SIG_IGN);
+	g_shell_pgid = getpid ();
+	if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+	{
+		perror ("Couldn't put the shell in its own process group");
+		exit (1);
+	}
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	*win = win_sgt();
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";

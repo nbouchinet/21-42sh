@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/22 22:49:57 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 12:16:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	wait_for_job(t_job **job)
 	{
 		ft_putendl("A");
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
-		mark_job_status(job, status, pid);
+		if (!mark_job_status(job, status, pid))
+			break ;
 	}
 }
 
@@ -111,7 +112,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 	if (*table)
 	{
 		j = *table;
-		// tcsetpgrp (g_shell_terminal, j->pgid);
+		tcsetpgrp (g_shell_terminal, j->pgid);
 		while (j->next)
 			j = j->next;
 		p = j->first_process;
@@ -131,6 +132,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		// ft_putnbrl(g_shell_pgid);
 		// init_shell();
 		// tcgetattr (g_shell_terminal, &j->tmodes);
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		// tcsetattr (g_shell_terminal, TCSADRAIN, &g_shell_tmodes);
 		return (1);
 	}

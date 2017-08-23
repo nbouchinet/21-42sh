@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 16:45:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 12:07:52 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int						init_job(t_job **job);
 int						pipe_job(t_job **lst, t_env **env);
 int						mark_process_status(t_job **job);
 int						inter_job(t_ast **ast, t_env **env);
-void					mark_job_status(t_job **job, int status, pid_t pid);
+int						mark_job_status(t_job **job, int status, pid_t pid);
 int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
