@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/22 22:49:57 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 14:58:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	wait_for_job(t_job **job)
 	{
 		ft_putendl("A");
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
-		mark_job_status(job, status, pid);
+		if (mark_job_status(job, status, pid) == 0)
+			break ;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 22:52:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 14:59:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		job_is_complete(t_job *j)
 	return (1);
 }
 
-void	mark_job_status(t_job **job, int status, pid_t pid)
+int		mark_job_status(t_job **job, int status, pid_t pid)
 {
 	t_process	*p;
 
@@ -81,10 +81,11 @@ void	mark_job_status(t_job **job, int status, pid_t pid)
 				p->stopped = 1;
 			else if (WIFEXITED(status))
 				p->completed = 1;
-			break ;
+			return (1);
 		}
 		p = p->next;
 	}
+	return (0);
 }
 
 int		mark_process_status(t_job **job)
