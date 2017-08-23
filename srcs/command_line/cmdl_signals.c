@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/23 10:22:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/23 14:41:23 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ static void		cmdl_wins(int signal)
 
 static void		cmdl_ctrc(int signal)
 {
-	ft_putendl_fd("NTMMMMM", 2);
 	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	if (signal == 2)
 	{
-		ft_putendl("PASS");
+		// ft_putendl("PASS");
 		g_loop = 3;
 	}
 }

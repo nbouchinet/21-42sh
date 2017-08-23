@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/23 13:41:54 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/23 14:34:18 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ void	wait_for_job(t_job **job)
 
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED | WNOHANG);
-		mark_job_status(job, status, pid);
+		ft_putendl("A");
+		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
+		if (!mark_job_status(job, status, pid))
+			break ;
 	}
 }
 
@@ -110,7 +112,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 	if (*table)
 	{
 		j = *table;
-		// tcsetpgrp (g_shell_terminal, j->pgid);
+		tcsetpgrp (g_shell_terminal, j->pgid);
 		while (j->next)
 			j = j->next;
 		p = j->first_process;
@@ -130,6 +132,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		// ft_putnbrl(g_shell_pgid);
 		// init_shell();
 		// tcgetattr (g_shell_terminal, &j->tmodes);
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		// tcsetattr (g_shell_terminal, TCSADRAIN, &g_shell_tmodes);
 		return (1);
 	}

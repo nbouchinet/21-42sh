@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/22 22:53:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/23 14:22:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 			p = j->first_process;
 			while(p)
 			{
-				waitpid(p->pid, &p->status, WUNTRACED | WNOHANG);
+				ft_putendl("NAN sar????");
+				ft_putendl("MAGAD");
+				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
 				p = p->next;
 			}
 			mark_process_status(&j);
