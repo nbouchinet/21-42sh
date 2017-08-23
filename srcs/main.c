@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/23 10:21:28 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/23 13:46:50 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ int         main(int ac, char *av[], char *env[])
 		return (1);
 	if (!(g_win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));
-	init_shell();
 	g_win->his->cmdl = ft_strdup("");
 	g_win->his->add = 1;
 	g_win->his->prev = NULL;

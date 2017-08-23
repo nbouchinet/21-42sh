@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 20:14:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/23 11:57:20 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/08/23 13:11:40 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*rdir_print(int type)
 	if (type == RDIR)
 		return (">");
 	else if (type == BDIR)
-		OA		return ("<");
+		return ("<");
 	else if (type == RRDIR)
 		return (">>");
 	else if (type == BBDIR)
