@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/23 14:59:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 19:44:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int						init_pgid(t_job **job, pid_t pid, t_ast **ast);
 void					destroy_ast(t_ast **head);
 void					destroy_tok(t_tok **head);
 int						exec_job(t_job **job, t_env **env, t_ast **ast);
-int						exec_pro(t_process **lst, t_env **env, pid_t *pgid);
+int						exec_pro(t_process **lst, t_env **env, t_job **j, int foreground);
 char					*init_pipe_job(t_ast **ast);
 int						init_job(t_job **job);
 int						pipe_job(t_job **lst, t_env **env);

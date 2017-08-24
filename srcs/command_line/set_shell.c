@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/23 14:54:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 21:45:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void		save_his_session(t_win **win)
 	tmp = (*win)->his;
 	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 			fd_printf(2, "Could no write history list to history file\n");
-
 	while (tmp && fd != -1)
 	{
 		save = tmp->next;
@@ -45,6 +44,10 @@ int				mode_on(t_win **win)
 	(*win)->term.c_cc[VTIME] = 0;
 	// (*win)->term.c_cc[VMIN] = 0;
 	// (*win)->term.c_cc[VTIME] = 1;
+	// write(2, "loooooooooooooooool\n", 42);
+	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+		kill (- g_shell_pgid, SIGTTIN);
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
@@ -87,8 +90,21 @@ int			set_shell(t_win **win)
 {
 	char			*shl_name;
 
+	signal (SIGCHLD, SIG_DFL);
+	g_shell_terminal = STDIN_FILENO;
+	g_shell_is_interactive = isatty (g_shell_terminal);
 	tputs(tgetstr("nam", NULL), 1, ft_putchar);
 	*win = win_sgt();
+	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+		kill (- g_shell_pgid, SIGTTIN);
+	g_shell_pgid = getpid();
+	if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+	{
+		perror ("Couldn't put the shell in its own process group");
+		exit (1);
+	}
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
+	tcgetattr (g_shell_terminal, &g_shell_tmodes);
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if (tgetent(0, shl_name) == ERR)

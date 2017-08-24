@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 21:41:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 21:45:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		cmdl_wins(int signal)
 static void		cmdl_ctrc(int signal)
 {
 	ft_putendl_fd("NTMMMMM", 2);
-	tcsetpgrp (g_shell_terminal, g_shell_pgid);
+	// tcsetpgrp (g_shell_terminal, g_shell_pgid);
 	if (signal == 2)
 	{
 		ft_putendl("PASS");
@@ -63,6 +63,11 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 	signal(21, canon_mode);
 	signal(28, cmdl_wins);
 	signal(18, ctrl_z);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGTSTP, SIG_IGN);
+	// signal(SIGTTIN, SIG_IGN);
+	// signal(SIGTTOU, SIG_IGN);
+	// signal(SIGTSTP, SIG_IGN);
 	g_loop == 4 ? winsize(win, &save, cmd) : 0;
 	g_loop == 6 ? mode_on(win) : 0;
 	g_loop == 6 ? print_prompt(win) : 0;

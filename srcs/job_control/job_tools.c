@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/23 14:59:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 22:03:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ void	init_shell(void)
 	{
 		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 			kill (- g_shell_pgid, SIGTTIN);
-		signal (SIGINT, SIG_IGN);
-		signal (SIGQUIT, SIG_IGN);
-		signal (SIGTSTP, SIG_IGN);
-		signal (SIGTTIN, SIG_IGN);
-		signal (SIGTTOU, SIG_IGN);
-		signal (SIGCHLD, SIG_IGN);
+	// 		signal(SIGTSTP, SIG_IGN);
+	// signal(SIGWINCH, SIG_IGN);
+	// signal(SIGCHLD, SIG_DFL);
+	// //signal(SIGINT, sig);
+	// signal(SIGQUIT, SIG_IGN);
+	// signal(SIGTSTP, SIG_IGN);
+	// signal(SIGTTIN, SIG_IGN);
+	// signal(SIGTTOU, SIG_IGN);
 		g_shell_pgid = getpid ();
 		if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
 		{
@@ -77,10 +79,25 @@ int		mark_job_status(t_job **job, int status, pid_t pid)
 	{
 		if (p->pid == pid)
 		{
+			p->status = status;
+			ft_putnbr_fd(status, 2);
 			if (WIFSTOPPED(status))
+			{
+				ft_putendl_fd("WIFSTOPPED LOL", 2);
 				p->stopped = 1;
-			else if (WIFEXITED(status))
+			}
+			else if (WIFEXITED(status) && !WEXITSTATUS(status))
+			{
+				ft_putendl_fd("Ca ne devrai pas", 2);
 				p->completed = 1;
+				// else if (WIFEXITED(status))
+			}
+			else if (WIFSIGNALED(status))
+			{
+				p->completed = 1;
+				ft_putstr_fd("Signal:", 2);
+				ft_putnbr_fd(WTERMSIG(status), 2);
+			}
 			return (1);
 		}
 		p = p->next;
@@ -98,18 +115,38 @@ int		mark_process_status(t_job **job)
 		while (p)
 		{
 			if (WIFSTOPPED(p->status))
+			{
+				ft_putendl_fd("WIFSTOPPED", 2);
 				p->stopped = 1;
-			else
+			}
+			else if (WIFEXITED(p->status) && !WEXITSTATUS(p->status))
+			{
+				ft_putendl_fd("Ca ne devrai pas", 2);
+				p->completed = 1;
+				// else if (WIFEXITED(p->status))
+			}
+			else if (WIFSIGNALED(p->status))
 			{
 				p->completed = 1;
-				if (WIFSIGNALED(p->status))
-				{
-					ft_putnbrl(p->pid);
-					ft_errormsg("21sh:", "Child process", "killed by signal");
-				}
+				ft_putstr_fd("Signal:", 2);
+				ft_putnbr_fd(WTERMSIG(p->status), 2);
+				break;
 			}
 			p = p->next;
 		}
+		// 	if (WIFSTOPPED(p->status))
+		// 		p->stopped = 1;
+		// 	else
+		// 	{
+		// 		p->completed = 1;
+		// 		if (WIFSIGNALED(p->status))
+		// 		{
+		// 			ft_putnbrl(p->pid);
+		// 			ft_errormsg("21sh:", "Child process", "killed by signal");
+		// 		}
+		// 	}
+		// 	p = p->next;
+		// }
 		return (0);
 	}
 	else

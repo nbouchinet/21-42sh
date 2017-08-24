@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/23 14:58:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 22:40:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,29 @@ int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 	{
 		i = 1;
 		j = *table;
-		while (j && !(j->first_process->stopped != 1 && j->first_process->completed != 1))
+		if (j)
 		{
-			j = j->next;
-			i++;
-		}
-		p = j->first_process;
-		ft_printf("[%d]+  Stopped			%s\n", i, j->command);
-		while (p)
-		{
-			p->stopped = 1;
-			kill(p->pid, SIGTSTP);
-			p = p->next;
+			ft_putendl_fd("AE", 2);
+			while (j && !(j->first_process->stopped != 1 && j->first_process->completed != 1))
+			{
+				j = j->next;
+				i++;
+			}
+			if (j)
+			{
+				ft_putendl_fd("B", 2);
+				ft_printf("[%d]+  Stopped			%s\n", i, j->command);
+				ft_putendl_fd("C", 2);
+				p = j->first_process;
+				ft_putendl_fd("D", 2);
+				while (p)
+				{
+					p->stopped = 1;
+					kill(p->pid, SIGTSTP);
+					p = p->next;
+				}
+				ft_putendl_fd("E", 2);
+			}
 		}
 	}
 	return (1);
@@ -112,26 +123,28 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 	if (*table)
 	{
 		j = *table;
-		// tcsetpgrp (g_shell_terminal, j->pgid);
 		while (j->next)
 			j = j->next;
 		p = j->first_process;
 		mark_job_as_running(&j);
 		print_job(&j);
-		// sleep(10);
 		if (kill (- j->pgid, SIGCONT) < 0)
 			perror ("kill (SIGCONT)");
-		// tcsetattr (g_shemll_terminal, TCSADRAIN, &j->tmodes);
+		// setpgid(g_shell_pgid, j->pgid);
+		tcsetpgrp (g_shell_terminal, j->pgid);
+		// tcsetattr (g_shell_terminal, TCSADRAIN, &j->tmodes);
 		while (p)
 		{
 			kill(p->pid, SIGCONT);
 			p = p->next;
 		}
 		wait_for_job(&j);
+		// mark_process_status(&j);
+		// tcgetattr (g_shell_terminal, &j->tmodes);
 		/* Restore the shell’s terminal modes.  */
 		// ft_putnbrl(g_shell_pgid);
 		// init_shell();
-		// tcgetattr (g_shell_terminal, &j->tmodes);
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		// tcsetattr (g_shell_terminal, TCSADRAIN, &g_shell_tmodes);
 		return (1);
 	}

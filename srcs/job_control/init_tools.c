@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 16:23:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/24 16:35:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int		init_proc(t_process **process)
 {
 	if (!((*process) = (t_process*)malloc(sizeof(t_process))))
 		return (-1);
+	(*process)->status = 0;
 	(*process)->argv = NULL;
 	(*process)->rdir = NULL;
 	(*process)->stopped = 0;
