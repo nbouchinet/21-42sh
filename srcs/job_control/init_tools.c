@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/22 16:23:20 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/29 09:52:31 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		init_proc(t_process **process)
 	(*process)->rdir = NULL;
 	(*process)->stopped = 0;
 	(*process)->completed = 0;
+	(*process)->status = 0;
 	(*process)->pid = 0;
 	(*process)->next = NULL;
 	return (1);
