@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-//   Updated: 2017/08/29 09:51:55 by nbouchin         ###   ########.fr       //
+//   Updated: 2017/08/29 10:24:16 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		exec_pro(t_process **lst, t_env **env, pid_t *pgid)
 		*pgid = tmp->pid;
 		ft_putendl("LALALALALAL");
 		waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
+		catch_error(&tmp);
 		// tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		ft_putendl("LOLOLOLOLOL");
 	}

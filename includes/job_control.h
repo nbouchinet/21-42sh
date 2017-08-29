@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/23 12:07:52 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/29 10:00:13 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,10 @@ int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
+
+
+
+// ===========================================================
+
+void					catch_error(t_process **process);
 #endif
