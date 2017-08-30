@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 14:07:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/30 16:59:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,7 @@ int		exec_job(t_job **job, t_env **env, t_ast **ast)
 	int		status;
 
 	job_control(job, ast, ADD);
-	// ft_putnbrl(g_shell)
 	status = exec_pro(&(*job)->first_process, env, job, 1);
-
-	// mark_process_status(job);
-	// (*job)->pgid = (*job)->first_process->pid;
-	ft_putnbr_fd(status, 2);
-	// tcsetpgrp (g_shell_terminal, (*j)->pgid);
-	// tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
-	// if (kill (- (*j)->pgid, SIGCONT) < 0)
-		// perror ("kill (SIGCONT)");
-	// wait_for_job(job);
 	if (job_is_stopped(*job))
 		return (1);
 	return (0);
@@ -86,19 +76,13 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 	tmp = *lst;
 	foreground = 2;
 	n_env = get_env(env, tmp->argv[0]);
-	// ft_putnbr(g_shell_is_interactive);
-	// sleep(10);
 	if (!(tmp->pid = fork()))
 	{
 		if (g_shell_is_interactive)
 		{
-			// *pgid = tmp->pid;
 			setpgid(getpid(), getpid());
 			if (foreground)
-			{
 				tcsetpgrp (g_shell_terminal, tmp->pid);
-				// tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
-			}
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGTSTP, SIG_DFL);
@@ -116,15 +100,10 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 		(*j)->pgid = tmp->pid;
 		setpgid(tmp->pid, (*j)->pgid);
 		tcsetpgrp (g_shell_terminal, (*j)->pgid);
-		// tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
 		if (kill (- (*j)->pgid, SIGCONT) < 0)
 			perror ("kill (SIGCONT)");
 		wait_for_job(j);
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
-
-		// waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
-		// if (g_shell_is_interactive)
-			// setpgid(tmp->pid, (*j)->pgid);
 	}
 	ft_freetab(n_env);
 	return (tmp->status);

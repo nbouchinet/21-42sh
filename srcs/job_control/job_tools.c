@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-//   Updated: 2017/08/29 11:31:08 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 16:28:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int		mark_job_status(t_job **job, int status, pid_t pid)
 	t_process	*p;
 
 	p = (*job)->first_process;
-	ft_putendl("In");
-	// sleep(30);
 	while (p)
 	{
 		if (p->pid == pid)
@@ -105,6 +103,18 @@ int		mark_job_status(t_job **job, int status, pid_t pid)
 	return (0);
 }
 
+int		mark_job_as_stopped(t_job **job)
+{
+	t_process	*p;
+
+	p = (*job)->first_process;
+	while (p)
+	{
+		p->stopped = 1;
+		p = p->next;
+	}
+	return (1);
+}
 int		mark_process_status(t_job **job)
 {
 	t_process	*p;

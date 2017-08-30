@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 12:33:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/30 16:26:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
+int						mark_job_as_stopped(t_job **job);
 
 // =============================================================================
 void					cmdl_ctrc(int signal);

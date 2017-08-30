@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/30 12:29:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/30 16:55:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int				mode_on(t_win **win)
 	// write(2, "loooooooooooooooool\n", 42);
 	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 		kill (- g_shell_pgid, SIGTTIN);
-	tcsetpgrp (g_shell_terminal, g_shell_pgid);
+	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
