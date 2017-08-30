@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-//   Updated: 2017/08/29 16:12:53 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 14:07:52 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		exec_job(t_job **job, t_env **env, t_ast **ast)
 	int		status;
 
 	job_control(job, ast, ADD);
+	// ft_putnbrl(g_shell)
 	status = exec_pro(&(*job)->first_process, env, job, 1);
 
 	// mark_process_status(job);
@@ -92,15 +93,18 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 		if (g_shell_is_interactive)
 		{
 			// *pgid = tmp->pid;
-			setpgid(tmp->pid, tmp->pid);
-			// if (foreground)
-				// tcsetpgrp (g_shell_terminal, tmp->pid);
-			// 	signal(SIGINT, cmdl_ctrc);
-			// 	signal(SIGQUIT, SIG_DFL);
-			// 	signal(SIGTSTP, SIG_DFL);
-			// 	signal(SIGTTIN, SIG_DFL);
-			// 	signal(SIGTTOU, SIG_DFL);
-			// 	signal(SIGCHLD, SIG_DFL);
+			setpgid(getpid(), getpid());
+			if (foreground)
+			{
+				tcsetpgrp (g_shell_terminal, tmp->pid);
+				// tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
+			}
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGTSTP, SIG_DFL);
+			signal(SIGTTIN, SIG_DFL);
+			signal(SIGTTOU, SIG_DFL);
+			signal(SIGCHLD, SIG_DFL);
 		}
 		if (tmp->rdir)
 			io_seq(&tmp->rdir);
@@ -110,13 +114,13 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 	else
 	{
 		(*j)->pgid = tmp->pid;
-		// setpgid(tmp->pid, tmp->pid);
+		setpgid(tmp->pid, (*j)->pgid);
 		tcsetpgrp (g_shell_terminal, (*j)->pgid);
-		tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
+		// tcsetattr (g_shell_terminal, TCSADRAIN, &(*j)->tmodes);
 		if (kill (- (*j)->pgid, SIGCONT) < 0)
 			perror ("kill (SIGCONT)");
 		wait_for_job(j);
-		// tcsetpgrp (g_shell_terminal, g_shell_pgid);
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 
 		// waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 		// if (g_shell_is_interactive)

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-//   Updated: 2017/08/30 10:35:27 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 14:08:55 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		if (kill (- j->pgid, SIGCONT) < 0)
 			perror ("kill (SIGCONT)");
 		// setpgid(g_shell_pgid, j->pgid);
-		// tcsetpgrp (g_shell_terminal, j->pgid);
+		tcsetpgrp (g_shell_terminal, j->pgid);
 		// tcsetattr (g_shell_terminal, TCSADRAIN, &j->tmodes);
 		while (p)
 		{
@@ -140,7 +140,7 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		}
 		wait_for_job(&j);
 		// mark_process_status(&j);
-		tcgetattr (g_shell_terminal, &j->tmodes);
+		// tcgetattr (g_shell_terminal, &j->tmodes);
 		/* Restore the shell’s terminal modes.  */
 		// ft_putnbrl(g_shell_pgid);
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);

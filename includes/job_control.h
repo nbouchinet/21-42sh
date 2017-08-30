@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_control.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@s7tudent.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-//   Updated: 2017/08/30 10:21:36 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 12:33:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define CHK 67
 # define FG  68
 # define UPT 69
+# define KILL 70
 
 pid_t 			g_shell_pgid;
 struct termios 	g_shell_tmodes;

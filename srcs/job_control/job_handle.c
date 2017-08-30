@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-//   Updated: 2017/08/29 15:48:19 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 12:40:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,18 +142,37 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 		ft_errormsg("21sh:", NULL, " No jobs.");
 	return (1);
 }
+int		kill_fg(t_job **job, t_ast **ast, t_job **table)
+{
+	t_job	*j;
+
+	(void)job;
+	(void)ast;
+	if (*table)
+	{
+		j = *table;
+		while (j)// && (!j->first_process->completed && !j->first_process->stopped))
+			j = j->next;
+		kill(j->pgid, SIGINT);
+		printf("[#]+			Killed	%s\n", j->command);
+		return (1);
+	}
+	else
+		printf("42sh: No job in foreground\n");
+	return (0);
+}
 
 int		job_control(t_job **job, t_ast **ast, int mod)
 {
 	int					i;
 	static t_job		*table = NULL;
-	static const t_tab	state[6] = {{ADD, &ft_joblstadd},
+	static const t_tab	state[7] = {{ADD, &ft_joblstadd},
 									{CHK, &check_job}, {FG, &foreground},
 									{SUS, &sus_pid}, {UPT, &update_status},
-									{BUILTIN, &builtin_job}};
+									{BUILTIN, &builtin_job}, {KILL, &kill_fg}};
 
 	i = -1;
-	while (++i < 6)
+	while (++i < 7)
 		if (state[i].mod == mod)
 			if (state[i].f(job, ast, &table) == 1)
 				return (1);

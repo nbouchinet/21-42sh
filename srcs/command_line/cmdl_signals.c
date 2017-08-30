@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-//   Updated: 2017/08/30 10:21:28 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 12:53:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ void		cmdl_ctrc(int signal)
 {
 	ft_putendl_fd("NTMMMMM", 2);
 	// tcsetpgrp (g_shell_terminal, g_shell_pgid);
-	if (signal == 2)
+	if (signal == SIGINT)
 	{
+		// job_control(NULL, NULL, KILL);
 		ft_putendl("PASS");
 		g_loop = 3;
 	}
@@ -59,10 +60,10 @@ void		canon_mode(int signal)
 
 int				cmdl_signal(char **cmd, char *save, t_win **win)
 {
-	signal(2, cmdl_ctrc);
+	signal(SIGINT, cmdl_ctrc);
 	signal(21, canon_mode);
 	signal(28, cmdl_wins);
-	signal(18, ctrl_z);
+	signal(SIGTSTP, ctrl_z);
 	// signal(SIGQUIT, SIG_IGN);
 	// signal(SIGTSTP, SIG_IGN);
 	// signal(SIGTTIN, SIG_IGN);

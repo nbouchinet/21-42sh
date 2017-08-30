@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/24 21:45:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/30 12:29:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,27 @@ int			set_shell(t_win **win)
 	g_shell_is_interactive = isatty (g_shell_terminal);
 	tputs(tgetstr("nam", NULL), 1, ft_putchar);
 	*win = win_sgt();
-	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
-		kill (- g_shell_pgid, SIGTTIN);
-	g_shell_pgid = getpid();
-	if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+	if (g_shell_is_interactive)
 	{
-		perror ("Couldn't put the shell in its own process group");
-		exit (1);
+		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+			kill (- g_shell_pgid, SIGTTIN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGWINCH, SIG_IGN);
+		signal(SIGCHLD, SIG_DFL);
+		signal(SIGINT, cmdl_ctrc);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGTTIN, SIG_IGN);
+		signal(SIGTTOU, SIG_IGN);
+		g_shell_pgid = getpid();
+		if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+		{
+			perror ("Couldn't put the shell in its own process group");
+			exit (1);
+		}
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
+		tcgetattr (g_shell_terminal, &g_shell_tmodes);
 	}
-	tcsetpgrp (g_shell_terminal, g_shell_pgid);
-	tcgetattr (g_shell_terminal, &g_shell_tmodes);
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if (tgetent(0, shl_name) == ERR)
