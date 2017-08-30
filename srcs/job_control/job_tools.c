@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/24 22:03:47 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/29 11:31:08 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,21 @@ void	init_shell(void)
 	{
 		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 			kill (- g_shell_pgid, SIGTTIN);
-	// 		signal(SIGTSTP, SIG_IGN);
-	// signal(SIGWINCH, SIG_IGN);
-	// signal(SIGCHLD, SIG_DFL);
-	// //signal(SIGINT, sig);
-	// signal(SIGQUIT, SIG_IGN);
-	// signal(SIGTSTP, SIG_IGN);
-	// signal(SIGTTIN, SIG_IGN);
-	// signal(SIGTTOU, SIG_IGN);
-		g_shell_pgid = getpid ();
-		if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
-		{
-			perror ("Couldn't put the shell in its own process group");
-			exit (1);
-		}
-		tcsetpgrp (g_shell_terminal, g_shell_pgid);
+			signal(SIGTSTP, SIG_IGN);
+			signal(SIGWINCH, SIG_IGN);
+			signal(SIGCHLD, SIG_DFL);
+			signal(SIGINT, cmdl_ctrc);
+			signal(SIGQUIT, SIG_IGN);
+			signal(SIGTSTP, SIG_IGN);
+			signal(SIGTTIN, SIG_IGN);
+			signal(SIGTTOU, SIG_IGN);
+			g_shell_pgid = getpid ();
+			if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+	{
+		perror ("Couldn't put the shell in its own process group");
+		exit (1);
+	}
+	tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
 	}
 }

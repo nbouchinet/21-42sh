@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/24 21:45:26 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/30 10:21:28 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void		winsize(t_win **win, char **save, char **cmd)
 	write(1, line, ft_strlen(line));
 }
 
-static void		cmdl_wins(int signal)
+void		cmdl_wins(int signal)
 {
 	if (signal == 28)
 		g_loop = 4;
 }
 
-static void		cmdl_ctrc(int signal)
+void		cmdl_ctrc(int signal)
 {
 	ft_putendl_fd("NTMMMMM", 2);
 	// tcsetpgrp (g_shell_terminal, g_shell_pgid);
@@ -51,7 +51,7 @@ void	ctrl_z(int signal)
 	}
 }
 
-static void		canon_mode(int signal)
+void		canon_mode(int signal)
 {
 	if (signal == 21)
 		g_loop = 6;

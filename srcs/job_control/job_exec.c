@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/24 22:42:55 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/29 16:12:53 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 			setpgid(tmp->pid, tmp->pid);
 			// if (foreground)
 				// tcsetpgrp (g_shell_terminal, tmp->pid);
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGTSTP, SIG_DFL);
-			signal(SIGTTIN, SIG_DFL);
-			signal(SIGTTOU, SIG_DFL);
-			signal(SIGCHLD, SIG_DFL);
+			// 	signal(SIGINT, cmdl_ctrc);
+			// 	signal(SIGQUIT, SIG_DFL);
+			// 	signal(SIGTSTP, SIG_DFL);
+			// 	signal(SIGTTIN, SIG_DFL);
+			// 	signal(SIGTTOU, SIG_DFL);
+			// 	signal(SIGCHLD, SIG_DFL);
 		}
 		if (tmp->rdir)
 			io_seq(&tmp->rdir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_control.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@s7tudent.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/24 19:44:27 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/30 10:21:36 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,10 @@ int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
+
+// =============================================================================
+void					cmdl_ctrc(int signal);
+void					cmdl_wins(int signal);
+void					canon_mode(int signal);
+void					ctrl_z(int signal);
 #endif
