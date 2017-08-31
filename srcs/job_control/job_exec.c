@@ -6,11 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-<<<<<<< HEAD
-//   Updated: 2017/08/29 10:24:16 by nbouchin         ###   ########.fr       //
-=======
 /*   Updated: 2017/08/30 16:59:20 by zadrien          ###   ########.fr       */
->>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +97,6 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 	}
 	else
 	{
-<<<<<<< HEAD
-		*pgid = tmp->pid;
-		ft_putendl("LALALALALAL");
-		waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
-		catch_error(&tmp);
-		// tcsetpgrp (g_shell_terminal, g_shell_pgid);
-		ft_putendl("LOLOLOLOLOL");
-=======
 		(*j)->pgid = tmp->pid;
 		setpgid(tmp->pid, (*j)->pgid);
 		tcsetpgrp (g_shell_terminal, (*j)->pgid);
@@ -116,7 +104,6 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 			perror ("kill (SIGCONT)");
 		wait_for_job(j);
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
->>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 	}
 	ft_freetab(n_env);
 	return (tmp->status);

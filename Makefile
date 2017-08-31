@@ -6,7 +6,9 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/08/31 10:42:08 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/08/24 21:52:49 by zadrien          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +107,6 @@ CFILES= 		main.c \
 				job_control/job_handle.c \
 				job_control/job_pipe.c \
 				job_control/job_tools.c \
-				job_control/catch_error.c \
 
 OFILES= $(CFILES:.c=.o)
 

@@ -6,11 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-<<<<<<< HEAD
-//   Updated: 2017/08/29 09:52:31 by nbouchin         ###   ########.fr       //
-=======
 /*   Updated: 2017/08/24 16:35:35 by zadrien          ###   ########.fr       */
->>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +32,6 @@ int		init_proc(t_process **process)
 	(*process)->rdir = NULL;
 	(*process)->stopped = 0;
 	(*process)->completed = 0;
-	(*process)->status = 0;
 	(*process)->pid = 0;
 	(*process)->next = NULL;
 	return (1);

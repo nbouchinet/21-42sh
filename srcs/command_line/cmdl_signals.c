@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-//   Updated: 2017/08/31 10:44:02 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/30 16:44:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,9 @@ void		cmdl_wins(int signal)
 
 void		cmdl_ctrc(int signal)
 {
-	tcsetpgrp (g_shell_terminal, g_shell_pgid);
-	if (signal == 2)
-	{
-		// ft_putendl("PASS");
-		if (signal == SIGINT)
-			g_loop = 3;
-	}
+	if (signal == SIGINT)
+		g_loop = 3;
+}
 
 void	ctrl_z(int signal)
 {

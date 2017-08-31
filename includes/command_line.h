@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:03:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 17:20:31 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/07/09 14:34:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ typedef struct			s_win
 	t_env				*lstenv;
 	struct termios		term;
 }						t_win;
-
-t_win		*g_win;
 
 /*
 **	cmdl handling functions.
