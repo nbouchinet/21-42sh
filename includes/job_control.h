@@ -6,7 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
+<<<<<<< HEAD
 //   Updated: 2017/08/29 10:00:13 by nbouchin         ###   ########.fr       //
+=======
+/*   Updated: 2017/08/30 16:26:42 by zadrien          ###   ########.fr       */
+>>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +21,7 @@
 # define CHK 67
 # define FG  68
 # define UPT 69
+# define KILL 70
 
 pid_t 			g_shell_pgid;
 struct termios 	g_shell_tmodes;
@@ -98,7 +103,7 @@ int						init_pgid(t_job **job, pid_t pid, t_ast **ast);
 void					destroy_ast(t_ast **head);
 void					destroy_tok(t_tok **head);
 int						exec_job(t_job **job, t_env **env, t_ast **ast);
-int						exec_pro(t_process **lst, t_env **env, pid_t *pgid);
+int						exec_pro(t_process **lst, t_env **env, t_job **j, int foreground);
 char					*init_pipe_job(t_ast **ast);
 int						init_job(t_job **job);
 int						pipe_job(t_job **lst, t_env **env);
@@ -109,10 +114,20 @@ int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
+<<<<<<< HEAD
 
 
 
 // ===========================================================
 
 void					catch_error(t_process **process);
+=======
+int						mark_job_as_stopped(t_job **job);
+
+// =============================================================================
+void					cmdl_ctrc(int signal);
+void					cmdl_wins(int signal);
+void					canon_mode(int signal);
+void					ctrl_z(int signal);
+>>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 #endif

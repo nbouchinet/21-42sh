@@ -6,7 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/08/23 11:12:20 by nbouchin         ###   ########.fr       */
+=======
+/*   Updated: 2017/08/23 16:19:20 by zadrien          ###   ########.fr       */
+>>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +96,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, int *pgid)
 		else
 		{
 			*pgid != -1 ? (*pgid = tmp->pid) : 0;
-			job_cont_pipe(&tmp, env, p);
+ 			job_cont_pipe(&tmp, env, p);
 			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 			return (tmp->status);
 		}

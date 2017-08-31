@@ -6,74 +6,74 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/08/23 14:34:18 by nbouchin         ###   ########.fr       */
+=======
+/*   Updated: 2017/08/30 17:01:33 by zadrien          ###   ########.fr       */
+>>>>>>> 5f996d1931e7d903e738e4c7cb8b0b960ee90f0a
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 
-int		sus_pid(t_job **job, t_ast **ast, t_job **table)
-{
-	int			i;
-	t_job		*j;
-	t_process	*p;
-
-	(void)job;
-	(void)ast;
-	if (*table)
-	{
-		i = 1;
-		j = *table;
-		while (j && !(j->first_process->stopped != 1 && j->first_process->completed != 1))
-		{
-			j = j->next;
-			i++;
-		}
-		p = j->first_process;
-		ft_printf("[%d]+  Stopped			%s\n", i, j->command);
-		while (p)
-		{
-			p->stopped = 1;
-			kill(p->pid, SIGTSTP);
-			p = p->next;
-		}
-	}
-	return (1);
-}
 // int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 // {
-// 	int			nbjob;
-// 	t_job		*head;
-// 	t_process	*phead;
+// 	int			i;
+// 	t_job		*j;
 //
 // 	(void)job;
 // 	(void)ast;
-// 	nbjob = 1;
-// 	if (!(*table))
-// 		return (0);
-// 	head = (*table);
-// 	phead = (*table)->first_process;
-// 	while ((*table)->next)
+// 	if (*table)
 // 	{
-// 		(*table) = (*table)->next;
-// 		nbjob++;
-// 	}
-// 	if ((*table)->first_process->stopped != 1)
-// 	{
-// 		phead = (*table)->first_process;
-// 		printf("[%d]+  Stopped			%s\n", nbjob, (*table)->command);
-// 		while ((*table)->first_process)
+// 		i = 1;
+// 		j = *table;
+// 		if (j)
 // 		{
-// 			(*table)->first_process->stopped = 1;
-// 			kill((*table)->first_process->pid, SIGTSTP);
-// 			(*table)->first_process = (*table)->first_process->next;
+// 			while (j && !(j->first_process->stopped != 1 && j->first_process->completed != 1))
+// 			{
+// 				j = j->next;
+// 				i++;
+// 			} // Condition a revoir
+// 			if (j)
+// 			{
+// 				ft_putendl_fd(j->command, 2);
+// 				mark_job_as_stopped(&j);
+// 				if (kill(j->pgid, SIGTSTP))
+// 					;
+// 			}
 // 		}
-// 		(*table)->first_process = phead;
 // 	}
-// 	(*table) = head;
 // 	return (1);
 // }
+int		sus_pid(t_job **job, t_ast **ast, t_job **table)
+{
+	int			nbjob;
+	t_job		*head;
+	t_process	*phead;
+
+	(void)job;
+	(void)ast;
+	nbjob = 1;
+	if (!(*table))
+		return (0);
+	head = (*table);
+	phead = (*table)->first_process;
+	while ((*table)->next)
+	{
+		(*table) = (*table)->next;
+		nbjob++;
+	}
+	if ((*table)->first_process->stopped != 1)
+	{
+		phead = (*table)->first_process;
+		printf("[%d]+  Stopped			%s\n", nbjob, (*table)->command);
+		kill((*table)->pgid, SIGTSTP);
+		(*table)->first_process = phead;
+	}
+	(*table) = head;
+	return (1);
+}
 
 void	wait_for_job(t_job **job)
 {
@@ -82,9 +82,8 @@ void	wait_for_job(t_job **job)
 
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
-		ft_putendl("A");
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
-		if (!mark_job_status(job, status, pid))
+		if (mark_job_status(job, status, pid) == 0)
 			break ;
 	}
 }
@@ -108,32 +107,18 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 	(void)job;
 	(void)ast;
 
-	ft_putendl("WTF");
 	if (*table)
 	{
 		j = *table;
-		tcsetpgrp (g_shell_terminal, j->pgid);
 		while (j->next)
 			j = j->next;
 		p = j->first_process;
 		mark_job_as_running(&j);
-		print_job(&j);
-		// sleep(10);
+		tcsetpgrp (g_shell_terminal, j->pgid);
 		if (kill (- j->pgid, SIGCONT) < 0)
 			perror ("kill (SIGCONT)");
-		// tcsetattr (g_shemll_terminal, TCSADRAIN, &j->tmodes);
-		while (p)
-		{
-			kill(p->pid, SIGCONT);
-			p = p->next;
-		}
 		wait_for_job(&j);
-		/* Restore the shell’s terminal modes.  */
-		// ft_putnbrl(g_shell_pgid);
-		// init_shell();
-		// tcgetattr (g_shell_terminal, &j->tmodes);
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
-		// tcsetattr (g_shell_terminal, TCSADRAIN, &g_shell_tmodes);
 		return (1);
 	}
 	return (0);

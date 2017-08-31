@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/23 14:22:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/30 16:44:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		tmp = *table;
 		while (tmp)
 		{
-			if (kill(tmp->first_process->pid, 0) < 0)
+			if (job_is_complete(tmp))
 			{
 				delete_tnode(&tmp, &prev, table);
 				break ;
@@ -78,8 +78,6 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 			p = j->first_process;
 			while(p)
 			{
-				ft_putendl("NAN sar????");
-				ft_putendl("MAGAD");
 				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
 				p = p->next;
 			}
@@ -94,25 +92,20 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
 	t_job		*prev;
-	t_process	*p;
+	// t_process	*p;
 
 	(void)job;
 	(void)ast;
 	if (*table)
 	{
-		j = *table;
 		prev = NULL;
+		j = *table;
 		while (j)
 		{
-			p = j->first_process;
-			while (p)
+			if (job_is_complete(j) == 1)
 			{
-				if (p->completed)
-				{
-					delete_tnode(&j, &prev, table);
-					break ;
-				}
-				p = p->next;
+				ft_putendl_fd(j->command, 2);
+				delete_tnode(&j, &prev, table);
 			}
 			prev = j;
 			j = j->next;
