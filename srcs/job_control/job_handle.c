@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/30 16:44:25 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/31 13:44:38 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		{
 			if (job_is_complete(j) == 1)
 			{
-				ft_putendl_fd(j->command, 2);
+				ft_putendl_fd("", 2);
 				delete_tnode(&j, &prev, table);
 			}
 			prev = j;

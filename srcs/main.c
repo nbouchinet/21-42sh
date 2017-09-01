@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-//   Updated: 2017/08/29 11:30:30 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/08/31 15:57:59 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	exec_part(char **line, t_env **env)
 		tok = cmd;
 	while (tok)
 	{
-		ft_printf("%@%s%@\n", BLUE, tok->str, I);
+		//	ft_printf("%@%s%@\n", BLUE, tok->str, I);
 		tok = tok->n;
 	}
 	init_ast(&ast, NULL, 0);
@@ -67,7 +67,7 @@ static void	loop(t_win *win)
 			break ;
 		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
 		{
-			ft_printf("\n%@%s%@\n", RED, cmd, I);
+			//	ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);

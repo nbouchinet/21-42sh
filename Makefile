@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/08/24 21:52:49 by zadrien          ###   ########.fr        #
+#    Updated: 2017/09/01 11:59:07 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -62,7 +62,7 @@ CFILES= 		main.c \
 				builtins/history.c \
 				builtins/history_opt.c \
 				builtins/history_no_opt.c \
-		  		builtins/hash.c \
+				builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
 				builtins/local.c \
@@ -107,6 +107,7 @@ CFILES= 		main.c \
 				job_control/job_handle.c \
 				job_control/job_pipe.c \
 				job_control/job_tools.c \
+				job_control/catch_error.c \
 
 OFILES= $(CFILES:.c=.o)
 
@@ -150,5 +151,5 @@ fclean: clean
 re: fclean all
 
 norme:
-		@norminette srcs/**/**.[ch]
-		@norminette libft/*.[ch]
+	@norminette srcs/**/**.[ch]
+	@norminette libft/*.[ch]

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/30 17:01:33 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/31 12:20:41 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	wait_for_job(t_job **job)
 	pid_t		pid;
 	int			status;
 
+	status = 0;
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);

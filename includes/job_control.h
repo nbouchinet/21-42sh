@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 16:26:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/08/31 17:44:48 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,5 @@ void					cmdl_ctrc(int signal);
 void					cmdl_wins(int signal);
 void					canon_mode(int signal);
 void					ctrl_z(int signal);
+void					catch_error(t_job **job, int status);
 #endif

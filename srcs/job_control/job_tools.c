@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 16:28:01 by zadrien          ###   ########.fr       */
+//   Updated: 2017/08/31 13:27:26 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,17 @@ int		mark_job_status(t_job **job, int status, pid_t pid)
 		if (p->pid == pid)
 		{
 			p->status = status;
-			ft_putnbr_fd(status, 2);
 			if (WIFSTOPPED(status))
 			{
-				ft_putendl_fd("WIFSTOPPED LOL", 2);
+				catch_error(job, status);
 				p->stopped = 1;
 			}
 			else if (WIFEXITED(status) && !WEXITSTATUS(status))
 			{
-				ft_putendl_fd("Ca ne devrai pas", 2);
 				p->completed = 1;
-				// else if (WIFEXITED(status))
 			}
 			else if (WIFSIGNALED(status))
-			{
-				p->completed = 1;
-				ft_putstr_fd("Signal:", 2);
-				ft_putnbr_fd(WTERMSIG(status), 2);
-			}
+				catch_error(job, status);
 			return (1);
 		}
 		p = p->next;
@@ -126,20 +119,20 @@ int		mark_process_status(t_job **job)
 		{
 			if (WIFSTOPPED(p->status))
 			{
-				ft_putendl_fd("WIFSTOPPED", 2);
+				//catch_error(job, p->status);
 				p->stopped = 1;
 			}
 			else if (WIFEXITED(p->status) && !WEXITSTATUS(p->status))
 			{
-				ft_putendl_fd("Ca ne devrai pas", 2);
+				//				ft_putendl_fd("Ca ne devrai pas", 2);
 				p->completed = 1;
 				// else if (WIFEXITED(p->status))
 			}
 			else if (WIFSIGNALED(p->status))
 			{
 				p->completed = 1;
-				ft_putstr_fd("Signal:", 2);
-				ft_putnbr_fd(WTERMSIG(p->status), 2);
+				// ft_putstr_fd("Signal:", 2);
+				// ft_putnbr_fd(WTERMSIG(p->status), 2);
 				break;
 			}
 			p = p->next;
