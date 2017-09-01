@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:33:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:50:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/01 15:41:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,27 @@ void			tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_ast = *ast;
 	while (tmp && tmp != *sep)
 	{
+		if (tmp->type == BG)
+		{
+			tmp_ast->type = BG_SEQ;
+			bg_sequence(&tmp_ast, lst, sep);
+			break ;
+		}
+		tmp = tmp->n;
+	}
+	if (tmp_ast->type == 0)
+		quaternary_sequence(&tmp_ast, lst, sep);
+}
+
+void			quaternary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
+{
+	t_tok	*tmp;
+	t_ast	*tmp_ast;
+
+	tmp = *lst;
+	tmp_ast = *ast;
+	while (tmp && tmp != *sep)
+	{
 		if (tmp->type == PIPE)
 		{
 			if (!tmp_ast)
@@ -84,6 +105,7 @@ void			tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		}
 		tmp = tmp->n;
 	}
+	ft_putendl("la");
 	if (tmp_ast->type == 0)
 	{
 		tmp_ast->type = CMD_SEQ;

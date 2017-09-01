@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 16:59:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/01 16:40:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ void	job_ast(t_ast **ast, t_env **env)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_jseq	seq[4] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
-	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq}};
+	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
+	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
+								{BG_SEQ, &job_bg_seq}};
 
 	tmp = *ast;
 	while (tmp && tmp->type >= QM_SEQ && tmp->type <= AND_OR)
 	{
 		i = -1;
-		while (++i < 4)
+		while (++i < 5)
 			if (seq[i].type == tmp->type)
 				seq[i].f(&tmp, env);
 		tmp = tmp->right;
@@ -65,8 +66,6 @@ int		exec_job(t_job **job, t_env **env, t_ast **ast)
 		return (1);
 	return (0);
 } //Implement multiple stopped and completed pinter
-
-void	wait_for_job(t_job **job);
 
 int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
 {

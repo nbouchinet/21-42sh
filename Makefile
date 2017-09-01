@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/08/24 21:52:49 by zadrien          ###   ########.fr        #
+#    Updated: 2017/09/01 16:41:20 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -43,6 +43,7 @@ CFILES= 		main.c \
 				AST/creat_pipe_seq.c \
 				AST/creat_qm_oa.c \
 				AST/destroy_ast.c \
+				AST/creat_bg_seq.c \
 				init_env/check_env.c \
 				execution/bin_fin_help2.c \
 				execution/bin_fin_helper.c \
@@ -107,6 +108,7 @@ CFILES= 		main.c \
 				job_control/job_handle.c \
 				job_control/job_pipe.c \
 				job_control/job_tools.c \
+				job_control/job_bg_seq.c \
 
 OFILES= $(CFILES:.c=.o)
 

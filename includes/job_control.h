@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 16:26:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/01 16:40:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int						job_andor(t_ast **ast, t_env **env);
 int						job_oa_seq(t_ast **ast, t_env **env);
 int						job_qm_seq(t_ast **ast, t_env **env);
 int						job_cmd_seq(t_ast **ast, t_env **env);
-int						exec_pipe_job(t_process **lst, char **env, int r, int *pgid);
+int						exec_pipe_job(t_process **lst, char **env, int r, t_job **job);
 char					*init_job_name(t_ast **ast);
 int						init_pgid(t_job **job, pid_t pid, t_ast **ast);
 void					destroy_ast(t_ast **head);
@@ -111,6 +111,8 @@ int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
 int						mark_job_as_stopped(t_job **job);
+int						job_bg_seq(t_ast **ast, t_env **env);
+void					wait_for_job(t_job **job);
 
 // =============================================================================
 void					cmdl_ctrc(int signal);
