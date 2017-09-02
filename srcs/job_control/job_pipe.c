@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 16:47:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 17:59:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_job(t_job **job)
 	}
 }
 
-int		job_pipe(t_ast **ast, t_env **env)
+int		job_pipe(t_ast **ast, t_env **env, int foreground)
 {
 	t_job	*job;
 	t_job	*tmp;
@@ -42,12 +42,12 @@ int		job_pipe(t_ast **ast, t_env **env)
 		tmp = job;
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
-			return (pipe_job(&job, env));
+			return (pipe_job(&job, env, foreground));
 	}
 	return (0);
 }
 
-int		pipe_job(t_job **lst, t_env **env)
+int		pipe_job(t_job **lst, t_env **env, int foreground)
 {
 	int		status;
 	char	**n_env;
@@ -56,7 +56,10 @@ int		pipe_job(t_job **lst, t_env **env)
 	tmp = *lst;
 	job_control(lst, NULL, ADD);
 	n_env = get_env(env, tmp->first_process->argv[0]);
-	status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
+	if (foreground)
+		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
+	else
+		exec_pipe_bg(&tmp->first_process, n_env, -1, lst);
 	mark_process_status(lst);
 	ft_freetab(n_env);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))

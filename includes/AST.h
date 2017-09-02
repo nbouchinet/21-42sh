@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 13:33:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 17:49:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ enum 			e_ast
 	QM_SEQ = 42,
 	CMD_SEQ,
 	PIPE_SEQ,
+	BG_SEQ,
 	AND_OR,
 	IO_FILE,
 	CMD_NAME_ABS,
 	SIMP_CMD,
 	CMD_ARG,
 	IO_SEQ,
-	CMD_NAME_RLT,
-	BG_SEQ
+	CMD_NAME_RLT
 };
 
 typedef struct		s_ast

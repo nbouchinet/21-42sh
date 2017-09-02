@@ -6,11 +6,47 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 16:46:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 18:57:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
+{
+	int			p[2];
+	t_process	*tmp;
+
+	tmp = *pro;
+	if (pipe(p) == 0)
+	{
+		if ((tmp->pid = fork()) == 0)
+		{
+			close(p[0]);
+			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+			signal(SIGTSTP, SIG_IGN);
+			signal(SIGTTIN, SIG_IGN);
+			signal(SIGTTOU, SIG_IGN);
+			signal(SIGCHLD, SIG_IGN);
+			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			r != -1 ? dup2(r, STDIN_FILENO) : 0;
+			execve(tmp->argv[0], tmp->argv, env);
+		}
+		else
+		{
+			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
+			setpgid(tmp->pid, (*job)->pgid);
+			if (kill (-(*job)->pgid, SIGCONT) < 0)
+			perror ("kill (SIGCONT)");
+			job_cont_pipe(&tmp, env, job, p);
+			// waitpid(tmp->pid, &tmp->status, WUNTRACED | WNOHANG);
+			return (tmp->status);
+		}
+	}
+	return (0);
+}
 
 int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 {
@@ -22,12 +58,12 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 	if (!(p->pid = fork()))
 	{
 		setpgid(getpid(), getpid());
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGTTIN, SIG_IGN);
-		signal(SIGTTOU, SIG_IGN);
-		signal(SIGCHLD, SIG_IGN);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
+		signal(SIGTTIN, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL);
+		signal(SIGCHLD, SIG_DFL);
 		if (p->rdir)
 			io_seq(&p->rdir);
 		execve(p->argv[0], p->argv, n_env);
@@ -37,7 +73,8 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 	{
 		(*job)->pgid = p->pid;
 		setpgid(p->pid, p->pid);
-		waitpid(p->pid, &p->status, WUNTRACED | WNOHANG);
+		if (kill (-(*job)->pgid, SIGCONT) < 0)
+			perror ("kill (SIGCONT)");
 	}
 	ft_freetab(n_env);
 	return (p->status);
@@ -71,18 +108,19 @@ int		exec_bg_seq(t_ast **ast, t_env **env)
 	return (-1);
 }
 
-int		job_bg_seq(t_ast **ast, t_env **env)
+int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 {
 	t_ast	*tmp;
 
+	foreground = 0;
 	tmp = (*ast)->type == BG_SEQ ? (*ast)->right : *ast;
 	if (tmp->type == BG)
 	{
-		job_ast(&tmp->left, env);
+		job_ast(&tmp->left, env, foreground);
 		if (tmp->right)
-			job_bg_seq(&tmp->right, env);
+			job_bg_seq(&tmp->right, env, foreground);
 	}
 	else
-		job_ast(&tmp, env);
+		job_ast(&tmp, env, foreground);
 	return (1);
 } // add bool
