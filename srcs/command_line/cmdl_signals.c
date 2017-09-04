@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/30 16:44:00 by zadrien          ###   ########.fr       */
+//   Updated: 2017/09/04 13:17:20 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int				cmdl_signal(char **cmd, char *save, t_win **win)
 	signal(SIGINT, cmdl_ctrc);
 	signal(21, canon_mode);
 	signal(28, cmdl_wins);
-	signal(SIGTSTP, ctrl_z);
 	g_loop == 4 ? winsize(win, &save, cmd) : 0;
 	g_loop == 6 ? mode_on(win) : 0;
 	g_loop == 6 ? print_prompt(win) : 0;
