@@ -6,9 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/01 11:59:07 by nbouchin         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+#    Updated: 2017/09/04 08:31:21 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +28,7 @@ INC= $(addprefix -I , $(HPATH))
 
 CFILES= 		main.c \
 				print_prompt.c \
-				signals.c ft_putast.c	\
+				signals.c	\
 				lexer/lex_luthor.c \
 				lexer/lexer_check.c \
 				lexer/martha_kent.c \
@@ -43,6 +41,7 @@ CFILES= 		main.c \
 				AST/creat_pipe_seq.c \
 				AST/creat_qm_oa.c \
 				AST/destroy_ast.c \
+				AST/creat_bg_seq.c \
 				init_env/check_env.c \
 				execution/bin_fin_help2.c \
 				execution/bin_fin_helper.c \
@@ -108,6 +107,7 @@ CFILES= 		main.c \
 				job_control/job_pipe.c \
 				job_control/job_tools.c \
 				job_control/catch_error.c \
+				job_control/job_bg_seq.c \
 
 OFILES= $(CFILES:.c=.o)
 

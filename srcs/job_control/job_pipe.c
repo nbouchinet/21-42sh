@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/23 16:19:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 17:59:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_job(t_job **job)
 	}
 }
 
-int		job_pipe(t_ast **ast, t_env **env)
+int		job_pipe(t_ast **ast, t_env **env, int foreground)
 {
 	t_job	*job;
 	t_job	*tmp;
@@ -42,12 +42,12 @@ int		job_pipe(t_ast **ast, t_env **env)
 		tmp = job;
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
-			return (pipe_job(&job, env));
+			return (pipe_job(&job, env, foreground));
 	}
 	return (0);
 }
 
-int		pipe_job(t_job **lst, t_env **env)
+int		pipe_job(t_job **lst, t_env **env, int foreground)
 {
 	int		status;
 	char	**n_env;
@@ -56,7 +56,10 @@ int		pipe_job(t_job **lst, t_env **env)
 	tmp = *lst;
 	job_control(lst, NULL, ADD);
 	n_env = get_env(env, tmp->first_process->argv[0]);
-	status = exec_pipe_job(&tmp->first_process, n_env, -1, &tmp->pgid);
+	if (foreground)
+		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
+	else
+		exec_pipe_bg(&tmp->first_process, n_env, -1, lst);
 	mark_process_status(lst);
 	ft_freetab(n_env);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
@@ -64,17 +67,14 @@ int		pipe_job(t_job **lst, t_env **env)
 	return (0);
 } // implement hash table
 
-void	job_cont_pipe(t_process **lst, char **env, int *p)
+void	job_cont_pipe(t_process **lst, char **env, t_job **job, int *p)
 {
-	int		lol;
-
-	lol = -1;
 	close(p[1]);
-	(*lst)->next ? exec_pipe_job(&(*lst)->next, env, p[0], &lol) : 0;
+	(*lst)->next ? exec_pipe_job(&(*lst)->next, env, p[0], job) : 0;
 	close(p[0]);
 }
 
-int		exec_pipe_job(t_process **lst, char **env, int r, int *pgid)
+int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 {
 	int			p[2];
 	t_process	*tmp;
@@ -85,15 +85,20 @@ int		exec_pipe_job(t_process **lst, char **env, int r, int *pgid)
 		if ((tmp->pid = fork()) == 0)
 		{
 			close(p[0]);
+			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
 		{
-			*pgid != -1 ? (*pgid = tmp->pid) : 0;
- 			job_cont_pipe(&tmp, env, p);
-			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
+			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
+			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			tcsetpgrp(g_shell_terminal, (*job)->pgid);
+			(*job)->pgid == 0 ? ((*job)->pgid = tmp->pid) : 0;
+ 			job_cont_pipe(&tmp, env, job, p);
+			wait_for_job(job);
+			tcsetpgrp (g_shell_terminal, g_shell_pgid);
 			return (tmp->status);
 		}
 	}

@@ -6,31 +6,32 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/30 16:59:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 17:48:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	job_ast(t_ast **ast, t_env **env)
+void	job_ast(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_jseq	seq[4] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
-	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq}};
+	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
+	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
+								{BG_SEQ, &job_bg_seq}};
 
 	tmp = *ast;
 	while (tmp && tmp->type >= QM_SEQ && tmp->type <= AND_OR)
 	{
 		i = -1;
-		while (++i < 4)
+		while (++i < 5)
 			if (seq[i].type == tmp->type)
-				seq[i].f(&tmp, env);
+				seq[i].f(&tmp, env, foreground);
 		tmp = tmp->right;
 	}
 }
 
-int		job_cmd_seq(t_ast **ast, t_env **env)
+int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_job				*job;
@@ -50,39 +51,38 @@ int		job_cmd_seq(t_ast **ast, t_env **env)
 		tcgetattr (g_shell_terminal, &job->tmodes);
 		if (init_process(ast, &(job)->first_process, env) == 0)
 			return (-1);
-		return (exec_job(&job, env, ast));
+		return (exec_job(&job, env, foreground));
 	}
 	return (-1);
 }
 
-int		exec_job(t_job **job, t_env **env, t_ast **ast)
+int		exec_job(t_job **job, t_env **env, int foreground)
 {
 	int		status;
 
-	job_control(job, ast, ADD);
-	status = exec_pro(&(*job)->first_process, env, job, 1);
+	job_control(job, NULL, ADD);
+	if (foreground)
+		status = exec_pro(&(*job)->first_process, env, job);
+	else
+		exec_pro_bg(&(*job)->first_process, env, job);
 	if (job_is_stopped(*job))
 		return (1);
 	return (0);
 } //Implement multiple stopped and completed pinter
 
-void	wait_for_job(t_job **job);
-
-int		exec_pro(t_process **lst, t_env **env, t_job **j, int foreground)
+int		exec_pro(t_process **lst, t_env **env, t_job **j)
 {
 	char		**n_env;
 	t_process	*tmp;
 
 	tmp = *lst;
-	foreground = 2;
 	n_env = get_env(env, tmp->argv[0]);
 	if (!(tmp->pid = fork()))
 	{
 		if (g_shell_is_interactive)
 		{
 			setpgid(getpid(), getpid());
-			if (foreground)
-				tcsetpgrp (g_shell_terminal, tmp->pid);
+			tcsetpgrp (g_shell_terminal, tmp->pid);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGTSTP, SIG_DFL);

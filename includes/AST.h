@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:11:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/02 17:49:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ enum 			e_ast
 	QM_SEQ = 42,
 	CMD_SEQ,
 	PIPE_SEQ,
+	BG_SEQ,
 	AND_OR,
 	IO_FILE,
 	CMD_NAME_ABS,
@@ -45,8 +46,10 @@ void				init_ast(t_ast **ast, char *str, int type);
 void				primary_sequence(t_ast **ast, t_tok **lst);
 void				secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
-void				oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				quaternary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
+void				bg_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				command_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				io_sequence(t_ast **ast, t_tok **lst, t_tok **sep);

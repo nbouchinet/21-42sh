@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 14:28:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/01 13:15:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ enum 				e_token
 	WORD,
 	FIL,
 	DQUOTE,
-	LOCAL
+	LOCAL,
+	BG
 };
 
 enum				e_dir
