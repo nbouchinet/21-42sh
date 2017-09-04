@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/04 16:41:57 by nbouchin         ###   ########.fr       //
+//   Updated: 2017/09/04 16:45:21 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 		{
 			close(p[0]);
 			setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);
-			signal(SIGINT, SIG_IGN);
-			signal(SIGQUIT, SIG_IGN);
-			signal(SIGTSTP, SIG_IGN);
-			signal(SIGTTIN, SIG_IGN);
-			signal(SIGTTOU, SIG_IGN);
-			signal(SIGCHLD, SIG_IGN);
+			signal(SIGINT, SIG_DFl);
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGTSTP, SIG_DFL);
+			signal(SIGTTIN, SIG_DFL);
+			signal(SIGTTOU, SIG_DFL);
+			signal(SIGCHLD, SIG_DFL);
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
 			if (tmp->rdir)
 				io_seq(&tmp->rdir);
