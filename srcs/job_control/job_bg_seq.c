@@ -6,11 +6,18 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/02 18:57:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/04 15:50:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void	job_cont_bg(t_process **lst, char **env, t_job **job, int *p)
+{
+	close(p[1]);
+	(*lst)->next ? exec_pipe_bg(&(*lst)->next, env, p[0], job) : 0;
+	close(p[0]);
+}
 
 int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 {
@@ -23,7 +30,7 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 		if ((tmp->pid = fork()) == 0)
 		{
 			close(p[0]);
-			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, SIG_IGN);
 			signal(SIGTSTP, SIG_IGN);
@@ -31,16 +38,18 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			signal(SIGTTOU, SIG_IGN);
 			signal(SIGCHLD, SIG_IGN);
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			if (tmp->rdir)
+				io_seq(&tmp->rdir);
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
 		{
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
-			setpgid(tmp->pid, (*job)->pgid);
+			setpgid((*job)->pgid, tmp->pid);
 			if (kill (-(*job)->pgid, SIGCONT) < 0)
-			perror ("kill (SIGCONT)");
-			job_cont_pipe(&tmp, env, job, p);
+				perror ("kill (SIGCONT)");
+			job_cont_bg(&tmp, env, job, p);
 			// waitpid(tmp->pid, &tmp->status, WUNTRACED | WNOHANG);
 			return (tmp->status);
 		}

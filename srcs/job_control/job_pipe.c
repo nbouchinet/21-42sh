@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/02 17:59:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/04 15:47:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,17 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		{
 			close(p[0]);
 			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			tcsetpgrp(g_shell_terminal, (*job)->pgid);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGTSTP, SIG_DFL);
+			signal(SIGTTIN, SIG_DFL);
+			signal(SIGTTOU, SIG_DFL);
+			signal(SIGCHLD, SIG_DFL);
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
+			if (tmp->rdir)
+				io_seq(&tmp->rdir);
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
