@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:31:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 16:15:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,17 +188,17 @@ typedef struct		s_hash
 typedef struct		s_mod
 {
 	int				mod;
-	int				(*f)(t_ast**, t_hash**);
+	int				(*f)(t_ast**, t_job **, t_hash**);
 }					t_mod;
 
 int		init_hash(t_hash **lst, char *cmd);
 int		hashing(t_ast **ast, t_env **env);
-int		builtin_hash(t_ast **ast, t_hash **table);
-int		hash(t_ast **ast, int mod);
+int		builtin_hash(t_ast **ast, t_job **job, t_hash **table);
+int		hash(t_ast **ast, t_job **job, int mod);
 int		search_mod(t_ast **ast, t_hash **table);
-int		put_cmd(t_ast **ast, t_hash **table);
+int		put_cmd(t_ast **ast, t_job **job, t_hash **table);
 int		search(t_ast **ast, t_hash **table, int i);
-int		find_search(t_ast **ast, t_hash **table);
+int		find_search(t_ast **ast, t_job **job, t_hash **table);
 int		hash_cmd(char *cmd);
 void	remove_cmd(t_ast **ast, t_hash **table);
 void	clean_cmd(t_hash **table, t_hash **prev, t_hash **curr);

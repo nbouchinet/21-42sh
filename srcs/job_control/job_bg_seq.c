@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 13:00:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 19:43:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			job_cont_bg(&tmp, env, job, p);
 			if (kill (- tmp->pid, SIGCONT) < 0)
 				perror ("kill (SIGCONT)");
-			// if (tmp->next)
-			// 	waitpid(tmp->pid, &tmp->status, WUNTRACED);
 			return (tmp->status);
 		}
 	}
