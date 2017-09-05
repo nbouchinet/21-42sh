@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/08/30 16:44:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:05:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		{
 			if (job_is_complete(tmp))
 			{
+				ft_putendl_fd("FAIIIIILLLLL", 2);
 				delete_tnode(&tmp, &prev, table);
 				break ;
 			}
@@ -104,6 +105,7 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		{
 			if (job_is_complete(j) == 1)
 			{
+				ft_putendl_fd("Process delete from job table", 2);
 				ft_putendl_fd(j->command, 2);
 				delete_tnode(&j, &prev, table);
 			}
@@ -126,7 +128,7 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 	int			i;
 	t_job		*j;
 
-	i = 1;
+	i0 = 1;
 	(void)job;
 	(void)ast;
 	if (*table)
