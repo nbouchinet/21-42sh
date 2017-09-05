@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/04 15:47:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 12:55:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 	job_control(lst, NULL, ADD);
 	n_env = get_env(env, tmp->first_process->argv[0]);
 	if (foreground)
+	{
 		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
+		mark_process_status(lst);
+	}
 	else
-		exec_pipe_bg(&tmp->first_process, n_env, -1, lst);
-	mark_process_status(lst);
+		status = exec_pipe_bg(&tmp->first_process, n_env, -1, lst);
 	ft_freetab(n_env);
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 		return (1);
@@ -102,9 +104,8 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		else
 		{
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
-			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			setpgid(tmp->pid, (*job)->pgid);
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
-			(*job)->pgid == 0 ? ((*job)->pgid = tmp->pid) : 0;
  			job_cont_pipe(&tmp, env, job, p);
 			wait_for_job(job);
 			tcsetpgrp (g_shell_terminal, g_shell_pgid);

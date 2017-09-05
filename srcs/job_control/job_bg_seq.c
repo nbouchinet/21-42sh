@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/05 11:23:28 by nbouchin         ###   ########.fr       //
+//   Updated: 2017/09/05 13:21:45 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 		if (!(tmp->pid = fork()))
 		{
 			close(p[0]);
-	//		setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);
-			setpgid(getpid(), getpid());
+			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGTSTP, SIG_DFL);
@@ -39,19 +38,20 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGCHLD, SIG_DFL);
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			if (tmp->rdir)
 				io_seq(&tmp->rdir);
-			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
 		{
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
-			setpgid((*job)->pgid, tmp->pid);
-			if (kill (-(*job)->pgid, SIGCONT) < 0)
-				perror ("kill (SIGCONT)");
+			setpgid(tmp->pid, (*job)->pgid);
 			job_cont_bg(&tmp, env, job, p);
-		//	waitpid(tmp->pid, &tmp->status, WUNTRACED | WNOHANG);
+			if (kill (- tmp->pid, SIGCONT) < 0)
+				perror ("kill (SIGCONT)");
+			// if (tmp->next)
+			// 	waitpid(tmp->pid, &tmp->status, WUNTRACED);
 			return (tmp->status);
 		}
 	}
