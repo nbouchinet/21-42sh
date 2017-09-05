@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:33:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 15:41:45 by zadrien          ###   ########.fr       */
+//   Updated: 2017/09/05 13:35:32 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void			quaternary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		}
 		tmp = tmp->n;
 	}
-	ft_putendl("la");
 	if (tmp_ast->type == 0)
 	{
 		tmp_ast->type = CMD_SEQ;
