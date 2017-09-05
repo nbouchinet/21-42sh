@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/05 13:05:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:19:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 	int			i;
 	t_job		*j;
 
-	i0 = 1;
+	i = 1;
 	(void)job;
 	(void)ast;
 	if (*table)

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 12:55:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:26:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	print_job(t_job **job)
 		printf("Process numero %d\n", j++);
 		while (p->argv[++i])
 			printf("argv[%d] = %s\n", i, p->argv[i]);
+		if (p->rdir)
+			ft_putast(p->rdir);
 		printf("Status: %s\n", (p->completed ? "Complete" : (p->stopped ? "Stopped" : "In progress")));
 		p = p->next;
 	}

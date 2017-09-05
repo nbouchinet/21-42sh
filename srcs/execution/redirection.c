@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/02 17:55:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:24:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ int		io_seq(t_ast **ast)
 		{AGRE, &agre}, {BDIR, &bdir}}; //, {BBDIR,}, {BGRE,}}; A FAIRE
 
 	tmp = *ast;
+	ft_putnbrl(tmp->type);
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
 	{
+		ft_putendl("NIggaz");
 		if (tmp->right)
 			if (io_seq(&tmp->right) == 0)
 				return (0);
