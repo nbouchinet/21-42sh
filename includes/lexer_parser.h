@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 13:15:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:23:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ enum 				e_token
 enum				e_dir
 {
 	RDIR = 22,
-	BDIR,
-	RRDIR,
-	BBDIR,
-	AGRE,
-	BGRE
+	BDIR = 23,
+	RRDIR = 24,
+	BBDIR = 25,
+	AGRE = 26,
+	BGRE = 27
 };
 
 void				input(t_tok **cmd);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 12:59:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 13:26:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int		exec_job(t_job **job, t_env **env, int foreground)
 	int		status;
 
 	job_control(job, NULL, ADD);
+	print_job(job);
 	if (foreground)
 		status = exec_pro(&(*job)->first_process, env, job);
 	else
@@ -91,7 +92,10 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 			signal(SIGCHLD, SIG_DFL);
 		}
 		if (tmp->rdir)
+		{
+			ft_putendl("YATA");
 			io_seq(&tmp->rdir);
+		}
 		execve(tmp->argv[0], tmp->argv, n_env);
 		exit(EXIT_SUCCESS);
 	}

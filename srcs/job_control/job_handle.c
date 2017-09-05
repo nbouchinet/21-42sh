@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-//   Updated: 2017/09/05 13:20:55 by nbouchin         ###   ########.fr       //
+//   Updated: 2017/09/05 13:30:58 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		{
 			if (job_is_complete(tmp))
 			{
-				ft_putendl_fd("FAIIIIILLLLL", 2);
 				delete_tnode(&tmp, &prev, table);
 				break ;
 			}
