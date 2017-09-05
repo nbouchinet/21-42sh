@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/04 16:21:55 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/05 10:24:11 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 	tmp = *pro;
 	if (pipe(p) == 0)
 	{
-		if ((tmp->pid = fork()) == 0)
+		if (!(tmp->pid = fork()))
 		{
 			close(p[0]);
 			setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);

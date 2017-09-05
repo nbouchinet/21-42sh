@@ -6,12 +6,11 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-//   Updated: 2017/09/04 13:08:37 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/05 11:22:11 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
 
 // int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 // {
@@ -42,6 +41,7 @@
 // 	}
 // 	return (1);
 // }
+
 int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 {
 	int			nbjob;

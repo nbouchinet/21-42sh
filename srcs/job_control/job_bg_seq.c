@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   job_bg_seq.c                                       :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/04 16:45:21 by nbouchin         ###   ########.fr       //
+//   Updated: 2017/09/05 11:23:28 by nbouchin         ###   ########.fr       //
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 	tmp = *pro;
 	if (pipe(p) == 0)
 	{
-		if ((tmp->pid = fork()) == 0)
+		if (!(tmp->pid = fork()))
 		{
 			close(p[0]);
-			setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);
-			signal(SIGINT, SIG_DFl);
+	//		setpgid(((*job)->pgid == 0 ? getpid() : (*job)->pgid), tmp->pid);
+			setpgid(getpid(), getpid());
+			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGTSTP, SIG_DFL);
 			signal(SIGTTIN, SIG_DFL);
@@ -50,7 +51,7 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			if (kill (-(*job)->pgid, SIGCONT) < 0)
 				perror ("kill (SIGCONT)");
 			job_cont_bg(&tmp, env, job, p);
-			// waitpid(tmp->pid, &tmp->status, WUNTRACED | WNOHANG);
+		//	waitpid(tmp->pid, &tmp->status, WUNTRACED | WNOHANG);
 			return (tmp->status);
 		}
 	}
