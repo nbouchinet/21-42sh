@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 19:50:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/06 15:43:20 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	job_ast(t_ast **ast, t_env **env, int foreground)
 	int					i;
 	t_ast				*tmp;
 	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
-	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
-								{BG_SEQ, &job_bg_seq}};
+		{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
+		{BG_SEQ, &job_bg_seq}};
 
 	tmp = *ast;
 	while (tmp && tmp->type >= QM_SEQ && tmp->type <= AND_OR)
@@ -37,10 +37,10 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	t_job				*job;
 	t_ast				*tmp;
 	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_enve},
-								{"setenv", &ft_setenv}, {"hash", &hashing},
-								{"jobs", &inter_job}, {"fg", &ft_fg},
-								{"cd", &ft_cd}, {"echo", &ft_echo},
-								{"exit", &ft_exit}, {"history", &ft_history}};
+		{"setenv", &ft_setenv}, {"hash", &hashing},
+		{"jobs", &inter_job}, {"fg", &ft_fg},
+		{"cd", &ft_cd}, {"echo", &ft_echo},
+		{"exit", &ft_exit}, {"history", &ft_history}};
 
 	i = -1;
 	tmp = *ast;

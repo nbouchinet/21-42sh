@@ -1,0 +1,6 @@
+ls -la | cat -e Makefile & -> erreur d'affichage du prompt (n'importe quel commande lancee en bg)
+
+exit doit retourner le return code de la derniere fonction
+->	ls -l2
+	exit
+	echo $?
