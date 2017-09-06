@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 15:43:20 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/06 17:25:35 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	int					i;
 	t_job				*job;
 	t_ast				*tmp;
-	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_enve},
-		{"setenv", &ft_setenv}, {"hash", &hashing},
-		{"jobs", &inter_job}, {"fg", &ft_fg},
-		{"cd", &ft_cd}, {"echo", &ft_echo},
-		{"exit", &ft_exit}, {"history", &ft_history}};
+	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &builtin_env},
+		           {"setenv", &ft_setenv}, {"hash", &hashing},
+								{"jobs", &inter_job}, {"fg", &ft_fg},
+								{"cd", &ft_cd}, {"echo", &ft_echo},
+								{"exit", &ft_exit}, {"history", &ft_history}};
 
 	i = -1;
 	tmp = *ast;

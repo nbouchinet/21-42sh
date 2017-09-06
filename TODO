@@ -4,3 +4,5 @@ exit doit retourner le return code de la derniere fonction
 ->	ls -l2
 	exit
 	echo $?
+
+segfault : ENV=/bin=lol

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 08:33:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:56:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/06 17:06:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	delete_lstenv(t_env **cmd)
 
 void	print_env(t_env *lst)
 {
-	while (lst)
-	{
-		ft_putstr(lst->var);
-		ft_putchar('=');
-		ft_putstr(lst->value);
-		ft_putchar('\n');
-		lst = lst->next;
-	}
+	if (lst)
+		while (lst)
+		{
+			ft_putstr(lst->var);
+			ft_putchar('=');
+			ft_putstr(lst->value);
+			ft_putchar('\n');
+			lst = lst->next;
+		}
 }
 
 void	ft_freetab(char **trash)
