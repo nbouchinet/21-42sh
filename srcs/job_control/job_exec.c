@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 19:50:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/06 16:31:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	int					i;
 	t_job				*job;
 	t_ast				*tmp;
-	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &ft_enve},
+	static const t_cmd	cmd[10] = {{"unsetenv", &ft_unsetenv}, {"env", &builtin_env},
 								{"setenv", &ft_setenv}, {"hash", &hashing},
 								{"jobs", &inter_job}, {"fg", &ft_fg},
 								{"cd", &ft_cd}, {"echo", &ft_echo},

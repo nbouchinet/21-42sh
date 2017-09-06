@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 16:15:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/06 17:01:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,29 @@ int		check_opt(char *opt);
 **                                  INIT_ENV                                  **
 ********************************************************************************
 */
+# define LOW_U_FLAG	1
+# define LOW_I_FLAG	2
+
 int					init_env(t_env **lst, char **env);
 void				ft_freetab(char **trash);
 void				print_env(t_env *lst);
 void				delete_lstenv(t_env **cmd);
 char				**check_env(char **env);
+int					builtin_env(t_ast **ast, t_env **env);
+int					env_builtin(t_ast **ast, t_env **env, t_env **r_env);
+t_ast				*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag);
+t_ast				*complete_env(t_env **env, t_ast **ast);
+t_ast				*env_without(t_env **env, t_ast **ast);
+t_ast				*env_w(t_env **env, t_ast **ast);
+void				change_env(t_env **env, char **var);
+void				complete_node(t_env **node, char **env);
+int					exec_env(t_ast **ast, t_env **env, t_env **r_env);
+t_env				*next_node(t_env **env);
+int					find_rlt(t_ast **cmd, t_env **env);
+char				*recreat_cmd(t_ast **ast);
+t_ast				*env_option(t_ast **ast, int *flags);
+void				env_opt(char *str, int *flags);
+int					check_equal(char *s);
+int					test(char *s);
+
 #endif

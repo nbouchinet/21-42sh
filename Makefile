@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/01 16:41:20 by zadrien          ###   ########.fr        #
+#    Updated: 2017/09/06 16:30:55 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #                                                                              #
@@ -72,7 +72,6 @@ CFILES= 		main.c \
 				builtins/read.c \
 				builtins/read_opt1.c \
 				builtins/fg.c \
-				builtins/builtin_env.c \
 				command_line/arrows.c \
 				command_line/arrow_func.c \
 				command_line/check_cmdl.c \
@@ -109,6 +108,10 @@ CFILES= 		main.c \
 				job_control/job_pipe.c \
 				job_control/job_tools.c \
 				job_control/job_bg_seq.c \
+				job_control/job_env.c \
+				job_control/env_tools.c \
+				job_control/env_utils.c \
+				job_control/env_utils2.c \
 
 OFILES= $(CFILES:.c=.o)
 
