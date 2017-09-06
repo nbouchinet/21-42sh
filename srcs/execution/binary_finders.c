@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 15:48:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:22:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/05 17:42:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	abs_cmd(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
-	i = hash(&tmp->left->left, FIND);
+	i = hash(&tmp->left->left, NULL, FIND);
 	if (i == 0)
 		if (find_bin(&tmp->left->left) == 0)
 		{
@@ -70,7 +70,7 @@ void	rlt_cmd(t_ast **ast, t_env **env)
 	tmp = *ast;
 	if (!(e_n = find_node(env, "PATH", NULL)))
 		ft_errormsg("21sh:", NULL, "PATH not set.");
-	i = hash(&tmp->left->left, FIND);
+	i = hash(&tmp->left->left, NULL, FIND);
 	if (i == 0)
 		if (find_cmd_bin(&tmp->left->left, ft_strsplit(e_n->value, ':')) == 0)
 		{

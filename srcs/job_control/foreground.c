@@ -6,41 +6,11 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-//   Updated: 2017/09/05 13:19:29 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/06 09:53:08 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-// int		sus_pid(t_job **job, t_ast **ast, t_job **table)
-// {
-// 	int			i;
-// 	t_job		*j;
-//
-// 	(void)job;
-// 	(void)ast;
-// 	if (*table)
-// 	{
-// 		i = 1;
-// 		j = *table;
-// 		if (j)
-// 		{
-// 			while (j && !(j->first_process->stopped != 1 && j->first_process->completed != 1))
-// 			{
-// 				j = j->next;
-// 				i++;
-// 			} // Condition a revoir
-// 			if (j)
-// 			{
-// 				ft_putendl_fd(j->command, 2);
-// 				mark_job_as_stopped(&j);
-// 				if (kill(j->pgid, SIGTSTP))
-// 					;
-// 			}
-// 		}
-// 	}
-// 	return (1);
-// }
 
 int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 {

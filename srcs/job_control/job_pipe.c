@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/05 13:33:57 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/06 09:56:22 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
 			setpgid(tmp->pid, (*job)->pgid);
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
- 			job_cont_pipe(&tmp, env, job, p);
+			job_cont_pipe(&tmp, env, job, p);
 			wait_for_job(job);
 			tcsetpgrp (g_shell_terminal, g_shell_pgid);
 			return (tmp->status);
