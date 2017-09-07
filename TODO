@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ls -la | cat -e Makefile & -> erreur d'affichage du prompt (n'importe quel commande lancee en bg)
 
 exit doit retourner le return code de la derniere fonction
@@ -6,3 +7,20 @@ exit doit retourner le return code de la derniere fonction
 	echo $?
 
 segfault : ENV=/bin=lol
+=======
+							: unsetenv :
+Multiple vars to handle
+							: env :
+Launch binary.
+Flags to handle : env -i -u.
+while env -i is lauch alone, do not print env
+							: setenv :
+Just segfault.
+							: backward-search :
+(BASH DO IT)
+Browse history backward. and let termcaps highlight command.
+							: frontward-search :
+Same that backward-search but frontward.
+
+check pipe for cat process (He doesn't want to kill himself) : cat | ls :
+>>>>>>> 7eb49eddd9d843deeb39e780adb95a642c79050b

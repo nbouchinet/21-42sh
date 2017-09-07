@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 12:49:20 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/07 15:44:13 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 		return (1);
 	return (0);
-} // implement hash table
+}
 
 void	job_cont_pipe(t_process **lst, char **env, t_job **job, int *p)
 {
@@ -86,7 +86,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		if ((tmp->pid = fork()) == 0)
 		{
 			close(p[0]);
-			setpgid(tmp->pid, ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
+			setpgid(getpid(), ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
@@ -94,7 +94,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			signal(SIGTTIN, SIG_DFL);
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGCHLD, SIG_DFL);
-			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			dup2(p[1], STDOUT_FILENO);
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			if (tmp->rdir)
 				io_seq(&tmp->rdir);
@@ -105,11 +105,10 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
 			setpgid(tmp->pid, (*job)->pgid);
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
-			job_cont_pipe(&tmp, env, job, p);
-			wait_for_job(job);
+ 			job_cont_pipe(&tmp, env, job, p);
+			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 			tcsetpgrp (g_shell_terminal, g_shell_pgid);
-			return (tmp->status);
 		}
 	}
-	return (0);
+	return (tmp->status);
 }
