@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/06 09:53:08 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/07 15:40:28 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	wait_for_job(t_job **job)
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
+		catch_error(job, status);
 		if (mark_job_status(job, status, pid) == 0)
 			break ;
 	}
@@ -70,14 +71,35 @@ void	mark_job_as_running(t_job **job)
 int		foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
+	int			nf;
 	(void)job;
 	(void)ast;
 
+	nf = 0;
 	if (*table)
 	{
 		j = *table;
-		while (j->next)
-			j = j->next;
+		if ((*ast)->left->right)
+		{
+			while (j)
+			{
+				if (j->pgid == ft_atoi((*ast)->left->right->str))
+				{
+					nf = 1;
+					break ;
+				}
+				else
+					j = j->next;
+			}
+			if (nf == 0)
+			{
+				fd_printf(2, "42sh: fg: %s: no such job\n", (*ast)->left->right->str);
+				return (0);
+			}
+		}
+		else
+			while (j->next)
+				j = j->next;
 		if (j)
 		{
 			mark_job_as_running(&j);
@@ -89,5 +111,9 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		}
 		return (1);
 	}
+	if ((*ast)->left->right)
+		fd_printf(2, "42sh: fg: %s: no such job\n", (*ast)->left->right->str);
+	else
+		ft_putendl_fd("42sh: fg: current: no such job", 2);
 	return (0);
 }

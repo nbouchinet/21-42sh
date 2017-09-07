@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 09:55:03 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/07 15:40:13 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		mark_job_status(t_job **job, int status, pid_t pid)
 			else if (WIFSIGNALED(status))
 			{
 				p->completed = 1;
+
 				ft_putstr_fd("Signal : ", 2);
 				ft_putnbr_fd(WTERMSIG(status), 2);
 			}
