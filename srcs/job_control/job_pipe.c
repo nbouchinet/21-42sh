@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 15:44:13 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/07 15:55:43 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 void	job_cont_pipe(t_process **lst, char **env, t_job **job, int *p)
 {
 	close(p[1]);
-	(*lst)->next ? exec_pipe_job(&(*lst)->next, env, p[0], job) : 0;
+	(*lst)->next != NULL ? exec_pipe_job(&(*lst)->next, env, p[0], job) : 0;
 	close(p[0]);
 }
 
@@ -86,6 +86,11 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		if ((tmp->pid = fork()) == 0)
 		{
 			close(p[0]);
+			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			if (r != -1)
+				dup2(r, STDIN_FILENO);
+			if (tmp->rdir)
+				io_seq(&tmp->rdir);
 			setpgid(getpid(), ((*job)->pgid == 0 ? getpid() : (*job)->pgid));
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
 			signal(SIGINT, SIG_DFL);
@@ -94,10 +99,6 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			signal(SIGTTIN, SIG_DFL);
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGCHLD, SIG_DFL);
-			dup2(p[1], STDOUT_FILENO);
-			r != -1 ? dup2(r, STDIN_FILENO) : 0;
-			if (tmp->rdir)
-				io_seq(&tmp->rdir);
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
