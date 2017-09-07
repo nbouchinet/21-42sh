@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/05 13:32:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/07 12:40:55 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		while (j)
 		{
 			if (job_is_complete(j) == 1)
+			{
 				delete_tnode(&j, &prev, table);
+				break ;
+			}
 			prev = j;
 			j = j->next;
 		}
