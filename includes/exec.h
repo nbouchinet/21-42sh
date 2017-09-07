@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 17:01:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/06 19:11:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,5 +234,10 @@ t_ast				*env_option(t_ast **ast, int *flags);
 void				env_opt(char *str, int *flags);
 int					check_equal(char *s);
 int					test(char *s);
+
+/*
+*************************************KILL***************************************
+*/
+int		kill_job(t_ast **ast, t_env **env);
 
 #endif

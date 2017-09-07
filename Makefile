@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/06 17:25:01 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/09/07 08:16:43 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,6 +111,7 @@ CFILES= 		main.c \
 				job_control/env_tools.c \
 				job_control/env_utils.c \
 				job_control/env_utils2.c \
+				job_control/kill_job.c \
 
 OFILES= $(CFILES:.c=.o)
 

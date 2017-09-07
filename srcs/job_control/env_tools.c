@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:51:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 17:26:07 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/07 08:17:03 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_ast	*env_without(t_env **env, t_ast **ast)
 			return (NULL);
 		tmp = *env;
 		tmp_a = *ast;
+		ft_putendl(tmp_a->str);
+		ft_putendl("NIQUE");
 		while (tmp_a)
 		{
 			var = ft_strsplit(tmp_a->str, '=');
