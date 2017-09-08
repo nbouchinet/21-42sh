@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 15:48:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 17:42:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/07 17:36:26 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	abs_cmd(t_ast **ast, t_env **env)
 	if (i == 0)
 		if (find_bin(&tmp->left->left) == 0)
 		{
-			ft_errormsg("21sh: ", (*ast)->left->left->str,
-				": Command not found.");
+			ft_errormsg("42sh: ", (*ast)->left->left->str,
+			            ": Command not found.");
 			exit(EXIT_FAILURE);
 		}
 	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
