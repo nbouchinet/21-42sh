@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 12:20:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 22:01:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,23 @@ int		init_process(t_ast **ast, t_process **proc, t_env **env)
 char	*init_pipe_job(t_ast **ast)
 {
 	char	*cmd;
+	char	*get;
 	t_ast	*tmp;
 
 	cmd = NULL;
+	get = NULL;
 	tmp = (*ast)->right;
 	while (tmp && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 	{
 		if (tmp->type == PIPE)
-			cmd = (cmd == NULL ? init_job_name(&tmp->left) :
-				ft_strjoinf(cmd, init_job_name(&tmp->left), 1));
+				cmd = !cmd ? init_job_name(&tmp->left) :
+					ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
 		else if (tmp->type == CMD_SEQ)
-			cmd = ft_strjoinf(cmd, init_job_name(&tmp), 1);
+			cmd = ft_strjoinf(cmd, (get = init_job_name(&tmp)), 1);
 		if ((tmp = tmp->right) && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 			cmd = ft_strjoinf(cmd, " | ", 1);
 	}
+	get ? ft_strdel(&get) : 0;
 	return (cmd);
 }
 

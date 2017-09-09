@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/09 15:27:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 22:21:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	wait_for_job(t_job **job)
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
-		catch_error(job, status);
+		// catch_error(job, status);
 		if (mark_job_status(job, status, pid) == 0)
 			break ;
 	}

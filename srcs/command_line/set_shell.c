@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/09 19:13:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 22:18:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,13 @@ int			set_shell(t_win **win)
 
 	signal (SIGCHLD, SIG_DFL);
 	g_shell_terminal = STDIN_FILENO;
-	if ((g_shell_is_interactive = isatty (g_shell_terminal)))
+	g_shell_is_interactive = isatty(g_shell_terminal);
+	tputs(tgetstr("nam", NULL), 1, ft_putchar);
+	*win = win_sgt();
+	if (g_shell_is_interactive)
 	{
-		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
-			kill (- g_shell_pgid, SIGTTIN);
+		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+			kill(- g_shell_pgid, SIGTTIN);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGWINCH, SIG_IGN);
 		signal(SIGCHLD, SIG_DFL);
@@ -112,9 +115,7 @@ int			set_shell(t_win **win)
 		}
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
-		*win = win_sgt();
 	}
-	// tputs(tgetstr("nam", NULL), 1, ft_putchar);
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if (tgetent(0, shl_name) == ERR)
