@@ -11,3 +11,5 @@ Just segfault.
 Browse history backward. and let termcaps highlight command.
 							: frontward-search :
 Same that backward-search but frontward.
+
+check pipe for cat process (He doesn't want to kill himself) : cat | ls :

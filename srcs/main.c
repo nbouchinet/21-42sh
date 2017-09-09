@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/09 19:09:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 21:48:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ static void	loop(t_win *win)
 
 	while (g_loop)
 	{
-		job_control(NULL, NULL, UPT); // AST NULL
 		job_control(NULL, NULL, CHK);
+		job_control(NULL, NULL, UPT); // AST NULL
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, buf);
 		if (win->ctrld)

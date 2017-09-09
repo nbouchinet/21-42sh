@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 13:26:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/07 12:20:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 	{
 		if (init_process(&tmp->left, p, env) == 0)
 			return (0);
-		complete_process(&tmp->right, &(*p)->next, env);
+		return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
 		if (init_process(&tmp, p, env) == 0)
