@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/05 13:32:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 15:26:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		tmp = *table;
 		while (tmp)
 		{
-			if (job_is_complete(tmp))
+			if (kill(0, tmp->pgid) < 0)//job_is_complete(tmp))
 			{
 				delete_tnode(&tmp, &prev, table);
 				break ;
@@ -101,8 +101,11 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		j = *table;
 		while (j)
 		{
-			if (job_is_complete(j) == 1)
+			if (kill(0, j->pgid) < 0) //job_is_complete(j) == 1)
+			{
 				delete_tnode(&j, &prev, table);
+				break ;
+			}
 			prev = j;
 			j = j->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:45:35 by nbouchin          #+#    #+#             */
-//   Updated: 2017/08/29 15:49:57 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/09 15:04:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
 	if (*table)
 	{
 		tmp = *table;
-		while (tmp->next)
+		while (tmp && tmp->next)
 				tmp = tmp->next;
 		tmp->next = *new;
 	}
@@ -44,6 +44,7 @@ void	delete_tnode(t_job **node, t_job **prev, t_job **table)
 	t_process		*tmp;
 	t_process		*del;
 
+	// ft_putendl("WHAT");
 	if ((*node)->next)
 		((*prev)) ? ((*prev)->next = (*node)->next)
 				: ((*table) = (*node)->next);

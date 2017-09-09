@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/05 19:43:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 15:27:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,18 @@ int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 	return (1);
 }
 
+void            catch_error(t_job **job, int status)
+{
+	if (WTERMSIG(status) == SIGSEGV)
+		fd_printf(3, "Segmentation fault: 11\n");
+	else if (WTERMSIG(status) == SIGABRT)
+		fd_printf(3, "Abort trap: 6\n");
+	else if (WTERMSIG(status) == SIGBUS)
+		fd_printf(3, "Bus error: 10\n");
+	else if (WSTOPSIG(status) == SIGTSTP)
+		fd_printf(3, "[%d]+  Stopped    %s\n", 1, (*job)->command);
+}
+
 void	wait_for_job(t_job **job)
 {
 	pid_t		pid;
@@ -49,6 +61,7 @@ void	wait_for_job(t_job **job)
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
+		catch_error(job, status);
 		if (mark_job_status(job, status, pid) == 0)
 			break ;
 	}

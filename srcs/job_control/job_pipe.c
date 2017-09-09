@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 15:51:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 18:18:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 	if (WIFEXITED(status) && !WEXITSTATUS(status))
 		return (1);
 	return (0);
-} // implement hash table
+}
 
 void	job_cont_pipe(t_process **lst, char **env, t_job **job, int *p)
 {
@@ -109,7 +109,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			setpgid(tmp->pid, (*job)->pgid);
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
  			job_cont_pipe(&tmp, env, job, p);
-			wait_for_job(job);
+			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 			tcsetpgrp (g_shell_terminal, g_shell_pgid);
 			return (tmp->status);
 		}

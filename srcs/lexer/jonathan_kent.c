@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/01 15:47:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 18:48:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,10 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
 	char	quote;
 
-	if (ft_strlen(*stack) > 1)
-	{
-		tok_save(lst, stack, WORD);
-		init_token(&(*lst)->n);
-		*lst = (*lst)->n;
-	}
 	quote = line[(*i)++];
 	while (line[(*i)] && line[(*i)] != quote)
 		st_tok(stack, line[(*i)++]);
-	tok_save(lst, stack, quote == '\'' ? QUOTE : DQUOTE);
+	tok_save(lst, stack, WORD);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
 		init_token(&(*lst)->n);

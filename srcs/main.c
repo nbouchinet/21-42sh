@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/05 12:12:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 19:09:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	exec_part(char **line, t_env **env)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tok;
+	// t_tok	*tok;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
@@ -37,12 +37,12 @@ static void	exec_part(char **line, t_env **env)
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
-		tok = cmd;
-	while (tok)
-	{
-		ft_printf("%@%s%@\n", BLUE, tok->str, I);
-		tok = tok->n;
-	}
+	// tok = cmd;
+	// while (tok)
+	// {
+	// 	ft_printf("%@%s%@\n", BLUE, tok->str, I);
+	// 	tok = tok->n;
+	// }
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
 	ft_putast(ast);
@@ -67,7 +67,7 @@ static void	loop(t_win *win)
 			break ;
 		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
 		{
-			ft_printf("\n%@%s%@\n", RED, cmd, I);
+			// ft_printf("\n%@%s%@\n", RED, cmd, I);
 			mode_off(&win);
 			exec_part(&cmd, &win->lstenv);
 			mode_on(&win);
@@ -90,7 +90,7 @@ int         main(int ac, char *av[], char *env[])
 	ac = 0;
 	(void)av;
 	env = check_env(env);
-	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
+	if (set_shell(&win) || get_win_data(&win) || init_env(&(win->lstenv), env))
 		return (1);
 	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "malloc error\n"));

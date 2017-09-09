@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/30 16:55:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 19:13:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,7 @@ int			set_shell(t_win **win)
 
 	signal (SIGCHLD, SIG_DFL);
 	g_shell_terminal = STDIN_FILENO;
-	g_shell_is_interactive = isatty (g_shell_terminal);
-	tputs(tgetstr("nam", NULL), 1, ft_putchar);
-	*win = win_sgt();
-	if (g_shell_is_interactive)
+	if ((g_shell_is_interactive = isatty (g_shell_terminal)))
 	{
 		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 			kill (- g_shell_pgid, SIGTTIN);
@@ -115,13 +112,15 @@ int			set_shell(t_win **win)
 		}
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
+		*win = win_sgt();
 	}
+	// tputs(tgetstr("nam", NULL), 1, ft_putchar);
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if (tgetent(0, shl_name) == ERR)
 		return (fd_printf(2, "tgetent: ERROR\n"));
 	if (tcgetattr(1, &(*win)->term) == -1)
-		return (fd_printf(2, "tcgetattr: ERROR\n"));
+		return (1);
 	if (mode_on(win) != 0)
 		return (1);
 	return (0);
