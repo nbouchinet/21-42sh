@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/09 21:48:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/10 12:39:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void	print_job(t_job **job)
 	t_process *p;
 
 	j = 1;
-	printf("[Jobs = %s]\n", (*job)->command);
+	printf("[Jobs = %s | %d]\n", (*job)->command, (*job)->pgid);
 	p = (*job)->first_process;
 	while (p)
 	{
 		i = -1;
 		printf("Process numero %d\n", j++);
+		printf("PID: %d\n", p->pid);
 		while (p->argv[++i])
 			printf("argv[%d] = %s\n", i, p->argv[i]);
 		if (p->rdir)

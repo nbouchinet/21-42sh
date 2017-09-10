@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/09 15:27:27 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/10 17:54:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	job_ast(t_ast **ast, t_env **env, int foreground)
 	int					i;
 	t_ast				*tmp;
 	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
-	 							{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
+								{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
 								{BG_SEQ, &job_bg_seq}};
 
 	tmp = *ast;
@@ -36,19 +36,19 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	int					i;
 	t_job				*job;
 	t_ast				*tmp;
-	static const t_cmd	cmd[11] = {{"unsetenv", &ft_unsetenv}, {"env", &builtin_env},
+	static const t_cmd	cmd[12] = {{"unsetenv", &ft_unsetenv}, {"env", &builtin_env},
 								{"setenv", &ft_setenv}, {"hash", &hashing},
 								{"jobs", &inter_job}, {"fg", &ft_fg},
 								{"cd", &ft_cd}, {"echo", &ft_echo},
 								{"exit", &ft_exit}, {"history", &ft_history},
-								{"kill", &kill_job}};
+								{"kill", &kill_job}, {"bg", &ft_bg}};
 
 	i = -1;
 	tmp = *ast;
-	while (++i < 11)
+	while (++i < 12)
 		if (!ft_strcmp(cmd[i].cmd, tmp->left->left->str))
 			return (cmd[i].f(&tmp, env));
-	if (init_job(&job) == 1)
+	if (init_job(&job))
 	{
 		job->command = init_job_name(ast);
 		tcgetattr (g_shell_terminal, &job->tmodes);

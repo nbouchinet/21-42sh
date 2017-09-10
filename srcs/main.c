@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/09 22:19:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/10 16:37:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			get_win_data(t_win **win)
 	struct winsize	w;
 
 	if (ioctl(0, TIOCGWINSZ, &w) == -1)
-		return (fd_printf(2, "Error while accesing terminal data\n"));
+		return (1);
 	(*win)->co = w.ws_col;
 	(*win)->li = w.ws_row;
 	return (0);
@@ -59,8 +59,8 @@ static void	loop(t_win *win)
 
 	while (g_loop)
 	{
-		job_control(NULL, NULL, CHK);
 		job_control(NULL, NULL, UPT); // AST NULL
+		job_control(NULL, NULL, CHK);
 		cmd = NULL;
 		get_cmdl(&cmd, &win, NULL, buf);
 		if (win->ctrld)
@@ -97,7 +97,7 @@ int         main(int ac, char *av[], char *env[])
 	win->his->cmdl = ft_strdup("");
 	win->his->add = 1;
 	win->his->prev = NULL;
-  	win->his->next = NULL;
+	win->his->next = NULL;
 	win->his->len = 0;
 	g_loop = 256;
 	hist_read(&win->his, 0, -50);
