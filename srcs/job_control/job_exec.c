@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/10 17:54:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/10 19:27:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,33 +31,60 @@ void	job_ast(t_ast **ast, t_env **env, int foreground)
 	}
 }
 
+int		delete_job(t_job **job)
+{
+	t_job		*j;
+	t_process	*p;
+	t_process	*tmp;
+
+	j = *job;
+	if (j)
+	{
+		if (j->command)
+			ft_strdel(&j->command);
+		p =j->first_process;
+		while (p)
+		{
+			tmp = p;
+			if (tmp->argv)
+				ft_freetab(tmp->argv);
+			if (tmp->rdir)
+				tmp->rdir = NULL;
+			p = p->next;
+			free(tmp);
+		}
+		free(j);
+	}
+	return (-1);
+}
+
 int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_job				*job;
 	t_ast				*tmp;
-	static const t_cmd	cmd[12] = {{"unsetenv", &ft_unsetenv}, {"env", &builtin_env},
-								{"setenv", &ft_setenv}, {"hash", &hashing},
+	static const t_cmd	cmd[11] = {{"unsetenv", &ft_unsetenv}, {"hash", &hashing},
+								{"setenv", &ft_setenv}, {"env", &builtin_env},
 								{"jobs", &inter_job}, {"fg", &ft_fg},
 								{"cd", &ft_cd}, {"echo", &ft_echo},
 								{"exit", &ft_exit}, {"history", &ft_history},
-								{"kill", &kill_job}, {"bg", &ft_bg}};
+								{"bg", &ft_bg}};
 
 	i = -1;
 	tmp = *ast;
-	while (++i < 12)
+	while (++i < 11)
 		if (!ft_strcmp(cmd[i].cmd, tmp->left->left->str))
 			return (cmd[i].f(&tmp, env));
 	if (init_job(&job))
 	{
 		job->command = init_job_name(ast);
-		tcgetattr (g_shell_terminal, &job->tmodes);
-		if (init_process(ast, &(job)->first_process, env) == 0)
-			return (-1);
+		if (!init_process(ast, &(job)->first_process, env))
+			return (delete_job(&job));
 		return (exec_job(&job, env, foreground));
 	}
 	return (-1);
 } // Do kill built-in command
+
 
 int		exec_job(t_job **job, t_env **env, int foreground)
 {
