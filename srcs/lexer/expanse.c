@@ -6,11 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 14:43:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/08 12:27:52 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../../includes/header.h"
 
 static char		*replace_env(char *str, int s, int len, t_env **env)
 {
@@ -35,7 +35,6 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	free(var);
 	return (beg);
 }
-
 
 static int		check_expanse(char **str, t_env **env)
 {

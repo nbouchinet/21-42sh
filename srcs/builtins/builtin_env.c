@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 15:00:12 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/04 08:32:24 by nbouchin         ###   ########.fr       //
+/*   Updated: 2017/09/08 09:18:15 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ int		exec_env(t_ast **ast, t_env **env, int flag)
 		//		ft_putast(new_ast);
 		if ((new_ast->left->left->type == CMD_NAME_ABS ? find_bin(&new_ast->left->left) : find_rlt(&new_ast->left->left, env)) == 1)
 		{
-			ft_putendl("PASS");
 			job_ast(&new_ast, (flag & LOW_I_FLAG) ? NULL : env, 1);
 			destroy_ast(&new_ast);
 			// sleep(30);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:52:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 14:55:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/08 09:18:33 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	env_opt(char *str, int *flags)
 			ft_putchar_fd(str[i], 2);
 			ft_putendl_fd("", 2);
 			(*flags) = -1;
-			ft_putendl_fd("Wait what", 2);
 			return ;
 		}
 	}

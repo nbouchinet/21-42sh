@@ -6,25 +6,25 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/08 08:34:07 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/09/08 12:09:41 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all clean fclean name re
+.PHONY:			all clean fclean name re
 
-CC= gcc
+CC=				gcc
 
-NAME= 42sh
+NAME=			42sh
 
-CFLAGS= -g -Wall -Werror -Wextra
+CFLAGS=			-g -Wall -Werror -Wextra
 
-CPATH= srcs/
+CPATH=			srcs/
 
-OPATH= obj/
+OPATH=			obj/
 
-HPATH= includes/ libft/
+HPATH=			includes/ libft/
 
-INC= $(addprefix -I , $(HPATH))
+INC=			$(addprefix -I , $(HPATH))
 
 CFILES= 		main.c \
 				print_prompt.c \
@@ -113,12 +113,12 @@ CFILES= 		main.c \
 				job_control/env_utils2.c \
 				job_control/kill_job.c \
 
-OFILES= $(CFILES:.c=.o)
+OFILES=			$(CFILES:.c=.o)
 
-HFILES= includes/header.h \
-		libft/inc/libftprintf.h	\
+HFILES=			includes/header.h \
+				libft/inc/libftprintf.h	\
 
-OBJ= $(addprefix $(OPATH), $(OFILES))
+OBJ=			$(addprefix $(OPATH), $(OFILES))
 
 
 all: $(NAME)
