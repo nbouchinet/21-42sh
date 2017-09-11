@@ -2,14 +2,15 @@
 
 ### Command line:
 
-*	Copy: `M-C`
-*	Cut: `M-X`
-*	Paste: `M-V`
-*	History search: `Ctrl-R` (hit it again if you want to go backward-> `Ctrl-R Ctrl-N` to go frontward)
+*	`M-C` copy
+*	`M-X` cut
+*	`M-V` paste
+*	`ctrl-R` frontward history search
+*	`ctrl-N` frontward history search
 *	`Home`: Append the line
 *	`End`: End the line
-*	Move word to word: `M-(left/right)arrow`
-*	Move through lines: `M-(up/down)arrow`
-*	Delte from the start of the command to the cursor position: `Ctrl-U`
-*	Go backward/forward through the history: `(up/down)arrow`
-*	Clear screen: `Ctrl-L`
+*	`M-(left/right)arrow` move through words
+*	`M-(up/down)arrow` move through lines
+*	`(up/down)arrow` go backward/frontward through historty
+*	`Ctrl-L` clear screen
+*	`ctrl-U` clear command
