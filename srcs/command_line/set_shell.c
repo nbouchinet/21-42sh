@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/01 11:39:53 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:50:45 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_win		*win_sgt(void)
 
 	if (!win)
 	{
-		if ((win = (t_win*)malloc(sizeof(t_win))) == NULL)
+		if (!(win = (t_win*)malloc(sizeof(t_win))))
 			exit(fd_printf(2, "malloc error\n"));
 		return (win);
 	}
@@ -92,13 +92,10 @@ int			set_shell(t_win **win)
 
 	signal (SIGCHLD, SIG_DFL);
 	g_shell_terminal = STDIN_FILENO;
-	g_shell_is_interactive = isatty (g_shell_terminal);
-	tputs(tgetstr("nam", NULL), 1, ft_putchar);
-	*win = win_sgt();
-	if (g_shell_is_interactive)
+	if ((g_shell_is_interactive = isatty(g_shell_terminal)))
 	{
-		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
-			kill (- g_shell_pgid, SIGTTIN);
+		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+			kill(- g_shell_pgid, SIGTTIN);
 		signal(SIGTSTP, SIG_IGN);
 		signal(SIGWINCH, SIG_IGN);
 		signal(SIGCHLD, SIG_DFL);
@@ -115,13 +112,15 @@ int			set_shell(t_win **win)
 		}
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
+		tputs(tgetstr("nam", NULL), 1, ft_putchar);
+		*win = win_sgt();
 	}
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if (tgetent(0, shl_name) == ERR)
 		return (fd_printf(2, "tgetent: ERROR\n"));
 	if (tcgetattr(1, &(*win)->term) == -1)
-		return (fd_printf(2, "tcgetattr: ERROR\n"));
+		return (1/*fd_printf(2, "tcgetattr: ERROR\n")*/);
 	if (mode_on(win) != 0)
 		return (1);
 	return (0);

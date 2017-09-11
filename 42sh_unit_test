@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*          :::      ::::::::                                                 */
+/*        :+:      :+:    :+:                                                 */
+/*      +:+ +:+         +:+                                                   */
+/*    +#+  +:+       +#+                                                      */
+/*  +#+#+#+#+#+   +#+                                                         */
+/*       #+#    #+#                                                           */
+/*      ###   ########_UNIT_TEST                                              */
+/* ************************************************************************** */
+/bin/echo 123 > /tmp/shtest.log; /bin/echo 456 » /tmp/shtest.log; cat /tmp/shtest.log // va faire ce tet avec des lettre wtf
+> // lexer_check to rework
+> /tmp/shtest.log // lexer_check to rework
+cd /tmp; mkdir bar; chmod a-x bar; cd bar; rm -rf bar  // WORK but not good error_msg
+
+///////////////////////////// WORKING COMMAND \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ls'' // WORK
+ls '' // WORK
+env -q // NOT TO DO
+ls // WORK
+ls -l -a // WORK
+ls -la // WORK
+ls -l — nosuchfile // WORK
+ls    -la   -r // WORK
+pwd // WORK
+cat // WORK
+/bin/ls // WORK
+/bin/ls -a -l // WORK
+/bin/nosuchcmd // WORK
+ls;ls // WORK
+ls ; ls -a; // WORK
+ls;;ls // WORK
+; // WORK
+ls;ls;ls;ls // WORK
+| //  SEGFAULT // // NORMALLY WORK
+|l //  SEGFAULT // // NORMALLY WORK
+ls | // WORK
+ls | cat // WORK
+ls | wc -l // WORK
+base64 /dev/urandom | head -c 1000 | grep 'AUCUNECHANCEQUECETTESTRINGSOITTROUVEELOOOL' // WORK
+/bin/echo lol>/dev/null // WORK
+/bin/echo lol1>   /dev/null // WORK
+/bin/echo lol 1>   /dev/null // WORK
+/bin/echo lol 1> &  /dev/null // WORK
+/bin/echo lol 1>&/dev/null // WORK
+/bin/echo 'Clafouti' > /tmp/merlin.log // WORK
+cat < /tmp/merlin.log > /tmp/elias.log; cat /tmp/elias.log // WORK
+'ls -a' // WORK
+"ls -a" // WORK
+/bin/echo ' 'i" "lik'e ' "trains" // WORK
+/bin/echo '"' // WORK
+/bin/echo "'" // WORK
+echo // WORK
+echo Hello World // WORK
+echo 'Hello World' // WORK
+echo // WORK
+echo '' // WORK
+cd; pwd // WORK
+cd // WORK
+cd /tmp; pwd // WORK
+cd nosuchdir // WORK
+cd /tmp; touch foo; cd foo // WORK // But leaks :o
+cd -; pwd // WORK
+cd /tmp; cd -; pwd // WORK
+env // WORK
+env -i // WORK
+env ls // WORK
+env nosuchfile // WORK
+env SWAGG_VAR=SWAGG_VAL | sort // SHOULD WORK to check in final version
+env -i SWAGG_VAR=SWAGG_VAL // SHOULD WORK to check in final version
+env -i SWAGG_VAR== // SHOULD WORK to check in final version
+env -i cd // WORK
+env -i cd - // WORK
+<custom>setenv SWAGG_VAR SWAGG_VAL // WORK
+/bin/echo -n // WORK
+<custom>setenv SWAGG_VAR SWAGG_VAL; env | sort // WORK
+env SWAGG_VAR=SWAGG_VAL | sort // SHOULD WORK to check in final version
+<custom>setenv SWAGG_VAR; env | sort // WORK
+env SWAGG_VAR= | sort // SHOULD WORK to check in final version
+<custom>setenv SWAGG_VAR OUI; setenv SWAGG_VAR NON; env | sort // WORK
+env SWAGG_VAR=NON | sort // SHOULD WORK to check in final version

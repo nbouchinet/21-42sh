@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 09:56:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:53:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/09 18:47:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ int		binary_finder(char *path, char *cmd)
 	DIR		*dir;
 
 	if ((dir = opendir(path)))
+	{
 		if (ft_checkbin(dir, ft_strrchr(cmd, '/') + 1) == 1)
 			if (isexec(cmd) == 1)
 			{
 				closedir(dir);
 				return (1);
 			}
-	closedir(dir);
+		closedir(dir);
+	}
 	return (0);
 }
 

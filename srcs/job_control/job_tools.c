@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 15:45:27 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:54:10 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,10 @@ int		mark_process_status(t_job **job)
 			else if (WIFEXITED(p->status) && !WEXITSTATUS(p->status))
 				p->completed = 1;
 			else if (WIFSIGNALED(p->status))
+			{
 				p->completed = 1;
-			else
-				p->completed = 1;
+				break ;
+			}
 			p = p->next;
 		}
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/22 16:23:56 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 16:19:21 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:55:09 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define FG  68
 # define UPT 69
 # define KILL 70
+# define BG 71
 
 pid_t 			g_shell_pgid;
 struct termios 	g_shell_tmodes;
@@ -109,6 +110,7 @@ int						mark_job_status(t_job **job, int status, pid_t pid);
 int						job_is_complete(t_job *j);
 int						job_is_stopped(t_job *j);
 int						ft_fg(t_ast **ast, t_env **env);
+int						ft_bg(t_ast **ast, t_env **env);
 int						ft_enve(t_ast **ast, t_env **env);
 int						mark_job_as_stopped(t_job **job);
 int						job_bg_seq(t_ast **ast, t_env **env, int foreground);
@@ -122,4 +124,5 @@ void					cmdl_wins(int signal);
 void					canon_mode(int signal);
 void					ctrl_z(int signal);
 void					catch_error(t_job **job, int status);
+int						background(t_job **job, t_ast **ast, t_job **table);
 #endif

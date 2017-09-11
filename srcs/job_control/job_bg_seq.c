@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 14:59:45 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:52:03 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,4 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 	else
 		job_ast(&tmp, env, foreground);
 	return (1);
-} // add bool
+}

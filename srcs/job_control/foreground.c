@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/08 10:06:21 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:59:30 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,31 @@ void	mark_job_as_running(t_job **job)
 		p->stopped = 0;
 		p = p->next;
 	}
+}
+
+int		background(t_job **job, t_ast **ast, t_job **table)
+{
+	t_job		*j;
+	(void)job;
+	(void)ast;
+
+	if (*table)
+	{
+		j = *table;
+		while (j->next)
+			j = j->next;
+		if (j)
+		{
+			mark_job_as_running(&j);
+			if (kill (- j->pgid, SIGCONT) < 0)
+				perror ("kill (SIGCONT)");
+			// tcsetpgrp(g_shell_terminal, j->pgid);
+			// wait_for_job(&j);
+			tcsetpgrp (g_shell_terminal, g_shell_pgid);
+		}
+		return (1);
+	}
+	return (0);
 }
 
 int		foreground(t_job **job, t_ast **ast, t_job **table)

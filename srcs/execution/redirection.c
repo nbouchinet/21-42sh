@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 09:16:25 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/11 17:51:04 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		io_seq(t_ast **ast)
 		{AGRE, &agre}, {BDIR, &bdir}}; //, {BBDIR,}, {BGRE,}}; A FAIRE
 
 	tmp = *ast;
-	ft_putnbrl(tmp->type);
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
 	{
 		if (tmp->right)
