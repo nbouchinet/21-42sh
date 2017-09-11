@@ -2,14 +2,14 @@
 
 ### Command line:
 
-*	Copier: Option-C
-*	Couper: Option-X
-*	Coller: Option-V
-*	Recherche dans l historique: Control-R (Pr remonter ds l his-> Control-R - pour avancer -> Control-N)
-*	Home: aller au debut de la ligne
-*	End: aller a la fin de la ligne
-*	Se deplacer de mot en mot: Option + fleche(gauche/droite)
-*	Se deplacer verticalement (ligne de commande sur +eurs lignes): Option + fleche(haut/bas)
-*	Effacer depuis le debut de la cmdl jusqu a la position du curseur: Ctrl-U
-*	monter/descendre dans l historique: fleche du haut / fleche du bas
-*	Clear: Ctrl-L
+*	Copy: M-C
+*	Cut: M-X
+*	Paste: M-V
+*	History search: Ctrl-R (hit it again if you want to go backward-> Ctrl-R Ctrl-N to go frontward)
+*	Home: Append the line
+*	End: End the line
+*	Move word to word: M-(left/right)arrow
+*	Move through lines: M-(up/down)arrow
+*	Delte from the start of the command to the cursor position: Ctrl-U
+*	Go backward/forward through the history: (up/down)arrow
+*	Clear screen: Ctrl-L
