@@ -31,7 +31,7 @@ int		unset_shell(t_cmdl *cmdl)
 
 	// save l hsitorique de la session et del les listes
 
-	write(1, "Bye\n", 4);
+	write(1, "\nBye\n", 4);
 	return (0);
 }
 
@@ -46,7 +46,7 @@ int		mode_off(t_cmdl *cmdl)
 
 int		mode_on(t_cmdl *cmdl)
 {
-	
+
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
 	cmdl->term.c_cc[VMIN] = 1;

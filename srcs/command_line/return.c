@@ -63,7 +63,10 @@ int 		return_cmdl(t_cmdl *cmdl)
 	if (!(cmdl->opt & CHIS_S))
 	{
 		if (check_cmdl(cmdl, ft_strlen(cmdl->line.str) - 1))
+		{
+			!cmdl->line.str[0] ? write(1, "\n", 1) : 0;
 			return (2);
+		}
 	}
 	else
 	{

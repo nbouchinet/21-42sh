@@ -20,7 +20,7 @@ void remalloc_cmdl(t_line *line, int len)
 	if (!(line->str = (char *)malloc(sizeof(char) * (len + 1024))))
 		exit(0);
 	ft_memset(line->str, 0, (len + 1024));
-line->str = ft_strcpy(line->str, tmp);
+	line->str = ft_strcpy(line->str, tmp);
 	free(tmp);
 	line->len += 1024;
 }

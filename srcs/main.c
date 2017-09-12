@@ -49,13 +49,12 @@ static void     loop(t_cmdl *cmdl)
 		get_cmdl(cmdl);
 		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmdl->line.str && !(cmdl->line.str[0] == '\\' && cmdl->line.str[1] == 0))
+		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' && cmdl->line.str[1] == 0))
 		{
 			mode_off(cmdl);
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
 		}
-		//		cmdl ? free(cmdl) : 0;
 		t_local *loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;

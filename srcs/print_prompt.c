@@ -35,7 +35,7 @@ void 	print_prompt(void)
 
 	cmdl = *cmdl_slg();
 	if (cmdl->lstenv)
-		ft_printf("%@42sh: %s%@",
+		ft_printf("\%@42sh: %s%@",
 		H_BLUE, lst_at(&(cmdl)->lstenv, "PWD")->value, I);
 	else
 	{

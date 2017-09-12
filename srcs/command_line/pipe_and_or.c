@@ -49,7 +49,6 @@ static int	bs(char *str, int i)
 
 static int	check(int k, t_cmdl *cmdl)
 {
-	ft_printf("\n%s\n", cmdl->line.str + k);
 	if (ft_strstr(cmdl->line.str + k, "||"))
 	{
 		cmdl->opt |= COR;
@@ -74,7 +73,7 @@ static int	only_space(char *str)
 
 	i = -1;
 	while (str[++i])
-		if (str[i] != ' ' || str[i] != 0)
+		if (str[i] != ' ' && str[i] != 0)
 			return (0);
 	return (1);
 }
