@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 15:00:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 09:18:15 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 17:54:46 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	env_opt(char *str, int *flags)
 			ft_putchar_fd(str[i], 2);
 			ft_putendl_fd("", 2);
 			(*flags) = -1;
-			//			ft_putendl_fd("Wait what", 2);
 			return ;
 		}
 	}
@@ -83,7 +82,8 @@ char	*recreat_cmd(t_ast **ast)
 
 	tmp = *ast;
 	new_cmd = ft_strdup(tmp->str);
-	(tmp = tmp->right) ? new_cmd = ft_strjoinf(new_cmd, " ", 1) : 0;
+	(tmp = tmp->right) ?
+	new_cmd = ft_strjoinf(new_cmd, " ", 1) : 0;
 	while (tmp)
 	{
 		new_cmd = ft_strjoinf(new_cmd, tmp->str, 1);
@@ -113,8 +113,6 @@ int		find_rlt(t_ast **cmd, t_env **env)
 
 int		exec_env(t_ast **ast, t_env **env, int flag)
 {
-	(void)env;
-	(void)flag;
 	t_tok	*tok;
 	t_ast	*tmp;
 	t_ast	*new_ast;
@@ -131,15 +129,22 @@ int		exec_env(t_ast **ast, t_env **env, int flag)
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);
 		delete_lst(&tok);
-		//		ft_putast(new_ast);
-		if ((new_ast->left->left->type == CMD_NAME_ABS ? find_bin(&new_ast->left->left) : find_rlt(&new_ast->left->left, env)) == 1)
+		if ((new_ast->left->left->type == CMD_NAME_ABS ?
+		find_bin(&new_ast->left->left) :
+		find_rlt(&new_ast->left->left, env)) == 1)
 		{
 			job_ast(&new_ast, (flag & LOW_I_FLAG) ? NULL : env, 1);
 			destroy_ast(&new_ast);
-			// sleep(30);
 		}
-	} // delete ast
+	}
 	return (0);
+}
+
+t_env	*prout(t_env **tmp_env)
+{
+	if (!(tmp_env = (t_env*)malloc(sizeof(t_env))))
+		return (NULL);
+	return (tmp_env);
 }
 
 t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env)
@@ -154,7 +159,6 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env)
 		tmp = *env;
 		tmp_env = *n_env;
 		while (tmp)
-		{
 			if (ft_strcmp((*ast)->str, tmp->var) != 0)
 			{
 				tmp_env->var = ft_strdup(tmp->var);
@@ -162,14 +166,9 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env)
 				if (tmp->next && ft_strcmp((*ast)->str, tmp->next->var) == 0)
 					tmp = tmp->next;
 				if (tmp->next && ft_strcmp((*ast)->str, tmp->next->var) != 0)
-				{
-					if (!(tmp_env->next = (t_env*)malloc(sizeof(t_env))))
-						return (NULL);
-					tmp_env = tmp_env->next;
-				}
+					tmp_env = prout(&tmp_env->next);
+				tmp = tmp->next;
 			}
-			tmp = tmp->next;
-		}
 		tmp_env->next = NULL;
 	}
 	return ((*ast)->right);
