@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 11:41:09 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 11:45:22 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		mode_on(t_cmdl *cmdl)
 	
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
-	cmdl->term.c_cc[VMIN] = 1;
+	cmdl->term.c_cc[VMIN] = 0;
 	cmdl->term.c_cc[VTIME] = 0;
 	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 		kill (- g_shell_pgid, SIGTTIN);
