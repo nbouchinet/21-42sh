@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:34:48 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 09:44:22 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ typedef	struct		s_ccp
 
 # define CCTRLD		1
 # define CHIS_S		2
-# define CSQ			4
-# define CDQ			8
+# define CSQ		4
+# define CDQ		8
 # define CRESET		16
 # define CPIPE		32
 # define CAND		64
-# define COR			128
+# define COR		128
 
 typedef struct		s_cmdl
 {
