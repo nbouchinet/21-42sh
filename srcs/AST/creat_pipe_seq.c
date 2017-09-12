@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 13:23:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 17:30:31 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp = *lst;
 	tmp_ast = *ast;
 	init_ast(&tmp_ast->left, tmp->str,
-		 ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
+	ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
 	tmp = tmp->n;
 	while (tmp != *sep)
 	{
