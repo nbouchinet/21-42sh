@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 16:17:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/12 18:07:59 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	print_hash(t_hash **table)
 int		builtin_hash(t_ast **ast, t_job **job, t_hash **table)
 {
 	int		i;
+
 	(void)job;
-	
 	i = count_opt(&(*ast)->left->right);
 	if (i == 0)
 		print_hash(table);
