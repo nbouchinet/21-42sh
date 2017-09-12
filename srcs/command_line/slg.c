@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/05 16:06:28 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 09:26:03 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_his		**his_slg(void)
 	if (!his)
 	{
 		if (!(his = (t_his *)malloc(sizeof(t_his))))
-			exit (ft_exit("his_slg: malloc error\n"));
+			exit (0);
 		his->cmdl = "";
 		his->n = NULL;
 		his->p = NULL;
@@ -56,7 +56,7 @@ t_cmdl		**cmdl_slg(void)
 	if (!cmdl)
 	{
 		if (!(cmdl = (t_cmdl *)malloc(sizeof(t_cmdl))))
-			exit (ft_exit("cmdl_slg: malloc error"));
+			exit (0);
 		cmdl->line.str = NULL;
 		cmdl->line.save = NULL;
 		cmdl->ccp.cpy = NULL;

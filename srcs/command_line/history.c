@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 15:56:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:56:15 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 09:20:20 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void 		cmd_save_history(char *str)
 	if (!str[0] /*|| is_bang(&str, -1, -1, -1)*/)
 		return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
-		exit (ft_exit("save_history: malloc error\n"));
+		exit (0);
 	new->cmdl = ft_strdup(str);
 	if (!head->n)
 	{
@@ -51,7 +51,7 @@ static void print_cmdl(t_cmdl *cmdl, t_his *his)
 	cmdl->line.cur = ft_strlen(his->cmdl) + cmdl->line.pr;
 }
 
-int			ft_history(t_cmdl *cmdl)
+int			cmd_history(t_cmdl *cmdl)
 {
 	t_his			*his;
 	static t_his	*match = NULL;

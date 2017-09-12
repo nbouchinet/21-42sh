@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/09 14:47:36 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 09:06:19 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param)
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
 	{
 		del_all(cmdl_slg(), his_slg());
-		exit(ft_exit("fill_comp: malloc error"));
+		exit(0);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?
-			ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+	            ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
 	tmp->n = NULL;
 	if (!(*comp))

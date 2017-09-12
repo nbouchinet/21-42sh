@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:26:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/18 13:26:09 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 08:54:20 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ static void   read_input(t_read *var, int i, int nchar)
 	}
 	!(var->opt & SR) ? write(1, &buf[0], 1) : 0;
     var->opt & NR && PRINT ? nchar += 1 : 0;
-	(PRINT && !var->delim) || (PRINT && var->delim && var->delim[0] != buf[0])
-	? buf_save(&var->stack, buf, &i, 0) : 0;
+    (PRINT && !var->delim) || (PRINT && var->delim && var->delim[0] != buf[0])
+		    ? buf_save(&var->stack, buf, &i, 0) : 0;
     if ((var->nchars ? var->nchars == nchar : 0) || (var->delim ? var->delim[0]
-	== buf[0] : 0) || (!var->nchars && !var->delim && RETURN))
+                                                     == buf[0] : 0) || (!var->nchars && !var->delim && RETURN))
     {
       var->stack[i] == '\\' && !(var->opt & RR) ? write(var->fd, "$> ", 4) : 0;
       if (!(var->stack[i] == '\\' && !(var->opt & RR)))
@@ -125,7 +125,6 @@ static int  get_opt(t_read *var, char **arg, int *i)
 int         ft_read(t_ast **ast, t_env **env)
 {
   t_read  var;
-  t_win   *win;
   char    **targ;
   int     i;
 
@@ -136,11 +135,8 @@ int         ft_read(t_ast **ast, t_env **env)
   if (targ && get_opt(&var, targ, &i))
     return (0);
   !var.local ? var.local = ft_strdup("REPLY") : 0;
-  win = win_sgt();
-	mode_on(&win);
   read_input(&var, -1, 0);
   save_input(&var);
-    mode_off(&win);
   ft_free(targ, NULL);
   var.delim ? ft_strdel(&var.delim) : 0;
   var.local ? ft_strdel(&var.local) : 0;

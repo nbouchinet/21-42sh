@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 08:25:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 08:44:30 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int         ft_history(t_ast **ast, t_env **env)
 	(void)env;
 	opt = 0;
 	off = 0;
-	his = &win_sgt()->his;
+	his = 0;
 	run(his, 1);
 	while ((*his)->p)
 		(*his) = (*his)->p;
@@ -134,7 +134,7 @@ int         ft_history(t_ast **ast, t_env **env)
 		fd_printf(2, "history: cannot use more than one of -anrw\n");
 		return (run(his, 0));
 	}
-	exec_hist(opt, off, his, lst_len(*his));
+	exec_hist(opt, off, his, 1);
 	run(his, 0);
 	return (1);
 }
