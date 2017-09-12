@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 11:45:22 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 13:15:31 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ int		get_win_data(t_cmdl *cmdl)
 	return (0);
 }
 
-int		mode_off(t_cmdl *cmdl)
-{
-	cmdl->term.c_lflag |= ICANON;
-	cmdl->term.c_lflag |= ECHO;
-	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
-		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
-	return (0);
-}
-
 int		unset_shell(t_cmdl *cmdl)
 {
 	if (mode_off(cmdl))
@@ -44,12 +35,21 @@ int		unset_shell(t_cmdl *cmdl)
 	return (0);
 }
 
+int		mode_off(t_cmdl *cmdl)
+{
+	cmdl->term.c_lflag |= ICANON;
+	cmdl->term.c_lflag |= ECHO;
+	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
+		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
+	return (0);
+}
+
 int		mode_on(t_cmdl *cmdl)
 {
 	
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
-	cmdl->term.c_cc[VMIN] = 0;
+	cmdl->term.c_cc[VMIN] = 1;
 	cmdl->term.c_cc[VTIME] = 0;
 	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 		kill (- g_shell_pgid, SIGTTIN);
@@ -99,7 +99,7 @@ int		set_shell(t_cmdl *cmdl)
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
 		tputs(tgetstr("nam", NULL), 1, ft_putchar);
-		cmdl = win_sgt();
+		//mdl = win_sgt();
 	}
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";

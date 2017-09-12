@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 14:35:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/12 13:23:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	t_tok	*tmp;
 	t_ast	*tmp_ast;
 
+	ft_putchar('\n');
 	tmp = *lst;
 	tmp_ast = *ast;
 	while (tmp && (tmp->type == WORD || tmp->type == QUOTE ||
