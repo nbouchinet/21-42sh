@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:12:54 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 10:39:54 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int         main(int ac, char *av[], char *env[])
 	if (set_shell(cmdl) || get_win_data(cmdl) ||
 	    init_env(&cmdl->lstenv, env))
 		return (1);
-	
 	loop(cmdl);
 	return (cmdl->exit ? cmdl->exit : 0);
 }
