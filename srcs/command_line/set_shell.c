@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 13:55:28 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 14:10:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int		set_shell(t_cmdl *cmdl)
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
 		tputs(tgetstr("nam", NULL), 1, ft_putchar);
-		//mdl = win_sgt();
 	}
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
