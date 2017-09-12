@@ -6,27 +6,11 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:38:46 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 18:42:44 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-/* t_env 	*lst_at(t_env **env, char *cmp) */
-/* { */
-/* 	t_env	*tmp; */
-
-/* 	tmp = *env; */
-/* 	if (!tmp) */
-/* 		return (NULL); */
-/* 	while (tmp->next && ft_strcmp(tmp->var, cmp)) */
-/* 		tmp = tmp->next; */
-/* 	return (tmp); */
-
-/* 	(void)env; */
-/* 	(void)cmp; */
-/* 	return (*env); */
-/* } */
 
 static void		mod_env(t_env **env, char *path)
 {
@@ -49,10 +33,10 @@ static void		mod_env(t_env **env, char *path)
 
 static int		chdirectory(char **path, int opt, char *arg)
 {
-	struct 	stat	st;
-	char	buff[1024];
-	char	*bs;
-	int 	i;
+	struct stat		st;
+	char			buff[1024];
+	char			*bs;
+	int				i;
 
 	if (lstat((*path), &st) == -1)
 		return (fd_printf(2, "cd: no such file or directory: %@\n", arg));
@@ -75,7 +59,6 @@ static int		chdirectory(char **path, int opt, char *arg)
 	return (0);
 }
 
-
 static int		get_opt(char **arg, int *i, int *opt)
 {
 	int		j;
@@ -88,12 +71,15 @@ static int		get_opt(char **arg, int *i, int *opt)
 		|| arg[(*i)][1] == 0))
 			return (0);
 		while (arg[(*i)][++j])
+		{
 			if (arg[(*i)][j] == 'P')
 				(*opt) = 1;
 			else if (arg[(*i)][j] == 'L')
 				(*opt) = 2;
 			else
-				return (fd_printf(2, "cd: -%c: invalid option\n", arg[(*i)][j]));
+				return (fd_printf(2, "cd: -%c: invalid option\n",
+				arg[(*i)][j]));
+		}
 		(*i) += 1;
 	}
 	return (0);
@@ -107,7 +93,8 @@ static void		build_path(char **path, char *arg, t_env **env)
 
 	i = -1;
 	(*path) = ft_strdup(lst_at(env, "PWD")->value);
-	(*path)[ft_strlen(*path) - 1] == '/' ? (*path)[ft_strlen(*path) - 1] = 0 : 0;
+	(*path)[ft_strlen(*path) - 1] == '/' ?
+	(*path)[ft_strlen(*path) - 1] = 0 : 0;
 	rpath = ft_strsplit(arg, '/');
 	while (rpath[++i])
 	{
@@ -117,11 +104,11 @@ static void		build_path(char **path, char *arg, t_env **env)
 			len = ft_strlen((*path));
 			while ((*path)[--len])
 				if ((*path)[len] == '/')
-					break;
-			(*path)[len + (len ? 0 : 1) ] = 0;
+					break ;
+			(*path)[len + (len ? 0 : 1)] = 0;
 		}
 		else
-			(*path) = (*path)[ft_strlen((*path))] == '/' ? 
+			(*path) = (*path)[ft_strlen((*path))] == '/' ?
 			ft_strjoinf((*path), rpath[i], 3) :
 			ft_strjoinf(ft_strjoin((*path), "/"), rpath[i], 1);
 	}
@@ -140,7 +127,8 @@ static void		cd_get_path(t_env **lstenv, char *arg, char **path)
 		(*path) = ft_strdup("/");
 	else if (arg[0] == '-' && arg[1] == 0)
 		(*path) = ft_strdup(lst_at(lstenv, "OLDPWD")->value);
-	else if ((!(tmp = ft_strstr(arg, ".."))) || (tmp && tmp[2] != 0 && tmp[2] != '/'))
+	else if ((!(tmp = ft_strstr(arg, ".."))) ||
+	(tmp && tmp[2] != 0 && tmp[2] != '/'))
 	{
 		if (arg[0] == '/')
 			(*path) = ft_strdup(arg);
@@ -164,14 +152,15 @@ static int		check_arg(int len, char *arg, t_env **lstenv)
 		return (fd_printf(2, "cd: too many arguments\n"));
 	if ((!(lst_at(lstenv, "PWD"))) && arg && arg[0] == '-' && arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
-	else if ((!(lst_at(lstenv, "OLDPWD"))) && arg && arg[0] == '-' && arg[1] == 0)
+	else if ((!(lst_at(lstenv, "OLDPWD")))
+		&& arg && arg[0] == '-' && arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
 	else if ((!(lst_at(lstenv, "HOME"))) && arg && arg[0] == '~')
 		return (fd_printf(2, "cd: HOME not set\n"));
 	return (0);
 }
 
-int     		ft_cd(t_ast **ast, t_env **env)
+int				ft_cd(t_ast **ast, t_env **env)
 {
 	char	**targ;
 	char	*arg;
@@ -183,9 +172,9 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	i = 0;
 	path = NULL;
 	targ = creat_arg_env(&(*ast)->left->right);
-	if ((targ && get_opt(targ, &i, &opt)) ||
-	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
-			return (0);
+	if ((targ && get_opt(targ, &i, &opt))
+		|| (check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
+		return (0);
 	arg = targ ? targ[i] : NULL;
 	cd_get_path(env, arg, &path);
 	if (chdirectory(&path, opt, arg))
