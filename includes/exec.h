@@ -6,21 +6,18 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 09:22:35 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 16:44:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXEC_H
 # define EXEC_H
 
-
 /*
 ********************************************************************************
 **                                   EXECUTION                                **
 ********************************************************************************
 */
-
-
 
 typedef struct		s_rdir
 {
@@ -77,61 +74,61 @@ t_env				*find_node(t_env **env, char *var, char *value);
 /*
 *************************************BUILT-IN***********************************
 */
-#define C	1
-#define D	2
-#define A	4
-#define N	8
-#define R	16
-#define W	32
-#define P	64
-#define S	128
-#define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
-					"history -awrn [filename] or history -ps arg [arg...]\n"
-#define HM			"history position out of range"
-#define HO			"invalid option"
+# define C 1
+# define D 2
+# define A 4
+# define N 8
+# define R 16
+# define W 32
+# define P 64
+# define S 128
+# define HU "history: usage: history [-c] [-d offset] [n] or "	  \
+	"history -awrn [filename] or history -ps arg [arg...]\n"
+# define HM			"history position out of range"
+# define HO			"invalid option"
 
-typedef struct 		s_hist
+typedef struct		s_hist
 {
 	int				op;
 	void			(*f)(t_his **his, int offset, int len);
 }					t_hist;
 
-#define AR	1
-#define DR	2
-#define NR	4
-#define PR	8
-#define RR	16
-#define SR	32
-#define TR	64
-#define UR	128
-#define RU	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"\
- 						"[-a array] [-n nchars] [-d delim] [name ...]"
+# define AR	1
+# define DR	2
+# define NR	4
+# define PR	8
+# define RR	16
+# define SR	32
+# define TR	64
+# define UR	128
+# define RU	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]" \
+	"[-a array] [-n nchars] [-d delim] [name ...]"
 
 typedef struct		s_read
 {
-	char						*delim;
-	char						*local;
-	char						*stack;
-	int							opt;
-	int							nchars;
-	time_t						time;
-	time_t						endwait;
-	int							fd;
-	int							eot;
-}								t_read;
+	char			*delim;
+	char			*local;
+	char			*stack;
+	int				opt;
+	int				nchars;
+	time_t			time;
+	time_t			endwait;
+	int				fd;
+	int				eot;
+}					t_read;
 
 typedef struct		s_opt
 {
-	char						c[2];
-	int							(*f)(t_read *var, char **arg, int *i, int j);
-}								t_opt;
+	char			c[2];
+	int				(*f)(t_read *var, char **arg, int *i, int j);
+}					t_opt;
 
 typedef struct		s_local
 {
-	char						*var;
-	char						*val;
+	char			*var;
+	char			*val;
 	struct s_local	*n;
-}								t_local;
+}					t_local;
 
 int					ft_setenv(t_ast **ast, t_env **env);
 void				add_env(t_env **env, char **arg);
@@ -144,8 +141,8 @@ int					countab(char **tob);
 void				deletefirstnode(t_env **lst);
 void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
-t_env 				*lst_at(t_env **env, char *cmp);
-int     			ft_cd(t_ast **ast, t_env **env);
+t_env				*lst_at(t_env **env, char *cmp);
+int					ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
 int					ft_history(t_ast **ast, t_env **env);
@@ -154,13 +151,13 @@ void				hist_del(t_his **his, int offset, int len);
 void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
-void 				no_options(t_his **his, int offset, int len, int i);
-int   				local(char *str);
+void				no_options(t_his **his, int offset, int len, int i);
+int					local(char *str);
 t_local				**local_sgt(int i);
-int 				check_local(t_ast *tmp, int type);
-int   				ft_unset(t_ast **ast, t_env **env);
-int   				ft_export(t_ast **ast, t_env **env);
-int   				ft_read(t_ast **ast, t_env **env);
+int					check_local(t_ast *tmp, int type);
+int					ft_unset(t_ast **ast, t_env **env);
+int					ft_export(t_ast **ast, t_env **env);
+int					ft_read(t_ast **ast, t_env **env);
 int					aname(t_read *var, char **arg, int *i, int j);
 int					delim(t_read *var, char **arg, int *i, int j);
 int					nchars(t_read *var, char **arg, int *i, int j);
@@ -191,23 +188,23 @@ typedef struct		s_mod
 	int				(*f)(t_ast**, t_job **, t_hash**);
 }					t_mod;
 
-int		init_hash(t_hash **lst, char *cmd);
-int		hashing(t_ast **ast, t_env **env);
-int		builtin_hash(t_ast **ast, t_job **job, t_hash **table);
-int		hash(t_ast **ast, t_job **job, int mod);
-int		search_mod(t_ast **ast, t_hash **table);
-int		put_cmd(t_ast **ast, t_job **job, t_hash **table);
-int		search(t_ast **ast, t_hash **table, int i);
-int		find_search(t_ast **ast, t_job **job, t_hash **table);
-int		hash_cmd(char *cmd);
-void	remove_cmd(t_ast **ast, t_hash **table);
-void	clean_cmd(t_hash **table, t_hash **prev, t_hash **curr);
-int		count_opt(t_ast **ast);
-int		check_opt(char *opt);
+int					init_hash(t_hash **lst, char *cmd);
+int					hashing(t_ast **ast, t_env **env);
+int					builtin_hash(t_ast **ast, t_job **job, t_hash **table);
+int					hash(t_ast **ast, t_job **job, int mod);
+int					search_mod(t_ast **ast, t_hash **table);
+int					put_cmd(t_ast **ast, t_job **job, t_hash **table);
+int					search(t_ast **ast, t_hash **table, int i);
+int					find_search(t_ast **ast, t_job **job, t_hash **table);
+int					hash_cmd(char *cmd);
+void				remove_cmd(t_ast **ast, t_hash **table);
+void				clean_cmd(t_hash **table, t_hash **prev, t_hash **curr);
+int					count_opt(t_ast **ast);
+int					check_opt(char *opt);
 
 /*
 ********************************************************************************
-**                                  INIT_ENV                                  **
+**									INIT_ENV								  **
 ********************************************************************************
 */
 # define LOW_U_FLAG	1
@@ -238,6 +235,6 @@ int					test(char *s);
 /*
 *************************************KILL***************************************
 */
-int		kill_job(t_ast **ast, t_env **env);
+int					kill_job(t_ast **ast, t_env **env);
 
 #endif

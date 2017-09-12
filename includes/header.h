@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 17:52:39 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/05 16:08:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/12 17:01:06 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct		s_env
 # include <sys/ioctl.h>
 # include "command_line.h"
 # include "lexer_parser.h"
-# include "AST.h"
+# include "abstract_syntax_tree.h"
 # include "job_control.h"
 # include "exec.h"
 
-void		ft_putast(t_ast *root);
+void				ft_putast(t_ast *root);
 
 #endif

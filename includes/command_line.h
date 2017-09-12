@@ -6,14 +6,14 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:44:22 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 16:30:23 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_LINE_H
 # define COMMAND_LINE_H
-#include <term.h>
-#include <dirent.h>
+# include <term.h>
+# include <dirent.h>
 
 /*
 **	Deplacement sur la cmdl
@@ -127,13 +127,13 @@ typedef struct		s_cmdl
 **	A supprimer
 */
 
-t_env 		*lst_at(t_env **env, char *cmp);
+t_env				*lst_at(t_env **env, char *cmp);
 
 /*
 **	Structure des commandes ds la cmdl
 */
 
-typedef struct 		s_op
+typedef struct		s_op
 {
 	int				key[5];
 	int				(*f)(t_cmdl *cmdl);
@@ -143,8 +143,7 @@ typedef struct 		s_op
 **	Affichage du promt
 */
 
-void 				print_prompt(void);
-
+void				print_prompt(void);
 
 /*
 **	Renvoi les tete de listes
@@ -157,7 +156,7 @@ t_his				**his_slg(void);
 **	Suppression des listes
 */
 
-void 				del_all(t_cmdl **cmdl, t_his **his);
+void				del_all(t_cmdl **cmdl, t_his **his);
 
 /*
 **	Check l env
@@ -181,26 +180,25 @@ int					get_win_data(t_cmdl *cmdl);
 */
 
 void				get_cmdl(t_cmdl *cmdl);
-void 				init_cmdl(void);
-void 				remalloc_cmdl(t_line * line, int len);
+void				init_cmdl(void);
+void				remalloc_cmdl(t_line *line, int len);
 
 /*
 **	Affichage
 */
 
-int	 				print(t_cmdl *cmdl, char buf[]);
+int					print(t_cmdl *cmdl, char buf[]);
 int					search_history_print(t_cmdl *cmdl, char buf[]);
 
 /*
 **	Gestion des signaux
 */
 
-void 				cmdl_signals(t_cmdl *cmdl);
+void				cmdl_signals(t_cmdl *cmdl);
 
 /*
 **	Suppression
 */
-
 
 int					del(t_cmdl *cmdl);
 
@@ -214,27 +212,27 @@ int					ctrl_l(t_cmdl *cmdl);
 **	Deplacement
 */
 
-int	 				arrow_left(t_cmdl *cmdl);
+int					arrow_left(t_cmdl *cmdl);
 int					arrow_rigth(t_cmdl *cmdl);
-int	 				home(t_cmdl *cmdl);
-int	 				end(t_cmdl *cmdl);
+int					home(t_cmdl *cmdl);
+int					end(t_cmdl *cmdl);
 int					up_dwn(t_cmdl *cmdl);
-int	 				opt_right(t_cmdl *cmdl);
-int	 				opt_left(t_cmdl *cmdl);
+int					opt_right(t_cmdl *cmdl);
+int					opt_left(t_cmdl *cmdl);
 
 /*
 **	Functions du Copier/Couper/Coller
 */
 
-int	 				ccp(t_cmdl *cmd);
+int					ccp(t_cmdl *cmd);
 int					paste(t_cmdl *cmdl, int len_cpy, int len_str);
 
 /*
 **	Fonctions de gestion de l historique et recherche dans l historique
 */
 
-void 				cmd_save_history(char *str);
-int 				cmd_history(t_cmdl *cmdl);
+void				cmd_save_history(char *str);
+int					cmd_history(t_cmdl *cmdl);
 int					cmd_search_history(t_cmdl *cmdl);
 t_his				*findcmdl(char *str, char buf[], int reset);
 
@@ -242,8 +240,8 @@ t_his				*findcmdl(char *str, char buf[], int reset);
 **	Fonction de verification de la cmdl (quick-in suite a un return ou un ctrld)
 */
 
-int 				return_cmdl(t_cmdl *cmdl);
-int 				exit_search_mode(t_cmdl *cmdl);
+int					return_cmdl(t_cmdl *cmdl);
+int					exit_search_mode(t_cmdl *cmdl);
 int					check_quote(t_cmdl *cmdl);
 int					handle_pipe_and_or(t_cmdl *cmdl, int k);
 int					inhibiteur(t_cmdl *cmdl, int len);
@@ -253,14 +251,14 @@ int					ctrl_d(t_cmdl *cmdl);
 **	Completion
 */
 
-t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
-int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+t_comp				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
+int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 char				*get_path(char **tmp);
 int					completion(t_cmdl *cmdl);
 int					sep(t_cmdl *cmdl, int w);
 int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
-void 				completion_edit(t_line *line, t_comp **comp,
-	 char *tmp, int offset);
+void				completion_edit(t_line *line, t_comp **comp,
+					char *tmp, int offset);
 
 #endif

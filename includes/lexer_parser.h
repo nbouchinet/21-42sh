@@ -6,17 +6,17 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/05 13:23:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/12 17:19:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_PARSER_H
 # define LEXER_PARSER_H
-#include "command_line.h"
+# include "command_line.h"
 
 /*
 ********************************************************************************
-**                                     LEXER                                  **
+**									   LEXER								  **
 ********************************************************************************
 */
 
@@ -44,7 +44,7 @@ typedef struct		s_key
 	void			(*f)(t_tok**, char**, char*, int*);
 }					t_key;
 
-enum 				e_token
+enum				e_token
 {
 	PIPE = 1,
 	QM,
@@ -77,9 +77,10 @@ void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
 void				new_parser(t_tok **cmd, char *line);
 void				quote(t_tok **lst, char **stack, char *line, int *i);
-void 				bang(t_tok **lst, char **stack, char *line, int *i);
+void				bang(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
-void				question_mark(t_tok **lst, char **stack, char *line, int *i);
+void				question_mark(t_tok **lst, char **stack,
+					char *line, int *i);
 void				pipe_pars(t_tok **lst, char **stack, char *line, int *i);
 void				and_pars(t_tok **lst, char **stack, char *line, int *i);
 int					arg_check(int ac, int i, char **av, char **envp);

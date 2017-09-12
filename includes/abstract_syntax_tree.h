@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AST.h                                              :+:      :+:    :+:   */
+/*   abstract_syntax_tree.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/02 17:49:51 by zadrien          ###   ########.fr       */
+/*   Created: 2017/09/12 16:24:36 by nbouchin          #+#    #+#             */
+/*   Updated: 2017/09/12 16:24:40 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_H
-# define AST_H
+#ifndef ABSTRACT_SYNTAX_TREE_H
+# define ABSTRACT_SYNTAX_TREE_H
 
 /*
 ******************************************************
-**               Abstract Syntax Tree              **
-****************************************************
+**               Abstract Syntax Tree               **
+******************************************************
 */
 
-enum 			e_ast
+enum				e_ast
 {
 	QM_SEQ = 42,
 	CMD_SEQ,
@@ -57,7 +57,7 @@ void				simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 t_tok				*find_q_tok(t_tok **lst);
 t_tok				*find_qm_tok(t_tok **lst, t_tok **stop);
 t_tok				*multi_qm(t_tok **lst);
-void				ft_putast(t_ast *root); //  TO DELETE
+void				ft_putast(t_ast *root);
 void				destroy_ast(t_ast **head);
 void				destroy_tok(t_tok **head);
 
