@@ -1,0 +1,1 @@
+ls -l2 | cat -e && head -c 10000 | :  segfault
