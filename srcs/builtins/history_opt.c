@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/08 12:26:29 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/08 12:26:42 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 08:48:56 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void        hist_clear(t_his **his, int offset, int len)
 		return ;
 	while (tmp)
 	{
-		save = tmp->next;
+		save = tmp->n;
 		ft_strdel(&tmp->cmdl);
 		free(tmp);
 		tmp = save;
@@ -33,8 +33,8 @@ void        hist_clear(t_his **his, int offset, int len)
 		exit(fd_printf(2, "malloc error\n"));
 	(*his)->cmdl = ft_strdup("");
 	(*his)->add = 1;
-	(*his)->prev = NULL;
-	(*his)->next = NULL;
+	(*his)->p = NULL;
+	(*his)->n = NULL;
 	(*his)->len = 0;
 }
 
@@ -53,14 +53,14 @@ void        hist_del(t_his **his, int offset, int len)
 	while (offset-- > 1)
 	{
 		save_prev = tmp;
-		tmp = tmp->next;
+		tmp = tmp->n;
 	}
 	ft_strdel(&tmp->cmdl);
 	if (save_prev)
-		save_prev->next = tmp->next;
+		save_prev->n = tmp->n;
 	else
-		(*his) = tmp->next;
-	tmp->next->prev = save_prev;
+		(*his) = tmp->n;
+	tmp->n->p = save_prev;
 	free(tmp);
 }
 
@@ -73,8 +73,8 @@ void		hist_append(t_his **his, int offset, int len)
 	(void)len;
 	if (!(*his))
 		return ;
-	while ((*his)->prev)
-		(*his) = (*his)->prev;
+	while ((*his)->p)
+		(*his) = (*his)->p;
 	tmp = (*his);
 	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 			fd_printf(2, "Could no write history list to history file\n");
@@ -82,7 +82,7 @@ void		hist_append(t_his **his, int offset, int len)
 		while (tmp)
 		{
 			!tmp->add ? ft_putendl_fd(tmp->cmdl, fd) : 0;
-			tmp = tmp->next;
+			tmp = tmp->n;
 		}
 	fd != -1 ? close(fd) : 0;
 }
@@ -95,24 +95,24 @@ static void	add_to_hist(t_his **his, char *line, t_his *tmp, int i)
 		exit(fd_printf(2, "malloc error\n"));
 		tmp->cmdl = ft_strdup(line);
 		tmp->add = 1;
-		tmp->prev = NULL;
-		tmp->next = (*his);
-		(*his)->prev = tmp;
+		tmp->p = NULL;
+		tmp->n = (*his);
+		(*his)->p = tmp;
 		return ;
 	}
-	while ((*his)->next)
-		(*his) = (*his)->next;
+	while ((*his)->n)
+		(*his) = (*his)->n;
 	tmp = (*his);
-	(*his) = (*his)->prev;
-	if (!((*his)->next = (t_his *)malloc(sizeof(t_his))))
+	(*his) = (*his)->p;
+	if (!((*his)->n = (t_his *)malloc(sizeof(t_his))))
 		exit(fd_printf(2, "save-hisroty: malloc error\n"));
-	(*his)->next->cmdl = ft_strdup(line);
-	(*his)->next->add = 1;
-	(*his)->next->prev = (*his);
-	(*his)->next->next = tmp;
-	(*his) = (*his)->next;
-	(*his)->next->prev = (*his);
-	(*his) = (*his)->next;
+	(*his)->n->cmdl = ft_strdup(line);
+	(*his)->n->add = 1;
+	(*his)->n->p = (*his);
+	(*his)->n->n = tmp;
+	(*his) = (*his)->n;
+	(*his)->n->p = (*his);
+	(*his) = (*his)->n;
 }
 
 void		hist_read(t_his **his, int offset, int len)
@@ -133,7 +133,7 @@ void		hist_read(t_his **his, int offset, int len)
 		return ;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (!(*his)->next && !(*his)->prev)
+		if (!(*his)->n && !(*his)->p)
 			add_to_hist(his, line, tmp, 0);
 		else
 			add_to_hist(his, line, tmp, 1);
@@ -153,8 +153,8 @@ void		hist_sarg(t_his **his, int offset, int len)
 	(void)len;
 	if (!(*his))
 		return ;
-	while ((*his)->prev)
-		(*his) = (*his)->prev;
+	while ((*his)->p)
+		(*his) = (*his)->p;
 	tmp = (*his);
 	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 			fd_printf(2, "Could no write history list to history file\n");
@@ -162,7 +162,7 @@ void		hist_sarg(t_his **his, int offset, int len)
 	{
 		!tmp->add ? ft_putstr_fd(tmp->cmdl, fd) : 0;
 		tmp->add = 1;
-		tmp = tmp->next;
+		tmp = tmp->n;
 	}
 	ft_putendl_fd("", fd);
 	fd != -1 ? close(fd) : 0;

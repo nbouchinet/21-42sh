@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/03 14:08:45 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 09:23:45 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static void		build_path(char **path, char *arg, t_env **env)
 	}
 }
 
-static void		get_path(t_env **lstenv, char *arg, char **path)
+static void		cd_get_path(t_env **lstenv, char *arg, char **path)
 {
 	char	*tmp;
 
@@ -183,7 +183,7 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
 			return (0);
 	arg = targ ? targ[i] : NULL;
-	get_path(env, arg, &path);
+	cd_get_path(env, arg, &path);
 	if (chdirectory(&path, opt, arg))
 		return (0);
 	mod_env(env, path);

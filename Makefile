@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/11 19:40:56 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/09/12 09:36:28 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,18 +58,18 @@ CFILES= 		main.c \
 				builtins/env.c \
 				builtins/echo.c \
 				builtins/exit.c \
-				builtins/history.c \
-				builtins/history_opt.c \
-				builtins/history_no_opt.c \
 				builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
 				builtins/local.c \
 				builtins/unset.c \
 				builtins/export.c \
+				builtins/history.c \
+				builtins/history_opt.c \
+				builtins/history_no_opt.c \
 				builtins/read.c \
-				builtins/read_opt1.c \
 				builtins/fg.c \
+				builtins/read_opt1.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
 				command_line/ccp.c \
@@ -88,7 +88,6 @@ CFILES= 		main.c \
 				command_line/inhibiteur.c \
 				command_line/pipe_and_or.c \
 				command_line/print.c \
-				command_line/print_prompt.c \
 				command_line/quotes.c \
 				command_line/return.c \
 				command_line/search_history.c \

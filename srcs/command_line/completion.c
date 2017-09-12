@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:10:20 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 09:05:05 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void 	get_comp(t_cmdl *cmdl, int i)
 		list_files(cmdl, &tmp);
 	if (tmp)
 		free(tmp);
-	ft_free(path, NULL, 1);
+	ft_free(path, NULL);
 }
 
 static int		only_space(char *str)
@@ -108,10 +108,10 @@ int				completion(t_cmdl *cmdl)
 	int		i;
 
 	i = cmdl->line.cur - cmdl->line.pr;
-	if (cmdl->opt & CHICS_CS)
+	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (!(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&
-	    !(cmdl->opt & ANCD) && !(cmdl->opt & COR)/*&& cmdl->hd */ &&
+	    !(cmdl->opt & CAND) && !(cmdl->opt & COR)/*&& cmdl->hd */ &&
 	    (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
 	only_space(cmdl->line.str)))
 		return (1);

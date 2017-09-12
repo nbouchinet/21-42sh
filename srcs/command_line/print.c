@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:27:46 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 09:35:04 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void remalloc_cmdl(t_line *line, int len)
 
 	tmp = line->str;
 	if (!(line->str = (char *)malloc(sizeof(char) * (len + 1024))))
-		exit(ft_exit("regular_print: malloc error\n"));
+		exit(0);
 	ft_memset(line->str, 0, (len + 1024));
-	line->str = ft_strcpy(line->str, tmp);
+line->str = ft_strcpy(line->str, tmp);
 	free(tmp);
 	line->len += 1024;
 }
@@ -70,6 +70,6 @@ int 		print(t_cmdl *cmdl, char buf[])
 		}
 	}
 	else
-		ft_search_history_print(cmdl, buf);
+		search_history_print(cmdl, buf);
 	return (1);
 }
