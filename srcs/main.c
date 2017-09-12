@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 11:31:53 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 12:03:16 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void     exec_part(char **line, t_env **env)
 
 static void     loop(t_cmdl *cmdl)
 {
-	while (1)
+	while (42)
 	{
 		job_control(NULL, NULL, UPT); // AST NULL
 		job_control(NULL, NULL, CHK);
@@ -55,7 +55,7 @@ static void     loop(t_cmdl *cmdl)
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
 		}
-		cmdl ? free(cmdl) : 0;
+		//		cmdl ? free(cmdl) : 0;
 		t_local *loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;
