@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 16:48:53 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:53:13 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 10:25:26 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		search_history_print(t_cmdl *cmdl, char buf[])
 	return (1);
 }
 
-int		search_history(t_cmdl *cmdl)
+int		cmd_search_history(t_cmdl *cmdl)
 {
 	int		len;
 

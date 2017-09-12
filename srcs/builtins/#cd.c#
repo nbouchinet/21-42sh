@@ -27,7 +27,6 @@
 /* 	(void)cmp; */
 /* 	return (*env); */
 /* } */
-
 static void		mod_env(t_env **env, char *path)
 {
 	t_env		*tmp;

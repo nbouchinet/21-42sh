@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/31 17:55:45 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/12 11:41:09 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,61 @@ int		unset_shell(t_cmdl *cmdl)
 
 int		mode_on(t_cmdl *cmdl)
 {
+	
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
 	cmdl->term.c_cc[VMIN] = 1;
 	cmdl->term.c_cc[VTIME] = 0;
+	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+		kill (- g_shell_pgid, SIGTTIN);
+	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
+}
+
+t_cmdl		*win_sgt(void)
+{
+	static t_cmdl *win = NULL;
+
+	if (!win)
+	{
+		if (!(win = (t_cmdl*)malloc(sizeof(t_cmdl))))
+			exit(fd_printf(2, "malloc error\n"));
+		return (win);
+	}
+	return (win);
 }
 
 int		set_shell(t_cmdl *cmdl)
 {
 	char		*shl_name;
 
-	tputs(tgetstr("nam", NULL), 1, ft_putchar);
+	signal (SIGCHLD, SIG_DFL);
+	g_shell_terminal = STDIN_FILENO;
+	if ((g_shell_is_interactive = isatty(g_shell_terminal)))
+	{
+		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+			kill(- g_shell_pgid, SIGTTIN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGWINCH, SIG_IGN);
+		signal(SIGCHLD, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGTTIN, SIG_IGN);
+		signal(SIGTTOU, SIG_IGN);
+		g_shell_pgid = getpid();
+		if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
+		{
+			perror ("Couldn't put the shell in its own process group");
+			exit (1);
+		}
+		tcsetpgrp (g_shell_terminal, g_shell_pgid);
+		tcgetattr (g_shell_terminal, &g_shell_tmodes);
+		tputs(tgetstr("nam", NULL), 1, ft_putchar);
+		cmdl = win_sgt();
+	}
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";
 	if ((tgetent(0, shl_name)) == ERR)

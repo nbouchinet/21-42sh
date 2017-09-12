@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:54:10 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/12 10:36:02 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_shell(void)
 			signal(SIGTSTP, SIG_IGN);
 			signal(SIGWINCH, SIG_IGN);
 			signal(SIGCHLD, SIG_DFL);
-			signal(SIGINT, cmdl_ctrc);
+			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_IGN);
 			signal(SIGTSTP, SIG_IGN);
 			signal(SIGTTIN, SIG_IGN);
