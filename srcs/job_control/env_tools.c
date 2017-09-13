@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:51:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 15:23:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 15:34:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_ast	*env_without(t_env **env, t_ast **ast)
 			tmp->value = var[1] ? ft_strdup(var[1]) : NULL;
 			tmp->next = NULL;
 			ft_freetab(var);
-			if ((tmp_a = tmp_a->right) && (test(tmp_a->right->str) == 1))
+			if ((tmp_a = tmp_a->right) && (test(tmp_a->str) == 1))
 				tmp = next_node(&tmp);
 			else
 				break ;
