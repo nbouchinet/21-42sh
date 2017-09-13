@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/09 15:52:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 13:40:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 16:23:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@ int		new_rlt_cmd(t_ast **ast, t_env **env)
 	i = 0;
 	tmp = *ast;
 	path = NULL;
-	if ((e_n = find_node(env, "PATH", NULL)) && !e_n->value)
-		return (ft_errormsg("42sh:", NULL, "PATH not set."));
+	if (!(e_n = find_node(env, "PATH", NULL)))
+		return (ft_errormsg("42sh: ", NULL, "PATH set."));
 	if ((i = hash(&tmp->left, NULL, FIND)) == 0)
 	{
-		if (e_n && find_cmd_bin(&tmp->left,
-				(path = ft_strsplit(e_n->value, ':'))))
-		{
-			ft_freetab(path);
-			return (ft_errormsg("42sh: ",
-			tmp->left->str, ": Command not found."));
-		}
+		if (e_n && ft_strlen(e_n->value) > 0)
+			if (find_cmd_bin(&tmp->left,
+					(path = ft_strsplit(e_n->value, ':'))) == 0)
+			{
+				ft_freetab(path);
+				return (ft_errormsg("42sh: ",
+				tmp->left->str, ": Command not found."));
+			}
 	}
-	if (i == 0 && e_n == NULL)
-		return (ft_errormsg("42sh:", NULL, "PATH not set."));
 	path ? ft_freetab(path) : 0;
+	if (i == 0 && (e_n && !e_n->value))
+		return (ft_errormsg("42sh: ", NULL, "PATH not set."));
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:26 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 11:03:27 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:17:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	addvalue(t_env **env, char *str)
 	if (str)
 		(*env)->value = ft_strdup(str);
 	else
-		(*env)->value = ft_strdup("");
+		(*env)->value = NULL;
 }
 
 int		seak(char *s)
@@ -42,7 +42,7 @@ char	*var_value(int i, char *var, char *value)
 	ft_bzero(str, i + 2);
 	ft_strcat(str, var);
 	ft_strcat(str, "=");
-	ft_strcat(str, value);
+	value ? ft_strcat(str, value) : 0;
 	return (str);
 }
 

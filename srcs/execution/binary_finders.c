@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 10:21:33 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 15:26:31 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:45:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	rlt_cmd(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
+	ft_putendl("FJEIFJ");
 	if (!(e_n = find_node(env, "PATH", NULL)))
 		ft_errormsg("21sh:", NULL, "PATH not set.");
 	i = hash(&tmp->left->left, NULL, FIND);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:27:24 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:26:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		job_pipe(t_ast **ast, t_env **env, int foreground)
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
 			return (pipe_job(&job, env, foreground));
+		delete_job(&job);
 	}
 	return (0);
 }

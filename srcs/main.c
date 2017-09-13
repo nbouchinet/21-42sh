@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 13:10:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 16:23:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void		exec_part(char **line, t_env **env)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
-	ft_putast(ast);
 	job_ast(&ast, env, 1);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);

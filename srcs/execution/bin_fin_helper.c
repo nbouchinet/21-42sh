@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:21:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 14:35:54 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:22:55 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*binary_find(char *cmd, char **path)
 				closedir(dir);
 			}
 	}
-	ft_errormsg("42sh: ", NULL, "PATH not set.");
 	return (NULL);
 }
 

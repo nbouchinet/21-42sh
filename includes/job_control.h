@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_control.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/12 17:18:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:26:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,5 @@ void					canon_mode(int signal);
 void					ctrl_z(int signal);
 void					catch_error(t_job **job, int status);
 int						background(t_job **job, t_ast **ast, t_job **table);
+int						delete_job(t_job **job);
 #endif
