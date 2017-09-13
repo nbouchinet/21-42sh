@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 12:42:25 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 18:49:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 09:19:07 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,4 @@ int		ft_setenv(t_ast **ast, t_env **env)
 		ft_errormsg("21sh: ", "env: ", "Too few arguments.");
 	arg ? ft_freetab(arg) : 0;
 	return (0);
-} // Check = dans string
+}

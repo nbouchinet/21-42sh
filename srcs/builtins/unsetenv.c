@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 17:13:52 by zadrien           #+#    #+#             */
-/*   Updated: 2017/08/03 17:46:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 09:22:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		countab(char **tob)
 	return (i);
 }
 
-char **creat_arg_env(t_ast **ast)
+char	**creat_arg_env(t_ast **ast)
 {
 	int		i;
 	int		j;
@@ -93,23 +93,6 @@ char **creat_arg_env(t_ast **ast)
 	arg[i] = NULL;
 	return (arg);
 }
-
-// void	print_env(t_env **env)
-// {
-// 	t_env *tmp;
-//
-// 	if (*env)
-// 	{
-// 		tmp = *env;
-// 		while (tmp)
-// 		{
-// 			ft_putstr(tmp->var);
-// 			ft_putchar('=');
-// 			ft_putendl(tmp->value);
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// }
 
 int		ft_env(t_ast **ast, t_env **env)
 {
