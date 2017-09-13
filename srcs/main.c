@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 16:23:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 18:14:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void		exec_part(char **line, t_env **env)
 	t_ast	*ast;
 	t_tok	*cmd;
 
+	if (!*line)
+		return ;
 	init_token(&cmd);
 	new_parser(&cmd, *line);
 	lexer_check(&cmd);
