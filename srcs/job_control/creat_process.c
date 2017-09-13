@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/09 15:52:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 09:18:56 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:34:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		new_rlt_cmd(t_ast **ast, t_env **env)
 		{
 			ft_freetab(path);
 			return (ft_errormsg("42sh: ",
-			                    tmp->left->str, ": Command not found."));
+			tmp->left->str, ": Command not found."));
 		}
 	}
 	if (i == 0 && e_n == NULL)

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:52:03 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:11:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
 			setpgid(tmp->pid, (*job)->pgid);
 			job_cont_bg(&tmp, env, job, p);
-			if (kill (- tmp->pid, SIGCONT) < 0)
-				perror ("kill (SIGCONT)");
+			if (kill(-tmp->pid, SIGCONT) < 0)
+				perror("kill (SIGCONT)");
 			return (tmp->status);
 		}
 	}
@@ -81,12 +81,11 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 	{
 		(*job)->pgid = p->pid;
 		setpgid(p->pid, p->pid);
-		if (kill (-(*job)->pgid, SIGCONT) < 0)
-			perror ("kill (SIGCONT)");
+		if (kill(-(*job)->pgid, SIGCONT) < 0)
+			perror("kill (SIGCONT)");
 	}
 	ft_freetab(n_env);
 	return (p->status);
-
 }
 
 int		exec_job_bg(t_job **job, t_env **env)

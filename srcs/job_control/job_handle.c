@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/11 17:52:38 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:21:07 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		tmp = *table;
 		while (tmp)
 		{
-			if (/*kill(0, tmp->pgid) < 0)*/job_is_complete(tmp))
+			if (job_is_complete(tmp))
 			{
 				delete_tnode(&tmp, &prev, table);
 				break ;
@@ -76,10 +76,9 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 		while (j)
 		{
 			p = j->first_process;
-			while(p)
+			while (p)
 			{
 				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
-				// ft_putendl("proutprout");
 				p = p->next;
 			}
 			mark_process_status(&j);
@@ -102,7 +101,7 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		j = *table;
 		while (j)
 		{
-			if (/*kill(0, j->pgid) < 0)*/job_is_complete(j) == 1)
+			if (job_is_complete(j) == 1)
 			{
 				delete_tnode(&j, &prev, table);
 				break ;

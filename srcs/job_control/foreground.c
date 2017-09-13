@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/11 17:59:30 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:46:29 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	mark_job_as_running(t_job **job)
 int		background(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
-	(void)job;
-	(void)ast;
 
+	(void)ast;
+	(void)job;
 	if (*table)
 	{
 		j = *table;
@@ -82,24 +82,22 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 		if (j)
 		{
 			mark_job_as_running(&j);
-			if (kill (- j->pgid, SIGCONT) < 0)
-				perror ("kill (SIGCONT)");
-			// tcsetpgrp(g_shell_terminal, j->pgid);
-			// wait_for_job(&j);
-			tcsetpgrp (g_shell_terminal, g_shell_pgid);
+			if (kill(-j->pgid, SIGCONT) < 0)
+				perror("kill (SIGCONT)");
+			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 		return (1);
 	}
 	return (0);
 }
 
-int		foreground(t_job **job, t_ast **ast, t_job **table)
+int			foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
 	int			nf;
+
 	(void)job;
 	(void)ast;
-
 	nf = 0;
 	if (*table)
 	{
@@ -118,7 +116,8 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 			}
 			if (nf == 0)
 			{
-				fd_printf(2, "42sh: fg: %s: no such job\n", (*ast)->left->right->str);
+				fd_printf(2, "42sh: fg: %s: no such job\n",
+				(*ast)->left->right->str);
 				return (0);
 			}
 		}
@@ -128,11 +127,11 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 		if (j)
 		{
 			mark_job_as_running(&j);
-			if (kill (- j->pgid, SIGCONT) < 0)
-				perror ("kill (SIGCONT)");
+			if (kill(-j->pgid, SIGCONT) < 0)
+				perror("kill (SIGCONT)");
 			tcsetpgrp(g_shell_terminal, j->pgid);
 			wait_for_job(&j);
-			tcsetpgrp (g_shell_terminal, g_shell_pgid);
+			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 		return (1);
 	}
