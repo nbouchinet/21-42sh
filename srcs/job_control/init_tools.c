@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:51:49 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:32:08 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int		init_proc(t_process **process)
 	(*process)->next = NULL;
 	return (1);
 }
+
 int		init_process(t_ast **ast, t_process **proc, t_env **env)
 {
 	t_process	*tmp;
@@ -75,10 +76,11 @@ char	*init_pipe_job(t_ast **ast)
 	while (tmp && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 	{
 		if (tmp->type == PIPE)
-				cmd = !cmd ? init_job_name(&tmp->left) :
-					ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
+			cmd = !cmd ? init_job_name(&tmp->left) :
+			ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
 		else if (tmp->type == CMD_SEQ)
-			cmd = ft_strjoinf(cmd, (get = init_job_name(&tmp)), 1);
+			cmd = ft_strjoinf(cmd,
+			(get = init_job_name(&tmp)), 1);
 		if ((tmp = tmp->right) && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 			cmd = ft_strjoinf(cmd, " | ", 1);
 	}
@@ -90,7 +92,6 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 {
 	t_ast	*tmp;
 
-
 	tmp = *ast;
 	if (tmp->type == PIPE)
 	{
@@ -99,7 +100,9 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 		return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
+	{
 		if (init_process(&tmp, p, env) == 0)
 			return (0);
+	}
 	return (1);
 }

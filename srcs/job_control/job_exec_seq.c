@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_exec_seq.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/11 13:13:50 by zadrien           #+#    #+#             */
-//   Updated: 2017/09/04 08:33:09 by nbouchin         ###   ########.fr       //
+/*   Created: 2017/09/13 12:18:09 by nbouchin          #+#    #+#             */
+/*   Updated: 2017/09/13 12:19:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,10 @@ int		job_andor(t_ast **ast, t_env **env, int foreground)
 void	print_process(t_process **pro)
 {
 	int			i;
-	t_process *tmp;
+	t_process	*tmp;
 
 	tmp = *pro;
 	i = -1;
 	while (tmp->argv[++i])
 		printf("%s\n", tmp->argv[i]);
-	if (tmp->rdir)
-	{
-		
-	}
-	//	ft_putast(tmp->rdir);
-		}
+}

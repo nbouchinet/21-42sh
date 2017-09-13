@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 10:36:02 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:30:17 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,27 @@
 void	init_shell(void)
 {
 	g_shell_terminal = STDIN_FILENO;
-	g_shell_is_interactive = isatty (g_shell_terminal);
-
+	g_shell_is_interactive = isatty(g_shell_terminal);
 	if (g_shell_is_interactive)
 	{
-		while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
-			kill (- g_shell_pgid, SIGTTIN);
-			signal(SIGTSTP, SIG_IGN);
-			signal(SIGWINCH, SIG_IGN);
-			signal(SIGCHLD, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_IGN);
-			signal(SIGTSTP, SIG_IGN);
-			signal(SIGTTIN, SIG_IGN);
-			signal(SIGTTOU, SIG_IGN);
-			g_shell_pgid = getpid ();
-			if (setpgid (g_shell_pgid, g_shell_pgid) < 0)
-	{
-		perror ("Couldn't put the shell in its own process group");
-		exit (1);
-	}
-	tcsetpgrp (g_shell_terminal, g_shell_pgid);
-		tcgetattr (g_shell_terminal, &g_shell_tmodes);
+		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+			kill(-g_shell_pgid, SIGTTIN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGWINCH, SIG_IGN);
+		signal(SIGCHLD, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTSTP, SIG_IGN);
+		signal(SIGTTIN, SIG_IGN);
+		signal(SIGTTOU, SIG_IGN);
+		g_shell_pgid = getpid();
+		if (setpgid(g_shell_pgid, g_shell_pgid) < 0)
+		{
+			perror("Couldn't put the shell in its own process group");
+			exit(1);
+		}
+		tcsetpgrp(g_shell_terminal, g_shell_pgid);
+		tcgetattr(g_shell_terminal, &g_shell_tmodes);
 	}
 }
 

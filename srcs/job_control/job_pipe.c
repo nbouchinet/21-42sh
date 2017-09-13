@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:53:59 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:27:24 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_job(t_job **job)
 {
 	int			i;
 	int			j;
-	t_process *p;
+	t_process	*p;
 
 	j = 1;
 	printf("[Jobs = %s | %d]\n", (*job)->command, (*job)->pgid);
@@ -28,7 +28,7 @@ void	print_job(t_job **job)
 		printf("PID: %d\n", p->pid);
 		while (p->argv[++i])
 		{
-			//printf("argv[%d] = %s\n", i, p->argv[i]);
+			;
 		}
 		p = p->next;
 	}
@@ -109,9 +109,9 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			(*job)->pgid == 0 ? (*job)->pgid = tmp->pid : 0;
 			setpgid(tmp->pid, (*job)->pgid);
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
- 			job_cont_pipe(&tmp, env, job, p);
+			job_cont_pipe(&tmp, env, job, p);
 			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
-			tcsetpgrp (g_shell_terminal, g_shell_pgid);
+			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 	}
 	return (tmp->status);

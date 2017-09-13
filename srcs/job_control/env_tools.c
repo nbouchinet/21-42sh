@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:51:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 09:17:14 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:42:34 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_ast	*env_w(t_env **env, t_ast **ast)
 				ft_freetab(var);
 			}
 			else
-				break;
+				break ;
 			tmp = tmp->right;
 		}
 	}
@@ -117,7 +117,6 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);
 		delete_lst(&tok);
-		//		ft_putast(new_ast);
 		if ((new_ast->left->left->type == CMD_NAME_ABS ?
 			find_bin(&new_ast->left->left) :
 				find_rlt(&new_ast->left->left, r_env)) == 1)

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:45:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/11 17:53:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:23:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	delete_tnode(t_job **node, t_job **prev, t_job **table)
 	t_process		*del;
 
 	if ((*node)->next)
-		(*prev) ? ((*prev)->next = (*node)->next) : ((*table) = (*node)->next);
+		(*prev) ? ((*prev)->next =
+		(*node)->next) : ((*table) = (*node)->next);
 	else
-		(*prev) ? ((*prev)->next = NULL) : ((*table) = NULL);
+		(*prev) ? ((*prev)->next = NULL)
+		: ((*table) = NULL);
 	if (*node)
 	{
 		ft_strdel(&(*node)->command);

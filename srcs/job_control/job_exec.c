@@ -6,19 +6,19 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:52:24 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:17:43 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	job_ast(t_ast **ast, t_env **env, int foreground)
+void		job_ast(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_ast				*tmp;
-	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},{CMD_SEQ, &job_cmd_seq},
-								{AND_OR, &job_andor}, {QM_SEQ, &job_qm_seq},
-		          {BG_SEQ, &job_bg_seq}};
+	static const t_jseq	seq[5] = {{PIPE_SEQ, &job_pipe},
+							{CMD_SEQ, &job_cmd_seq}, {AND_OR, &job_andor},
+							{QM_SEQ, &job_qm_seq}, {BG_SEQ, &job_bg_seq}};
 
 	tmp = *ast;
 	while (tmp && tmp->type >= QM_SEQ && tmp->type <= AND_OR)
@@ -31,7 +31,7 @@ void	job_ast(t_ast **ast, t_env **env, int foreground)
 	}
 }
 
-int		delete_job(t_job **job)
+int			delete_job(t_job **job)
 {
 	t_job		*j;
 	t_process	*p;
@@ -42,7 +42,7 @@ int		delete_job(t_job **job)
 	{
 		if (j->command)
 			ft_strdel(&j->command);
-		p =j->first_process;
+		p = j->first_process;
 		while (p)
 		{
 			tmp = p;
@@ -58,17 +58,17 @@ int		delete_job(t_job **job)
 	return (-1);
 }
 
-int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
+int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_job				*job;
 	t_ast				*tmp;
-	static const t_cmd	cmd[11] = {{"unsetenv", &ft_unsetenv}, {"hash", &hashing},
-								{"setenv", &ft_setenv}, {"env", &builtin_env},
-								{"jobs", &inter_job}, {"fg", &ft_fg},
-								{"cd", &ft_cd}, {"echo", &ft_echo},
-								{"exit", &ft_exit}, {"history", &ft_history},
-								{"bg", &ft_bg}};
+	static const t_cmd	cmd[11] = {{"unsetenv", &ft_unsetenv},
+					{"hash", &hashing}, {"setenv", &ft_setenv},
+					{"env", &builtin_env}, {"jobs", &inter_job},
+					{"fg", &ft_fg}, {"cd", &ft_cd},
+					{"echo", &ft_echo}, {"exit", &ft_exit},
+					{"history", &ft_history}, {"bg", &ft_bg}};
 
 	i = -1;
 	tmp = *ast;
@@ -83,10 +83,9 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 		return (exec_job(&job, env, foreground));
 	}
 	return (-1);
-} // Do kill built-in command
+}
 
-
-int		exec_job(t_job **job, t_env **env, int foreground)
+int			exec_job(t_job **job, t_env **env, int foreground)
 {
 	int		status;
 
@@ -104,9 +103,9 @@ int		exec_job(t_job **job, t_env **env, int foreground)
 		return (1);
 	}
 	return (0);
-} //Implement signal_handle from nbouchin
+}
 
-int		exec_pro(t_process **lst, t_env **env, t_job **j)
+int			exec_pro(t_process **lst, t_env **env, t_job **j)
 {
 	char		**n_env;
 	t_process	*tmp;
@@ -118,7 +117,7 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 		if (g_shell_is_interactive)
 		{
 			setpgid(getpid(), getpid());
-			tcsetpgrp (g_shell_terminal, tmp->pid);
+			tcsetpgrp(g_shell_terminal, tmp->pid);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGTSTP, SIG_DFL);
@@ -135,9 +134,9 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 	{
 		(*j)->pgid = tmp->pid;
 		setpgid(tmp->pid, (*j)->pgid);
-		tcsetpgrp (g_shell_terminal, (*j)->pgid);
+		tcsetpgrp(g_shell_terminal, (*j)->pgid);
 		wait_for_job(j);
-		tcsetpgrp (g_shell_terminal, g_shell_pgid);
+		tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	}
 	ft_freetab(n_env);
 	return (tmp->status);

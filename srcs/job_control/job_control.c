@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 20:14:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 15:37:46 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:11:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ char	*init_job_name(t_ast **ast)
 			if ((tmp2 = tmp2->right))
 				cmd = ft_strjoinf(cmd, " ", 1);
 		}
-	} // faire une partie redirection en recursiv
+	}
 	return (cmd);
 }
