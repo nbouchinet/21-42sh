@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:22:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/16 19:40:27 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 11:05:06 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int		exec_oa(t_ast **ast, t_env **env, int type)
 	if (tmp->left->type == OR)
 	{
 		if (exec_oa(&tmp->left, env, type) == 0)
-			return (exec_cmd_seq(&tmp->left->right, env,
-				tmp->left->right->type));
+			return
+			(exec_cmd_seq(&tmp->left->right, env, tmp->left->right->type));
 		return (1);
 	}
 	else if (tmp->left->type == AND)

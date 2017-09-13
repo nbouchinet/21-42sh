@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/11 17:51:04 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 11:04:03 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		io_seq(t_ast **ast)
 	int						i;
 	t_ast					*tmp;
 	static const t_rdir		rdir[4] = {{RDIR, &wtf_rdir}, {RRDIR, &wtf_rdir},
-		{AGRE, &agre}, {BDIR, &bdir}}; //, {BBDIR,}, {BGRE,}}; A FAIRE
+		{AGRE, &agre}, {BDIR, &bdir}};
 
 	tmp = *ast;
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))

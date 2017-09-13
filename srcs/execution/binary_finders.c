@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_finders.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/28 15:48:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/07 17:36:26 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/09/13 10:21:33 by nbouchin          #+#    #+#             */
+/*   Updated: 2017/09/13 10:57:37 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	abs_cmd(t_ast **ast, t_env **env)
 	if (i == 0)
 		if (find_bin(&tmp->left->left) == 0)
 		{
-			ft_errormsg("42sh: ", (*ast)->left->left->str,
-			            ": Command not found.");
+			ft_errormsg("42sh: ", (*ast)->left->left->str
+			,": Command not found.");
 			exit(EXIT_FAILURE);
 		}
 	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
@@ -78,7 +78,7 @@ void	rlt_cmd(t_ast **ast, t_env **env)
 			exit(EXIT_FAILURE);
 		}
 	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
-	t_env = env ?
-		get_env(env, (ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
+	t_env = env ? get_env(env,
+	                      (ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
 	execution(arg, t_env, &tmp->right);
 }
