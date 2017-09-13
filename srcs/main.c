@@ -55,6 +55,8 @@ static void     loop(t_cmdl *cmdl)
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
 		}
+		if (cmdl->exit)
+			break ;
 		t_local *loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;
