@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:09:11 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:32:08 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*init_pipe_job(t_ast **ast)
 	{
 		if (tmp->type == PIPE)
 			cmd = !cmd ? init_job_name(&tmp->left) :
-			t_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
+			ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
 		else if (tmp->type == CMD_SEQ)
 			cmd = ft_strjoinf(cmd,
 			(get = init_job_name(&tmp)), 1);
