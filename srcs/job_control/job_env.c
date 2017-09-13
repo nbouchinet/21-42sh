@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:49:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:12:06 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:20:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,14 @@ int		env_builtin(t_ast **ast, t_env **env, t_env **r_env)
 	t_ast	*tmp;
 
 	tmp = *ast;
+	// ft_putendl(tmp->str);
 	if (tmp)
+	{
+		ft_putendl("Avant");
+		ft_putendl(tmp->str);
+		ft_putendl("Not here");
 		return (exec_env(&tmp, env, r_env));
+	}
 	print_env(*env);
 	return (1);
 }

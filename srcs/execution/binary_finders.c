@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_finders.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 10:21:33 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 15:13:13 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 15:26:31 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	abs_cmd(t_ast **ast, t_env **env)
 		if (find_bin(&tmp->left->left) == 0)
 		{
 			ft_errormsg("42sh: ", (*ast)->left->left->str
-					,": Command not found.");
+			, ": Command not found.");
 			exit(EXIT_FAILURE);
 		}
 	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
@@ -79,6 +79,6 @@ void	rlt_cmd(t_ast **ast, t_env **env)
 		}
 	arg = creat_arg(&tmp->left->right, tmp->left->left->str);
 	t_env = env ? get_env(env,
-			(ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
+							(ft_strrchr(tmp->left->left->str, '/') + 1)) : NULL;
 	execution(arg, t_env, &tmp->right);
 }
