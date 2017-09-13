@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 16:07:10 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 19:56:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:26:51 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int 		opt_left(t_cmdl *cmdl)
+int			opt_left(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (1);
@@ -28,7 +28,7 @@ int 		opt_left(t_cmdl *cmdl)
 	return (1);
 }
 
-int 		opt_right(t_cmdl *cmdl)
+int			opt_right(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (1);

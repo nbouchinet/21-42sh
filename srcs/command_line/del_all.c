@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 12:56:49 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/09 12:56:58 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/13 09:41:40 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void 	del_all(t_cmdl **cmdl_head, t_his **his_head)
+void		del_all(t_cmdl **cmdl_head, t_his **his_head)
 {
 	t_cmdl		*cmdl;
 	t_his		*his;

@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 18:34:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:33:41 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:44:28 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void exit_cmdl(t_cmdl *cmdl)
+static void	exit_cmdl(t_cmdl *cmdl)
 {
 	char	*s1;
 
@@ -33,7 +33,7 @@ static void exit_cmdl(t_cmdl *cmdl)
 		write(1, "\n", 1);
 }
 
-static void get_op(t_cmdl *cmdl, int *ret, int *i)
+static void	get_op(t_cmdl *cmdl, int *ret, int *i)
 {
 	static const	t_op		op[20] = {{{-61, -89, 0, 0}, &ccp},
 	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
@@ -41,18 +41,17 @@ static void get_op(t_cmdl *cmdl, int *ret, int *i)
 	{{27, 91, 72, 0}, &home}, {{27, 91, 70, 0}, &end},
 	{{27, 27, 91, 68}, &opt_left}, {{27, 27, 91, 67}, &opt_right},
 	{{27, 27, 91, 65}, &up_dwn}, {{27, 27, 91, 66}, &up_dwn},
-				          {{27, 91, 65, 0}, &cmd_history}, {{27, 91, 66, 0}, &cmd_history},
-				          {{10, 0, 0, 0}, &return_cmdl}, {{127, 0, 0, 0}, &del},
-				          {{18, 0, 0, 0}, &cmd_search_history}, {{14, 0, 0, 0}, &cmd_search_history},
-				          {{9, 0, 0, 0}, &completion}, {{1, 0, 0, 0}, &home}, {{5, 0, 0, 0}, &end}};
-
+	{{27, 91, 65, 0}, &cmd_history}, {{27, 91, 66, 0}, &cmd_history},
+	{{10, 0, 0, 0}, &return_cmdl}, {{127, 0, 0, 0}, &del},
+	{{18, 0, 0, 0}, &cmd_search_history}, {{14, 0, 0, 0}, &cmd_search_history},
+	{{9, 0, 0, 0}, &completion}, {{1, 0, 0, 0}, &home}, {{5, 0, 0, 0}, &end}};
 
 	*ret = 0;
 	*i = -1;
 	ft_memset(cmdl->line.buf, '\0', 6);
 	read(0, cmdl->line.buf, 6);
 	while (++(*i) < 20)
-	if (cmdl->line.buf[0] == op[(*i)].key[0] &&
+		if (cmdl->line.buf[0] == op[(*i)].key[0] &&
 		cmdl->line.buf[1] == op[(*i)].key[1]
 		&& cmdl->line.buf[2] == op[(*i)].key[2] &&
 		cmdl->line.buf[3] == op[(*i)].key[3]
@@ -84,8 +83,6 @@ void		get_cmdl(t_cmdl *cmdl)
 		}
 		else if (i == 20)
 			print(cmdl, cmdl->line.buf);
-		// ft_printf("buf: %d %d %d %d\n", cmdl->line.buf[0], cmdl->line.buf[1],
-  // 		cmdl->line.buf[2], cmdl->line.buf[3]);
 	}
 	exit_cmdl(cmdl);
 }

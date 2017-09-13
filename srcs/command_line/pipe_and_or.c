@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 12:52:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:10:02 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:47:38 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,6 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 	cmdl->line.str[i] == '\\'))
 		;
 	if ((cmdl->line.str[i] == 0 || cmdl->line.str[i] == '\\') && check(k, cmdl))
-			return (1);
+		return (1);
 	return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 }

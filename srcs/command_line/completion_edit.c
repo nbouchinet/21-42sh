@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 18:05:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/10 18:05:45 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/13 09:38:24 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
+void	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 {
 	tmp = line->str[line->cur - line->pr] ?
 	ft_strdup(line->str + (line->cur - line->pr)) : NULL;

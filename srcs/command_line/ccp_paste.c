@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 17:39:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/03 17:39:48 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/13 09:30:03 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void edit_cmdl(t_cmdl *cmdl, int len_cpy, int len_str, int i)
+static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int len_str, int i)
 {
 	char	*tmp;
 	int		j;

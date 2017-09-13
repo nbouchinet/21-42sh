@@ -6,22 +6,22 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 15:56:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 14:15:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:45:44 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void 		cmd_save_history(char *str)
+void		cmd_save_history(char *str)
 {
 	t_his	*head;
 	t_his	*new;
 
 	head = *his_slg();
-	if (!str[0] /*|| is_bang(&str, -1, -1, -1)*/)
+	if (!str[0])
 		return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
-		exit (0);
+		exit(0);
 	new->cmdl = ft_strdup(str);
 	if (!head->n)
 	{
@@ -36,7 +36,7 @@ void 		cmd_save_history(char *str)
 	head->n = new;
 }
 
-static void print_cmdl(t_cmdl *cmdl, t_his *his)
+static void	print_cmdl(t_cmdl *cmdl, t_his *his)
 {
 	int		pos;
 

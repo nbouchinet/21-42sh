@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 16:48:53 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:25:26 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:52:48 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_his	*findcmdl(char *str, char buf[], int reset)
+t_his			*findcmdl(char *str, char buf[], int reset)
 {
 	static t_his	*match = NULL;
 	t_his			*head;
@@ -41,7 +41,7 @@ t_his	*findcmdl(char *str, char buf[], int reset)
 	return (NULL);
 }
 
-static void print_match(t_cmdl *cmdl, t_his *his, char buf[])
+static void		print_match(t_cmdl *cmdl, t_his *his, char buf[])
 {
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	if (!(SH(buf)) && !(NEXT(buf)))
@@ -59,7 +59,7 @@ static void print_match(t_cmdl *cmdl, t_his *his, char buf[])
 	}
 }
 
-int		search_history_print(t_cmdl *cmdl, char buf[])
+int				search_history_print(t_cmdl *cmdl, char buf[])
 {
 	t_his			*his;
 	int				pos;
@@ -79,7 +79,7 @@ int		search_history_print(t_cmdl *cmdl, char buf[])
 	return (1);
 }
 
-int		cmd_search_history(t_cmdl *cmdl)
+int				cmd_search_history(t_cmdl *cmdl)
 {
 	int		len;
 

@@ -6,15 +6,15 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 16:59:26 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:05:45 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:37:56 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	comp_del(t_comp **head)
+static void			comp_del(t_comp **head)
 {
-	t_comp 		*tmp;
+	t_comp		*tmp;
 	t_comp		*save;
 
 	tmp = *head;
@@ -28,7 +28,7 @@ static void 	comp_del(t_comp **head)
 	tmp = NULL;
 }
 
-void 			ft_padd_x(t_comp **comp, int *len, int i)
+void				ft_padd_x(t_comp **comp, int *len, int i)
 {
 	t_comp		*tmp;
 	int			save;
@@ -52,7 +52,7 @@ void 			ft_padd_x(t_comp **comp, int *len, int i)
 	}
 }
 
-static void 	print_lst(t_comp **comp, t_cmdl *cmdl)
+static void			print_lst(t_comp **comp, t_cmdl *cmdl)
 {
 	t_comp		*tmp;
 	size_t		winsize;
@@ -77,15 +77,16 @@ static void 	print_lst(t_comp **comp, t_cmdl *cmdl)
 		print_prompt();
 	else if (cmdl->opt & CSQ || cmdl->opt & CDQ)
 		write(1, cmdl->opt & CSQ ? "quote> " : "dquote> ",
-		      cmdl->opt & CSQ ? 7 : 8);
+		cmdl->opt & CSQ ? 7 : 8);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 }
 
-int 			display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
+int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 {
 	int			pos;
 
-	if (!(*comp)->n && (int)ft_strlen(cmdl->line.str) + offset >= cmdl->line.len)
+	if (!(*comp)->n && (int)ft_strlen(cmdl->line.str) +
+		offset >= cmdl->line.len)
 		remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
 	if ((*comp) && (*comp)->n)
 	{
@@ -110,9 +111,9 @@ int 			display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 	return (!comp ? 0 : 1);
 }
 
-int				check_comp(t_comp **head, char *name)
+int					check_comp(t_comp **head, char *name)
 {
-	t_comp 		*tmp;
+	t_comp		*tmp;
 
 	tmp = *head;
 	while (tmp)

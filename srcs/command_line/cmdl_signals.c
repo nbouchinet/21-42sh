@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 13:26:17 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 14:05:23 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:31:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 	}
 }
 
-void 	cmdl_signals(t_cmdl *cmdl)
+void			cmdl_signals(t_cmdl *cmdl)
 {
 	struct sigaction	sig;
-	
+
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_sigaction = &sig_handler;
 	sig.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGWINCH, &sig, NULL) == -1 ||
-	    sigaction(SIGINT, &sig, NULL) == -1 ||
-	    sigaction(SIGQUIT, &sig, NULL) == -1)
+		sigaction(SIGINT, &sig, NULL) == -1 ||
+		sigaction(SIGQUIT, &sig, NULL) == -1)
 	{
 		unset_shell(cmdl);
 		exit(fd_printf(2, "signals: sigaction error\n"));

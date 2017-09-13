@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:05:05 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:35:13 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 
 	comp = NULL;
 	i = -1;
-	if (cmdl->opt & CSQ || cmdl->opt & CDQ /*|| cmdl->hd*/)
+	if (cmdl->opt & CSQ || cmdl->opt & CDQ)
 		return (0);
 	while (arr_path[++i])
 	{
@@ -39,7 +39,6 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 	return (display_comp(cmdl, &comp, ft_strlen(tmp)));
 }
 
-
 static void		list_files(t_cmdl *cmdl, char **tmp)
 {
 	struct dirent	*rdd;
@@ -52,9 +51,9 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 	if (!(dir = opendir(path)))
 		return ;
 	while ((rdd = readdir(dir)) != 0)
-	if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
+		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
-		if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
+			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
 				!comp ? comp = fill_comp(&comp, rdd, 2) :
 				fill_comp(&comp, rdd, 2);
 	closedir(dir);
@@ -63,15 +62,15 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 		display_comp(cmdl, &comp, ft_strlen(*tmp));
 }
 
-static void 	get_comp(t_cmdl *cmdl, int i)
+static void		get_comp(t_cmdl *cmdl, int i)
 {
-	char 	*tmp;
+	char	*tmp;
 	char	**path;
 
 	path = ft_strsplit(lst_at(&cmdl->lstenv, "PATH")->value, ':');
 	while (--i > 0 && cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
-	cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
-	cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
+			cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
+			cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
 		;
 	i += (i < 0 ? 1 : 0);
 	while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] && sep(cmdl, 0))
@@ -110,10 +109,10 @@ int				completion(t_cmdl *cmdl)
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
-	if (!(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&
-	    !(cmdl->opt & CAND) && !(cmdl->opt & COR)/*&& cmdl->hd */ &&
-	    (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
-	only_space(cmdl->line.str)))
+	if (!(cmdl->opt & CSQ) && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&
+		!(cmdl->opt & CAND) && !(cmdl->opt & COR) &&
+		(!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
+		only_space(cmdl->line.str)))
 		return (1);
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
 	cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||

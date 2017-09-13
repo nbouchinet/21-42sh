@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 18:06:32 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 20:06:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:48:56 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void count_quote(t_cmdl *cmdl)
+static void	count_quote(t_cmdl *cmdl)
 {
 	int		i;
 
@@ -23,7 +23,7 @@ static void count_quote(t_cmdl *cmdl)
 			cmdl->opt |= CSQ;
 		else if (cmdl->line.str[i] == '"' && (!(cmdl->opt & (CSQ | CDQ))))
 			cmdl->opt |= (i == 0 || cmdl->line.str[i - 1] != '\\' ? CDQ :
-			              cmdl->opt);
+			cmdl->opt);
 		else if (cmdl->line.str[i] == '\'' && (cmdl->opt & CSQ))
 			cmdl->opt &= ~(CSQ);
 		else if (cmdl->line.str[i] == '"' && (cmdl->opt & CDQ))

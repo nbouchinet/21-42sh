@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:59:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 19:56:12 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:26:20 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		up_dwn(t_cmdl *cmdl)
 	return (1);
 }
 
-int	 	home(t_cmdl *cmdl)
+int		home(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
@@ -44,7 +44,7 @@ int	 	home(t_cmdl *cmdl)
 	return (1);
 }
 
-int	 	end(t_cmdl *cmdl)
+int		end(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
@@ -53,7 +53,6 @@ int	 	end(t_cmdl *cmdl)
 			arrow_rigth(cmdl);
 	return (1);
 }
-
 
 int		arrow_rigth(t_cmdl *cmdl)
 {

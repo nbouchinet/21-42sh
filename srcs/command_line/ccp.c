@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:54:12 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 19:57:36 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:29:40 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void swap(t_cmdl *cmdl, int w, int i)
+static void	swap(t_cmdl *cmdl, int w, int i)
 {
 	int		tmp;
 
@@ -32,7 +32,7 @@ static void swap(t_cmdl *cmdl, int w, int i)
 	}
 }
 
-static void get_b_e(t_cmdl *cmdl)
+static void	get_b_e(t_cmdl *cmdl)
 {
 	if (CUT(cmdl->line.buf))
 	{
@@ -50,7 +50,7 @@ static void get_b_e(t_cmdl *cmdl)
 	}
 }
 
-static void mark_b_e(t_cmdl *cmdl)
+static void	mark_b_e(t_cmdl *cmdl)
 {
 	int		i;
 
@@ -67,16 +67,17 @@ static void mark_b_e(t_cmdl *cmdl)
 		swap(cmdl, 1, i);
 }
 
-int 		ccp(t_cmdl *cmdl)
+int			ccp(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
-		return(paste(cmdl, ft_strlen(cmdl->ccp.cpy), ft_strlen(cmdl->line.str)));
+		return
+		(paste(cmdl, ft_strlen(cmdl->ccp.cpy), ft_strlen(cmdl->line.str)));
 	if (PST(cmdl->line.buf) && cmdl->ccp.end == -1)
 		return (1);
-	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2) ||
-	(CPY(cmdl->line.buf) && cmdl->ccp.ccp == 1))
+	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2)
+	|| (CPY(cmdl->line.buf) && cmdl->ccp.ccp == 1))
 	{
 		cmdl->ccp.start = -1;
 		cmdl->ccp.end = -1;

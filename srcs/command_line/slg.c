@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:26:03 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:57:21 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_his		**his_slg(void)
 	if (!his)
 	{
 		if (!(his = (t_his *)malloc(sizeof(t_his))))
-			exit (0);
+			exit(0);
 		his->cmdl = "";
 		his->n = NULL;
 		his->p = NULL;
@@ -27,7 +27,7 @@ t_his		**his_slg(void)
 	return (&his);
 }
 
-void 		init_cmdl(void)
+void		init_cmdl(void)
 {
 	t_cmdl	*cmdl;
 
@@ -56,10 +56,10 @@ t_cmdl		**cmdl_slg(void)
 	if (!cmdl)
 	{
 		if (!(cmdl = (t_cmdl *)malloc(sizeof(t_cmdl))))
-			exit (0);
+			exit(0);
 		cmdl->line.str = NULL;
 		cmdl->line.save = NULL;
 		cmdl->ccp.cpy = NULL;
 	}
-	return(&cmdl);
+	return (&cmdl);
 }

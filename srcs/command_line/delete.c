@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 14:44:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/11 19:58:42 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:42:19 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		delete_sh(t_cmdl *cmdl)
 	return (1);
 }
 
-int		del(t_cmdl *cmdl)
+int				del(t_cmdl *cmdl)
 {
 	int		i;
 

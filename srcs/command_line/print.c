@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:35:04 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 09:48:21 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void remalloc_cmdl(t_line *line, int len)
+void		remalloc_cmdl(t_line *line, int len)
 {
 	char	*tmp;
 
@@ -20,7 +20,7 @@ void remalloc_cmdl(t_line *line, int len)
 	if (!(line->str = (char *)malloc(sizeof(char) * (len + 1024))))
 		exit(0);
 	ft_memset(line->str, 0, (len + 1024));
-line->str = ft_strcpy(line->str, tmp);
+	line->str = ft_strcpy(line->str, tmp);
 	free(tmp);
 	line->len += 1024;
 }
@@ -53,7 +53,7 @@ static int	regular_print(t_line *line, char buf[], int i)
 	return (i);
 }
 
-int 		print(t_cmdl *cmdl, char buf[])
+int			print(t_cmdl *cmdl, char buf[])
 {
 	int		i;
 
