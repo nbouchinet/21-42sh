@@ -6,11 +6,34 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 17:26:54 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 13:10:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+static void	ft_rec_putbtreestr(t_ast *r, int l)
+{
+	if (r)
+	{
+		printf("t: %d |%s|\n", r->type, r->str);
+		if (r->left)
+		{
+			printf("%*c|-left--: ", (l + 1) * 2, ' ');
+			ft_rec_putbtreestr(r->left, l + 1);
+		}
+		if (r->right)
+		{
+			printf("%*c|-right-: ", (l + 1) * 2, ' ');
+			ft_rec_putbtreestr(r->right, l + 1);
+		}
+	}
+}
+
+void		ft_putast(t_ast *root)
+{
+	ft_rec_putbtreestr(root, 0);
+}
 
 static void		exec_part(char **line, t_env **env)
 {
@@ -25,6 +48,7 @@ static void		exec_part(char **line, t_env **env)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
+	ft_putast(ast);
 	job_ast(&ast, env, 1);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);

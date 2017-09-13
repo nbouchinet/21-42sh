@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 19:15:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 12:24:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,19 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	i = ft_strlen(*stack);
 	if (!((*lst)->str = (char*)malloc(sizeof(char) * (i + 1))))
 		return ;
-	i = 0;
-	while ((*stack)[i])
-	{
+	i = -1;
+	while ((*stack)[++i])
 		(*lst)->str[i] = (*stack)[i];
-		i++;
-	}
 	(*lst)->str[i] = '\0';
-	if (type == WORD && ft_isalpha((*lst)->str[0]) && ft_strchr((*lst)->str, '='))
+	if (type == WORD && ft_isalpha((*lst)->str[0]) &&
+			ft_strchr((*lst)->str, '='))
 		(*lst)->type = LOCAL;
 	else
 		(*lst)->type = type;
 	if ((*lst)->type != QUOTE && (bs = ft_strchr((*lst)->str, '\\')) &&
 	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
-	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' && *(bs + 1) != '\\')
+	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' &&
+	*(bs + 1) != '\\')
 		ft_strleft(&(*lst)->str, '\\');
 	ft_memset(*stack, 0, ft_strlen(*stack));
 }
@@ -58,11 +57,10 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 			*lst = (*lst)->n;
 		}
 	}
-	while (line[(*i)] && line[(*i)] == ' ')
-		(*i) += 1;
-	(*i) -= 1;
+	while (line[(*i)] && is_space(line[(*i)]))
+		(*i)++;
+	(*i)--;
 }
-
 
 void	new_parser(t_tok **cmd, char *line)
 {
@@ -70,8 +68,9 @@ void	new_parser(t_tok **cmd, char *line)
 	int					j;
 	char				*stack;
 	t_tok				*tmp;
-	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush}, {'>', &chevron},
-	{'<', &chevron}, {';', &question_mark}, {'|', &pipe_pars}, {'&', &and_pars}};
+	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush},
+						{'>', &chevron}, {'<', &chevron}, {';', &question_mark},
+						{'|', &pipe_pars}, {'&', &and_pars}};
 
 	i = 0;
 	tmp = *cmd;

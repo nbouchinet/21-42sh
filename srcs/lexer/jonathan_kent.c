@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/09 18:48:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 12:25:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	question_mark(t_tok **lst, char **stack, char *line, int *i)
 	st_tok(stack, line[(*i)]);
 	tok_save(lst, stack, QM);
 	if (check_end(line + (*i) + 1) == 1)
-		{
-			init_token(&(*lst)->n);
-			*lst = (*lst)->n;
-		}
+	{
+		init_token(&(*lst)->n);
+		*lst = (*lst)->n;
+	}
 }
 
 void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)

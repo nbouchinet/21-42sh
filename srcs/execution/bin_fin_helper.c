@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/28 16:21:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:54:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 13:14:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,24 @@ char	*binary_find(char *cmd, char **path)
 	DIR		*dir;
 
 	i = -1;
-	while (path[++i])
-		if ((dir = opendir(path[i])))
-		{
-			if (ft_checkbin(dir, cmd) == 1)
+	if (path)
+	{
+		while (path[++i])
+			if ((dir = opendir(path[i])))
 			{
-				bin = create_path(path[i], cmd);
+				if (ft_checkbin(dir, cmd) == 1)
+				{
+					bin = create_path(path[i], cmd);
+					closedir(dir);
+					if (isexec(bin) == 1)
+						return (bin);
+					free(bin);
+					return (NULL);
+				}
 				closedir(dir);
-				if (isexec(bin) == 1)
-					return (bin);
-				free(bin);
-				return (NULL);
 			}
-			closedir(dir);
-		}
+	}
+	ft_errormsg("42sh: ", NULL, "PATH not set.");
 	return (NULL);
 }
 

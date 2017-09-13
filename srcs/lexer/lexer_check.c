@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:03:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/13 13:32:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
-int		cmp_sep(t_tok *tmp)
+int				cmp_sep(t_tok *tmp)
 {
 	if (tmp->type == SPACE_TOK)
 		tmp = tmp->n;
@@ -21,22 +21,21 @@ int		cmp_sep(t_tok *tmp)
 	return (0);
 }
 
-void	specified_dir(t_tok **lst)
+void			specified_dir(t_tok **lst)
 {
-	int				i;
-	t_tok			*tmp;
-	static const	t_lex	dir[6] = {{">", RDIR}, {"<", BDIR}, {">>", RRDIR},
+	int					i;
+	t_tok				*tmp;
+	static const t_lex	dir[6] = {{">", RDIR}, {"<", BDIR}, {">>", RRDIR},
 					{"<<", BBDIR}, {">&", AGRE}, {"<&", BGRE}};
+
 	tmp = *lst;
 	while (tmp)
 	{
 		i = -1;
 		if (tmp->type == CHEVRON)
 			while (++i < 6)
-			{
 				if (ft_strcmp(dir[i].ch, tmp->str) == 0)
 					tmp->type = dir[i].type;
-			}
 		tmp = tmp->n;
 	}
 }
@@ -49,22 +48,23 @@ static int		check_lst(t_tok **lst)
 	while (tmp)
 	{
 		if (tmp->type == CHEVRON && !tmp->n)
-			return (write(2, "parse error near unexpected token `newline'\n", 45));
+			return (write(2, "parse error near unexpected token `newline'\n",
+			45));
 		else if (tmp->type == CHEVRON && (tmp->n->str[0] == '<'
 		|| tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
 		|| tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
 		|| tmp->n->str[0] == '|'))
-			return (fd_printf (2, "parse error near unexpected token `%s'\n",
+			return (fd_printf(2, "parse error near unexpected token `%s'\n",
 			tmp->str));
 		else if ((tmp->type == QM && tmp->n && tmp->n->type == QM) ||
 		(tmp == *lst && tmp->type == QM && !tmp->n))
-			return (fd_printf(2, "parse error near unexpected token `newline'\n"));
+			return (fd_printf(2,
+				"parse error near unexpected token `newline'\n"));
 		else
 			tmp = tmp->n;
 	}
 	return (0);
 }
-
 
 static int		loop(t_tok **lst, t_tok **command)
 {
@@ -115,21 +115,7 @@ void			lexer_check(t_tok **lst)
 	while (tmp)
 	{
 		if (tmp->type == CHEVRON || tmp->type == IO_N)
-		{
-			if (loop(&tmp, &save_addr))
-				tmp = (*lst);
-		}
-		// else if (tmp->type == LOCAL &&
-		// ((tmp->n && tmp->n->type == WORD) || (save_addr && save_addr->type == WORD)))
-		// {
-		// 	if (save_addr)
-		// 		save_addr->n = tmp->n;
-		// 	else
-		// 		*lst = tmp->n;
-		// 	free(tmp->str);
-		// 	free(tmp);
-		// 	tmp = save_addr ? save_addr->n : *lst;
-		// }
+			loop(&tmp, &save_addr) ? tmp = (*lst) : 0;
 		else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
 			tmp->type = WORD;
 		else

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 12:27:52 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 13:26:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,19 @@ static int		check_expanse(char **str, t_env **env)
 		if ((*str)[i] == '$')
 		{
 			end = 0;
-			while ((*str)[i + end] && is_space((*str)[i + end]) == 0)
+			while ((*str)[i + end] && !is_space((*str)[i + end]))
 				end++;
 			if ((tmp = replace_env(*str, i, end, env)))
 			{
 				ft_strdel(str);
-				*str = ft_strdup(tmp);
-				ft_strdel(&tmp);
+				(*str = ft_strdup(tmp)) ? ft_strdel(&tmp) : 0;
 				i = 0;
 			}
 			else
 				return (1);
 		}
 		else if (i == 0 && (*str)[i] == '\\')
-		{
 			ft_strleft(str, (*str)[i]);
-			return (0);
-		}
 		else
 			i++;
 	return (0);
@@ -71,12 +67,11 @@ static int		check_expanse(char **str, t_env **env)
 
 static void		tild(char **str, t_env **env)
 {
-	char 	*tmp;
-	char 	*tmp2;
+	char	*tmp;
+	char	*tmp2;
 	t_env	*var_env;
 
 	if ((var_env = find_node(env, "HOME", NULL)))
-	{
 		if ((*str)[0] == '~' && ((*str)[1] == '/' || (*str)[1] == '\0'))
 		{
 			tmp = ft_strdup((*str) + 1);
@@ -84,7 +79,6 @@ static void		tild(char **str, t_env **env)
 			tmp2 = ft_strjoinf(tmp2, tmp, 3);
 			*str = ft_strdupf(&tmp2);
 		}
-	}
 }
 
 void			expanse(t_tok **lst, t_env **env)
