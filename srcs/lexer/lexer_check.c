@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/08 12:14:26 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/13 12:03:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,17 +119,17 @@ void			lexer_check(t_tok **lst)
 			if (loop(&tmp, &save_addr))
 				tmp = (*lst);
 		}
-		else if (tmp->type == LOCAL &&
-		((tmp->n && tmp->n->type == WORD) || (save_addr && save_addr->type == WORD)))
-		{
-			if (save_addr)
-				save_addr->n = tmp->n;
-			else
-				*lst = tmp->n;
-			free(tmp->str);
-			free(tmp);
-			tmp = save_addr ? save_addr->n : *lst;
-		}
+		// else if (tmp->type == LOCAL &&
+		// ((tmp->n && tmp->n->type == WORD) || (save_addr && save_addr->type == WORD)))
+		// {
+		// 	if (save_addr)
+		// 		save_addr->n = tmp->n;
+		// 	else
+		// 		*lst = tmp->n;
+		// 	free(tmp->str);
+		// 	free(tmp);
+		// 	tmp = save_addr ? save_addr->n : *lst;
+		// }
 		else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
 			tmp->type = WORD;
 		else
