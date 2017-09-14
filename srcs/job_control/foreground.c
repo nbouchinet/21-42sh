@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 11:46:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 18:33:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,38 @@ void	mark_job_as_running(t_job **job)
 	}
 }
 
+int		find_pgid(t_job **table, char *str)
+{
+	t_job	*j;
+	int		i;
+	j = *table;
+	i = ft_atoi(str);
+	while (j->next)
+	{
+		if (str && j->pgid == i)
+			return (j->pgid);
+		else
+		j = j->next;
+	}
+	if (j->pgid == i)
+		return (j->pgid);
+	return (-1);
+}
+
 int		background(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
+	int			pgid;
 
 	(void)ast;
 	(void)job;
+	pgid = 0;
 	if (*table)
 	{
 		j = *table;
-		while (j->next)
-			j = j->next;
 		if (j)
 		{
+			if (pgid = find_pgid(table, (*ast)->right->left ? (*ast)->left->right->str : NULL));
 			mark_job_as_running(&j);
 			if (kill(-j->pgid, SIGCONT) < 0)
 				perror("kill (SIGCONT)");
@@ -90,6 +109,7 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 	}
 	return (0);
 }
+
 
 int			foreground(t_job **job, t_ast **ast, t_job **table)
 {

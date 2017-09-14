@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 18:07:59 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:59:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	print_hash(t_hash **table)
 {
 	t_hash *tmp;
 
-	if (table)
+	if (*table)
 	{
 		tmp = *table;
 		if (tmp)
@@ -64,6 +64,8 @@ void	print_hash(t_hash **table)
 			}
 		}
 	}
+	else
+		ft_errormsg("42sh: ", NULL, "hash table is empty.");
 }
 
 int		builtin_hash(t_ast **ast, t_job **job, t_hash **table)
@@ -81,7 +83,7 @@ int		builtin_hash(t_ast **ast, t_job **job, t_hash **table)
 		else if (i == 2)
 			return (reset_table(table));
 		else if (i == 0)
-			ft_errormsg("Usage: hash:", "-c = clean table", "-r : reset hits");
+			ft_errormsg("Usage: hash", NULL, " [-cr]");
 	}
 	else
 	{

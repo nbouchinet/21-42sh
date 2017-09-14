@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:30:17 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 21:23:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	init_shell(void)
 		g_shell_pgid = getpid();
 		if (setpgid(g_shell_pgid, g_shell_pgid) < 0)
 		{
-			perror("Couldn't put the shell in its own process group");
+			ft_errormsg("42sh: ", NULL, "Couldn't put the shell in its own process group");
 			exit(1);
 		}
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		tcgetattr(g_shell_terminal, &g_shell_tmodes);
 	}
-}
+} // to remove
 
 int		job_is_stopped(t_job *j)
 {

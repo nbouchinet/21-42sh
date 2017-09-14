@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 18:14:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/14 18:14:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void		exec_part(char **line, t_env **env)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
+	ft_putchar('\n');
 	job_ast(&ast, env, 1);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);
@@ -89,7 +90,7 @@ int				main(int ac, char *av[], char *env[])
 	(void)av;
 	env = check_env(env);
 	cmdl = *cmdl_slg();
-	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl->lstenv), env))
+	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl)->lstenv, env))
 		return (1);
 	loop(cmdl);
 	return (cmdl->exit ? cmdl->exit : 0);
