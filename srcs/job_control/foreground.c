@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 16:52:28 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:57:12 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,32 @@
 
 int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 {
-	int			nbjob;
-	t_job		*head;
-	t_process	*phead;
-
 	(void)job;
 	(void)ast;
-	nbjob = 1;
-	if (!(*table))
-		return (0);
-	head = (*table);
-	phead = (*table)->first_process;
-	while ((*table)->next)
-	{
-		(*table) = (*table)->next;
-		nbjob++;
-	}
-	if ((*table)->first_process->stopped != 1)
-	{
-		phead = (*table)->first_process;
-		printf("[%d]+  Stopped			%s\n", nbjob, (*table)->command);
-		kill((*table)->pgid, SIGTSTP);
-		(*table)->first_process = phead;
-	}
-	(*table) = head;
+	(void)table;
+	/* int			nbjob; */
+	/* t_job		*head; */
+	/* t_process	*phead; */
+
+	/* (void)job; */
+	/* (void)ast; */
+	/* nbjob = 1; */
+	/* if (!(*table)) */
+	/* 	return (0); */
+	/* head = (*table); */
+	/* phead = (*table)->first_process; */
+	/* while ((*table)->next) */
+	/* { */
+	/* 	(*table) = (*table)->next; */
+	/* 	nbjob++; */
+	/* } */
+	/* if ((*table)->first_process->stopped != 1) */
+	/* { */
+	/* 	phead = (*table)->first_process; */
+	/* 	kill((*table)->pgid, SIGTSTP); */
+	/* 	(*table)->first_process = phead; */
+	/* } */
+	/* (*table) = head; */
 	return (1);
 }
 
@@ -123,10 +125,7 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 		}
 		else
 			while (j->next)
-			{
-				ft_putendl("salut");
 				j = j->next;
-			}
 		if (j)
 		{
 			mark_job_as_running(&j);

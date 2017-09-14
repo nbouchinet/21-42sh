@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 14:06:06 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:38:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int			exec_pro(t_process **lst, t_env **env, t_job **j)
 		(*j)->pgid = tmp->pid;
 		setpgid(tmp->pid, (*j)->pgid);
 		tcsetpgrp(g_shell_terminal, (*j)->pgid);
-		wait_for_job(j);
+		waitpid(tmp->pid, &tmp->status, WCONTINUED | WUNTRACED);
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	}
 	ft_freetab(n_env);

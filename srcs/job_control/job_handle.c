@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 17:24:40 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 18:40:47 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 			while (p)
 			{
 				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
+				if (!j->next && j->notified != 1)
+				{
+					j->status = p->status;
+					catch_error(&j, p->status);
+				}
 				p = p->next;
 			}
 			mark_process_status(&j);
@@ -126,9 +131,11 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 	int			len;
 	int			status;
 	char		symb;
+	int			pos;
 
 	(void)job;
 	(void)ast;
+	pos = 0;
 	len = 0;
 	status = 0;
 	if (*table)
@@ -142,19 +149,20 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 		j = *table;
 		while (j)
 		{
-			if (len == j->num)
+			pos++;
+			if (len == pos)
 				symb = '+';
-			else if (len - 1 == j->num)
+			else if (len - 1 == pos)
 				symb = '-';
 			else
 				symb = ' ';
-			if (WTERMSIG(status) == SIGSEGV)
+			if (WTERMSIG(j->status) == SIGSEGV)
 				fd_printf(2, "[%d]%c Segmentation fault: 11 %s\n", j->num, symb, j->command);
-			else if (WTERMSIG(status) == SIGABRT)
+			else if (WTERMSIG(j->status) == SIGABRT)
 				fd_printf(2, "[%d]%c Abort trap: 6 \t\t%s\n", j->num, symb, j->command);
-			else if (WTERMSIG(status) == SIGTSTP)
+			else if (WTERMSIG(j->status) == SIGTSTP)
 				fd_printf(2, "[%d]%c Bus error: 10 \t\t%s\n", j->num, symb, j->command);
-			else if (WTERMSIG(status) == 15)
+			else if (WTERMSIG(j->status) == 15)
 				fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n", j->num, symb, j->command);
 			else
 				fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
