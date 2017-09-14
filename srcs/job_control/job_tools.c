@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 21:23:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/14 21:25:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,14 @@ int		job_is_complete(t_job *j)
 int		mark_job_status(t_job **job, int status, pid_t pid)
 {
 	t_process	*p;
+	t_job		*swap;
 
+	swap = *job;
+	while (swap)
+	{
+		//		ft_putendl("test");
+		swap = swap->next;
+	}
 	p = (*job)->first_process;
 	while (p)
 	{

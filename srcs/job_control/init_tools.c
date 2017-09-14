@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:32:08 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 18:43:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		init_job(t_job **job)
 {
 	if (!((*job) = (t_job*)malloc(sizeof(t_job))))
 		return (-1);
+	(*job)->status = 0;
+	(*job)->num = 0;
 	(*job)->command = NULL;
 	(*job)->pgid = 0;
 	(*job)->first_process = NULL;
@@ -77,7 +79,7 @@ char	*init_pipe_job(t_ast **ast)
 	{
 		if (tmp->type == PIPE)
 			cmd = !cmd ? init_job_name(&tmp->left) :
-			ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
+					ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
 		else if (tmp->type == CMD_SEQ)
 			cmd = ft_strjoinf(cmd,
 			(get = init_job_name(&tmp)), 1);

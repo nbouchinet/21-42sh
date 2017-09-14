@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:45:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 12:23:32 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 19:00:30 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,35 @@
 int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
 {
 	t_job	*tmp;
+	t_job	*swap;
+	int		prev;
 
+	prev = 0;
 	(void)ast;
+	swap = *table;
 	if (*table)
 	{
 		tmp = *table;
 		while (tmp->next)
+		{
 			tmp = tmp->next;
+		}
 		tmp->next = *new;
 	}
 	else
+	{
 		*table = *new;
+		(*table)->num = 1;
+	}
+	while (swap)
+	{
+		if (prev >= 1 && !swap->num)
+		{
+			swap->num = prev + 1;
+		}
+		prev = swap->num;
+		swap = swap->next;
+	}
 	return (1);
 }
 

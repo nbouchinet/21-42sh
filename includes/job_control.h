@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 16:26:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/14 18:21:51 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct			s_process
 
 typedef struct			s_job
 {
+	int					status;
+	int					num;
 	char				*command;
 	struct s_process	*first_process;
 	pid_t				pgid;
