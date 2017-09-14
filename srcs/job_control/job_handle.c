@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 12:21:07 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:24:40 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,42 @@ int		inter_job(t_ast **ast, t_env **env)
 
 int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 {
-	int			i;
 	t_job		*j;
+	int			len;
+	int			status;
+	char		symb;
 
-	i = 1;
 	(void)job;
 	(void)ast;
+	len = 0;
+	status = 0;
 	if (*table)
 	{
 		j = *table;
 		while (j)
 		{
-			printf("[%d] %d\t\t\t%s\n", i, j->pgid, j->command);
+			j = j->next;
+			len++;
+		}
+		j = *table;
+		while (j)
+		{
+			if (len == j->num)
+				symb = '+';
+			else if (len - 1 == j->num)
+				symb = '-';
+			else
+				symb = ' ';
+			if (WTERMSIG(status) == SIGSEGV)
+				fd_printf(2, "[%d]%c Segmentation fault: 11 %s\n", j->num, symb, j->command);
+			else if (WTERMSIG(status) == SIGABRT)
+				fd_printf(2, "[%d]%c Abort trap: 6 \t\t%s\n", j->num, symb, j->command);
+			else if (WTERMSIG(status) == SIGTSTP)
+				fd_printf(2, "[%d]%c Bus error: 10 \t\t%s\n", j->num, symb, j->command);
+			else if (WTERMSIG(status) == 15)
+				fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n", j->num, symb, j->command);
+			else
+				fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
 			j = j->next;
 		}
 	}

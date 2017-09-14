@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:32:08 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 17:30:17 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		init_job(t_job **job)
 {
 	if (!((*job) = (t_job*)malloc(sizeof(t_job))))
 		return (-1);
+	(*job)->num = 0;
 	(*job)->command = NULL;
 	(*job)->pgid = 0;
 	(*job)->first_process = NULL;

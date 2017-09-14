@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 16:26:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/14 10:20:14 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			tcsetpgrp(g_shell_terminal, (*job)->pgid);
 			job_cont_pipe(&tmp, env, job, p);
 			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
+			catch_error(job, tmp->status);
 			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 	}

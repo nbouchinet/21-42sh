@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 11:46:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/14 16:52:28 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	wait_for_job(t_job **job)
 void	mark_job_as_running(t_job **job)
 {
 	t_process	*p;
-
+	
 	p = (*job)->first_process;
 	while (p)
 	{
@@ -95,7 +95,7 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
 	int			nf;
-
+	
 	(void)job;
 	(void)ast;
 	nf = 0;
@@ -117,13 +117,16 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 			if (nf == 0)
 			{
 				fd_printf(2, "42sh: fg: %s: no such job\n",
-				(*ast)->left->right->str);
+				          (*ast)->left->right->str);
 				return (0);
 			}
 		}
 		else
 			while (j->next)
+			{
+				ft_putendl("salut");
 				j = j->next;
+			}
 		if (j)
 		{
 			mark_job_as_running(&j);
@@ -132,6 +135,7 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 			tcsetpgrp(g_shell_terminal, j->pgid);
 			wait_for_job(&j);
 			tcsetpgrp(g_shell_terminal, g_shell_pgid);
+
 		}
 		return (1);
 	}
