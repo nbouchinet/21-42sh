@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 21:54:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/15 14:46:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,13 @@ int		sus_pid(t_job **job, t_ast **ast, t_job **table)
 void	wait_for_job(t_job **job)
 {
 	pid_t		pid;
-	int			status;
+	// int			status;
+	t_process	*p;
 
-	status = 0;
-	while (!job_is_stopped(*job) && !job_is_complete(*job))
-	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WCONTINUED);
-		catch_error(job, status);
-		if (mark_job_status(job, status, pid) == 0)
-			break ;
-	}
+	p = (*job)->first_process;
+	pid = waitpid(p->pid, &p->status, WUNTRACED);
+	catch_error(job, p->status);
+	mark_job_status(job, p->status, pid);
 }
 
 void	mark_job_as_running(t_job **job)
@@ -135,11 +132,13 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 		{
 			if ((j = find_pgid(table, ast)))
 			{
+				ft_putendl_fd("Pass", 2);
 				mark_job_as_running(&j);
 				if (kill(-j->pgid, SIGCONT) < 0)
 					perror("kill (SIGCONT)");
 				tcsetpgrp(g_shell_terminal, j->pgid);
-				wait_for_job(&j);
+				wait_for_job(&j); // find alternative
+				// sleep(30);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 			}
 			else

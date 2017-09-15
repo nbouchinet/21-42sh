@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 19:52:06 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/15 15:40:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		chk_pid(t_job **job, t_ast **ast, t_job **table)
 		tmp = *table;
 		while (tmp)
 		{
-			if (job_is_complete(tmp))
+			if (kill(tmp->pgid, 0) < 0)
 			{
 				delete_tnode(&tmp, &prev, table);
 				break ;
@@ -104,13 +104,22 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		j = *table;
 		while (j)
 		{
-			if (job_is_complete(j) == 1)
+			if (kill(j->pgid, 0) < 0)
 			{
 				delete_tnode(&j, &prev, table);
-				break ;
+				if (*table)
+				{
+					j = *table;
+					prev = NULL;
+				}
+				else
+					break ;
 			}
-			prev = j;
-			j = j->next;
+			else
+			{
+				prev = j;
+				j = j->next;
+			}
 		}
 	}
 	return (1);
@@ -164,7 +173,7 @@ int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 			else if (j->status == 15)
 				fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n", j->num, symb, j->command);
 			else
-				         fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
+				fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
 			j = j->next;
 		}
 	}
