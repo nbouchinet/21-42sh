@@ -58,6 +58,8 @@ static void     loop(t_cmdl *cmdl)
 		}
 		else
 			write(1, "\n", 1);
+		if (cmdl->exit != 256)
+			break ;
 		t_local *loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;

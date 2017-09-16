@@ -33,7 +33,7 @@ void 		init_cmdl(void)
 
 	cmdl = *cmdl_slg();
 	cmdl->opt = 0;
-	cmdl->exit = 0;
+	cmdl->exit = 256;
 	cmdl->prompt = NULL;
 	cmdl->line.str ? ft_strdel(&cmdl->line.str) : 0;
 	cmdl->line.str = ft_memalloc(1024);
