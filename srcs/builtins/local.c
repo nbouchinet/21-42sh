@@ -71,12 +71,12 @@ int   local(char *str)
   {
     loc->var = ft_strdup(arr[0]);
     loc->val = ft_strdup(arr[1]);
-    ft_free(arr, NULL);
+    ft_free(arr, NULL, 1);
     return (1);
   }
   while ((match = ft_strcmp(loc->var, arr[0])) && loc->n)
     loc = loc->n;
   stock_loc(match, arr, loc);
-  ft_free(arr, NULL);
+  ft_free(arr, NULL, 1);
   return (1);
 }

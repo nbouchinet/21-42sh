@@ -26,7 +26,7 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 		tmp = ft_strdup(cmdl->line.str);
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		while ((int)ft_strlen(cmdl->line.save) > cmdl->line.len)
-		remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
+			remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
 		cmdl->line.str = ft_strcpy(cmdl->line.str,cmdl->line.save);
 		cmdl->line.str = ft_strcat(cmdl->line.str, tmp);
 		free(tmp);

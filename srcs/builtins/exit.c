@@ -27,17 +27,17 @@ int		ft_exit(t_ast **ast, t_env **env)
 		if (!ft_isdigit(arg[0][i]))
 		{
 			fd_printf(2, "42sh: exit: %@: numeric argument required\n", arg[0]);
-			ft_free(arg, NULL);
+			ft_free(arg, NULL, 1);
 			return (((g_loop = 255) > 0 ? 0 : 0));
 		}
 	if (arg[1] && fd_printf(2, "42sh: exit: too many arguments\n"))
 	{
-		ft_free(arg, NULL);
+		ft_free(arg, NULL, 1);
 		return (((g_loop = 256) > 0 ? 0 : 0));
 	}
 	g_loop = ft_atoi(arg[0]);
 	while (g_loop > 255 || g_loop < 0)
 		g_loop = (g_loop > 255 ? g_loop - 256 : g_loop + 256);
-	ft_free(arg, NULL);
+	ft_free(arg, NULL, 1);
 	return (1);
 }

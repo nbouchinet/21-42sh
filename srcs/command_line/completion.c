@@ -87,10 +87,10 @@ static void 	get_comp(t_cmdl *cmdl, int i)
 		list_files(cmdl, &tmp);
 	if (tmp)
 		free(tmp);
-	ft_free(path, NULL);
+	ft_free(path, NULL, 1);
 }
 
-static int		only_space(char *str)
+static int		only_space_comp(char *str)
 {
 	int		i;
 
@@ -113,7 +113,7 @@ int				completion(t_cmdl *cmdl)
 	if (!(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&
 	    !(cmdl->opt & CAND) && !(cmdl->opt & COR)/*&& cmdl->hd */ &&
 	    (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
-	only_space(cmdl->line.str)))
+	only_space_comp(cmdl->line.str)))
 		return (1);
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
 	cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||

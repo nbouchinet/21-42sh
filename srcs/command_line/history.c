@@ -12,13 +12,28 @@
 
 #include "header.h"
 
+int			his_len(t_his **his)
+{
+	t_his	*tmp;
+	int		len;
+
+	tmp = (*his);
+	len = 1;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->n;
+	}
+	return (len);
+}
+
 void 		cmd_save_history(char *str)
 {
 	t_his	*head;
 	t_his	*new;
 
 	head = *his_slg();
-	if (!str[0] /*|| is_bang(&str, -1, -1, -1)*/)
+	if (!str[0] || bang(str))
 		return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
 		exit (0);

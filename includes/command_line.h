@@ -144,6 +144,7 @@ typedef struct 		s_op
 */
 
 void 				print_prompt(void);
+int					only_space(char *str, int limit, int w);
 
 
 /*
@@ -209,6 +210,8 @@ int					del(t_cmdl *cmdl);
 */
 
 int					ctrl_l(t_cmdl *cmdl);
+int					ctrl_u(t_cmdl *cmdl);
+int					ctrlt(t_cmdl *cmdl);
 
 /*
 **	Deplacement
@@ -233,10 +236,11 @@ int					paste(t_cmdl *cmdl, int len_cpy, int len_str);
 **	Fonctions de gestion de l historique et recherche dans l historique
 */
 
+t_his				*findcmdl(char *str, char buf[], int reset);
 void 				cmd_save_history(char *str);
 int 				cmd_history(t_cmdl *cmdl);
 int					cmd_search_history(t_cmdl *cmdl);
-t_his				*findcmdl(char *str, char buf[], int reset);
+int					his_len(t_his **his);
 
 /*
 **	Fonction de verification de la cmdl (quick-in suite a un return ou un ctrld)
@@ -262,5 +266,40 @@ int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
 void 				completion_edit(t_line *line, t_comp **comp,
 	 char *tmp, int offset);
+
+/*
+**	Bang
+*/
+
+#define 	HB		1
+#define 	TB 		2
+#define 	RB 		4
+#define 	EB 		8
+#define 	PB 		16
+#define 	QB 		32
+#define 	XB 		64
+
+typedef struct		s_bang
+{
+	int				n;
+	int				qm;
+	char			*string;
+	char			*s1;
+	char			*s2;
+	int				des;
+	int				x;
+	int				y;
+	int				mod;
+	int				start;
+	int				end;
+	char			*tmp;
+}					t_bang;
+
+void 				fill_buf(t_bang *bang, char **cmd, int *i);
+int					bang(char *str);
+int					bang_parse(char *cmd, char *sub, t_bang *bang);
+int					bang_sub(t_bang *bang, t_his *his, char *cmd);
+int					check_event_and_designator(t_bang *bang, int his_len,
+	 int match_len);
 
 #endif

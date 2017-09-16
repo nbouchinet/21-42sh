@@ -38,9 +38,7 @@ void 		init_cmdl(void)
 	cmdl->line.str ? ft_strdel(&cmdl->line.str) : 0;
 	cmdl->line.str = ft_memalloc(1024);
 	cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
-	cmdl->line.save = NULL;
 	cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
-	cmdl->ccp.cpy = NULL;
 	cmdl->line.len = 1024;
 	cmdl->line.cur = 3;
 	cmdl->line.pr = 3;

@@ -119,17 +119,17 @@ void			lexer_check(t_tok **lst)
 			if (loop(&tmp, &save_addr))
 				tmp = (*lst);
 		}
-		else if (tmp->type == LOCAL &&
-		((tmp->n && tmp->n->type == WORD) || (save_addr && save_addr->type == WORD)))
-		{
-			if (save_addr)
-				save_addr->n = tmp->n;
-			else
-				*lst = tmp->n;
-			free(tmp->str);
-			free(tmp);
-			tmp = save_addr ? save_addr->n : *lst;
-		}
+		// else if (tmp->type == LOCAL &&
+		// ((tmp->n && tmp->n->type == WORD) || (save_addr && save_addr->type == WORD)))
+		// {
+		// 	if (save_addr)
+		// 		save_addr->n = tmp->n;
+		// 	else
+		// 		*lst = tmp->n;
+		// 	free(tmp->str);
+		// 	free(tmp);
+		// 	tmp = save_addr ? save_addr->n : *lst;
+		// }
 		else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
 			tmp->type = WORD;
 		else

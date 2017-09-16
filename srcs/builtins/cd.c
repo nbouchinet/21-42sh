@@ -121,7 +121,7 @@ static void		build_path(char **path, char *arg, t_env **env)
 			(*path)[len + (len ? 0 : 1) ] = 0;
 		}
 		else
-			(*path) = (*path)[ft_strlen((*path))] == '/' ? 
+			(*path) = (*path)[ft_strlen((*path))] == '/' ?
 			ft_strjoinf((*path), rpath[i], 3) :
 			ft_strjoinf(ft_strjoin((*path), "/"), rpath[i], 1);
 	}
@@ -191,6 +191,6 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	if (chdirectory(&path, opt, arg))
 		return (0);
 	mod_env(env, path);
-	ft_free(targ, NULL);
+	ft_free(targ, NULL, 1);
 	return (1);
 }

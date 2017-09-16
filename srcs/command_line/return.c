@@ -42,16 +42,17 @@ static void save_cmdl(t_cmdl **cmdl)
 
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
-	if (!(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) && check_quote(cmdl)) // && !cmdl->hd
+	if (!(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) &&
+	check_quote(cmdl)) // && !cmdl->hd
 		save_cmdl(&cmdl);
 	else if (!(cmdl->opt & (CSQ | CDQ)) && !(cmdl->opt & CHIS_S) &&
-	         handle_pipe_and_or(cmdl, 0)) // && !cmdl->hd
+	handle_pipe_and_or(cmdl, 0)) // && !cmdl->hd
 		save_cmdl(&cmdl);
 //	else if (!cmdl->sh && !cmdl->pao && !cmdl->quote && heredoc(cmdl))
 // 		save_cmdl(&cmdl);
 	else if (cmdl->line.str && !(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ)
-	         && !(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) && cmdl->line.str[len] == '\\'
-	         && inhibiteur(cmdl, len))
+	&& !(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) &&
+	cmdl->line.str[len] == '\\' && inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
 	else
 		return (1);
@@ -63,10 +64,7 @@ int 		return_cmdl(t_cmdl *cmdl)
 	if (!(cmdl->opt & CHIS_S))
 	{
 		if (check_cmdl(cmdl, ft_strlen(cmdl->line.str) - 1))
-		{
-			!cmdl->line.str[0] ? write(1, "\n", 1) : 0;
 			return (2);
-		}
 	}
 	else
 	{

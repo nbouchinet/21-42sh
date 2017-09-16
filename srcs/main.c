@@ -49,12 +49,15 @@ static void     loop(t_cmdl *cmdl)
 		get_cmdl(cmdl);
 		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' && cmdl->line.str[1] == 0))
+		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
+		cmdl->line.str[1] == 0) && !only_space(cmdl->line.str, 0, 0))
 		{
 			mode_off(cmdl);
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
 		}
+		else
+			write(1, "\n", 1);
 		t_local *loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;

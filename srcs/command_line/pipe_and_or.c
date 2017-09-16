@@ -67,14 +67,25 @@ static int	check(int k, t_cmdl *cmdl)
 	return (0);
 }
 
-static int	only_space(char *str)
+int			only_space(char *str, int limit, int w)
 {
 	int		i;
 
 	i = -1;
-	while (str[++i])
-		if (str[i] != ' ' && str[i] != 0)
-			return (0);
+	if (!w)
+	{
+		while (str[++i])
+			if (str[i] != ' ')
+				return (0);
+	}
+	else
+	{
+		while (++i < limit)
+			if (str[i] != ' ')
+				return (0);
+		fd_printf(2, "\n42sh: syntax error near unexpected token `%s'",
+		str + (limit - 1) == str + limit ? str + limit - 1 : str + limit);
+	}
 	return (1);
 }
 
@@ -84,21 +95,24 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 	char	c;
 
 	i = -1;
-	if (cmdl->opt & CCTRLD)
-		return (1);
-	if ((cmdl->opt & (CPIPE | CAND | COR)) && only_space(cmdl->line.str))
+	if ((cmdl->opt & (CPIPE | CAND | COR)) && only_space(cmdl->line.str, 0, 0))
 		return (pipe_and_or(cmdl));
 	while (cmdl->line.str[++i])
 		if ((cmdl->line.str[i] == '|' || cmdl->line.str[i] == '&') &&
 		(only_space(cmdl->line.str + i +
-		(cmdl->line.str[i + 1] == cmdl->line.str[i] ? 2 : 1))))
+		(cmdl->line.str[i + 1] == cmdl->line.str[i] ? 2 : 1), 0, 0)))
 			break ;
 	if (!cmdl->line.str[i])
 		return (0);
+	if (only_space(cmdl->line.str, i, 1))
+	{
+		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
+		return (0);
+	}
 	c = cmdl->line.str[i];
 	if (cmdl->line.str[i - 1] == '\\' && (k = bs(cmdl->line.str, i)) &&
 	cmdl->line.str[i + 1] != c)
-		return (0);
+		return (1);
 	i += k && cmdl->line.str[i - 1] == '\\' ? 1 : 0;
 	k = i;
 	i += cmdl->line.str[i + 1] == c ? 1 : 0;

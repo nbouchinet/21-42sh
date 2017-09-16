@@ -6,20 +6,20 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/13 13:51:44 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/09/14 11:01:56 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-int		ft_free(char **tab, char **line)
+int		ft_free(char *tab[], char **line, int w)
 {
 	int			i;
 
 	i = -1;
-	if (line)
+	if (w == 2 || w == 3)
 		ft_strdel(line);
-	if (tab)
+	if (w == 1 ||  w == 3)
 	{
 		while (tab[++i])
 			tab[i] ? ft_strdel(&tab[i]) : 0;

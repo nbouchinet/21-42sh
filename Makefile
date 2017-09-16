@@ -72,6 +72,9 @@ CFILES= 		main.c \
 				builtins/read_opt1.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
+				command_line/bang.c \
+				command_line/bang_parse.c \
+				command_line/bang_sub.c \
 				command_line/ccp.c \
 				command_line/ccp_paste.c \
 				command_line/check_env.c \
