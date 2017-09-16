@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 13:32:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 13:10:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void			lexer_check(t_tok **lst)
 	{
 		if (tmp->type == CHEVRON || tmp->type == IO_N)
 			loop(&tmp, &save_addr) ? tmp = (*lst) : 0;
-		else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
-			tmp->type = WORD;
+		// else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
+		// 	tmp->type = WORD;
 		else
 		{
 			save_addr = tmp;

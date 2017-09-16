@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/14 21:49:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 13:20:55 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void		exec_part(char **line, t_env **env)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	t_tok	*tmp;
 
 	if (!*line)
 		return ;
@@ -48,8 +49,15 @@ static void		exec_part(char **line, t_env **env)
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_printf("|token: [%s] type: [%d]|\n", tmp->str, tmp->type);
+		tmp = tmp->n;
+	}
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
+	ft_putast(ast);
 	ft_putchar('\n');
 	job_ast(&ast, env, 1);
 	destroy_ast(&ast);

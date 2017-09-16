@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/15 15:40:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/15 16:34:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,6 @@ int		end_pid(t_job **job, t_ast **ast, t_job **table)
 	}
 	delete_tnode(table, &prev, table);
 	(*table) = head;
-	return (1);
-}
-
-int		add_pid(t_job **job, t_ast **ast, t_job **table)
-{
-	(void)ast;
-	ft_joblstadd(table, ast, job);
-	return (1);
-}
-
-int		chk_pid(t_job **job, t_ast **ast, t_job **table)
-{
-	t_job	*tmp;
-	t_job	*prev;
-
-	(void)job;
-	(void)ast;
-	prev = NULL;
-	if (*table)
-	{
-		tmp = *table;
-		while (tmp)
-		{
-			if (kill(tmp->pgid, 0) < 0)
-			{
-				delete_tnode(&tmp, &prev, table);
-				break ;
-			}
-			prev = tmp;
-			tmp = tmp->next;
-		}
-	}
 	return (1);
 }
 

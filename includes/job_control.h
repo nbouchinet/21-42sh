@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 18:21:51 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/15 16:34:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void					init_shell();
 void					delete_tnode(t_job **node, t_job **prev, t_job **table);
 int						ft_joblstadd(t_job **new, t_ast **ast, t_job **table);
 int						end_pid(t_job **job, t_ast **ast, t_job **table);
-int						add_pid(t_job **job, t_ast **ast, t_job **table);
 int						sus_pid(t_job **job, t_ast **ast, t_job **table);
-int						chk_pid(t_job **job, t_ast **ast, t_job **table);
 int						foreground(t_job **job, t_ast **ast, t_job **table);
 int						job_control(t_job **job, t_ast **ast, int mod);
 void					new_exec_ast(t_ast **ast, t_env **env);

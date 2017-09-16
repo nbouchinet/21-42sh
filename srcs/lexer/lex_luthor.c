@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:24:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 13:09:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,10 @@ void	init_token(t_tok **lst)
 
 void	tok_save(t_tok **lst, char **stack, int type)
 {
-	int		i;
+	// int		i;
 	char	*bs;
 
-	i = ft_strlen(*stack);
-	if (!((*lst)->str = (char*)malloc(sizeof(char) * (i + 1))))
-		return ;
-	i = -1;
-	while ((*stack)[++i])
-		(*lst)->str[i] = (*stack)[i];
-	(*lst)->str[i] = '\0';
+	(*lst)->str = ft_strdup(*stack);
 	if (type == WORD && ft_isalpha((*lst)->str[0]) &&
 			ft_strchr((*lst)->str, '='))
 		(*lst)->type = LOCAL;

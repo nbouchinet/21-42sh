@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 18:09:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 13:21:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,26 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	init_ast(&tmp_ast->left, tmp->str,
-	ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
-	tmp = tmp->n;
-	while (tmp != *sep)
-	{
-		init_ast(&tmp_ast->right, tmp->str, CMD_ARG);
-		if (tmp->n != *sep)
-			tmp_ast = tmp_ast->right;
+	// while (tmp && tmp != *sep && tmp->str == LOCAL)
+	// {
+	// 	export(tmp->str, NULL, NULL, EXPORT);
+	// 	tmp = tmp->next;
+	// }
+	// if (tmp != *sep)
+	// {
+		init_ast(&tmp_ast->left, tmp->str,
+		ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
 		tmp = tmp->n;
-	}
+		while (tmp != *sep)
+		{
+			init_ast(&tmp_ast->right, tmp->str, CMD_ARG);
+			if (tmp->n != *sep)
+				tmp_ast = tmp_ast->right;
+			tmp = tmp->n;
+		}
+	// 	return (1);
+	// }
+	// return (-1);
 }
 
 void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
