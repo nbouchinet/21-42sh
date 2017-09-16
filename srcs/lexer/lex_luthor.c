@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 13:09:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 16:21:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_token(t_tok **lst)
 		return ;
 	(*lst)->type = 0;
 	(*lst)->str = NULL;
+	(*lst)->hd = 0;
 	(*lst)->n = NULL;
 }
 

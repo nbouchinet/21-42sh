@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_promt.c                                      :+:      :+:    :+:   */
+/*   print_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 17:27:58 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 17:48:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,23 @@ void			print_prompt(void)
 	char	buff[1024];
 
 	cmdl = *cmdl_slg();
-	if (cmdl->lstenv)
+	if (cmdl->lstenv && !(cmdl->opt & CHD))
 		ft_printf("%@42sh: %s%@",
 		H_BLUE, lst_at(&(cmdl)->lstenv, "PWD")->value, I);
-	else
+	else if (!(cmdl->opt & CHD))
 	{
 		getcwd(buff, 1024);
 		ft_printf("%@42sh: %s\n%@", H_YELLOW, buff, I);
 	}
-	if (!(cmdl->opt & CSQ) && !(cmdl->opt & CDQ))
+	if (!(cmdl->opt & CSQ) && !(cmdl->opt & CDQ) && !(cmdl->opt & CHD))
 		write(1, "\n$> ", 4);
 	else if ((cmdl->opt & CSQ) || (cmdl->opt & CDQ))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8)
 		: write(1, "\ndquote> ", 9);
+	else if (cmdl->opt & CHD)
+	{
+		write(1, "\nheredoc> ", 11);
+		cmdl->line.cur = 11;
+		cmdl->line.pr = 11;
+	}
 }

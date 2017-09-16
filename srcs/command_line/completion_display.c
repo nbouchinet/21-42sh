@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   completion_display.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 16:59:26 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:37:56 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 18:00:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ static void			print_lst(t_comp **comp, t_cmdl *cmdl)
 	write(1, "\n", 1);
 	if (cmdl->line.pr == 3)
 		print_prompt();
-	else if (cmdl->opt & CSQ || cmdl->opt & CDQ)
+	else if (cmdl->opt & (CSQ | CDQ))
 		write(1, cmdl->opt & CSQ ? "quote> " : "dquote> ",
 		cmdl->opt & CSQ ? 7 : 8);
+	else if (cmdl->opt & CHD)
+		write(1, "heredoc> ", 9);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 }
 

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 13:10:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 17:20:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,4 @@ void			lexer_check(t_tok **lst)
 			tmp = tmp->n;
 		}
 	}
-	specified_dir(lst);
 }

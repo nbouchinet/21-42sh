@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 17:19:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 17:08:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct		s_token
 {
 	char			*str;
 	int				type;
+	int				hd;
 	struct s_token	*n;
 }					t_tok;
 
@@ -95,5 +96,6 @@ void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
 void				expanse(t_tok **lst, t_env **env);
+t_tok				*heredoc(t_tok **lst);
 
 #endif

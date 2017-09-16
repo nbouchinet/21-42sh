@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 12:14:21 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 17:29:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 18:25:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void		exec_else(t_tok *t_f, t_ast *t_a)
 	t_a = t_a->right;
 	init_ast(&t_a->left, t_f->type == IO_N ?
 	t_f->n->n->str : t_f->n->str, FIL);
+	t_f->n->hd != 0 ? t_a->left->type = t_f->n->hd : 0;
 }
 
 void			io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
@@ -59,6 +60,10 @@ void			io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		io->n->type : rdir->type);
 		t_a = t_a->right;
 		init_ast(&t_a->left, io ? io->n->n->str : rdir->n->str, FIL);
+		ft_putendl("WEFIWEJFIWEJFWEIJFEWIJFEWIJF");
+		ft_putendl(io->n->n->str);
+		ft_putendl(rdir->n->str);
+		t_f->hd != 0 ? (t_a->left->type = rdir->n->hd) : 0;
 		io_sequence(&t_a, lst, io ? &io : &rdir);
 	}
 	else

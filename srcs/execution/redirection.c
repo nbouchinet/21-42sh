@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 11:04:03 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 19:09:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,23 @@ int		agre(t_ast **ast)
 	return (0);
 }
 
+int		bbdir(t_ast **ast)
+{
+	if ((*ast)->left->type != -1 && (*ast)->left->type != FIL)
+		if (dup2((*ast)->left->type, STDIN_FILENO) != -1)
+		{
+			close((*ast)->left->type);
+			return (1);
+		}
+	return (0);
+}
+
 int		io_seq(t_ast **ast)
 {
 	int						i;
 	t_ast					*tmp;
-	static const t_rdir		rdir[4] = {{RDIR, &wtf_rdir}, {RRDIR, &wtf_rdir},
-		{AGRE, &agre}, {BDIR, &bdir}};
+	static const t_rdir		rdir[5] = {{RDIR, &wtf_rdir}, {RRDIR, &wtf_rdir},
+		{AGRE, &agre}, {BDIR, &bdir}, {BBDIR, &bbdir}};
 
 	tmp = *ast;
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
@@ -85,12 +96,10 @@ int		io_seq(t_ast **ast)
 			if (io_seq(&tmp->right) == 0)
 				return (0);
 		i = -1;
-		while (++i < 4)
+		while (++i < 5)
 			if (tmp->type == rdir[i].t)
 				if (rdir[i].f(&tmp) == 1)
-				{
 					return (1);
-				}
 	}
 	return (0);
 }

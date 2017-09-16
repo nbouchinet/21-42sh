@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/14 13:46:36 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/09/16 17:12:11 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ CFILES= 		main.c \
 				command_line/slg.c \
 				job_control/creat_process.c \
 				job_control/foreground.c \
+				job_control/heredock.c \
 				job_control/init_tools.c \
 				job_control/job_control.c \
 				job_control/job_exec_seq.c \

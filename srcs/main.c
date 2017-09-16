@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/16 13:20:55 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/16 19:10:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,32 +35,36 @@ void		ft_putast(t_ast *root)
 	ft_rec_putbtreestr(root, 0);
 }
 
-static void		exec_part(char **line, t_env **env)
+static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tmp;
+	// t_tok	*tmp;
 
 	if (!*line)
 		return ;
 	init_token(&cmd);
 	new_parser(&cmd, *line);
+	// tmp = cmd;
+	specified_dir(&cmd);
+	// while (tmp)
+	// {
+	// 	ft_printf("%s %d\n", tmp->str, tmp->type);
+	// 	tmp = tmp->n;
+	// }
+	heredoc(&cmd);
 	lexer_check(&cmd);
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
-	tmp = cmd;
-	while (tmp)
-	{
-		ft_printf("|token: [%s] type: [%d]|\n", tmp->str, tmp->type);
-		tmp = tmp->n;
-	}
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
-	ft_putast(ast);
+	// ft_putast(ast);
 	ft_putchar('\n');
+	mode_off(cmdl);
 	job_ast(&ast, env, 1);
 	destroy_ast(&ast);
+	mode_on(cmdl);
 	destroy_tok(&cmd);
 }
 
@@ -76,13 +80,9 @@ static void		loop(t_cmdl *cmdl)
 		get_cmdl(cmdl);
 		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmdl->line.str && !(cmdl->line.str[0] == '\\' &&
+		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
 		cmdl->line.str[1] == 0))
-		{
-			mode_off(cmdl);
-			exec_part(&cmdl->line.str, &cmdl->lstenv);
-			mode_on(cmdl);
-		}
+			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
 		loc = *local_sgt(0);
 		while (loc)
 			loc = loc->n;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_line.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 16:30:23 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 17:07:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef	struct		s_ccp
 # define CPIPE		32
 # define CAND		64
 # define COR		128
+# define CHD		256
 
 typedef struct		s_cmdl
 {
@@ -260,5 +261,4 @@ int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
 void				completion_edit(t_line *line, t_comp **comp,
 					char *tmp, int offset);
-
 #endif

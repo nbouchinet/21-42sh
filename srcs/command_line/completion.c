@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   completion.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:35:13 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/16 17:56:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 
 	comp = NULL;
 	i = -1;
-	if (cmdl->opt & CSQ || cmdl->opt & CDQ)
+	if (cmdl->opt & CSQ || cmdl->opt & CDQ || cmdl->opt & CHD)
 		return (0);
 	while (arr_path[++i])
 	{
