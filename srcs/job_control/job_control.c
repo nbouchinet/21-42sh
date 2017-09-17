@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 20:14:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:11:32 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/17 19:58:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,25 @@ char	*rdir_print(int type)
 		return (">&");
 	else if (type == BGRE)
 		return ("<&");
+	return (NULL);
+}
+
+char	*init_rdir(char **cmd, t_ast **ast)
+{
+	t_ast	*tmp;
+
+	if (*ast)
+	{
+		tmp = *ast;
+		if (tmp->type >= RDIR && tmp->type <= BGRE)
+			init_rdir(cmd, &tmp->right);
+		(*cmd) = ft_strjoinf((*cmd), " ", 1);
+		if (tmp->str)
+			(*cmd) = ft_strjoinf((*cmd), tmp->str, 1);
+		(*cmd) = ft_strjoinf((*cmd), rdir_print(tmp->type), 1);
+		(*cmd) = ft_strjoinf((*cmd), " ", 1);
+		(*cmd) = ft_strjoinf((*cmd), tmp->left->str, 1);
+	}
 	return (NULL);
 }
 
@@ -49,19 +68,6 @@ char	*init_job_name(t_ast **ast)
 		}
 	}
 	if (tmp->right)
-	{
-		cmd = ft_strjoinf(cmd, " ", 1);
-		tmp2 = tmp->right->right;
-		while (tmp2)
-		{
-			tmp2->str ? cmd = ft_strjoinf(cmd, tmp2->str, 1) : 0;
-			cmd = ft_strjoinf(cmd, rdir_print(tmp2->type), 1);
-			if (ft_strcmp(tmp2->left->str, "-") != 0)
-				cmd = ft_strjoinf(cmd, " ", 1);
-			cmd = ft_strjoinf(cmd, tmp2->left->str, 1);
-			if ((tmp2 = tmp2->right))
-				cmd = ft_strjoinf(cmd, " ", 1);
-		}
-	}
+		init_rdir(&cmd, &tmp->right->right);
 	return (cmd);
 }
