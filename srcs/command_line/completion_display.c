@@ -12,20 +12,20 @@
 
 #include "header.h"
 
-static void 	comp_del(t_comp **head)
+static void 	get_nbr_col(t_comp **comp, int len)
 {
-	t_comp 		*tmp;
-	t_comp		*save;
+	t_comp		*tmp;
+	int			col;
 
-	tmp = *head;
-	while (tmp)
+	tmp = *comp;
+	col = 0;
+	while ((len + ft_strlen(tmp->pad)) < winsize)
 	{
-		save = tmp->n;
-		free(tmp->str);
-		free(tmp);
-		tmp = save;
+		col++;
+		len += ft_printf("%s", tmp->str);
+		tmp = tmp->n;
 	}
-	tmp = NULL;
+	(*comp)->col = col;
 }
 
 void 			ft_padd_x(t_comp **comp, int *len, int i)
@@ -58,9 +58,9 @@ static void 	print_lst(t_comp **comp, t_cmdl *cmdl, int len, int up)
 	size_t		winsize;
 
 	ft_padd_x(comp, &len, 0);
+	get_nbr_col(comp, len);
 	tmp = *comp;
 	winsize = cmdl->line.co - len - 5;
-	len = 0;
 	tmp->bol = 1;
 	while (tmp)
 	{

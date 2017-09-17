@@ -64,15 +64,6 @@
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
 
-typedef struct		s_comp
-{
-	char			*str;
-	char			pad[512];
-	int				bol;
-	struct s_comp	*p;
-	struct s_comp	*n;
-}					t_comp;
-
 typedef struct		s_his
 {
 	char			*cmdl;
@@ -262,6 +253,16 @@ int					ctrl_d(t_cmdl *cmdl);
 **	Completion
 */
 
+typedef struct		s_comp
+{
+	char			*str;
+	char			pad[512];
+	int				bol;
+	int				col;
+	struct s_comp	*p;
+	struct s_comp	*n;
+}					t_comp;
+
 t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
 void 				restor_cursor_position(t_cmdl *cmdl, int up);
 int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
@@ -272,6 +273,7 @@ int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
 void 				completion_edit(t_line *line, t_comp **comp,
 	 char *tmp, int offset);
+void 				comp_del(t_comp **head);
 
 /*
 **	Bang
