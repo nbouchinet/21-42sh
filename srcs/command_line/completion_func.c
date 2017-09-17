@@ -18,10 +18,13 @@ static void insert(t_comp **comp, t_comp *lnk, int i)
 	t_comp	*save;
 
 	tmp = *comp;
+	lnk->bol = 0;
 	if (!i)
 	{
 		lnk->n = tmp;
+		lnk->p = NULL;
 		*comp = lnk;
+		comp_slg(comp, 1);
 	}
 	else
 	{
@@ -30,6 +33,7 @@ static void insert(t_comp **comp, t_comp *lnk, int i)
 		save = tmp->n;
 		tmp->n = lnk;
 		lnk->n = save;
+		lnk->p = tmp;
 	}
 }
 
@@ -43,14 +47,18 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param)
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
 	{
 		del_all(cmdl_slg(), his_slg());
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?
 	            ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
 	tmp->n = NULL;
+	tmp->p = NULL;
 	if (!(*comp))
+	{
+		comp_slg(comp, 1);
 		return (tmp);
+	}
 	stock = *comp;
 	while (stock && ft_strcmp(stock->str, rdd->d_name) < 0)
 	{

@@ -37,7 +37,7 @@ static void get_op(t_cmdl *cmdl, int *ret, int *i)
 {
 	static const	t_op		op[22] = {{{-61, -89, 0, 0}, &ccp},
 	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
-	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_rigth},
+	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_right},
 	{{27, 91, 72, 0}, &home}, {{27, 91, 70, 0}, &end},
 	{{27, 27, 91, 68}, &opt_left}, {{27, 27, 91, 67}, &opt_right},
 	{{27, 27, 91, 65}, &up_dwn}, {{27, 27, 91, 66}, &up_dwn},

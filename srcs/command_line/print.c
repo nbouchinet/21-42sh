@@ -31,11 +31,8 @@ static int	regular_print(t_line *line, char buf[], int i)
 	int		j;
 
 	len = ft_strlen(line->str);
-	if (len + line->pr >= line->co * line->li - (line->co + 1))
-	{
-		beep();
+	if (len + line->pr >= line->co * line->li - (line->co + 1) && beep())
 		return (-1);
-	}
 	len == line->len ? remalloc_cmdl(line, len) : 0;
 	if (line->str[i] == 0)
 		line->str = ft_strcat(line->str, buf);
@@ -46,11 +43,15 @@ static int	regular_print(t_line *line, char buf[], int i)
 			line->str[j + 1] = line->str[j];
 		line->str[i] = buf[0];
 	}
-	write(1, line->str + i, ft_strlen(line->str + i));
+	if ((*cmdl_slg())->ccp.start != -1 && (*cmdl_slg())->ccp.end == -1 &&
+	(*cmdl_slg())->ccp.start <= line->cur - line->pr)
+		tputs(tgetstr("mr", NULL), 1, ft_putchar);
+	write(1, line->str + i, 1);
+	tputs(tgetstr("me", NULL), 1, ft_putchar);
+	write(1, line->str + i + 1, ft_strlen(line->str + i + 1));
 	line->cur += ft_strlen(line->str + i);
 	!(line->cur % line->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
-	i += (len = (int)ft_strlen(line->str) - len) > 1 ? len : 0;
-	return (i);
+	return ((i += (len = (int)ft_strlen(line->str) - len) > 1 ? len : 0));
 }
 
 int 		print(t_cmdl *cmdl, char buf[])
@@ -64,7 +65,8 @@ int 		print(t_cmdl *cmdl, char buf[])
 		i = regular_print(&cmdl->line, buf, cmdl->line.cur - cmdl->line.pr);
 		if (i >= 0)
 		{
-			cmdl->ccp.start += cmdl->ccp.start == -1 ? 0 : 1;
+			if (cmdl->ccp.start >= cmdl->line.cur - cmdl->line.pr)
+				cmdl->ccp.start += cmdl->ccp.start == -1 ? 0 : 1;
 			while (cmdl->line.cur - cmdl->line.pr - 1 > i)
 				arrow_left(cmdl);
 		}

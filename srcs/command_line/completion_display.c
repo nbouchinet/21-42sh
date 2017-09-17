@@ -52,33 +52,32 @@ void 			ft_padd_x(t_comp **comp, int *len, int i)
 	}
 }
 
-static void 	print_lst(t_comp **comp, t_cmdl *cmdl)
+static void 	print_lst(t_comp **comp, t_cmdl *cmdl, int len, int up)
 {
 	t_comp		*tmp;
 	size_t		winsize;
-	int			len;
 
-	len = 0;
 	ft_padd_x(comp, &len, 0);
 	tmp = *comp;
 	winsize = cmdl->line.co - len - 5;
 	len = 0;
+	tmp->bol = 1;
 	while (tmp)
 	{
+		tmp->bol ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
 		len += ft_printf("%s", tmp->str);
 		if ((len + ft_strlen(tmp->pad)) < winsize)
-			len += ft_printf("%s", tmp->pad);
-		else
+		{
+			len += ft_printf("%s", tmp->pad + 1);
+			tputs(tgetstr("me", NULL), 1, ft_putchar);
+			write(1, " ", 1);
+		}
+		else if ((up++))
 			tmp->n ? ft_printf("%n\n", &len) : 0;
+		tputs(tgetstr("me", NULL), 1, ft_putchar);
 		tmp = tmp->n;
 	}
-	write(1, "\n", 1);
-	if (cmdl->line.pr == 3)
-		print_prompt();
-	else if (cmdl->opt & CSQ || cmdl->opt & CDQ)
-		write(1, cmdl->opt & CSQ ? "quote> " : "dquote> ",
-		      cmdl->opt & CSQ ? 7 : 8);
-	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+	restor_cursor_position(cmdl, up);
 }
 
 int 			display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
@@ -89,10 +88,11 @@ int 			display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 		remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
 	if ((*comp) && (*comp)->n)
 	{
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 		pos = cmdl->line.cur;
 		end(cmdl);
 		write(1, "\n", 1);
-		print_lst(comp, cmdl);
+		print_lst(comp, cmdl, 0, 0);
 		!(cmdl->line.cur % cmdl->line.co) ?
 		tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 		while (cmdl->line.cur > pos)

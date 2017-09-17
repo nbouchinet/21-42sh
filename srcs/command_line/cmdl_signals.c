@@ -17,6 +17,7 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 	char	*tmp;
 
 	cmdl->opt = 0;
+	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	end(cmdl);
 	write(1, "\n", 1);
 	print_prompt();
@@ -33,11 +34,8 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 	}
 	cmd_save_history(cmdl->line.str);
 	cmd_history(cmdl);
+	init_cmdl();
 	cmdl->opt = 0;
-	ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
-	cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
-	cmdl->line.cur = 3;
-	cmdl->line.pr = 3;
 }
 
 static void		sig_handler(int sig, siginfo_t *siginfo, void *context)

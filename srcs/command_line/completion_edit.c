@@ -39,3 +39,22 @@ void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 		tmp ? free(tmp) : 0;
 	}
 }
+
+void 	restor_cursor_position(t_cmdl *cmdl, int up)
+{
+	int		save;
+
+	save = cmdl->line.cur;
+	while (up--)
+		tputs(tgetstr("up", NULL), 1, ft_putchar);
+	tputs(tgetstr("cr", NULL), 1, ft_putchar);
+	cmdl->line.cur = 0;
+	while (cmdl->line.cur < save)
+	{
+		cmdl->line.cur += 1;
+		if (cmdl->line.cur % cmdl->line.co == 0)
+			tputs(tgetstr("do", NULL), 1, ft_putchar);
+		else
+			tputs(tgetstr("nd", NULL), 1, ft_putchar);
+	}
+}

@@ -77,6 +77,7 @@ t_env				*find_node(t_env **env, char *var, char *value);
 /*
 *************************************BUILT-IN***********************************
 */
+
 #define C	1
 #define D	2
 #define A	4
@@ -85,10 +86,9 @@ t_env				*find_node(t_env **env, char *var, char *value);
 #define W	32
 #define P	64
 #define S	128
-#define HU		 	"history: usage: history [-c] [-d offset] [n] or "\
-					"history -awrn [filename] or history -ps arg [arg...]\n"
-#define HM			"history position out of range"
-#define HO			"invalid option"
+#define HU1	"history: usage: history [-c] [-d offset] [n] or "
+#define HU2	"history -awrn [filename] or history -ps arg [arg...]\n"
+#define HO	"invalid option"
 
 typedef struct 		s_hist
 {
@@ -148,19 +148,22 @@ t_env 				*lst_at(t_env **env, char *cmp);
 int     			ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
+
 int					ft_history(t_ast **ast, t_env **env);
-void				hist_clear(t_his **his, int offset, int len);
+void 				run_his(t_his **his, int opt, int offset, int his_len);
 void				hist_del(t_his **his, int offset, int len);
 void				hist_append(t_his **his, int offset, int len);
 void				hist_read(t_his **his, int offset, int len);
 void				hist_sarg(t_his **his, int offset, int len);
-void 				no_options(t_his **his, int offset, int len, int i);
+// void 				no_options(t_his **his, int offset, int len, int i);
+
 int   				local(char *str);
 t_local				**local_sgt(int i);
 int 				check_local(t_ast *tmp, int type);
 int   				ft_unset(t_ast **ast, t_env **env);
 int   				ft_export(t_ast **ast, t_env **env);
 int   				ft_read(t_ast **ast, t_env **env);
+
 int					aname(t_read *var, char **arg, int *i, int j);
 int					delim(t_read *var, char **arg, int *i, int j);
 int					nchars(t_read *var, char **arg, int *i, int j);
@@ -169,6 +172,7 @@ int					back_slash(t_read *var, char **arg, int *i, int j);
 int					silent(t_read *var, char **arg, int *i, int j);
 int					rtimeout(t_read *var, char **arg, int *i, int j);
 int					fd(t_read *var, char **arg, int *i, int j);
+
 /*
 *************************************HASHING***********************************
 */

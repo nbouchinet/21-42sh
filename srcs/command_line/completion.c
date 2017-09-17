@@ -21,7 +21,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 
 	comp = NULL;
 	i = -1;
-	if (cmdl->opt & CSQ || cmdl->opt & CDQ /*|| cmdl->hd*/)
+	if (cmdl->opt & (CSQ |  CDQ | CHD))
 		return (0);
 	while (arr_path[++i])
 	{
@@ -75,7 +75,7 @@ static void 	get_comp(t_cmdl *cmdl, int i)
 		;
 	i += (i < 0 ? 1 : 0);
 	while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] && sep(cmdl, 0))
-		arrow_rigth(cmdl);
+		arrow_right(cmdl);
 	if (cmdl->line.str[cmdl->line.cur - cmdl->line.pr - 1] != ' ')
 		tmp = ft_strsub(cmdl->line.str, (i ? i + 1 : i),
 		cmdl->line.cur - cmdl->line.pr - i - (i ? 1 : 0));

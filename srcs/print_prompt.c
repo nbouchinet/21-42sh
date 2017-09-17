@@ -34,19 +34,22 @@ void 	print_prompt(void)
 	char	buff[1024];
 
 	cmdl = *cmdl_slg();
-	if (cmdl->lstenv)
+	if (cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD")->value)
 		ft_printf("\%@42sh: %s%@",
 		H_BLUE, lst_at(&(cmdl)->lstenv, "PWD")->value, I);
 	else
 	{
 		getcwd(buff, 1024);
-		ft_printf("%@42sh: %s\n%@", H_YELLOW, buff, I);
+		ft_printf("%@42sh: %s\n%@", H_BLUE, buff, I);
 	}
 	if (!(cmdl->opt & CSQ) && !(cmdl->opt & CDQ) /*&& !cmdl->hd*/)
 		write(1, "\n$> ", 4);
 	else if ((cmdl->opt & CSQ) || (cmdl->opt & CDQ))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
-	// else if (cmdl->hd)
-		// write(1, "heredoc> ", 9);
-
+	else if (cmdl->opt & CHD)
+	{
+		write(1, "heredoc> ", 9);
+		cmdl->line.cur = 9;
+		cmdl->line.pr = 9;
+	}
 }

@@ -12,6 +12,28 @@
 
 #include "header.h"
 
+void		his_del(t_his **his, int mode)
+{
+	t_his 	*tmp;
+	t_his 	*save;
+
+	tmp = *his;
+	if (!tmp)
+		return ;
+	mode ? tmp = tmp->n : 0;
+	while (tmp)
+	{
+		save = tmp->n;
+		free(tmp->cmdl);
+		free(tmp);
+		tmp = save;
+	}
+	if (mode)
+		(*his)->n = NULL;
+	else
+		(*his) = NULL;
+}
+
 int			his_len(t_his **his)
 {
 	t_his	*tmp;

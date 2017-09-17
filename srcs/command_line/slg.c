@@ -61,3 +61,12 @@ t_cmdl		**cmdl_slg(void)
 	}
 	return(&cmdl);
 }
+
+t_comp		**comp_slg(t_comp **head, int mode)
+{
+	static t_comp	*comp = NULL;
+
+	if (!comp && mode)
+		comp = *head;
+	return (&comp);
+}

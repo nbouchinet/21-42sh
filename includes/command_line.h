@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 09:44:22 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/17 17:25:03 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct		s_comp
 {
 	char			*str;
 	char			pad[512];
+	int				bol;
+	struct s_comp	*p;
 	struct s_comp	*n;
 }					t_comp;
 
@@ -111,6 +113,7 @@ typedef	struct		s_ccp
 # define CPIPE		32
 # define CAND		64
 # define COR		128
+# define CHD		256
 
 typedef struct		s_cmdl
 {
@@ -153,6 +156,7 @@ int					only_space(char *str, int limit, int w);
 
 t_cmdl				**cmdl_slg(void);
 t_his				**his_slg(void);
+t_comp				**comp_slg(t_comp **head, int mode);
 
 /*
 **	Suppression des listes
@@ -218,7 +222,7 @@ int					ctrlt(t_cmdl *cmdl);
 */
 
 int	 				arrow_left(t_cmdl *cmdl);
-int					arrow_rigth(t_cmdl *cmdl);
+int					arrow_right(t_cmdl *cmdl);
 int	 				home(t_cmdl *cmdl);
 int	 				end(t_cmdl *cmdl);
 int					up_dwn(t_cmdl *cmdl);
@@ -237,6 +241,7 @@ int					paste(t_cmdl *cmdl, int len_cpy, int len_str);
 */
 
 t_his				*findcmdl(char *str, char buf[], int reset);
+void				his_del(t_his **his, int mode);
 void 				cmd_save_history(char *str);
 int 				cmd_history(t_cmdl *cmdl);
 int					cmd_search_history(t_cmdl *cmdl);
@@ -258,6 +263,7 @@ int					ctrl_d(t_cmdl *cmdl);
 */
 
 t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
+void 				restor_cursor_position(t_cmdl *cmdl, int up);
 int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 char				*get_path(char **tmp);
 int					completion(t_cmdl *cmdl);

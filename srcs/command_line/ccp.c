@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static void swap(t_cmdl *cmdl, int w, int i)
+static void	swap(t_cmdl *cmdl, int w, int i)
 {
 	int		tmp;
 
@@ -32,25 +32,25 @@ static void swap(t_cmdl *cmdl, int w, int i)
 	}
 }
 
-static void get_b_e(t_cmdl *cmdl)
+static void	get_b_e(t_cmdl *cmdl)
 {
 	if (CUT(cmdl->line.buf))
 	{
 		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
+		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr + 1 : 0;
 		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
 		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
 	}
 	else if (CPY(cmdl->line.buf))
 	{
 		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
+		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr + 1 : 0;
 		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
 		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
 	}
 }
 
-static void mark_b_e(t_cmdl *cmdl)
+static void	mark_b_e(t_cmdl *cmdl)
 {
 	int		i;
 
@@ -67,12 +67,26 @@ static void mark_b_e(t_cmdl *cmdl)
 		swap(cmdl, 1, i);
 }
 
-int 		ccp(t_cmdl *cmdl)
+static void	unrev_color(t_cmdl *cmdl)
+{
+	int		i;
+
+	i = cmdl->line.cur;
+	end(cmdl);
+	home(cmdl);
+	while (cmdl->line.cur < i)
+		arrow_right(cmdl);
+}
+
+int			ccp(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
-		return(paste(cmdl, ft_strlen(cmdl->ccp.cpy), ft_strlen(cmdl->line.str)));
+	{
+		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy),
+		ft_strlen(cmdl->line.str)));
+	}
 	if (PST(cmdl->line.buf) && cmdl->ccp.end == -1)
 		return (1);
 	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2) ||
@@ -83,5 +97,7 @@ int 		ccp(t_cmdl *cmdl)
 	}
 	cmdl->ccp.ccp = CUT(cmdl->line.buf) ? 1 : 2;
 	mark_b_e(cmdl);
+	if (cmdl->ccp.start != -1 && cmdl->ccp.end != -1)
+		unrev_color(cmdl);
 	return (1);
 }

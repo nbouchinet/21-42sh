@@ -36,10 +36,10 @@ int 		opt_right(t_cmdl *cmdl)
 	{
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
-			arrow_rigth(cmdl);
+			arrow_right(cmdl);
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] == ' ' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
-			arrow_rigth(cmdl);
+			arrow_right(cmdl);
 	}
 	return (1);
 }
