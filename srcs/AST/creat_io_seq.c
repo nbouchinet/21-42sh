@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 12:14:21 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 18:25:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 18:34:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ t_tok			*find_rdi_tok(t_tok **lst, t_tok **stop)
 
 static void		exec_else(t_tok *t_f, t_ast *t_a)
 {
-	init_ast(&t_a->right, t_f->type == IO_N ? t_f->str :
-	NULL, t_f->type == IO_N ? t_f->n->type : t_f->type);
+	init_ast(&t_a->right, t_f->type == IO_N ? &t_f :
+		NULL, t_f->type == IO_N ? t_f->n->type : t_f->type);
 	t_a = t_a->right;
-	init_ast(&t_a->left, t_f->type == IO_N ?
-	t_f->n->n->str : t_f->n->str, FIL);
-	t_f->n->hd != 0 ? t_a->left->type = t_f->n->hd : 0;
+	init_ast(&t_a->left, t_f->type == IO_N ? &t_f->n->n : &t_f->n, FIL);
 }
 
 void			io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
@@ -56,14 +54,10 @@ void			io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	}
 	if (t_f != *lst)
 	{
-		init_ast(&t_a->right, io ? io->str : NULL, io ?
+		init_ast(&t_a->right, io ? &io : NULL, io ?
 		io->n->type : rdir->type);
 		t_a = t_a->right;
-		init_ast(&t_a->left, io ? io->n->n->str : rdir->n->str, FIL);
-		ft_putendl("WEFIWEJFIWEJFWEIJFEWIJFEWIJF");
-		ft_putendl(io->n->n->str);
-		ft_putendl(rdir->n->str);
-		t_f->hd != 0 ? (t_a->left->type = rdir->n->hd) : 0;
+		init_ast(&t_a->left, io ? &io->n->n : &rdir->n, FIL);
 		io_sequence(&t_a, lst, io ? &io : &rdir);
 	}
 	else

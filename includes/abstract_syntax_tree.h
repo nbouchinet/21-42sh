@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abstract_syntax_tree.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:24:36 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/12 16:24:40 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/17 18:13:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct		s_ast
 	struct s_ast	*right;
 }					t_ast;
 
-void				init_ast(t_ast **ast, char *str, int type);
+void				init_ast(t_ast **ast, t_tok **tok, int type);
 void				primary_sequence(t_ast **ast, t_tok **lst);
 void				secondary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);
 void				tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep);

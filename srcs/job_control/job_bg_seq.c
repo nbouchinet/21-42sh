@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:11:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/17 19:05:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			if (tmp->rdir)
-				io_seq(&tmp->rdir);
+				if (!io_seq(&tmp->rdir))
+					exit(EXIT_FAILURE);
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
@@ -73,7 +74,8 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 		signal(SIGTTOU, SIG_DFL);
 		signal(SIGCHLD, SIG_DFL);
 		if (p->rdir)
-			io_seq(&p->rdir);
+			if (!io_seq(&p->rdir))
+				exit(EXIT_FAILURE);
 		execve(p->argv[0], p->argv, n_env);
 		exit(EXIT_SUCCESS);
 	}

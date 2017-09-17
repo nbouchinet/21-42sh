@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/16 19:10:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 19:09:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	// 	tmp = tmp->n;
 	// }
 	heredoc(&cmd);
-	lexer_check(&cmd);
+	// lexer_check(&cmd); A REVOIR DE TOUTE URGENCE
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;

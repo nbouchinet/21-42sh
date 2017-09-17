@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/16 16:19:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 19:07:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 18:15:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_tok	*heredoc(t_tok **lst)
 					cmdl = *cmdl_slg();
 					init_cmdl();
 					cmdl->opt |= CHD;
-					if ((tmp->n->hd = engage_heredoc(&tmp->n, cmdl, -1, -1)))
+					if ((tmp->n->hd = engage_heredoc(&tmp->n, cmdl, -1, -1)) == -1)
 						return (*lst);
 				}
 				else

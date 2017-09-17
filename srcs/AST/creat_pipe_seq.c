@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 13:21:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 18:12:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void			pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_first = *lst;
 	if ((tmp = find_pipe_tok(&tmp_first, sep)) != *sep)
 	{
-		init_ast(&tmp_ast->right, tmp->str, tmp->type);
+		init_ast(&tmp_ast->right, &tmp, tmp->type);
 		tmp_ast = tmp_ast->right;
 		init_ast(&tmp_ast->left, NULL, CMD_SEQ);
 		command_sequence(&tmp_ast->left, &tmp_first, &tmp);
@@ -59,12 +59,12 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	// }
 	// if (tmp != *sep)
 	// {
-		init_ast(&tmp_ast->left, tmp->str,
+		init_ast(&tmp_ast->left, &tmp,
 		ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
 		tmp = tmp->n;
 		while (tmp != *sep)
 		{
-			init_ast(&tmp_ast->right, tmp->str, CMD_ARG);
+			init_ast(&tmp_ast->right, &tmp, CMD_ARG);
 			if (tmp->n != *sep)
 				tmp_ast = tmp_ast->right;
 			tmp = tmp->n;

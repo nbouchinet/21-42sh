@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 21:31:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 19:03:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ int			exec_pro(t_process **lst, t_env **env, t_job **j)
 			signal(SIGTTOU, SIG_DFL);
 		}
 		if (tmp->rdir)
-		io_seq(&tmp->rdir);
+			if (!io_seq(&tmp->rdir))
+				exit(EXIT_FAILURE);
 		execve(tmp->argv[0], tmp->argv, n_env);
 		exit(EXIT_SUCCESS);
 	}
