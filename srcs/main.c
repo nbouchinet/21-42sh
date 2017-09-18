@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 14:55:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/18 18:25:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,34 @@ void		ft_putast(t_ast *root)
 	ft_rec_putbtreestr(root, 0);
 }
 
+void	restruct_lst(t_tok **lst);
+
 static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	// t_tok	*tmp;
+	t_tok	*tmp;
 
 	if (!*line)
 		return ;
 	init_token(&cmd);
 	new_parser(&cmd, *line);
-	// tmp = cmd;
-	specified_dir(&cmd);
-	// while (tmp)
-	// {
-	// 	ft_printf("%s %d\n", tmp->str, tmp->type);
-	// 	tmp = tmp->n;
-	// }
+	// specified_dir(&cmd);
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_printf("\n%s %d", tmp->str, tmp->type);
+		tmp = tmp->n;
+	}
+	restruct_lst(&cmd);
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_printf("\n%s %d", tmp->str, tmp->type);
+		tmp = tmp->n;
+	}
 	heredoc(&cmd);
+	// sleep(30);
 	// lexer_check(&cmd); A REVOIR DE TOUTE URGENCE
 	expanse(&cmd, env);
 	if (!cmd)
