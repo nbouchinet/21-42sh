@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/16 16:19:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/17 18:15:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 13:51:50 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl, int i, int ret)
 			print(cmdl, cmdl->line.buf);
 	}
 	close(p[1]);
-	return(p[0]);
+	return (p[0]);
 }
 
 t_tok	*heredoc(t_tok **lst)
