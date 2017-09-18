@@ -43,13 +43,23 @@ void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 void 	restor_cursor_position(t_cmdl *cmdl, int up)
 {
 	int		save;
+	int		nd;
 
-	save = cmdl->line.cur;
-	while (up--)
+	save = cmdl->line.cur - cmdl->line.pr;
+	nd = cmdl->line.pr;
+	while (up)
+	{
+		up--;
 		tputs(tgetstr("up", NULL), 1, ft_putchar);
+	}
 	tputs(tgetstr("cr", NULL), 1, ft_putchar);
-	cmdl->line.cur = 0;
-	while (cmdl->line.cur < save)
+	while (nd)
+	{
+		tputs(tgetstr("nd", NULL), 1, ft_putchar);
+		nd--;
+	}
+	cmdl->line.cur = cmdl->line.pr;
+	while ((cmdl->line.cur - cmdl->line.pr) < save)
 	{
 		cmdl->line.cur += 1;
 		if (cmdl->line.cur % cmdl->line.co == 0)

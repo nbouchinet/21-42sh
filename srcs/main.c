@@ -77,7 +77,7 @@ int         main(int ac, char *av[], char *env[])
 	cmdl = *cmdl_slg();
 	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl->lstenv), env))
 		return (1);
-	//	hist_read(&cmdl->his, 0, -50);
+	hist_read(NULL, 0, -1, NULL);
 	loop(cmdl);
 	return (cmdl->exit ? cmdl->exit : 0);
 }

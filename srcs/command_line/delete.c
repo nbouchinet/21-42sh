@@ -41,6 +41,7 @@ int		del(t_cmdl *cmdl)
 		return (delete_sh(cmdl));
 	if (cmdl->line.cur == cmdl->line.pr)
 		return (1);
+	cmdl->opt &= ~(CCOMP);
 	arrow_left(cmdl);
 	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	i = cmdl->line.cur - cmdl->line.pr - 1;

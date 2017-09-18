@@ -80,7 +80,7 @@ int			bang(char *cmd)
 		if ((cmd[i] == '!' || cmd[i] == '^') && cmd[i + 1] != ' ' &&
 		cmd[i + 1] != '\t' && cmd[i + 1] != '=' && cmd[i + 1] != '\0')
 		{
-			if ((ret = bang_parse(cmd, get_bang(&i, cmd, &bang), &bang)))
+			if ((ret = bang_parse(get_bang(&i, cmd, &bang), &bang)))
 			{
 				ft_memset((*cmdl_slg())->line.str, 0,
 				ft_strlen((*cmdl_slg())->line.str));

@@ -31,7 +31,10 @@ void	deletefirstnode(t_env **lst)
 	t_env	*tmp;
 
 	tmp = *lst;
-	*lst = tmp->next;
+	if (tmp->next)
+		*lst = tmp->next;
+	else
+		*lst = NULL;
 	freenode(tmp);
 }
 

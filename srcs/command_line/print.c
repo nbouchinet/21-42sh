@@ -60,11 +60,19 @@ int 		print(t_cmdl *cmdl, char buf[])
 
 	if (!(PRINT(buf)) && !(SH(buf)))
 		return (1);
+	if (cmdl->opt & CCOMP)
+	{
+		tputs(tgetstr("sc", NULL), 1, ft_putchar);
+		end(cmdl);
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
+		tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	}
 	if (PRINT(buf) && !(cmdl->opt & CHIS_S))
 	{
 		i = regular_print(&cmdl->line, buf, cmdl->line.cur - cmdl->line.pr);
 		if (i >= 0)
 		{
+			cmdl->opt &= ~(CCOMP);
 			if (cmdl->ccp.start >= cmdl->line.cur - cmdl->line.pr)
 				cmdl->ccp.start += cmdl->ccp.start == -1 ? 0 : 1;
 			while (cmdl->line.cur - cmdl->line.pr - 1 > i)

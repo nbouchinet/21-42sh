@@ -72,17 +72,23 @@ static int	options(char **arg, int i, int *opt, int *offset)
 		arg[i][j] == 'r' ? (*opt) |= R : 0;
 		arg[i][j] == 'w' ? (*opt) |= W : 0;
 		arg[i][j] == 'p' ? (*opt) |= P : 0;
-		arg[i][j] == 's' ? (*opt) |= S : 0;
+		if (arg[i][j] == 's')
+		{
+			(*opt) |= S;
+			return (0);
+		}
 	}
 	if (opt_check(opt, 4, 3, 0))
 		return (1);
 	return (0);
 }
 
-static int	parse_opt(char *targ[], int *opt, int *offset, int i)
+static int	parse_opt(char *targ[], int *opt, int *offset, char **arg)
 {
 	int		ret;
+	int		i;
 
+	i = -1;
 	while (targ[++i])
 	{
 		ret = -1;
@@ -92,7 +98,13 @@ static int	parse_opt(char *targ[], int *opt, int *offset, int i)
 		if (targ[i][0] == '-' && (ret = options(targ, i, opt, offset)))
 			return (1);
 		else if (targ[i][0] == '-' && ret == 0)
-			return (0);
+		{
+			if (*opt & S)
+			{
+				*arg = ft_strdup(targ[i + 1]);
+				return (0);
+			}
+		}
 		else
 		{
 			if (only(targ[i], '0', '9'))
@@ -107,19 +119,20 @@ static int	parse_opt(char *targ[], int *opt, int *offset, int i)
 
 int         ft_history(t_ast **ast, t_env **env)
 {
-	t_his	**his;
 	int		opt;
 	int		offset;
 	char	**targ;
+	char	*arg;
 
 	(void)env;
-	his = his_slg();
 	opt = 0;
 	offset = 0;
+	arg = NULL;
 	if ((targ = creat_arg_env(&(*ast)->left->right)) && parse_opt(targ, &opt,
-	&offset, -1))
+	&offset, &arg))
 		return (0);
 	ft_printf("opt: %d | offset: %d\n", opt, offset);
-	run_his(his, opt, offset, (*his)->n ? his_len(his) : 0);
+	ft_printf("arg: %s\n", arg);
+	run_his(arg, opt, offset, (*his_slg())->n ? his_len(his_slg()) : 0);
 	return (1);
 }

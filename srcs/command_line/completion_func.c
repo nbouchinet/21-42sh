@@ -18,13 +18,12 @@ static void insert(t_comp **comp, t_comp *lnk, int i)
 	t_comp	*save;
 
 	tmp = *comp;
-	lnk->bol = 0;
 	if (!i)
 	{
 		lnk->n = tmp;
 		lnk->p = NULL;
+		tmp->p = lnk;
 		*comp = lnk;
-		comp_slg(comp, 1);
 	}
 	else
 	{
@@ -34,6 +33,7 @@ static void insert(t_comp **comp, t_comp *lnk, int i)
 		tmp->n = lnk;
 		lnk->n = save;
 		lnk->p = tmp;
+		save ? save->p = lnk : 0;
 	}
 }
 
@@ -50,15 +50,13 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param)
 		exit(EXIT_FAILURE);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?
-	            ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+		ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
+	tmp->bol = 0;
 	tmp->n = NULL;
 	tmp->p = NULL;
 	if (!(*comp))
-	{
-		comp_slg(comp, 1);
 		return (tmp);
-	}
 	stock = *comp;
 	while (stock && ft_strcmp(stock->str, rdd->d_name) < 0)
 	{
@@ -122,7 +120,8 @@ int		sep(t_cmdl *cmdl, int w)
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '&' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '<' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '>' &&
-		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ')
+		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&
+		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
 			return (1);
 	}
 	return (0);

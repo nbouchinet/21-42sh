@@ -60,6 +60,7 @@ void 		cmd_save_history(char *str)
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
 		exit (0);
 	new->cmdl = ft_strdup(str);
+	new->add = 0;
 	if (!head->n)
 	{
 		head->n = new;
@@ -93,6 +94,9 @@ int			cmd_history(t_cmdl *cmdl)
 	t_his			*his;
 	static t_his	*match = NULL;
 
+	if (cmdl->opt & CCOMP)
+		return (UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
+		c_arrow_down(&cmdl->comp));
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (cmdl->opt & CRESET)

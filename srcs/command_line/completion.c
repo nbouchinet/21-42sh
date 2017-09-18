@@ -16,10 +16,8 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 {
 	struct dirent	*rdd;
 	DIR				*dir;
-	t_comp			*comp;
 	int				i;
 
-	comp = NULL;
 	i = -1;
 	if (cmdl->opt & (CSQ |  CDQ | CHD))
 		return (0);
@@ -28,15 +26,14 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 		if (!(dir = opendir(arr_path[i])))
 			return (1);
 		while ((rdd = readdir(dir)) != 0)
-		{
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
-			!check_comp(&comp, rdd->d_name))
-				!comp ? comp = fill_comp(&comp, rdd, 1) :
-				fill_comp(&comp, rdd, 1);
-		}
+			!check_comp(&cmdl->comp, rdd->d_name))
+				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2) :
+				fill_comp(&cmdl->comp, rdd, 2);
 		closedir(dir);
 	}
-	return (display_comp(cmdl, &comp, ft_strlen(tmp)));
+	cmdl->comp ? cmdl->comp->bol = 1 : 0;
+	return (cmdl->comp ? display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)) : 0);
 }
 
 
@@ -44,10 +41,8 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 {
 	struct dirent	*rdd;
 	DIR				*dir;
-	t_comp			*comp;
 	char			*path;
 
-	comp = NULL;
 	path = (*tmp ? get_path(tmp) : ft_strdup("."));
 	if (!(dir = opendir(path)))
 		return ;
@@ -55,12 +50,15 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 	if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
 		if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
-				!comp ? comp = fill_comp(&comp, rdd, 2) :
-				fill_comp(&comp, rdd, 2);
+			!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2) :
+			fill_comp(&cmdl->comp, rdd, 2);
 	closedir(dir);
 	free(path);
-	if (comp)
-		display_comp(cmdl, &comp, ft_strlen(*tmp));
+	if (cmdl->comp)
+	{
+		cmdl->comp->bol = 1;
+		display_comp(cmdl, &cmdl->comp, ft_strlen(*tmp));
+	}
 }
 
 static void 	get_comp(t_cmdl *cmdl, int i)
@@ -108,6 +106,10 @@ int				completion(t_cmdl *cmdl)
 	int		i;
 
 	i = cmdl->line.cur - cmdl->line.pr;
+	if (cmdl->comp && (cmdl->opt & CCOMP))
+		return (c_move(&cmdl->comp));
+	else
+		comp_del(&cmdl->comp);
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (!(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&

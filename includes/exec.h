@@ -93,7 +93,7 @@ t_env				*find_node(t_env **env, char *var, char *value);
 typedef struct 		s_hist
 {
 	int				op;
-	void			(*f)(t_his **his, int offset, int len);
+	void			(*f)(t_his **his, int offset, int len, char *arg);
 }					t_hist;
 
 #define AR	1
@@ -120,13 +120,14 @@ typedef struct		s_read
 	int							eot;
 }								t_read;
 
-typedef struct		s_opt
+typedef struct					s_opt
 {
 	char						c[2];
-	int							(*f)(t_read *var, char **arg, int *i, int j);
+	int							(*f)(t_read *var, char **arg, int *i, int j,
+		 						char *sarg);
 }								t_opt;
 
-typedef struct		s_local
+typedef struct					s_local
 {
 	char						*var;
 	char						*val;
@@ -150,11 +151,13 @@ int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
 
 int					ft_history(t_ast **ast, t_env **env);
-void 				run_his(t_his **his, int opt, int offset, int his_len);
-void				hist_del(t_his **his, int offset, int len);
-void				hist_append(t_his **his, int offset, int len);
-void				hist_read(t_his **his, int offset, int len);
-void				hist_sarg(t_his **his, int offset, int len);
+void 				run_his(char *arg, int opt, int offset, int his_len);
+void 				hist_write(t_his **his, int offset, int his_len, char *arg);
+void 				hist_sarg(t_his **his, int offset, int his_len, char *arg);
+void 				hist_read(t_his **his, int offset, int his_len, char *arg);
+
+// void				hist_sarg(t_his **his, int offset, int len);
+// void 				hist_read(t_his **his, int offset, int his_len);
 // void 				no_options(t_his **his, int offset, int len, int i);
 
 int   				local(char *str);

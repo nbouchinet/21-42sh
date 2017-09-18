@@ -66,7 +66,7 @@ CFILES= 		main.c \
 				builtins/export.c \
 				builtins/history.c \
 				builtins/history_opt.c \
-				builtins/history_no_opt.c \
+				builtins/history_opt2.c \
 				builtins/read.c \
 				builtins/fg.c \
 				builtins/read_opt1.c \
@@ -83,6 +83,7 @@ CFILES= 		main.c \
 				command_line/completion_display.c \
 				command_line/completion_edit.c \
 				command_line/completion_func.c \
+				command_line/completion_move.c \
 				command_line/ctrl.c \
 				command_line/del_all.c \
 				command_line/delete.c \

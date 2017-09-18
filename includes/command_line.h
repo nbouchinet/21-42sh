@@ -64,9 +64,20 @@
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
 
+typedef struct		s_comp
+{
+	char			*str;
+	char			pad[512];
+	int				bol;
+	int				col;
+	struct s_comp	*p;
+	struct s_comp	*n;
+}					t_comp;
+
 typedef struct		s_his
 {
 	char			*cmdl;
+	int				add;
 	struct s_his	*n;
 	struct s_his	*p;
 }					t_his;
@@ -105,15 +116,18 @@ typedef	struct		s_ccp
 # define CAND		64
 # define COR		128
 # define CHD		256
+# define CCOMP		512
 
 typedef struct		s_cmdl
 {
 	int				exit;
 	int				opt;
-	char			*prompt;
+	int				col;
+	int				offset;
 	t_line			line;
 	t_ccp			ccp;
 	t_env			*lstenv;
+	t_comp			*comp;
 	struct termios	term;
 }					t_cmdl;
 
@@ -253,16 +267,6 @@ int					ctrl_d(t_cmdl *cmdl);
 **	Completion
 */
 
-typedef struct		s_comp
-{
-	char			*str;
-	char			pad[512];
-	int				bol;
-	int				col;
-	struct s_comp	*p;
-	struct s_comp	*n;
-}					t_comp;
-
 t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
 void 				restor_cursor_position(t_cmdl *cmdl, int up);
 int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
@@ -274,6 +278,13 @@ int					check_comp(t_comp **head, char *name);
 void 				completion_edit(t_line *line, t_comp **comp,
 	 char *tmp, int offset);
 void 				comp_del(t_comp **head);
+int					c_move(t_comp **comp);
+void 				print_lst(t_comp **comp, t_cmdl *cmdl, int len, int up);
+
+int					c_arrow_down(t_comp **comp);
+int					c_arrow_up(t_comp **comp);
+int					c_arrow_right(t_comp **comp);
+int					c_arrow_left(t_comp **comp);
 
 /*
 **	Bang
@@ -305,8 +316,8 @@ typedef struct		s_bang
 
 void 				fill_buf(t_bang *bang, char **cmd, int *i);
 int					bang(char *str);
-int					bang_parse(char *cmd, char *sub, t_bang *bang);
-int					bang_sub(t_bang *bang, t_his *his, char *cmd);
+int					bang_parse(char *sub, t_bang *bang);
+int					bang_sub(t_bang *bang, t_his *his);
 int					check_event_and_designator(t_bang *bang, int his_len,
 	 int match_len);
 

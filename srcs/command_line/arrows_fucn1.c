@@ -57,6 +57,8 @@ int	 	end(t_cmdl *cmdl)
 
 int		arrow_right(t_cmdl *cmdl)
 {
+	if (cmdl->opt & CCOMP)
+		return (c_arrow_right(&cmdl->comp));
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (!cmdl->line.str[cmdl->line.cur - cmdl->line.pr])
@@ -81,6 +83,8 @@ int		arrow_left(t_cmdl *cmdl)
 	int		i;
 
 	i = -1;
+	if (cmdl->opt & CCOMP)
+		return (c_arrow_left(&cmdl->comp));
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (cmdl->line.cur == cmdl->line.pr)

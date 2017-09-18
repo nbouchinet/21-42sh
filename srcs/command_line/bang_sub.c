@@ -43,22 +43,27 @@ static void process_des_and_mod(t_bang *bang, char *match[])
 {
 	int		arg;
 
-	arg = bang->des < 0 || bang->y < 0 ? ft_tablen(match) -
-	(bang->des == -2 || bang->y == -2 ? 2 : 1) : 0;
-	if (!bang->des && !bang->x && !bang->y)
-		bang->tmp = ft_strdups(match[0], &bang->tmp);
-	else if (bang->des != 0 && !bang->x && !bang->y)
-		bang->tmp = ft_strdups(bang->des != -1 ?
-		match[bang->des] : match[arg], &bang->tmp);
-	else if (bang->x && bang->y == -1 ? arg : bang->y)
+	ft_putendl(bang->tmp);
+	if (bang->mod & 128)
 	{
-		ft_strdel(&bang->tmp);
-		ft_putnbrl(arg);
-		while (bang->x <= (bang->y < 0 ? arg : bang->y))
-			bang->tmp = ft_strjoinf(ft_strjoinf(bang->tmp, match[bang->x++], 1),
-			" ", 1);
+		arg = bang->des < 0 || bang->y < 0 ? ft_tablen(match) -
+		(bang->des == -2 || bang->y == -2 ? 2 : 1) : 0;
+		if (!bang->des && !bang->x && !bang->y)
+			bang->tmp = ft_strdups(match[0], &bang->tmp);
+		else if (bang->des != 0 && !bang->x && !bang->y)
+			bang->tmp = ft_strdups(bang->des != -1 ?
+			match[bang->des] : match[arg], &bang->tmp);
+		else if (bang->x && bang->y == -1 ? arg : bang->y)
+		{
+			ft_strdel(&bang->tmp);
+			while (bang->x <= (bang->y < 0 ? arg : bang->y))
+				bang->tmp = ft_strjoinf(ft_strjoinf(bang->tmp, match[bang->x++],
+				1), " ", 1);
+		}
 	}
-	process_mod(bang, NULL);
+	ft_putendl(bang->tmp);
+	if (bang->mod && bang->mod < 128)
+		process_mod(bang, NULL);
 }
 
 static int	get_match(t_his *his, t_bang *bang)
@@ -105,11 +110,10 @@ static int	get_line(t_his *his, t_bang *bang)
 	return (bang->tmp ? 0 : 1);
 }
 
-int			bang_sub(t_bang *bang, t_his *his, char *cmd)
+int			bang_sub(t_bang *bang, t_his *his)
 {
 	char	**match;
 
-	(void)cmd;
 	if ((bang->n ? get_line(his, bang) : get_match(his, bang)))
 		return (1);
 	match = ft_strsplit(bang->tmp, ' ');

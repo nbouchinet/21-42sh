@@ -21,6 +21,7 @@ t_his		**his_slg(void)
 		if (!(his = (t_his *)malloc(sizeof(t_his))))
 			exit (0);
 		his->cmdl = "";
+		his->add = 1;
 		his->n = NULL;
 		his->p = NULL;
 	}
@@ -33,8 +34,10 @@ void 		init_cmdl(void)
 
 	cmdl = *cmdl_slg();
 	cmdl->opt = 0;
+	cmdl->col = 0;
+	cmdl->offset = -1;
 	cmdl->exit = 256;
-	cmdl->prompt = NULL;
+	cmdl->comp = NULL;
 	cmdl->line.str ? ft_strdel(&cmdl->line.str) : 0;
 	cmdl->line.str = ft_memalloc(1024);
 	cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;

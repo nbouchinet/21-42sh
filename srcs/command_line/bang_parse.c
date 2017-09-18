@@ -64,6 +64,7 @@ static int	get_designators(char *event, t_bang *bang)
 	}
 	else
 		return (fd_printf(2, "\n42sh: !%s: event not found", event));
+	bang->mod |= 128;
 	return (0);
 }
 
@@ -100,7 +101,7 @@ static int	bang_error(char *sub, char **opt)
 	return (1);
 }
 
-int			bang_parse(char *cmd, char *sub, t_bang *bang)
+int			bang_parse(char *sub, t_bang *bang)
 {
 	t_his	*his;
 	char	**opt;
@@ -116,13 +117,14 @@ int			bang_parse(char *cmd, char *sub, t_bang *bang)
 	|| opt[1][0] == '$' || opt[1][0] == '*' || opt[1][0] == '-'))
 	&& get_designators(opt[1], bang))
 		return (ft_free(opt, &sub, 3));
-	if ((2 < len && !ft_isdigit(opt[2][0]) && (opt[2][0] != '^' && opt[2][0] != '$' && opt[2][0] != '*' &&
-	opt[2][0] != '-' && get_modifiers(opt[2], bang))) || (1 < len && !ft_isdigit(opt[1][0]) && (opt[1][0]
-	!= '$' && opt[1][0] != '*' && opt[1][0] != '-' && opt[1][0] != '^' &&
-	get_modifiers(opt[1], bang))))
+	if ((2 < len && !ft_isdigit(opt[2][0]) && (opt[2][0] != '^' &&
+	opt[2][0] != '$' && opt[2][0] != '*' && opt[2][0] != '-' &&
+	get_modifiers(opt[2], bang))) || (1 < len && !ft_isdigit(opt[1][0]) &&
+	(opt[1][0] != '$' && opt[1][0] != '*' && opt[1][0] != '-' &&
+	opt[1][0] != '^' && get_modifiers(opt[1], bang))))
 		return (ft_free(opt, &sub, 3));
-	if (bang_sub(bang, his, cmd))
-		return (ft_free(opt, &sub, 3));
+	if (bang_sub(bang, his))
+		return (ft_free(opt, &sub, 2));
 	ft_free(opt, &sub, 3);
 	return (0);
 }

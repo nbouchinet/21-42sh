@@ -25,12 +25,30 @@ void 	comp_del(t_comp **head)
 		free(tmp);
 		tmp = save;
 	}
-	tmp = NULL;
+	*head = NULL;
+}
+
+int		c_move(t_comp **comp)
+{
+	t_comp 		*tmp;
+
+	tmp = *comp;
+	if (!tmp)
+		return (1);
+	while (!tmp->bol)
+		tmp = tmp->n;
+	tmp->bol = 0;
+	if (tmp->n)
+		tmp->n->bol = 1;
+	else
+		(*comp)->bol = 1;
+	display_comp(*cmdl_slg(), comp, 0);
+	return (1);
 }
 
 int		c_arrow_left(t_comp **comp)
 {
-	t_comp	*tmp;
+	t_comp 		*tmp;
 
 	tmp = *comp;
 	if (!tmp)
@@ -39,16 +57,20 @@ int		c_arrow_left(t_comp **comp)
 		tmp = tmp->n;
 	tmp->bol = 0;
 	if (tmp->p)
-		tmp->p->bol = 1
+		tmp->p->bol = 1;
 	else
+	{
 		while (tmp->n)
 			tmp = tmp->n;
-	tmp->bol = 1;
+		tmp->bol = 1;
+	}
+	display_comp(*cmdl_slg(), comp, 0);
+	return (1);
 }
 
 int		c_arrow_right(t_comp **comp)
 {
-	t_comp	*tmp;
+	t_comp		*tmp;
 
 	tmp = *comp;
 	if (!tmp)
@@ -56,40 +78,52 @@ int		c_arrow_right(t_comp **comp)
 	while (!tmp->bol)
 		tmp = tmp->n;
 	tmp->bol = 0;
-	tmp->n ? tmp->n->bol = 1 : (*comp)->bol = 1;
+	if (tmp->n)
+		tmp->n->bol = 1;
+	else
+		(*comp)->bol = 1;
+	display_comp(*cmdl_slg(), comp, 0);
 	return (1);
 }
 
 int		c_arrow_up(t_comp **comp)
 {
-	t_comp	*tmp;
-	int		c_size;
+	t_comp 		*tmp;
+	int			elem_per_line;
 
 	tmp = *comp;
-	c_size = (*comp)->col;
+	elem_per_line = (*cmdl_slg())->col;
 	if (!tmp)
 		return (1);
+	while (!tmp->bol)
+		tmp = tmp->n;
 	if (!tmp->p)
 		return (c_arrow_left(comp));
 	tmp->bol = 0;
-	while (tmp->n && c_size--)
-		tmp = tmp->n;
+	while (tmp->p && elem_per_line--)
+		tmp = tmp->p;
 	tmp->bol = 1;
+	display_comp(*cmdl_slg(), comp, 0);
+	return (1);
 }
 
 int		c_arrow_down(t_comp **comp)
 {
-	t_comp	*tmp;
-	int		c_size;
+	t_comp 		*tmp;
+	int			elem_per_line;
 
 	tmp = *comp;
-	c_size = (*comp)->col;
+	elem_per_line = (*cmdl_slg())->col;
 	if (!tmp)
 		return (1);
+	while (!tmp->bol)
+		tmp = tmp->n;
 	if (!tmp->n)
 		return (c_arrow_right(comp));
 	tmp->bol = 0;
-	while (tmp->n && c_size--)
+	while (tmp->n && elem_per_line--)
 		tmp = tmp->n;
 	tmp->bol = 1;
+	display_comp(*cmdl_slg(), comp, 0);
+	return (1);
 }
