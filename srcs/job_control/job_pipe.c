@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/17 19:04:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 15:30:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			signal(SIGTTIN, SIG_DFL);
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGCHLD, SIG_DFL);
+			ft_putendl_fd(tmp->argv[0], 2);
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else
