@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 16:21:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 09:39:09 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_token(t_tok **lst)
 
 void	tok_save(t_tok **lst, char **stack, int type)
 {
-	// int		i;
 	char	*bs;
 
 	(*lst)->str = ft_strdup(*stack);

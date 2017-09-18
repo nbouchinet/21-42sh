@@ -1,0 +1,10 @@
+42sh
+42sh_unit_test
+Makefile
+TODO
+auteur
+includes
+libft
+ls
+obj
+srcs
