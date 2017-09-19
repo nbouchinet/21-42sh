@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 17:13:52 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 09:22:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/18 15:39:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	deletefirstnode(t_env **lst)
 	t_env	*tmp;
 
 	tmp = *lst;
-	*lst = tmp->next;
+	if (tmp->next)
+		*lst = tmp->next;
+	else
+		*lst = NULL;
 	freenode(tmp);
 }
 

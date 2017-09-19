@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:51:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 18:14:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 15:27:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_ast	*env_without(t_env **env, t_ast **ast)
 	t_ast	*tmp_a;
 	char	**var;
 
-		tmp_a = NULL;
+	tmp_a = NULL;
 	if ((*ast) && test((*ast)->str))
 	{
 		if (!(*env = (t_env*)malloc(sizeof(t_env))))

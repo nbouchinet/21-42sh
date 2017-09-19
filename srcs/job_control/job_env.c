@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:49:10 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 18:14:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 16:24:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int		env_builtin(t_ast **ast, t_env **env, t_env **r_env)
 	tmp = *ast;
 	if (tmp)
 		return (exec_env(&tmp, env, r_env));
-	print_env(*env);
+	if (env)
+		print_env(*env);
 	return (1);
 }
 
@@ -52,7 +53,7 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag)
 	t_env	*tmp_n;
 
 	if (!(flag & LOW_I_FLAG))
-		if (env)
+		if (*env)
 		{
 			tmp = *env;
 			if (!((*n_env) = (t_env*)malloc(sizeof(t_env))))

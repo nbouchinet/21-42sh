@@ -6,8 +6,12 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
+<<<<<<< HEAD
 
 /*   Updated: 2017/09/19 14:47:32 by nbouchin         ###   ########.fr       */
+=======
+/*   Updated: 2017/09/19 10:51:26 by zadrien          ###   ########.fr       */
+>>>>>>> 78e1c3b4f26dbb93b74732dd699d7311890525f5
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +40,41 @@ void		ft_putast(t_ast *root)
 	ft_rec_putbtreestr(root, 0);
 }
 
+void	restruct_lst(t_tok **lst);
+
 static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	// t_tok	*tmp;
+	t_tok	*tmp;
 
 	if (!*line)
 		return ;
 	init_token(&cmd);
 	new_parser(&cmd, *line);
-	// tmp = cmd;
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_printf("\n%s %d", tmp->str, tmp->type);
+		tmp = tmp->n;
+	}
+	restruct_lst(&cmd);
 	specified_dir(&cmd);
-	// while (tmp)
-	// {
-	// 	ft_printf("%s %d\n", tmp->str, tmp->type);
-	// 	tmp = tmp->n;
-	// }
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_printf("\n%s %d", tmp->str, tmp->type);
+		tmp = tmp->n;
+	}
 	heredoc(&cmd);
+	// sleep(30);
 	// lexer_check(&cmd); A REVOIR DE TOUTE URGENCE
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
-	//ft_putast(ast);
+	ft_putast(ast);
 	ft_putchar('\n');
 	mode_off(cmdl);
 	job_ast(&ast, env, 1);
