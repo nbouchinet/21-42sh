@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*   ft_lstaddend.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/11 08:22:42 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/19 08:45:37 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/01/30 12:41:07 by nbouchin          #+#    #+#             */
+/*   Updated: 2017/09/18 18:31:29 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-void	ft_lstdel(t_list **alst, void (*del)(void*, size_t))
+void	ft_lstaddend(t_list **list, t_list *new)
 {
-	t_list		*ptr;
-	t_list		*next;
-
-	if (*alst)
+	if (*list)
 	{
-		ptr = (*alst);
-		while (ptr != NULL)
-		{
-			next = ptr->next;
-			del(ptr->content, ptr->content_size);
-			free(ptr);
-			ptr = next;
-		}
-		(*alst) = NULL;
+		while (*list)
+			list = &(*list)->next;
+		*list = new;
 	}
+	else
+		*list = new;
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:58:53 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 15:46:45 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/19 15:42:15 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 	}
 	else
 	{
-		fd_printf(2, "[%d] %d\n", (*job)->num, p->pid);
+		fd_printf(2, "[%d] %d\n", (*job)->num p->pid);
+		fd_printf(2, "[%d] Done     %s\n", (*job)->num, (*job)->command);
 		(*job)->pgid = p->pid;
 		setpgid(p->pid, p->pid);
 		if (kill(-(*job)->pgid, SIGCONT) < 0)
@@ -131,6 +132,6 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 			job_bg_seq(&tmp->right, env, foreground);
 	}
 	else
-		job_ast(&tmp, env, foreground);
+		job_ast(&tmp, env, 1);
 	return (1);
 }

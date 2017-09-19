@@ -5,8 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:33:47 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/18 14:50:37 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/19 15:32:04 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +47,6 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 			{
 				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
 				j->status = WTERMSIG(p->status);
-				/* if (WSTOPSIG(p->status) == 19) */
-				/* 	j->notified = 19; */
 				if (!j->next && j->notified != 1)
 					catch_error(&j, p->status);
 				p = p->next;

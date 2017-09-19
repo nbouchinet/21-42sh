@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/22 16:36:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/18 18:32:35 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void				ft_putnbr_fd(int n, int fd);
 void				ft_lstdelone(t_list **alst, void(*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void(*del)(void*, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
+void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void				ft_putendl(char const *s);
 void				ft_sort_int_tab(int *tab, int size);

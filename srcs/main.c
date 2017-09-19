@@ -6,7 +6,8 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 14:55:29 by nbouchin         ###   ########.fr       */
+
+/*   Updated: 2017/09/19 14:47:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +69,16 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	destroy_tok(&cmd);
 }
 
+void	lstfree(void *content, size_t type)
+{
+	(void)type;
+	free(content);
+}
+
 static void		loop(t_cmdl *cmdl)
 {
 	t_local		*loc;
-
+	
 	while (42)
 	{
 		job_control(NULL, NULL, UPT);
@@ -81,7 +88,7 @@ static void		loop(t_cmdl *cmdl)
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-		cmdl->line.str[1] == 0))
+		                           cmdl->line.str[1] == 0))
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
 		loc = *local_sgt(0);
 		while (loc)

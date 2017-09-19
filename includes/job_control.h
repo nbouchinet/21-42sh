@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/15 16:34:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/19 15:33:08 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ int						new_exec_oa(t_ast **ast, t_env **env);
 int						new_qm_seq(t_ast **ast, t_env **env);
 int						new_ex_pipe(t_ast **ast, t_env **env, int r);
 int						init_process(t_ast **ast, t_process **proc,
-						t_env **env);
+						             t_env **env);
 void					print_process(t_process **pro);
 char					**creat_arg_process(t_ast **ast, t_env **env);
 int						complete_process(t_ast **ast, t_process **p,
-						t_env **env);
+						                 t_env **env);
 void					print_job(t_job **job);
 void					job_ast(t_ast **ast, t_env **env, int foreground);
 int						job_pipe(t_ast **ast, t_env **env, int foreground);
@@ -94,7 +94,7 @@ int						job_oa_seq(t_ast **ast, t_env **env, int foreground);
 int						job_qm_seq(t_ast **ast, t_env **env, int foreground);
 int						job_cmd_seq(t_ast **ast, t_env **env, int foreground);
 int						exec_pipe_job(t_process **lst,
-						char **env, int r, t_job **job);
+						              char **env, int r, t_job **job);
 char					*init_job_name(t_ast **ast);
 int						init_pgid(t_job **job, pid_t pid, t_ast **ast);
 void					destroy_ast(t_ast **head);
@@ -117,9 +117,9 @@ int						job_bg_seq(t_ast **ast, t_env **env, int foreground);
 void					wait_for_job(t_job **job);
 int						exec_pro_bg(t_process **pro, t_env **env, t_job **job);
 int						exec_pipe_bg(t_process **pro, char **env,
-						int r, t_job **job);
+						             int r, t_job **job);
 void					job_cont_pipe(t_process **lst, char **env,
-						t_job **job, int *p);
+					              t_job **job, int *p);
 void					cmdl_ctrc(int signal);
 void					cmdl_wins(int signal);
 void					canon_mode(int signal);
