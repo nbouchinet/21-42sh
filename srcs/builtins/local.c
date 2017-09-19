@@ -60,23 +60,23 @@ static void stock_loc(int match, char **arr, t_local *loc)
 
 int   local(char *str)
 {
-  t_local   *loc;
-  char      **arr;
-  int       match;
+	t_local   *loc;
+	char      **arr;
+	int       match;
 
-  loc = *local_sgt(1);
-  arr = ft_strsplit(str, '=');
-  match = 0;
-  if (!loc->var)
-  {
-    loc->var = ft_strdup(arr[0]);
-    loc->val = ft_strdup(arr[1]);
-    ft_free(arr, NULL, 1);
-    return (1);
-  }
-  while ((match = ft_strcmp(loc->var, arr[0])) && loc->n)
-    loc = loc->n;
-  stock_loc(match, arr, loc);
-  ft_free(arr, NULL, 1);
-  return (1);
+	loc = *local_sgt(1);
+	arr = ft_strsplit(str, '=');
+	match = 0;
+	if (!loc->var)
+	{
+		loc->var = ft_strdup(arr[0]);
+		loc->val = ft_strdup(arr[1]);
+		ft_free(arr, NULL, 1);
+		return (1);
+	}
+	while ((match = ft_strcmp(loc->var, arr[0])) && loc->n)
+		loc = loc->n;
+	stock_loc(match, arr, loc);
+	ft_free(arr, NULL, 1);
+	return (1);
 }

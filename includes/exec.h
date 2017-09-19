@@ -20,8 +20,6 @@
 ********************************************************************************
 */
 
-
-
 typedef struct		s_rdir
 {
 	int				t;
@@ -123,8 +121,7 @@ typedef struct		s_read
 typedef struct					s_opt
 {
 	char						c[2];
-	int							(*f)(t_read *var, char **arg, int *i, int j,
-		 						char *sarg);
+	int							(*f)(t_read *var, char **arg, int *i, int j);
 }								t_opt;
 
 typedef struct					s_local
@@ -155,10 +152,6 @@ void 				run_his(char *arg, int opt, int offset, int his_len);
 void 				hist_write(t_his **his, int offset, int his_len, char *arg);
 void 				hist_sarg(t_his **his, int offset, int his_len, char *arg);
 void 				hist_read(t_his **his, int offset, int his_len, char *arg);
-
-// void				hist_sarg(t_his **his, int offset, int len);
-// void 				hist_read(t_his **his, int offset, int his_len);
-// void 				no_options(t_his **his, int offset, int len, int i);
 
 int   				local(char *str);
 t_local				**local_sgt(int i);

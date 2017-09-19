@@ -87,6 +87,7 @@ CFILES= 		main.c \
 				command_line/ctrl.c \
 				command_line/del_all.c \
 				command_line/delete.c \
+				command_line/esc.c \
 				command_line/get_cmdl.c \
 				command_line/history.c \
 				command_line/inhibiteur.c \

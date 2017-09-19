@@ -69,7 +69,6 @@ void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	t_tok	*tmp;
 	t_ast	*tmp_ast;
 
-	ft_putchar('\n');
 	tmp = *lst;
 	tmp_ast = *ast;
 	while (tmp && (tmp->type == WORD || tmp->type == QUOTE ||

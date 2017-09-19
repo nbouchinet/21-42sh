@@ -27,14 +27,58 @@ int			check_event_and_designator(t_bang *bang, int his_len, int match_len)
 	return (0);
 }
 
+static int qsub_error(t_bang *bang, char **qsub)
+{
+	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2);
+	ft_free(qsub, &bang->tmp, 3);
+	ft_strdel(&bang->s1);
+	ft_strdel(&bang->s2);
+	return (1);
+}
+
+static void quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
+{
+	char			**qsub;
+	int				j;
+
+	qsub = ft_strsplit(bang->tmp, ' ');
+	j = -1;
+	ft_memset((*cmd), 0, len_cmd);
+	while (qsub[++j] && ft_strcmp(bang->s1, qsub[j]))
+		;
+	if (!qsub[j] && qsub_error(bang, qsub))
+		return ;
+	ft_strdel(&qsub[j]);
+	qsub[j] = bang->s2;
+	j = -1;
+	while (qsub[j])
+		len_sub += ft_strlen(qsub[j]);
+	while (len_sub > (*cmdl_slg())->line.len)
+		remalloc_cmdl(&(*cmdl_slg())->line, len_cmd);
+	j = -1;
+	while (qsub[++j])
+	{
+		*cmd = ft_strcat(*cmd, qsub[j]);
+		*cmd = ft_strcat(*cmd, qsub[j + 1] ? " " : "\0");
+	}
+	ft_strdel(&bang->s1);
+	ft_free(qsub, NULL, 1);
+}
+
 void 		fill_buf(t_bang *bang, char **cmd, int *i)
 {
 	char			*sub;
 	int				len_cmd;
 	int				len_sub;
 
-	sub = ft_strdup(*cmd + bang->end);
 	len_cmd = ft_strlen(*cmd);
+	if (bang->s1)
+	{
+		quick_sub(bang, cmd, len_cmd, 0);
+		*i = ft_strlen(*cmd);
+		return ;
+	}
+	sub = ft_strdup(*cmd + bang->end);
 	len_sub = ft_strlen(bang->tmp);
 	ft_memset(*cmd + bang->start, 0, len_cmd + bang->start);
 	while (len_cmd - (bang->end - bang->start) + len_sub >
@@ -77,7 +121,7 @@ int			bang(char *cmd)
 	i = -1;
 	ret = 0;
 	while (cmd[++i])
-		if ((cmd[i] == '!' || cmd[i] == '^') && cmd[i + 1] != ' ' &&
+		if ((cmd[i] == '!' || (cmd[i] == '^' && i == 0)) && cmd[i + 1] != ' ' &&
 		cmd[i + 1] != '\t' && cmd[i + 1] != '=' && cmd[i + 1] != '\0')
 		{
 			if ((ret = bang_parse(get_bang(&i, cmd, &bang), &bang)))

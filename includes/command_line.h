@@ -60,6 +60,8 @@
 # define CTRL_T(buf) buf[0] == 20 && !buf[1] && !buf[2] && !buf[3]
 # define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
 
+# define PRINT(buf) buf[0] > 31 && buf[0] < 127
+
 /*
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
@@ -215,12 +217,13 @@ void 				cmdl_signals(t_cmdl *cmdl);
 int					del(t_cmdl *cmdl);
 
 /*
-**	Clear
+**	Ctrl, esc
 */
 
 int					ctrl_l(t_cmdl *cmdl);
 int					ctrl_u(t_cmdl *cmdl);
 int					ctrlt(t_cmdl *cmdl);
+int					esc(t_cmdl *cmdl);
 
 /*
 **	Deplacement

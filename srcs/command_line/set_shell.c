@@ -49,8 +49,8 @@ int		mode_on(t_cmdl *cmdl)
 
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
-	cmdl->term.c_cc[VMIN] = 1;
-	cmdl->term.c_cc[VTIME] = 0;
+	cmdl->term.c_cc[VMIN] = 0;
+	cmdl->term.c_cc[VTIME] = 1;
 	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
 		kill (- g_shell_pgid, SIGTTIN);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
