@@ -91,4 +91,3 @@ env SWAGG_VAR=SWAGG_VAL | sort
 env SWAGG_VAR= | sort
 <custom>setenv SWAGG_VAR OUI; setenv SWAGG_VAR NON; env | sort
 env SWAGG_VAR=NON | sort
-

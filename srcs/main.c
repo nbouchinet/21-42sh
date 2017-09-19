@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 18:25:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/19 10:51:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		return ;
 	init_token(&cmd);
 	new_parser(&cmd, *line);
-	// specified_dir(&cmd);
 	tmp = cmd;
 	while (tmp)
 	{
@@ -55,6 +54,7 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		tmp = tmp->n;
 	}
 	restruct_lst(&cmd);
+	specified_dir(&cmd);
 	tmp = cmd;
 	while (tmp)
 	{
@@ -69,7 +69,7 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		return ;
 	init_ast(&ast, NULL, 0);
 	primary_sequence(&ast, &cmd);
-	//ft_putast(ast);
+	ft_putast(ast);
 	ft_putchar('\n');
 	mode_off(cmdl);
 	job_ast(&ast, env, 1);

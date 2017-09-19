@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 20:39:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/19 10:48:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,35 @@ static int		loop(t_tok **lst, t_tok **command)
 void	replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end)
 {
 	t_tok	*tmp;
+	t_tok	*start2;
+	t_tok	*next2;
 	t_tok	*sub2;
 	t_tok	*sub_end2;
 
+	// sub2 = *sub;
+	// sub_end2 = (*sub_end)->n;
+	// ft_printf("start->n = [%s] next->n = [%s] sub = [%s] sub_end = [%s]\n", (*sub)->str, (*sub_end)->n->str, (*sub)->str, (*sub_end)->str);
+	start2 = *start;
+	next2 = *next;
 	sub2 = *sub;
-	sub_end2 = (*sub_end)->n;
-	ft_printf("start->n = [%s] next->n = [%s] sub = [%s] sub_end = [%s]\n", (*sub)->str, (*sub_end)->n->str, (*sub)->str, (*sub_end)->str);
+	sub_end2 = *sub_end;
+	start2->n = *sub;
+	if (sub_end2->n)
+		next2->n->n = sub_end2->n;
+	else
+		next2->n->n = NULL;
+	sub_end2->n = next2;
+	// start = [-l] next = [>] sub = [POPO] sub_end = [XD]
+	// ls -l > tutu POPO PTDR XD > popo
 	// ft_putendl(tmp->str);
-	(*start)->n = sub2; // WORK
+	// (*start)->n = *sub; // WORK
+	// ft_putendl((*next)->str);
+	// (*next)->n->n = (*sub_end)->n;
 	// ft_putendl((*next)->str);
 	// ft_putendl((*next)->n->str);
 	// sleep(30);
-	(*next)->n->n = sub_end2;
-	(*sub_end)->n = *next;
+	// (*next)->n->n = sub_end2;
+	// (*sub_end)->n = *next;
 	ft_putendl((*next)->str);
 	ft_printf("[%s] [%s]\n", (*next)->n->n->str, (*sub_end)->n->str);
 	tmp = *start;
@@ -164,7 +180,7 @@ void	check_rdir(t_tok **start, t_tok **next)
 					ft_printf("start = [%s] next = [%s] sub = [%s] sub_end = [%s]\n", (*start)->str, (*next)->str, sub->str, tmp2->str);
 					// sleep(30);
 					replace_tok(start, next, &sub, &sub_end);
-					break ;
+					// break ;
 					// tmp = *start;
 				}
 			}
