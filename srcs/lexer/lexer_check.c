@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/19 10:48:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/20 17:32:07 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,17 @@ static int		check_lst(t_tok **lst)
 	{
 		if (tmp->type == CHEVRON && !tmp->n)
 			return (write(2, "parse error near unexpected token `newline'\n",
-			45));
+			              45));
 		else if (tmp->type == CHEVRON && (tmp->n->str[0] == '<'
-		|| tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
-		|| tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
-		|| tmp->n->str[0] == '|'))
+		                                  || tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
+		                                  || tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
+		                                  || tmp->n->str[0] == '|'))
 			return (fd_printf(2, "parse error near unexpected token `%s'\n",
-			tmp->str));
+			                  tmp->str));
 		else if ((tmp->type == QM && tmp->n && tmp->n->type == QM) ||
-		(tmp == *lst && tmp->type == QM && !tmp->n))
+		         (tmp == *lst && tmp->type == QM && !tmp->n))
 			return (fd_printf(2,
-				"parse error near unexpected token `newline'\n"));
+			                  "parse error near unexpected token `newline'\n"));
 		else
 			tmp = tmp->n;
 	}
