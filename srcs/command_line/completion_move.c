@@ -35,7 +35,7 @@ int		c_move(t_comp **comp)
 	tmp = *comp;
 	if (!tmp)
 		return (1);
-	while (!tmp->bol)
+	while (tmp && !tmp->bol)
 		tmp = tmp->n;
 	tmp->bol = 0;
 	if (tmp->n)
@@ -53,7 +53,7 @@ int		c_arrow_left(t_comp **comp)
 	tmp = *comp;
 	if (!tmp)
 		return (1);
-	while (!tmp->bol)
+	while (tmp && !tmp->bol)
 		tmp = tmp->n;
 	tmp->bol = 0;
 	if (tmp->p)
@@ -75,7 +75,7 @@ int		c_arrow_right(t_comp **comp)
 	tmp = *comp;
 	if (!tmp)
 		return (1);
-	while (!tmp->bol)
+	while (tmp && !tmp->bol)
 		tmp = tmp->n;
 	tmp->bol = 0;
 	if (tmp->n)
@@ -95,7 +95,7 @@ int		c_arrow_up(t_comp **comp)
 	elem_per_line = (*cmdl_slg())->col;
 	if (!tmp)
 		return (1);
-	while (!tmp->bol)
+	while (tmp && !tmp->bol)
 		tmp = tmp->n;
 	if (!tmp->p)
 		return (c_arrow_left(comp));
@@ -116,7 +116,7 @@ int		c_arrow_down(t_comp **comp)
 	elem_per_line = (*cmdl_slg())->col;
 	if (!tmp)
 		return (1);
-	while (!tmp->bol)
+	while (tmp && !tmp->bol)
 		tmp = tmp->n;
 	if (!tmp->n)
 		return (c_arrow_right(comp));

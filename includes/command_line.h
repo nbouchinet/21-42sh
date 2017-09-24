@@ -71,7 +71,7 @@ typedef struct		s_comp
 	char			*str;
 	char			pad[512];
 	int				bol;
-	int				col;
+	// int				col;
 	struct s_comp	*p;
 	struct s_comp	*n;
 }					t_comp;
@@ -105,6 +105,14 @@ typedef	struct		s_ccp
 
 }					t_ccp;
 
+typedef struct					s_local
+{
+	char						*var;
+	char						*val;
+	struct s_local				*n;
+	struct s_local				*p;
+}								t_local;
+
 /*
 **	Mode
 */
@@ -119,6 +127,7 @@ typedef	struct		s_ccp
 # define COR		128
 # define CHD		256
 # define CCOMP		512
+# define CCMODE		1024
 
 typedef struct		s_cmdl
 {
@@ -154,7 +163,7 @@ typedef struct 		s_op
 */
 
 void 				print_prompt(void);
-int					only_space(char *str, int limit, int w);
+int					only_space(t_cmdl *cmdl, int limit, int w);
 
 
 /*
@@ -163,13 +172,14 @@ int					only_space(char *str, int limit, int w);
 
 t_cmdl				**cmdl_slg(void);
 t_his				**his_slg(void);
-t_comp				**comp_slg(t_comp **head, int mode);
+t_local				**local_slg(void);
 
 /*
 **	Suppression des listes
 */
 
-void 				del_all(t_cmdl **cmdl, t_his **his);
+void 			del_all(t_cmdl **cmdl_head, t_his **his_head,
+	t_local **loc_head);
 
 /*
 **	Check l env
@@ -265,30 +275,35 @@ int					check_quote(t_cmdl *cmdl);
 int					handle_pipe_and_or(t_cmdl *cmdl, int k);
 int					inhibiteur(t_cmdl *cmdl, int len);
 int					ctrl_d(t_cmdl *cmdl);
+int					iris_west(char *str);
 
 /*
 **	Completion
 */
 
-t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
-void 				restor_cursor_position(t_cmdl *cmdl, int up);
-int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
+	int i);
 char				*get_path(char **tmp);
+int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);
 int					sep(t_cmdl *cmdl, int w);
 int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
 void 				completion_edit(t_line *line, t_comp **comp,
-	 char *tmp, int offset);
+	char *tmp, int offset);
 void 				comp_del(t_comp **head);
 int					c_move(t_comp **comp);
-void 				print_lst(t_comp **comp, t_cmdl *cmdl, int len, int up);
-
+void 				print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize,
+	int *up);
+void 				call_print_lst(t_cmdl *cmdl, t_comp **comp);
+void 				call_completion_edit(t_cmdl *cmdl, t_comp **comp,
+	int offset);
 int					c_arrow_down(t_comp **comp);
 int					c_arrow_up(t_comp **comp);
 int					c_arrow_right(t_comp **comp);
 int					c_arrow_left(t_comp **comp);
-
+void 				restor_cursor_position(t_cmdl *cmdl, int up);
+void 				print_comp(t_comp **comp);
 /*
 **	Bang
 */

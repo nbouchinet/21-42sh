@@ -66,7 +66,7 @@ void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 	}
 }
 
-static void hist_append(t_his **his, int offset, int his_len, char *arg)
+void hist_append(t_his **his, int offset, int his_len, char *arg)
 {
 	t_his	*tmp;
 	int		fd;
@@ -76,9 +76,9 @@ static void hist_append(t_his **his, int offset, int his_len, char *arg)
 	(void)arg;
 	tmp = *his;
 	if (!tmp->n)
-	return ;
+		return ;
 	while (tmp->n)
-	tmp = tmp->n;
+		tmp = tmp->n;
 	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
 	{
 		fd_printf(2, "Could no write history list to history file\n");

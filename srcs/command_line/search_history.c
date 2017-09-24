@@ -36,7 +36,7 @@ t_his	*findcmdl(char *str, char buf[], int reset)
 			return (head);
 		}
 		else
-			head = NEXT(buf) ? (head->p) : (head->n);
+			head = NEXT(buf) ? head->p : head->n;
 	}
 	return (NULL);
 }
@@ -65,6 +65,8 @@ int		search_history_print(t_cmdl *cmdl, char buf[])
 	int				pos;
 	int				len;
 
+	if (cmdl->opt & (CCMODE | CCOMP))
+		return (beep());
 	pos = cmdl->line.cur - cmdl->line.pr;
 	len = ft_strlen(cmdl->line.str);
 	if (!(SH(buf)) && !(NEXT(buf)))
@@ -72,7 +74,7 @@ int		search_history_print(t_cmdl *cmdl, char buf[])
 		len == cmdl->line.len ? remalloc_cmdl(&cmdl->line, len) : 0;
 		cmdl->line.str = ft_strcat(cmdl->line.str, buf);
 	}
-	if ((his = findcmdl(cmdl->line.str, buf, 0)))
+	if (cmdl->line.str[0] && (his = findcmdl(cmdl->line.str, buf, 0)))
 		print_match(cmdl, his, buf);
 	else if (!(SH(buf)) && !(NEXT(buf)))
 		cmdl->line.str[len] = 0;
@@ -83,7 +85,9 @@ int		cmd_search_history(t_cmdl *cmdl)
 {
 	int		len;
 
-	if (cmdl->opt & CHIS_S)
+	if (cmdl->opt & (CCMODE | CCOMP))
+		return (beep());
+	if (cmdl->opt & (CHIS_S))
 		return (search_history_print(cmdl, cmdl->line.buf));
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	print_prompt();

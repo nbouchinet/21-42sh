@@ -59,8 +59,8 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 		}
 	}
 	while (line[(*i)] && line[(*i)] == ' ')
-		(*i) += 1;
-	(*i) -= 1;
+		(*i)++;
+	(*i)--;
 }
 
 

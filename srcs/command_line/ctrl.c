@@ -12,30 +12,36 @@
 
 #include "header.h"
 
-int			ctrlt(t_cmdl *cmdl)
+int            ctrlt(t_cmdl *cmdl)
 {
-	int		i;
-	char	stock;
-	int		min;
+    int        i;
+    char    stock;
+    int        min;
 
-	i = cmdl->line.cur - cmdl->line.pr;
-	if (i == 0 || ft_strlen(cmdl->line.str) < 2)
+	if (cmdl->opt & (CCOMP | CCMODE))
 		return (beep());
-	min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
-	stock = cmdl->line.str[i - min - 1];
-	cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
-	cmdl->line.str[i - min] = stock;
-	arrow_left(cmdl);
-	min == 1 ? arrow_left(cmdl) : 0;
-	write(1, (cmdl->line.str + (i - min - 1)), 2 + min);
-	cmdl->line.cur += 2;
-	return (1);
+    i = cmdl->line.cur - cmdl->line.pr;
+    if (i == 0 || ft_strlen(cmdl->line.str) < 2)
+        return (beep());
+    min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
+    stock = cmdl->line.str[i - min - 1];
+    cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
+    cmdl->line.str[i - min] = stock;
+    arrow_left(cmdl);
+    min == 1 ? arrow_left(cmdl) : 0;
+    write(1, (cmdl->line.str + (i - min - 1)), 2 + min);
+    cmdl->line.cur += 2;
+    if (cmdl->line.cur % cmdl->line.co == 0)
+        tputs(tgetstr("do", NULL), 1, ft_putchar);
+    return (1);
 }
 
 int			ctrl_u(t_cmdl *cmdl)
 {
 	char	*sub;
 
+	if (cmdl->opt & (CCOMP | CCMODE))
+		return (beep());
 	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
 	home(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);

@@ -35,7 +35,7 @@
 // 	var->stack = ft_strjoinf(ft_strjoin(var->local, "="), var->stack, 3);
 // 	local(var->stack);
 // }
-//
+
 static void   buf_save(char **stack, char buf[], int *i, int type)
 {
 	char 		*tmp;
@@ -64,7 +64,7 @@ static void   read_input(t_read *var, int i, int nchar, char buf[])
 		read(var->fd, buf, 1);
 		if (CTRL_D(buf) && (var->eot = 1))
 			return ;
-		!(var->opt & SR) ? write(1, &buf[0], 1) : 0;
+		!(var->opt & (SR | TR)) ? write(1, &buf[0], 1) : 0;
 		var->opt & NR && PRINT(buf) ? nchar += 1 : 0;
 		(PRINT(buf) && !var->delim) || (PRINT(buf) && var->delim &&
 		var->delim[0] != buf[0]) ? buf_save(&var->stack, buf, &i, 0) : 0;
@@ -119,19 +119,24 @@ static int  get_opt(t_read *var, char **arg, int *i, int k)
 int         ft_read(t_ast **ast, t_env **env)
 {
 	t_read  var;
+	t_cmdl	*cmdl;
 	char	buf[6];
 	char    **targ;
 	int     i;
 
 	(void)env;
 	(void)ast;
-	mode_on(*cmdl_slg());
+	cmdl = *cmdl_slg();
 	ft_memset(&var, 0, sizeof(t_read));
 	targ = creat_arg_env(&(*ast)->left->right);
 	i = -1;
 	if (targ && get_opt(&var, targ, &i, -1))
 		return (0);
 	!var.local ? var.local = ft_strdup("REPLY") : 0;
+	mode_on(*cmdl_slg());
+	cmdl->term.c_lflag |= ECHO;
+	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
+		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
 	read_input(&var, -1, 0, buf);
 	mode_off(*cmdl_slg());
 	// save_input(&var);

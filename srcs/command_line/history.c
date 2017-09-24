@@ -72,6 +72,7 @@ void 		cmd_save_history(char *str)
 	head->n->p = new;
 	new->p = head;
 	head->n = new;
+	head = *his_slg();
 }
 
 static void print_cmdl(t_cmdl *cmdl, t_his *his)
@@ -94,11 +95,13 @@ int			cmd_history(t_cmdl *cmdl)
 	t_his			*his;
 	static t_his	*match = NULL;
 
+	if (cmdl->opt & CCMODE)
+		return (beep());
 	if (cmdl->opt & CCOMP)
 		return (UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
 		c_arrow_down(&cmdl->comp));
 	if (cmdl->opt & CHIS_S)
-		return (1);
+		return (return_cmdl(cmdl));
 	if (cmdl->opt & CRESET)
 	{
 		match = NULL;

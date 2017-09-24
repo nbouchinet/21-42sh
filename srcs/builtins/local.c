@@ -12,71 +12,47 @@
 
 #include "header.h"
 
-int 		check_local(t_ast *tmp, int type)
+static void stock_loc(t_local *loc, char *str, char *sub, int match)
 {
-	if (type != PIPE_SEQ && ft_strchr(tmp->left->left->str, '='))
-		return (local(tmp->left->left->str));
-	else if (type == PIPE_SEQ && tmp->right->left->left->left->str &&
-	ft_strchr(tmp->right->left->left->left->str, '='))
-		return (local(tmp->right->left->left->left->str));
-	else if (type == PIPE_SEQ && tmp->right->right->left->left->str &&
-	ft_strchr(tmp->right->right->left->left->str, '='))
-		return (local(tmp->right->right->left->left->str));
-	return (0);
-}
-
-t_local		**local_sgt(int i)
-{
-	static t_local *loc = NULL;
-
-	if (!loc && i == 1)
+	if (match)
 	{
-		if (!(loc = (t_local*)malloc(sizeof(t_local))))
-			exit(fd_printf(2, "malloc error\n"));
-    loc->var = NULL;
-    loc->val = NULL;
-    loc->n = NULL;
-		return (&loc);
+		if (!(loc->n = (t_local*)malloc(sizeof(t_local))))
+		  exit(fd_printf(2, "malloc error\n"));
+		loc->n->var = ft_strdup(str);
+		loc->n->val = ft_strdup(sub);
+		loc->n->n = NULL;
+		loc->n->p = loc;
 	}
-	return (&loc);
-}
-
-static void stock_loc(int match, char **arr, t_local *loc)
-{
-  if (match)
-  {
-    if (!(loc->n = (t_local*)malloc(sizeof(t_local))))
-      exit(fd_printf(2, "malloc error\n"));
-    loc->n->var = ft_strdup(arr[0]);
-    loc->n->val = ft_strdup(arr[1]);
-    loc->n->n = NULL;
-  }
-  else
-  {
-    loc->var = ft_strdups(arr[0], &loc->var);
-    loc->val = ft_strdups(arr[1], &loc->val);
-  }
+	else
+	{
+		loc->var = ft_strdups(str, &loc->var);
+		loc->val = ft_strdups(sub, &loc->val);
+	}
 }
 
 int   local(char *str)
 {
-	t_local   *loc;
-	char      **arr;
-	int       match;
+	t_local		*loc;
+	char		*sep;
+	char		*sub;
+	int			match;
 
-	loc = *local_sgt(1);
-	arr = ft_strsplit(str, '=');
+	loc = *local_slg();
+	if (!(sep = ft_strchr(str, '=')))
+		return (1);
+	sub = ft_strdup(str + 1);
+	*str = 0;
 	match = 0;
 	if (!loc->var)
 	{
-		loc->var = ft_strdup(arr[0]);
-		loc->val = ft_strdup(arr[1]);
-		ft_free(arr, NULL, 1);
+		loc->var = ft_strdup(str);
+		loc->val = ft_strdup(sub);
+		ft_strdel(&sub);
 		return (1);
 	}
-	while ((match = ft_strcmp(loc->var, arr[0])) && loc->n)
+	while (loc->n && (match = ft_strcmp(loc->var, str)))
 		loc = loc->n;
-	stock_loc(match, arr, loc);
-	ft_free(arr, NULL, 1);
+	stock_loc(loc, str, sub, match);
+	ft_strdel(&sub);
 	return (1);
 }

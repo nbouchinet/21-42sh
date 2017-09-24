@@ -81,6 +81,7 @@ CFILES= 		main.c \
 				command_line/cmdl_signals.c \
 				command_line/completion.c \
 				command_line/completion_display.c \
+				command_line/completion_display2.c \
 				command_line/completion_edit.c \
 				command_line/completion_func.c \
 				command_line/completion_move.c \
@@ -91,6 +92,7 @@ CFILES= 		main.c \
 				command_line/get_cmdl.c \
 				command_line/history.c \
 				command_line/inhibiteur.c \
+				command_line/iris_west.c \
 				command_line/pipe_and_or.c \
 				command_line/print.c \
 				command_line/quotes.c \

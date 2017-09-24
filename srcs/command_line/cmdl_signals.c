@@ -16,11 +16,14 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 {
 	char	*tmp;
 
-	cmdl->opt = 0;
+	cmdl->ccp.start = -1;
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
-	end(cmdl);
-	write(1, "\n", 1);
-	print_prompt();
+	!(cmdl->opt & CHIS_S) ? end(cmdl) :
+	tputs(tgetstr("cr", NULL), 1, ft_putchar);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	!(cmdl->opt & CHIS_S) ? write(1, "\n", 1) : 0;
+	!(cmdl->opt & CHIS_S) ? print_prompt() : write(1, "$> ", 3);
+	cmdl->opt = 0;
 	cmdl->opt |= CRESET;
 	if (cmdl->line.save)
 	{
@@ -51,12 +54,13 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 		get_win_data(cmdl);
 		print_prompt();
 		ft_putstr(cmdl->line.str);
+		cmdl->opt & CCOMP ? display_comp(cmdl, &cmdl->comp, 0) : 0;
 	}
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)
 	{
-		del_all(cmdl_slg(), his_slg());
+		del_all(cmdl_slg(), his_slg(), local_slg());
 		exit(EXIT_SUCCESS);
 	}
 }

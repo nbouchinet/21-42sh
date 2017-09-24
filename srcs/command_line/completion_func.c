@@ -37,16 +37,14 @@ static void insert(t_comp **comp, t_comp *lnk, int i)
 	}
 }
 
-t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param)
+t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 {
 	t_comp	*tmp;
 	t_comp	*stock;
-	int		i;
 
-	i = 0;
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
 	{
-		del_all(cmdl_slg(), his_slg());
+		del_all(cmdl_slg(), his_slg(), local_slg());
 		exit(EXIT_FAILURE);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?

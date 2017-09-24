@@ -66,7 +66,7 @@ void	print_process(t_process **pro)
 		printf("%s\n", tmp->argv[i]);
 	if (tmp->rdir)
 	{
-		
+
 	}
 	//	ft_putast(tmp->rdir);
-		}
+}

@@ -37,14 +37,14 @@ static void	get_b_e(t_cmdl *cmdl)
 	if (CUT(cmdl->line.buf))
 	{
 		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr + 1 : 0;
+		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
 		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
 		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
 	}
 	else if (CPY(cmdl->line.buf))
 	{
 		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr + 1 : 0;
+		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
 		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
 		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
 	}
@@ -80,8 +80,8 @@ static void	unrev_color(t_cmdl *cmdl)
 
 int			ccp(t_cmdl *cmdl)
 {
-	if (cmdl->opt & CHIS_S)
-		return (1);
+	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP))
+		return (beep());
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
 	{
 		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy),

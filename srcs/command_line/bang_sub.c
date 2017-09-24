@@ -43,7 +43,6 @@ static void process_des_and_mod(t_bang *bang, char *match[])
 {
 	int		arg;
 
-	ft_putendl(bang->tmp);
 	if (bang->mod & 128)
 	{
 		arg = bang->des < 0 || bang->y < 0 ? ft_tablen(match) -

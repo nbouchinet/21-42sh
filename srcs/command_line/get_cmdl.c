@@ -27,8 +27,7 @@ static void exit_cmdl(t_cmdl *cmdl)
 	cmd_save_history(cmdl->line.str);
 	cmdl->opt |= CRESET;
 	cmd_history(cmdl);
-	if (cmdl->line.str)
-		end(cmdl);
+	cmdl->opt = 0;
 	write(1, "\n", 1);
 }
 

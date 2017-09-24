@@ -19,8 +19,8 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 	int				i;
 
 	i = -1;
-	if (cmdl->opt & (CSQ |  CDQ | CHD))
-		return (0);
+	// if (cmdl->opt & (CSQ | CDQ |CPIPE | CAND | COR))
+		// return (0);
 	while (arr_path[++i])
 	{
 		if (!(dir = opendir(arr_path[i])))
@@ -28,14 +28,16 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 		while ((rdd = readdir(dir)) != 0)
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
 			!check_comp(&cmdl->comp, rdd->d_name))
-				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2) :
-				fill_comp(&cmdl->comp, rdd, 2);
+				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
+				fill_comp(&cmdl->comp, rdd, 2, 0);
 		closedir(dir);
 	}
 	cmdl->comp ? cmdl->comp->bol = 1 : 0;
-	return (cmdl->comp ? display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)) : 0);
+	if (cmdl->comp)
+		return (display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)));
+	beep();
+	return (0);
 }
-
 
 static void		list_files(t_cmdl *cmdl, char **tmp)
 {
@@ -50,8 +52,8 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 	if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
 		if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
-			!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2) :
-			fill_comp(&cmdl->comp, rdd, 2);
+			!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
+			fill_comp(&cmdl->comp, rdd, 2, 0);
 	closedir(dir);
 	free(path);
 	if (cmdl->comp)
@@ -59,6 +61,8 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 		cmdl->comp->bol = 1;
 		display_comp(cmdl, &cmdl->comp, ft_strlen(*tmp));
 	}
+	else
+		beep();
 }
 
 static void 	get_comp(t_cmdl *cmdl, int i)
@@ -112,10 +116,8 @@ int				completion(t_cmdl *cmdl)
 		comp_del(&cmdl->comp);
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
-	if (!(cmdl->opt & CSQ)  && !(cmdl->opt & CDQ) && !(cmdl->opt & CPIPE) &&
-	    !(cmdl->opt & CAND) && !(cmdl->opt & COR)/*&& cmdl->hd */ &&
-	    (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
-	only_space_comp(cmdl->line.str)))
+	if (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
+	only_space_comp(cmdl->line.str))
 		return (1);
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
 	cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||

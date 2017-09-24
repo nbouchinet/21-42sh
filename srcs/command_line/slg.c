@@ -65,11 +65,18 @@ t_cmdl		**cmdl_slg(void)
 	return(&cmdl);
 }
 
-t_comp		**comp_slg(t_comp **head, int mode)
+t_local		**local_slg(void)
 {
-	static t_comp	*comp = NULL;
+	static t_local *loc = NULL;
 
-	if (!comp && mode)
-		comp = *head;
-	return (&comp);
+	if (!loc)
+	{
+		if (!(loc = (t_local*)malloc(sizeof(t_local))))
+			exit(fd_printf(2, "malloc error\n"));
+		loc->var = NULL;
+		loc->val = NULL;
+		loc->n = NULL;
+		loc->p = NULL;
+	}
+	return (&loc);
 }

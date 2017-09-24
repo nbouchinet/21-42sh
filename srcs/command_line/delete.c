@@ -37,6 +37,8 @@ int		del(t_cmdl *cmdl)
 {
 	int		i;
 
+	if (cmdl->opt & CCMODE)
+		return (beep());
 	if (cmdl->opt & CHIS_S)
 		return (delete_sh(cmdl));
 	if (cmdl->opt & CCOMP)

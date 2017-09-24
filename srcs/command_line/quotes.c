@@ -12,24 +12,43 @@
 
 #include "header.h"
 
+static int	bs(char *str, int i)
+{
+	int		count;
+
+	count = 0;
+	if (i == 0)
+		return (0);
+	while (str[--i] == '\\')
+		count++;
+	if ((count % 2))
+		return (1);
+	return (0);
+}
+
 static void count_quote(t_cmdl *cmdl)
 {
+	char	*str;
 	int		i;
 
 	i = -1;
+	str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	while (cmdl->line.str[++i])
 	{
-		if (cmdl->line.str[i] == '\'' && (!(cmdl->opt & (CSQ | CDQ))))
+		if (cmdl->line.str[i] == '\'' && (!(cmdl->opt & (CSQ | CDQ))) &&
+		!bs(cmdl->line.str, i))
 			cmdl->opt |= CSQ;
-		else if (cmdl->line.str[i] == '"' && (!(cmdl->opt & (CSQ | CDQ))))
-			cmdl->opt |= (i == 0 || cmdl->line.str[i - 1] != '\\' ? CDQ :
-			              cmdl->opt);
-		else if (cmdl->line.str[i] == '\'' && (cmdl->opt & CSQ))
+		else if (cmdl->line.str[i] == '"' && (!(cmdl->opt & (CSQ | CDQ))) &&
+		!(bs(cmdl->line.str, i)))
+			cmdl->opt |= CDQ;
+		else if (cmdl->line.str[i] == '\'' && (cmdl->opt & CSQ) &&
+		!bs(cmdl->line.str, i))
 			cmdl->opt &= ~(CSQ);
-		else if (cmdl->line.str[i] == '"' && (cmdl->opt & CDQ))
-			if (i == 0 || cmdl->line.str[i - 1] != '\\')
+		else if (cmdl->line.str[i] == '"' && (cmdl->opt & CDQ) &&
+		!bs(cmdl->line.str, i))
 				cmdl->opt &= ~(CDQ);
 	}
+	free(str);
 }
 
 int			check_quote(t_cmdl *cmdl)
@@ -38,10 +57,25 @@ int			check_quote(t_cmdl *cmdl)
 	if ((cmdl->opt & (CSQ | CDQ)))
 	{
 		print(cmdl, " ");
-		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
-		cmdl->line.cur = cmdl->opt & CSQ ? 8 : 9;
-		cmdl->line.pr = cmdl->opt & CSQ ? 8 : 9;
-		return (1);
+		if (!(cmdl->opt & (CPIPE | COR | CAND)))
+			cmdl->line.pr = (cmdl->opt & CSQ ?
+			write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);
+		else if (cmdl->opt & (CPIPE | COR | CAND))
+		{
+			cmdl->line.pr = ((cmdl->opt & COR) && (cmdl->opt & CSQ) ?
+			write(1, "\ncmdor quote> ", 14) - 1 : cmdl->line.pr);
+			cmdl->line.pr = ((cmdl->opt & COR) && (cmdl->opt & CDQ) ?
+			write(1, "\ncmdor dquote> ", 15) - 1 : cmdl->line.pr);
+			cmdl->line.pr = ((cmdl->opt & CAND) && (cmdl->opt & CSQ) ?
+			write(1, "\ncmdand quote> ", 15) - 1 : cmdl->line.pr);
+			cmdl->line.pr = ((cmdl->opt & CAND) && (cmdl->opt & CDQ) ?
+			write(1, "\ncmdand dquote> ", 16) - 1 : cmdl->line.pr);
+			cmdl->line.pr = ((cmdl->opt & CPIPE) && (cmdl->opt & CSQ) ?
+			write(1, "\npipe quote> ", 13) - 1 : cmdl->line.pr);
+			cmdl->line.pr = ((cmdl->opt & CPIPE) && (cmdl->opt & CDQ) ?
+			write(1, "\npipe dquote> ", 14) - 1 : cmdl->line.pr);
+		}
+		return ((cmdl->line.cur = cmdl->line.pr) ? 1 : 1);
 	}
 	return (0);
 }

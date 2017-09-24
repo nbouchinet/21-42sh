@@ -28,10 +28,9 @@ int		unset_shell(t_cmdl *cmdl)
 	if (mode_off(cmdl))
 		return (1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
-
-	// save l hsitorique de la session et del les listes
-
-	write(1, "\nBye\n", 4);
+	hist_append(his_slg(), 0, 0, 0);
+	del_all(cmdl_slg(), his_slg(), local_slg());
+	write(1, "\nBye\n", 5);
 	return (0);
 }
 
@@ -99,7 +98,6 @@ int		set_shell(t_cmdl *cmdl)
 		tcsetpgrp (g_shell_terminal, g_shell_pgid);
 		tcgetattr (g_shell_terminal, &g_shell_tmodes);
 		tputs(tgetstr("nam", NULL), 1, ft_putchar);
-		//mdl = win_sgt();
 	}
 	if ((shl_name = getenv("TERM")) == NULL)
 		shl_name = "xterm-256color";

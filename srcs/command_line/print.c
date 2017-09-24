@@ -12,6 +12,40 @@
 
 #include "header.h"
 
+static void clear_comp(t_cmdl *cmdl)
+{
+	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	end(cmdl);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	cmdl->opt &= ~(CCOMP);
+}
+
+static int 	cmode(t_cmdl *cmdl)
+{
+	int		cur_save;
+
+	if (cmdl->line.buf[0] != 'y' && cmdl->line.buf[0] != 'n')
+		return (beep() == OK ? 1  : 1);
+	else if (cmdl->line.buf[0] == 'y')
+		print_comp(&cmdl->comp);
+	else
+		write(1, "\n", 1);
+	cmdl->opt &= ~(CCMODE | CCOMP);
+	print_prompt();
+	cmdl->line.pr = 3;
+	cur_save = cmdl->line.cur - cmdl->line.pr;
+	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	while ((cmdl->line.cur - cmdl->line.pr) > cur_save)
+	{
+		tputs(tgetstr("le", NULL), 1, ft_putchar);
+		cmdl->line.cur--;
+	}
+	comp_del(&cmdl->comp);
+	return (1);
+}
+
 void remalloc_cmdl(t_line *line, int len)
 {
 	char	*tmp;
@@ -60,13 +94,10 @@ int 		print(t_cmdl *cmdl, char buf[])
 
 	if (!(PRINT(buf)) && !(SH(buf)))
 		return (1);
-	if (cmdl->opt & CCOMP)
-	{
-		tputs(tgetstr("sc", NULL), 1, ft_putchar);
-		end(cmdl);
-		tputs(tgetstr("cd", NULL), 1, ft_putchar);
-		tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	}
+	if (PRINT(buf) && cmdl->opt & CCOMP && !(cmdl->opt & CCMODE))
+		clear_comp(cmdl);
+	else if (cmdl->opt & (CCOMP | CCMODE) && cmode(cmdl))
+		return (1);
 	if (PRINT(buf) && !(cmdl->opt & CHIS_S))
 	{
 		i = regular_print(&cmdl->line, buf, cmdl->line.cur - cmdl->line.pr);
@@ -79,7 +110,7 @@ int 		print(t_cmdl *cmdl, char buf[])
 				arrow_left(cmdl);
 		}
 	}
-	else
+	else if (cmdl->opt == CHIS_S)
 		search_history_print(cmdl, buf);
 	return (1);
 }

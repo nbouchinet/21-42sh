@@ -16,35 +16,26 @@ static void     exec_part(char **line, t_env **env)
 {
 	t_ast   *ast;
 	t_tok   *cmd;
-	// t_tok        *tok;
-	t_local	*loc;
 
 	init_token(&cmd);
+	ft_putendl("0");
 	new_parser(&cmd, *line);
+	ft_putendl("1");
 	lexer_check(&cmd);
-	ft_strdel(line);
+	ft_putendl("2");
 	expanse(&cmd, env);
+	ft_putendl("3");
 	if (!cmd)
 		return ;
-	// tok = cmd;
-	// while (tok)
-	// {
-	    //  ft_printf("%@%s%@ %d\n", RED, tok->str, I, tok->type);
-	    //  tok = tok->n;
-	// }
+	ft_putendl("4");
 	init_ast(&ast, NULL, 0);
+	ft_putendl("5");
 	primary_sequence(&ast, &cmd);
 	//      ft_putast(ast);
 	job_ast(&ast, env, 1);
 	// exec_ast(&ast, env);
 	destroy_ast(&ast);
 	destroy_tok(&cmd);
-	loc = *local_sgt(1);
-	while (loc)
-	{
-		ft_printf("key: %s | value: %s\n", loc->var, loc->val);
-		loc = loc->n;
-	}
 }
 
 static void     loop(t_cmdl *cmdl)
@@ -55,20 +46,19 @@ static void     loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
+		// ft_printf("exec: %s\n", cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-		cmdl->line.str[1] == 0) && !only_space(cmdl->line.str, 0, 0))
+		cmdl->line.str[1] == 0) && !only_space(cmdl, 0, 0))
 		{
+			ft_putendl(cmdl->line.str);
 			mode_off(cmdl);
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
 		}
 		if (cmdl->exit != 256)
 			break ;
-		t_local *loc = *local_sgt(0);
-		while (loc)
-			loc = loc->n;
 	}
 	unset_shell(cmdl);
 }

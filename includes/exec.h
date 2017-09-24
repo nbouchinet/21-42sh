@@ -124,13 +124,6 @@ typedef struct					s_opt
 	int							(*f)(t_read *var, char **arg, int *i, int j);
 }								t_opt;
 
-typedef struct					s_local
-{
-	char						*var;
-	char						*val;
-	struct s_local	*n;
-}								t_local;
-
 int					ft_setenv(t_ast **ast, t_env **env);
 void				add_env(t_env **env, char **arg);
 void				add_var(t_env **env, char *var, char *value);
@@ -152,9 +145,9 @@ void 				run_his(char *arg, int opt, int offset, int his_len);
 void 				hist_write(t_his **his, int offset, int his_len, char *arg);
 void 				hist_sarg(t_his **his, int offset, int his_len, char *arg);
 void 				hist_read(t_his **his, int offset, int his_len, char *arg);
+void 				hist_append(t_his **his, int offset, int his_len, char *arg);
 
 int   				local(char *str);
-t_local				**local_sgt(int i);
 int 				check_local(t_ast *tmp, int type);
 int   				ft_unset(t_ast **ast, t_env **env);
 int   				ft_export(t_ast **ast, t_env **env);
