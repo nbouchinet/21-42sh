@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/16 16:19:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 13:51:50 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/23 14:21:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,26 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl, int i, int ret)
 		else if (CTRL_L(cmdl->line.buf))
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
-				return (-1);
+				break ;
 		else if (i == 16)
 			print(cmdl, cmdl->line.buf);
 	}
 	close(p[1]);
 	return (p[0]);
+}
+
+void	creat_file(t_tok **lst)
+{
+	int		fd;
+
+	if (!io_number((*lst)->n->str))
+	{
+		if ((fd = open((*lst)->n->str, ((*lst)->type == RRDIR ? O_APPEND : O_TRUNC)
+			| O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) != -1)
+		{
+			close(fd);
+		}
+	}
 }
 
 t_tok	*heredoc(t_tok **lst)
@@ -98,6 +112,8 @@ t_tok	*heredoc(t_tok **lst)
 				else
 					return (tmp->n);
 			}
+			else if ((tmp->type & (RDIR | RRDIR)))
+				creat_file(&tmp);
 			tmp = tmp->n;
 		}
 	}

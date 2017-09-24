@@ -6,12 +6,46 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/19 17:26:55 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/24 21:41:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
+/*
+*************** NEW BEGINNING *************
+*/
+
+
+int		new_lexercheck(t_tok **lst)
+{
+	t_tok	*tmp;
+
+	if (*lst)
+	{
+		tmp = *lst;
+		while (tmp)
+		{
+			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BG))
+				if (tmp->type & (AND | OR | QM | PIPE | CHEVRON | BG))
+				{
+					if (!tmp->p && (tmp->type & (AND | OR | QM | PIPE | BG)))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
+					else if (!tmp->n && (tmp->type & CHEVRON))
+						return (write(2, "parse error near unexpected token `newline'\n", 45));
+					else if (!tmp->n && !(tmp->type & BG))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
+					else if (tmp->n && (tmp->n->type & (AND | OR | BG | CHEVRON | PIPE | QM | IO_N)) && !(tmp->n->type & (QUOTE | DQUOTE)))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->n->str));
+				}
+			tmp = tmp->n;
+		}
+	}
+	return (1);
+}
+/*
+**************** END OF THE NEW BEGINNING ****************
+*/
 int				cmp_sep(t_tok *tmp)
 {
 	if (tmp->type == SPACE_TOK)
@@ -137,7 +171,7 @@ void	check_rdir(t_tok **start, t_tok **next)
 					{
 						sub = tmp->n->n->n;
 						tmp2 = tmp->n->n->n;
-						while (tmp2 && tmp2->n && tmp2->n->type == WORD)
+						while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
 							tmp2 = tmp2->n;
 						sub_end = tmp2;
 						replace_tok(start, next, &sub, &sub_end);
@@ -150,7 +184,7 @@ void	check_rdir(t_tok **start, t_tok **next)
 				{
 					sub = tmp->n->n;
 					tmp2 = tmp->n->n;
-					while (tmp2 && tmp2->n && tmp2->n->type == WORD)
+					while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
 						tmp2 = tmp2->n;
 					sub_end = tmp2;
 					replace_tok(start, next, &sub, &sub_end);

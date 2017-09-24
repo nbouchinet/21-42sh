@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/09 15:52:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 16:23:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/23 13:28:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ int		rlt_ou_abs(t_ast **ast, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
-	if (tmp->left->type == CMD_NAME_ABS)
-		return (new_abs_cmd(&tmp));
-	else
-		return (new_rlt_cmd(&tmp, env));
+	if (tmp->left)
+	{
+		if (tmp->left->type == CMD_NAME_ABS)
+			return (new_abs_cmd(&tmp));
+		else
+			return (new_rlt_cmd(&tmp, env));
+	}
+	return (0);
 }
 
 char	**creat_arg_process(t_ast **ast, t_env **env)

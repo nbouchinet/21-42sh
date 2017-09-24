@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 14:52:53 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/23 13:23:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	i = -1;
 	tmp = *ast;
 	while (++i < 11)
-		if (!ft_strcmp(cmd[i].cmd, tmp->left->left->str))
+		if (tmp->left->left && !ft_strcmp(cmd[i].cmd, tmp->left->left->str))
 			return (cmd[i].f(&tmp, env));
 	if (init_job(&job))
 	{

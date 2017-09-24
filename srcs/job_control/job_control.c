@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 20:14:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/17 19:58:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/23 13:24:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,23 @@ char	*init_job_name(t_ast **ast)
 	t_ast	*tmp2;
 
 	tmp = *ast;
-	cmd = ft_strdup(tmp->left->left->str);
-	if (tmp->left->right)
+	if (tmp->left->left)
 	{
-		cmd = ft_strjoinf(cmd, " ", 1);
-		tmp2 = tmp->left->right;
-		while (tmp2)
+		cmd = ft_strdup(tmp->left->left->str);
+		if (tmp->left->right)
 		{
-			cmd = ft_strjoinf(cmd, tmp2->str, 1);
-			if ((tmp2 = tmp2->right))
-				cmd = ft_strjoinf(cmd, " ", 1);
+			cmd = ft_strjoinf(cmd, " ", 1);
+			tmp2 = tmp->left->right;
+			while (tmp2)
+			{
+				cmd = ft_strjoinf(cmd, tmp2->str, 1);
+				if ((tmp2 = tmp2->right))
+					cmd = ft_strjoinf(cmd, " ", 1);
+			}
 		}
+		if (tmp->right)
+			init_rdir(&cmd, &tmp->right->right);
+		return (cmd);
 	}
-	if (tmp->right)
-		init_rdir(&cmd, &tmp->right->right);
-	return (cmd);
+	return (NULL);
 }
