@@ -60,7 +60,6 @@ static void process_des_and_mod(t_bang *bang, char *match[])
 				1), " ", 1);
 		}
 	}
-	ft_putendl(bang->tmp);
 	if (bang->mod && bang->mod < 128)
 		process_mod(bang, NULL);
 }
