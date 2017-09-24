@@ -25,7 +25,7 @@ static int	check_save(t_cmdl *cmdl)
 		str = ft_strstr(cmdl->line.save, "||") + 2;
 	j = -1;
 	while (str[++j])
-		if (str[j] != ' ')
+		if (str[j] != ' ' &&  str[j] != '\\')
 			return (0);
 	return (1);
 }
@@ -46,8 +46,10 @@ int			iris_west(char *str)
 		else if (str[i] != ' ' && str[i] != '\\')
 			j = 1;
 	}
-	if ((count % 2))
+	if (count && (count % 2))
 		return (1);
+	else if ((count && !(count % 2)))
+		return (0);
 	else if (!j && check_save(*cmdl_slg()))
 		return (1);
 	return (0);
