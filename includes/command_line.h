@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:01:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 14:53:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int					only_space(t_cmdl *cmdl, int limit, int w);
 
 t_cmdl				**cmdl_slg(void);
 t_his				**his_slg(void);
-t_local				**local_slg(void);
+t_local				**local_slg(int mode);
 
 /*
 **	Suppression des listes

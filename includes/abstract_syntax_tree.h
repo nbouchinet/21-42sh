@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 12:02:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 17:20:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@
 enum				e_ast
 {
 	QM_SEQ = 42,
-	CMD_SEQ,
-	PIPE_SEQ,
-	BG_SEQ,
-	AND_OR,
-	IO_FILE,
-	CMD_NAME_ABS,
+	CMD_SEQ = 43,
+	PIPE_SEQ = 44,
+	BG_SEQ = 45,
+	AND_OR = 46,
+	IO_FILE = 47,
+	CMD_NAME_ABS = 48,
 	SIMP_CMD,
 	CMD_ARG,
 	IO_SEQ,

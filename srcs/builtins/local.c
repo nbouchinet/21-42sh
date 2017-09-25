@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 16:56:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:12:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 15:07:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ int				local(char *str)
 	char		*sub;
 	int			match;
 
-	loc = *local_slg();
-	if (!(sep = ft_strchr(str, '=')))
-		return (1);
-	sub = ft_strdup(str + 1);
-	*str = 0;
+	loc = *local_slg(1);
+	sep = ft_strchr(str, '=');
+	sub = ft_strdup(sep + 1);
+	*sep = 0;
 	match = 0;
 	if (!loc->var)
 	{

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:13:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 15:05:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int		unset_lst(char *str)
 {
 	t_local   *loc;
 
-	loc = *local_slg();
+	loc = *local_slg(0);
 	if (!loc)
 		return (0);
 	while (loc && ft_strcmp(str, loc->var))
@@ -54,9 +54,9 @@ static int		unset_lst(char *str)
 	if (loc->p)
 		loc->p->n = loc->n;
 	else if (!loc->p && loc->n)
-		*local_slg() = loc->n;
+		*local_slg(0) = loc->n;
 	else if (!loc->p && !loc->n)
-		*local_slg() = NULL;
+		*local_slg(0) = NULL;
 	free(loc);
 	return (1);
 }
@@ -68,7 +68,7 @@ int				ft_unset(t_ast **ast, t_env **env)
 	if (!(*ast)->left->right)
 		return (0);
 	tmp = (*ast)->left->right;
-	while (tmp->right)
+	while (tmp)
 	{
 		if (unset_lst(tmp->str))
 			unset_env(env, tmp->str);

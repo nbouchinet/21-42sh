@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:13:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 15:07:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		ft_export(t_ast **ast, t_env **env)
 	t_local   *loc;
 	t_env     *tmp;
 
-	loc = *local_slg();
+	loc = *local_slg(0);
 	tmp = *env;
 	if (!loc || !(*ast)->left->right->str || !*env)
 		return (0);

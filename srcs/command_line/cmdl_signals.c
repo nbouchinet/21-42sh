@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdl_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 13:26:17 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:31:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:55:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)
 	{
-		del_all(cmdl_slg(), his_slg(), local_slg());
+		del_all(cmdl_slg(), his_slg(), local_slg(0));
 		exit(EXIT_SUCCESS);
 	}
 }

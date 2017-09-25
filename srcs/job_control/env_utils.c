@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:52:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 11:43:04 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 15:22:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ char	*recreat_cmd(t_ast **ast)
 
 	tmp = *ast;
 	new_cmd = ft_strdup(tmp->str);
-	(tmp = tmp->right)
-	? new_cmd = ft_strjoinf(new_cmd, " ", 1) : 0;
+	(tmp = tmp->right) ? new_cmd = ft_strjoinf(new_cmd, " ", 1) : 0;
 	while (tmp)
 	{
 		new_cmd = ft_strjoinf(new_cmd, tmp->str, 1);

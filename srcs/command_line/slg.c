@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:19:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 14:53:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ t_cmdl		**cmdl_slg(void)
 	return (&cmdl);
 }
 
-t_local		**local_slg(void)
+t_local		**local_slg(int mode)
 {
 	static t_local *loc = NULL;
 
-	if (!loc)
+	if (!loc && mode)
 	{
 		if (!(loc = (t_local*)malloc(sizeof(t_local))))
 			exit(fd_printf(2, "malloc error\n"));

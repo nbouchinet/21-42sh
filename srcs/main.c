@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:26:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 18:21:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ void	db_lst(t_tok **lst)
 		}
 	}
 }
-static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
+static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	int		i;
 
+	i = 0;
 	if (*line)
 	{
 		cmd = init_tok(&cmd, CURR);
@@ -78,14 +80,16 @@ static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 			{
 				init_ast(&ast, NULL, 0);
 				primary_sequence(&ast, &cmd);
+				ft_putast(ast);
 				mode_off(cmdl);
-				job_ast(&ast, env, 1);
+				i = job_ast(&ast, env, 1);
 				destroy_ast(&ast);
 				mode_on(cmdl);
 			}
 		}
 		destroy_tok(&cmd);
 	}
+	return (i);
 }
 
 void	lstfree(void *content, size_t type)

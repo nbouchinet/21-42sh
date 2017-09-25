@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/24 17:55:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 13:36:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,12 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_ast = *ast;
 	if (tmp != *sep && !(tmp->type & (RDIR | BDIR | RRDIR | BBDIR | AGRE | BGRE)))
 	{
-		init_ast(&tmp_ast->left, &tmp,
-			ft_strrchr(tmp->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
+		if (ft_strchr(tmp->str, '='))
+			init_ast(&tmp_ast->left, &tmp, LOCAL);
+		else if (ft_strchr(tmp->str, '/'))
+			init_ast(&tmp_ast->left, &tmp, CMD_NAME_ABS);
+		else
+			init_ast(&tmp_ast->left, &tmp, CMD_NAME_RLT);
 		tmp = tmp->n;
 	}
 	else

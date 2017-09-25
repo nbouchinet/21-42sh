@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:18:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 14:55:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				unset_shell(t_cmdl *cmdl)
 		return (1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
 	hist_append(his_slg(), 0, 0, 0);
-	del_all(cmdl_slg(), his_slg(), local_slg());
+	del_all(cmdl_slg(), his_slg(), local_slg(0));
 	write(1, "\nBye\n", 5);
 	return (0);
 }

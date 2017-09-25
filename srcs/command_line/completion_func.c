@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:17:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 14:55:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
 	{
-		del_all(cmdl_slg(), his_slg(), local_slg());
+		del_all(cmdl_slg(), his_slg(), local_slg(0));
 		exit(EXIT_FAILURE);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?

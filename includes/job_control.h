@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/19 15:33:08 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 15:15:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char					**creat_arg_process(t_ast **ast, t_env **env);
 int						complete_process(t_ast **ast, t_process **p,
 						                 t_env **env);
 void					print_job(t_job **job);
-void					job_ast(t_ast **ast, t_env **env, int foreground);
+int						job_ast(t_ast **ast, t_env **env, int foreground);
 int						job_pipe(t_ast **ast, t_env **env, int foreground);
 int						job_andor(t_ast **ast, t_env **env, int foreground);
 int						job_oa_seq(t_ast **ast, t_env **env, int foreground);

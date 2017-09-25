@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/06 14:51:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/20 15:43:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 18:05:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 	tmp = *ast;
 	tok = NULL;
 	cmd = recreat_cmd(&tmp);
+	ft_putstr("cmd: ");
+	ft_putendl(cmd);
 	if (cmd != NULL)
 	{
 		tok = init_tok(&tok, C);
