@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   abstract_syntax_tree.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/12 16:24:36 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/21 11:10:37 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
+/*   Updated: 2017/09/25 12:02:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ enum				e_ast
 typedef struct		s_ast
 {
 	char			*str;
-	int				type;
+	int			type;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;

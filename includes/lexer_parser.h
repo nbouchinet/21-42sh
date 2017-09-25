@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/24 17:36:46 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 12:04:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
 void				new_parser(t_tok **cmd, char *line);
 void				quote(t_tok **lst, char **stack, char *line, int *i);
-void				bang(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
 void				question_mark(t_tok **lst, char **stack,
 					char *line, int *i);

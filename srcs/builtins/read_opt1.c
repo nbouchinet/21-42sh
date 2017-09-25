@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_opt1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 12:36:37 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 12:47:14 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:15:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,16 @@ int				aname(t_read *var, char **arg, int *i, int j)
 
 int				delim(t_read *var, char **arg, int *i, int j)
 {
+
 	var->opt |= DR;
 	if (arg[(*i)][j])
 		var->delim = ft_strsub(arg[(*i)], j, 1);
 	else if (arg[(*i) + 1])
 		var->delim = ft_strsub(arg[++(*i)], 0, 1);
 	else
-		return (fd_printf(2, "ICI42sh: read: -d: option requires an argument "
-		"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
-		" [-a array] [-n nchars] [-d delim] [name ...]\n"));
+	return (fd_printf(2, "42sh: read: -d: option requires an argument "
+				"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
+					" [-a array] [-n nchars] [-d delim] [name ...]\n"));
 	return (0);
 }
 
@@ -100,25 +101,21 @@ int				rtimeout(t_read *var, char **arg, int *i, int j)
 	if (arg[(*i)][j])
 	{
 		if (!ft_strdigit(&arg[(*i)][j]))
-		{
-			return (fd_printf(2,
-			"42sh: read: %s: invalid timeout specification\n", &arg[(*i)][j]));
-		}
+			return (fd_printf(2, "42sh: read: %s: invalid timeout specification\n",
+		&arg[(*i)][j]));
 		seconds = ft_atoi(arg[(*i)] + j);
 	}
 	else if (arg[(*i) + 1])
 	{
 		if (!ft_strdigit(&arg[(*i) + 1][0]))
-		{
-			return (fd_printf(2,
-			"42sh: read: %s: invalid timeout specification\n", &arg[(*i) + 1]));
-		}
+			return (fd_printf(2, "42sh: read: %s: invalid timeout specification\n",
+				&arg[(*i) + 1]));
 		seconds = ft_atoi(arg[++(*i)]);
 	}
 	else
 		return (fd_printf(2, "42sh: read: -t: option requires an argument "
-		"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
-		" [-a array] [-n nchars] [-d delim] [name ...]\n"));
+			"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
+				" [-a array] [-n nchars] [-d delim] [name ...]\n"));
 	var->time = time(NULL);
 	var->endwait = var->time + seconds;
 	return (0);

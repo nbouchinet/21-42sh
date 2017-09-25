@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/12 16:44:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:04:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,23 @@ t_env				*find_node(t_env **env, char *var, char *value);
 /*
 *************************************BUILT-IN***********************************
 */
-# define C 1
-# define D 2
-# define A 4
-# define N 8
-# define R 16
-# define W 32
-# define P 64
-# define S 128
-# define HU "history: usage: history [-c] [-d offset] [n] or "	  \
-	"history -awrn [filename] or history -ps arg [arg...]\n"
-# define HM			"history position out of range"
-# define HO			"invalid option"
 
-typedef struct		s_hist
+#define C	1
+#define D	2
+#define A	4
+#define N	8
+#define R	16
+#define W	32
+#define P	64
+#define S	128
+#define HU1	"history: usage: history [-c] [-d offset] [n] or "
+#define HU2	"history -awrn [filename] or history -ps arg [arg...]\n"
+#define HO	"invalid option"
+
+typedef struct 		s_hist
 {
 	int				op;
-	void			(*f)(t_his **his, int offset, int len);
+	void			(*f)(t_his **his, int offset, int len, char *arg);
 }					t_hist;
 
 # define AR	1
@@ -117,18 +117,11 @@ typedef struct		s_read
 	int				eot;
 }					t_read;
 
-typedef struct		s_opt
+typedef struct					s_opt
 {
 	char			c[2];
 	int				(*f)(t_read *var, char **arg, int *i, int j);
 }					t_opt;
-
-typedef struct		s_local
-{
-	char			*var;
-	char			*val;
-	struct s_local	*n;
-}					t_local;
 
 int					ft_setenv(t_ast **ast, t_env **env);
 void				add_env(t_env **env, char **arg);
@@ -145,19 +138,20 @@ t_env				*lst_at(t_env **env, char *cmp);
 int					ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
+
 int					ft_history(t_ast **ast, t_env **env);
-void				hist_clear(t_his **his, int offset, int len);
-void				hist_del(t_his **his, int offset, int len);
-void				hist_append(t_his **his, int offset, int len);
-void				hist_read(t_his **his, int offset, int len);
-void				hist_sarg(t_his **his, int offset, int len);
-void				no_options(t_his **his, int offset, int len, int i);
-int					local(char *str);
-t_local				**local_sgt(int i);
-int					check_local(t_ast *tmp, int type);
-int					ft_unset(t_ast **ast, t_env **env);
-int					ft_export(t_ast **ast, t_env **env);
-int					ft_read(t_ast **ast, t_env **env);
+void 				run_his(char *arg, int opt, int offset, int his_len);
+void 				hist_write(t_his **his, int offset, int his_len, char *arg);
+void 				hist_sarg(t_his **his, int offset, int his_len, char *arg);
+void 				hist_read(t_his **his, int offset, int his_len, char *arg);
+void 				hist_append(t_his **his, int offset, int his_len, char *arg);
+
+int   				local(char *str);
+int 				check_local(t_ast *tmp, int type);
+int   				ft_unset(t_ast **ast, t_env **env);
+int   				ft_export(t_ast **ast, t_env **env);
+int   				ft_read(t_ast **ast, t_env **env);
+
 int					aname(t_read *var, char **arg, int *i, int j);
 int					delim(t_read *var, char **arg, int *i, int j);
 int					nchars(t_read *var, char **arg, int *i, int j);
@@ -166,6 +160,7 @@ int					back_slash(t_read *var, char **arg, int *i, int j);
 int					silent(t_read *var, char **arg, int *i, int j);
 int					rtimeout(t_read *var, char **arg, int *i, int j);
 int					fd(t_read *var, char **arg, int *i, int j);
+
 /*
 *************************************HASHING***********************************
 */

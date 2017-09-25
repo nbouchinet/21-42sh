@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/16 17:07:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 12:01:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@
 # define CTRL_T(buf) buf[0] == 20 && !buf[1] && !buf[2] && !buf[3]
 # define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
 
+# define PRINT(buf) buf[0] > 31 && buf[0] < 127
+
 /*
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
@@ -68,12 +70,16 @@ typedef struct		s_comp
 {
 	char			*str;
 	char			pad[512];
+	int				bol;
+	// int				col;
+	struct s_comp	*p;
 	struct s_comp	*n;
 }					t_comp;
 
 typedef struct		s_his
 {
 	char			*cmdl;
+	int				add;
 	struct s_his	*n;
 	struct s_his	*p;
 }					t_his;
@@ -99,6 +105,14 @@ typedef	struct		s_ccp
 
 }					t_ccp;
 
+typedef struct					s_local
+{
+	char						*var;
+	char						*val;
+	struct s_local				*n;
+	struct s_local				*p;
+}								t_local;
+
 /*
 **	Mode
 */
@@ -112,15 +126,19 @@ typedef	struct		s_ccp
 # define CAND		64
 # define COR		128
 # define CHD		256
+# define CCOMP		512
+# define CCMODE		1024
 
 typedef struct		s_cmdl
 {
 	int				exit;
 	int				opt;
-	char			*prompt;
+	int				col;
+	int				offset;
 	t_line			line;
 	t_ccp			ccp;
 	t_env			*lstenv;
+	t_comp			*comp;
 	struct termios	term;
 }					t_cmdl;
 
@@ -144,7 +162,9 @@ typedef struct		s_op
 **	Affichage du promt
 */
 
-void				print_prompt(void);
+void 				print_prompt(void);
+int					only_space(t_cmdl *cmdl, int limit, int w);
+
 
 /*
 **	Renvoi les tete de listes
@@ -152,12 +172,14 @@ void				print_prompt(void);
 
 t_cmdl				**cmdl_slg(void);
 t_his				**his_slg(void);
+t_local				**local_slg(void);
 
 /*
 **	Suppression des listes
 */
 
-void				del_all(t_cmdl **cmdl, t_his **his);
+void 			del_all(t_cmdl **cmdl_head, t_his **his_head,
+	t_local **loc_head);
 
 /*
 **	Check l env
@@ -204,19 +226,22 @@ void				cmdl_signals(t_cmdl *cmdl);
 int					del(t_cmdl *cmdl);
 
 /*
-**	Clear
+**	Ctrl, esc
 */
 
 int					ctrl_l(t_cmdl *cmdl);
+int					ctrl_u(t_cmdl *cmdl);
+int					ctrlt(t_cmdl *cmdl);
+int					esc(t_cmdl *cmdl);
 
 /*
 **	Deplacement
 */
 
-int					arrow_left(t_cmdl *cmdl);
-int					arrow_rigth(t_cmdl *cmdl);
-int					home(t_cmdl *cmdl);
-int					end(t_cmdl *cmdl);
+int	 				arrow_left(t_cmdl *cmdl);
+int					arrow_right(t_cmdl *cmdl);
+int	 				home(t_cmdl *cmdl);
+int	 				end(t_cmdl *cmdl);
 int					up_dwn(t_cmdl *cmdl);
 int					opt_right(t_cmdl *cmdl);
 int					opt_left(t_cmdl *cmdl);
@@ -232,10 +257,12 @@ int					paste(t_cmdl *cmdl, int len_cpy, int len_str);
 **	Fonctions de gestion de l historique et recherche dans l historique
 */
 
-void				cmd_save_history(char *str);
-int					cmd_history(t_cmdl *cmdl);
-int					cmd_search_history(t_cmdl *cmdl);
 t_his				*findcmdl(char *str, char buf[], int reset);
+void				his_del(t_his **his, int mode);
+void 				cmd_save_history(char *str);
+int 				cmd_history(t_cmdl *cmdl);
+int					cmd_search_history(t_cmdl *cmdl);
+int					his_len(t_his **his);
 
 /*
 **	Fonction de verification de la cmdl (quick-in suite a un return ou un ctrld)
@@ -247,18 +274,68 @@ int					check_quote(t_cmdl *cmdl);
 int					handle_pipe_and_or(t_cmdl *cmdl, int k);
 int					inhibiteur(t_cmdl *cmdl, int len);
 int					ctrl_d(t_cmdl *cmdl);
+int					iris_west(char *str);
 
 /*
 **	Completion
 */
 
-t_comp				*fill_comp(t_comp **comp, struct dirent *rdd, int param);
-int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
+	int i);
 char				*get_path(char **tmp);
+int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);
 int					sep(t_cmdl *cmdl, int w);
 int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
-void				completion_edit(t_line *line, t_comp **comp,
-					char *tmp, int offset);
+void 				completion_edit(t_line *line, t_comp **comp,
+	char *tmp, int offset);
+void 				comp_del(t_comp **head);
+int					c_move(t_comp **comp);
+void 				print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize,
+	int *up);
+void 				call_print_lst(t_cmdl *cmdl, t_comp **comp);
+void 				call_completion_edit(t_cmdl *cmdl, t_comp **comp,
+	int offset);
+int					c_arrow_down(t_comp **comp);
+int					c_arrow_up(t_comp **comp);
+int					c_arrow_right(t_comp **comp);
+int					c_arrow_left(t_comp **comp);
+void 				restor_cursor_position(t_cmdl *cmdl, int up);
+void 				print_comp(t_comp **comp);
+/*
+**	Bang
+*/
+
+#define 	HB		1
+#define 	TB 		2
+#define 	RB 		4
+#define 	EB 		8
+#define 	PB 		16
+#define 	QB 		32
+#define 	XB 		64
+
+typedef struct		s_bang
+{
+	int				n;
+	int				qm;
+	char			*string;
+	char			*s1;
+	char			*s2;
+	int				des;
+	int				x;
+	int				y;
+	int				mod;
+	int				start;
+	int				end;
+	char			*tmp;
+}					t_bang;
+
+void 				fill_buf(t_bang *bang, char **cmd, int *i);
+int					bang(char *str);
+int					bang_parse(char *sub, t_bang *bang);
+int					bang_sub(t_bang *bang, t_his *his);
+int					check_event_and_designator(t_bang *bang, int his_len,
+	 int match_len);
+
 #endif

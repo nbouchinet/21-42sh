@@ -66,26 +66,33 @@ CFILES= 		main.c \
 				builtins/export.c \
 				builtins/history.c \
 				builtins/history_opt.c \
-				builtins/history_no_opt.c \
+				builtins/history_opt2.c \
 				builtins/read.c \
 				builtins/fg.c \
 				builtins/read_opt1.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
+				command_line/bang.c \
+				command_line/bang_parse.c \
+				command_line/bang_sub.c \
 				command_line/ccp.c \
 				command_line/ccp_paste.c \
 				command_line/check_env.c \
 				command_line/cmdl_signals.c \
 				command_line/completion.c \
 				command_line/completion_display.c \
+				command_line/completion_display2.c \
 				command_line/completion_edit.c \
 				command_line/completion_func.c \
+				command_line/completion_move.c \
 				command_line/ctrl.c \
 				command_line/del_all.c \
 				command_line/delete.c \
+				command_line/esc.c \
 				command_line/get_cmdl.c \
 				command_line/history.c \
 				command_line/inhibiteur.c \
+				command_line/iris_west.c \
 				command_line/pipe_and_or.c \
 				command_line/print.c \
 				command_line/quotes.c \

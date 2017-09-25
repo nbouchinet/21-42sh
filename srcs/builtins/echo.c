@@ -88,6 +88,6 @@ int				ft_echo(t_ast **ast, t_env **env)
 	}
 	else
 		ft_putendl("");
-	ft_free(arg, NULL);
+	ft_free(arg, NULL, 1);
 	return (1);
 }

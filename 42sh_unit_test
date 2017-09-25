@@ -8,12 +8,16 @@
 /*       #+#    #+#                                                           */
 /*      ###   ########_UNIT_TEST                                              */
 /* ************************************************************************** */
-/bin/echo 123 > /tmp/shtest.log; /bin/echo 456 » /tmp/shtest.log; cat /tmp/shtest.log // va faire ce tet avec des lettre wtf
-> // lexer_check to rework
-> /tmp/shtest.log // lexer_check to rework
 cd /tmp; mkdir bar; chmod a-x bar; cd bar; rm -rf bar  // WORK but not good error_msg
+/bin/echo lol 1> &  /dev/null // lexer_check binary value compare
+/bin/echo 'Clafouti' > /tmp/merlin.log // lexer_check binary value compare
+'ls -a' // should say command not found
+cd /tmp; touch foo; cd foo // WORK // But leaks :o
 
 ///////////////////////////// WORKING COMMAND \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+> // lexer_check to rework
+> /tmp/shtest.log // lexer_check to rework
+/bin/echo 123 > /tmp/shtest.log; /bin/echo 456 » /tmp/shtest.log; cat /tmp/shtest.log // va faire ce tet avec des lettre wtf
 ls'' // WORK
 ls '' // WORK
 env -q // NOT TO DO
@@ -41,11 +45,8 @@ base64 /dev/urandom | head -c 1000 | grep 'AUCUNECHANCEQUECETTESTRINGSOITTROUVEE
 /bin/echo lol>/dev/null // WORK
 /bin/echo lol1>   /dev/null // WORK
 /bin/echo lol 1>   /dev/null // WORK
-/bin/echo lol 1> &  /dev/null // WORK
 /bin/echo lol 1>&/dev/null // WORK
-/bin/echo 'Clafouti' > /tmp/merlin.log // WORK
 cat < /tmp/merlin.log > /tmp/elias.log; cat /tmp/elias.log // WORK
-'ls -a' // WORK
 "ls -a" // WORK
 /bin/echo ' 'i" "lik'e ' "trains" // WORK
 /bin/echo '"' // WORK
@@ -59,7 +60,6 @@ cd; pwd // WORK
 cd // WORK
 cd /tmp; pwd // WORK
 cd nosuchdir // WORK
-cd /tmp; touch foo; cd foo // WORK // But leaks :o
 cd -; pwd // WORK
 cd /tmp; cd -; pwd // WORK
 env // WORK

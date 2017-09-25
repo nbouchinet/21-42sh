@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ccp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:54:12 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:29:40 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:15:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,26 @@ static void	mark_b_e(t_cmdl *cmdl)
 		swap(cmdl, 1, i);
 }
 
+static void	unrev_color(t_cmdl *cmdl)
+{
+	int		i;
+
+	i = cmdl->line.cur;
+	end(cmdl);
+	home(cmdl);
+	while (cmdl->line.cur < i)
+		arrow_right(cmdl);
+}
+
 int			ccp(t_cmdl *cmdl)
 {
-	if (cmdl->opt & CHIS_S)
-		return (1);
+	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP))
+		return (beep());
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
-		return
-		(paste(cmdl, ft_strlen(cmdl->ccp.cpy), ft_strlen(cmdl->line.str)));
+	{
+		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy),
+		ft_strlen(cmdl->line.str)));
+	}
 	if (PST(cmdl->line.buf) && cmdl->ccp.end == -1)
 		return (1);
 	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2)
@@ -84,5 +97,7 @@ int			ccp(t_cmdl *cmdl)
 	}
 	cmdl->ccp.ccp = CUT(cmdl->line.buf) ? 1 : 2;
 	mark_b_e(cmdl);
+	if (cmdl->ccp.start != -1 && cmdl->ccp.end != -1)
+		unrev_color(cmdl);
 	return (1);
 }

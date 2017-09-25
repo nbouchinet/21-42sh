@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 18:32:35 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:03:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t				ft_strlen(const char *str);
 size_t				ft_strlcat(char *dst, char *src, size_t size);
 
 void				ft_streplace(char **str, char c, char r);
-int					ft_free(char **tab, char **line);
+int					ft_free(char *tab[], char **line, int w);
 void				ft_strleft(char **str, int c);
 void				display_int_tab(int **tab);
 void				ft_putnbrl(int c);
@@ -68,6 +68,7 @@ t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_display_tab(char **tab);
 
 size_t				ft_intlen(size_t nbr);
+int					only(char *str, int lower, int upper);
 int					ft_strdigit(char *str);
 int					ft_tablen(char **tab);
 int					get_next_line(const int fd, char **line);

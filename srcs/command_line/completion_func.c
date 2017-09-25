@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   completion_func.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:40:22 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:17:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	insert(t_comp **comp, t_comp *lnk, int i)
 	if (!i)
 	{
 		lnk->n = tmp;
+		lnk->p = NULL;
+		tmp->p = lnk;
 		*comp = lnk;
 	}
 	else
@@ -30,25 +32,27 @@ static void	insert(t_comp **comp, t_comp *lnk, int i)
 		save = tmp->n;
 		tmp->n = lnk;
 		lnk->n = save;
+		lnk->p = tmp;
+		save ? save->p = lnk : 0;
 	}
 }
 
-t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param)
+t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 {
 	t_comp	*tmp;
 	t_comp	*stock;
-	int		i;
 
-	i = 0;
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
 	{
-		del_all(cmdl_slg(), his_slg());
-		exit(0);
+		del_all(cmdl_slg(), his_slg(), local_slg());
+		exit(EXIT_FAILURE);
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ?
-	ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+		ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
+	tmp->bol = 0;
 	tmp->n = NULL;
+	tmp->p = NULL;
 	if (!(*comp))
 		return (tmp);
 	stock = *comp;
@@ -114,10 +118,9 @@ int			sep(t_cmdl *cmdl, int w)
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '&' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '<' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != '>' &&
-		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ')
-		{
+		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&
+		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
 			return (1);
-		}
 	}
 	return (0);
 }
