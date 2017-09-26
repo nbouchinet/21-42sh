@@ -14,6 +14,8 @@
 
 int			opt_left(t_cmdl *cmdl)
 {
+	if (cmdl->opt & (CCMODE |  CCOMP))
+		return (beep());
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (cmdl->line.str[0])
@@ -30,16 +32,18 @@ int			opt_left(t_cmdl *cmdl)
 
 int			opt_right(t_cmdl *cmdl)
 {
+	if (cmdl->opt & (CCMODE | CCOMP))
+		return (beep());
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (cmdl->line.str[0])
 	{
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
-			arrow_rigth(cmdl);
+			arrow_right(cmdl);
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] == ' ' &&
 		cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != 0)
-			arrow_rigth(cmdl);
+			arrow_right(cmdl);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/16 17:48:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 12:54:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	A supprimer
 */
 
-t_env			*lst_at(t_env **env, char *cmp)
+t_env 		*lst_at(t_env **env, char *cmp)
 {
 	t_env	*tmp;
 
@@ -28,29 +28,76 @@ t_env			*lst_at(t_env **env, char *cmp)
 	return (tmp);
 }
 
-void			print_prompt(void)
+void        set_buff(char **git, int fd)
+{
+	int		i;
+	char	*line;
+
+	i = -1;
+	while (get_next_line(fd, &line))
+	{
+		if (ft_strchr(line, '*'))
+		{
+			(*git) = ft_strdup(line + 2);
+			ft_strdel(&line);
+		}
+		ft_strdel(&line);
+	}
+}
+
+void        get_git(char **git)
+{
+	int		pid;
+	int		status;
+	int		fd[2];
+	char	*arg[3];
+
+	if ((pipe(fd)) == -1)
+		return ;
+	if ((pid = fork()))
+	{
+		waitpid(pid, &status, WUNTRACED);
+		if (status == -1)
+			return ;
+		close(fd[1]);
+	}
+	else
+	{
+		dup2(fd[1], 1);
+		dup2(fd[1], 2);
+		close(fd[0]);
+		arg[0] = "git";
+		arg[1] = "branch";
+		arg[2] = NULL;
+		execve("/usr/bin/git", arg, NULL);
+		exit (0);
+	}
+	set_buff(git, fd[0]);
+}
+
+void     print_prompt(void)
 {
 	t_cmdl	*cmdl;
 	char	buff[1024];
+	char	*git;
+	char	*pwd;
 
 	cmdl = *cmdl_slg();
-	if (cmdl->lstenv && !(cmdl->opt & CHD))
-		ft_printf("%@42sh: %s%@",
-		H_BLUE, lst_at(&(cmdl)->lstenv, "PWD")->value, I);
-	else if (!(cmdl->opt & CHD))
+	git = NULL;
+	get_git(&git);
+	pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+	if (pwd)
+		ft_printf("\%@42sh: %s%@", H_BLUE, pwd, I);
+	else if (getcwd(buff, 1024))
+		ft_printf("%@42sh %s\n%@", H_BLUE, buff, I);
+	if (git)
 	{
-		getcwd(buff, 1024);
-		ft_printf("%@42sh: %s\n%@", H_YELLOW, buff, I);
+		ft_printf(": %@git(%@%s%@)%@", RED, YELLOW, git, RED, I);
+		ft_strdel(&git);
 	}
-	if (!(cmdl->opt & CSQ) && !(cmdl->opt & CDQ) && !(cmdl->opt & CHD))
+	if (!(cmdl->opt & (CSQ | CDQ)))
 		write(1, "\n$> ", 4);
-	else if ((cmdl->opt & CSQ) || (cmdl->opt & CDQ))
-		cmdl->opt & CSQ ? write(1, "\nquote> ", 8)
-		: write(1, "\ndquote> ", 9);
-	else if (cmdl->opt & CHD)
-	{
-		write(1, "\nheredoc> ", 11);
-		cmdl->line.cur = 11;
-		cmdl->line.pr = 11;
-	}
+	else if ((cmdl->opt & (CSQ | CDQ)))
+		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
+
 }

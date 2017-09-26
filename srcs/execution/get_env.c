@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:03:26 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/13 16:17:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/26 02:43:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**get_env(t_env **lst, char *s)
 	if (!(newenv = (char**)malloc(sizeof(char*) * (i + 1))))
 		return (NULL);
 	tmp = *lst;
-	if (seak(s) == 1)
+	if (s && seak(s) == 1)
 		increase_shlvl(lst);
 	while (tmp)
 	{

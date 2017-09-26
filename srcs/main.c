@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/19 16:52:40 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/26 02:30:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,45 +37,59 @@ void		ft_putast(t_ast *root)
 
 void	restruct_lst(t_tok **lst);
 
-static void		exec_part(char **line, t_env **env, t_cmdl *cmdl)
+int		new_lexercheck(t_tok **lst);
+
+
+void	db_lst(t_tok **lst)
+{
+	t_tok *tmp;
+	t_tok *prev;
+
+	if (*lst)
+	{
+		prev = NULL;
+		tmp = *lst;
+		while (tmp)
+		{
+			if (prev)
+				tmp->p = prev;
+			prev = tmp;
+			tmp = tmp->n;
+		}
+	}
+}
+static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tmp;
+	int		i;
 
-	if (!*line)
-		return ;
-	init_token(&cmd);
-	new_parser(&cmd, *line);
-	tmp = cmd;
-	while (tmp)
+	i = 0;
+	if (*line)
 	{
-		ft_printf("\n%s %d", tmp->str, tmp->type);
-		tmp = tmp->n;
+		cmd = init_tok(&cmd, CURR);
+		new_parser(&cmd, *line);
+		restruct_lst(&cmd);
+		db_lst(&cmd);
+		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
+		{
+			specified_dir(&cmd);
+			heredoc(&cmd);
+			expanse(&cmd, env);
+			if (cmd)
+			{
+				init_ast(&ast, NULL, 0);
+				primary_sequence(&ast, &cmd);
+				ft_putast(ast);
+				mode_off(cmdl);
+				i = job_ast(&ast, env, 1);
+				destroy_ast(&ast);
+				mode_on(cmdl);
+			}
+		}
+		destroy_tok(&cmd);
 	}
-	restruct_lst(&cmd);
-	specified_dir(&cmd);
-	tmp = cmd;
-	while (tmp)
-	{
-		ft_printf("\n%s %d", tmp->str, tmp->type);
-		tmp = tmp->n;
-	}
-	heredoc(&cmd);
-	// sleep(30);
-	// lexer_check(&cmd); A REVOIR DE TOUTE URGENCE
-	expanse(&cmd, env);
-	if (!cmd)
-		return ;
-	init_ast(&ast, NULL, 0);
-	primary_sequence(&ast, &cmd);
-	ft_putast(ast);
-	ft_putchar('\n');
-	mode_off(cmdl);
-	job_ast(&ast, env, 1);
-	destroy_ast(&ast);
-	mode_on(cmdl);
-	destroy_tok(&cmd);
+	return (i);
 }
 
 void	lstfree(void *content, size_t type)
@@ -86,22 +100,19 @@ void	lstfree(void *content, size_t type)
 
 static void		loop(t_cmdl *cmdl)
 {
-	t_local		*loc;
-	
+
 	while (42)
 	{
 		job_control(NULL, NULL, UPT);
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
+		// ft_printf("exec: %s\n", cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-		                           cmdl->line.str[1] == 0))
+									cmdl->line.str[1] == 0))
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
-		loc = *local_sgt(0);
-		while (loc)
-			loc = loc->n;
 	}
 	unset_shell(cmdl);
 }
@@ -116,6 +127,7 @@ int				main(int ac, char *av[], char *env[])
 	cmdl = *cmdl_slg();
 	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl)->lstenv, env))
 		return (1);
+	hist_read(NULL, 0, -1, NULL);
 	loop(cmdl);
 	return (cmdl->exit ? cmdl->exit : 0);
 }

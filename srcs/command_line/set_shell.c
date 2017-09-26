@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:56:25 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:55:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ int				unset_shell(t_cmdl *cmdl)
 	if (mode_off(cmdl))
 		return (1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
-	write(1, "Bye\n", 4);
+	hist_append(his_slg(), 0, 0, 0);
+	del_all(cmdl_slg(), his_slg(), local_slg(0));
+	write(1, "\nBye\n", 5);
 	return (0);
 }
 
@@ -43,12 +45,13 @@ int				mode_off(t_cmdl *cmdl)
 
 int				mode_on(t_cmdl *cmdl)
 {
+
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
-	cmdl->term.c_cc[VMIN] = 1;
-	cmdl->term.c_cc[VTIME] = 0;
-	while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
-		kill(-g_shell_pgid, SIGTTIN);
+	cmdl->term.c_cc[VMIN] = 0;
+	cmdl->term.c_cc[VTIME] = 1;
+	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
+		kill (- g_shell_pgid, SIGTTIN);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));

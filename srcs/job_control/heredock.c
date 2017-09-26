@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/16 16:19:32 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 13:51:50 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:19:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void		get_op(t_cmdl *cmdl, int *ret, int *i)
 {
 	static const	t_op		op[16] = {{{-61, -89, 0, 0}, &ccp},
 	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
-	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_rigth},
+	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_right},
 	{{27, 91, 72, 0}, &home}, {{27, 91, 70, 0}, &end},
 	{{27, 27, 91, 68}, &opt_left}, {{27, 27, 91, 67}, &opt_right},
 	{{27, 27, 91, 65}, &up_dwn}, {{27, 27, 91, 66}, &up_dwn},
@@ -67,12 +67,26 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl, int i, int ret)
 		else if (CTRL_L(cmdl->line.buf))
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
-			return (-1);
+				break ;
 		else if (i == 16)
 			print(cmdl, cmdl->line.buf);
 	}
 	close(p[1]);
 	return (p[0]);
+}
+
+void	creat_file(t_tok **lst)
+{
+	int		fd;
+
+	if (!io_number((*lst)->n->str))
+	{
+		if ((fd = open((*lst)->n->str, ((*lst)->type == RRDIR ? O_APPEND : O_TRUNC)
+			| O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) != -1)
+		{
+			close(fd);
+		}
+	}
 }
 
 t_tok	*heredoc(t_tok **lst)
@@ -98,6 +112,8 @@ t_tok	*heredoc(t_tok **lst)
 				else
 					return (tmp->n);
 			}
+			else if ((tmp->type & (RDIR | RRDIR)))
+				creat_file(&tmp);
 			tmp = tmp->n;
 		}
 	}

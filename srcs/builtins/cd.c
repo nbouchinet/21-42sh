@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 18:42:44 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 13:00:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,12 +150,11 @@ static int		check_arg(int len, char *arg, t_env **lstenv)
 		return (fd_printf(2, "cd: string not in pwd: %s\n", arg));
 	else if (len > 2)
 		return (fd_printf(2, "cd: too many arguments\n"));
-	if ((!(lst_at(lstenv, "PWD"))) && arg && arg[0] == '-' && arg[1] == 0)
+	if (*lstenv && (!(lst_at(lstenv, "PWD"))) && arg && arg[0] == '-' && arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
-	else if ((!(lst_at(lstenv, "OLDPWD")))
-		&& arg && arg[0] == '-' && arg[1] == 0)
+	else if (*lstenv && (!(lst_at(lstenv, "OLDPWD"))) && arg && arg[0] == '-' && arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
-	else if ((!(lst_at(lstenv, "HOME"))) && arg && arg[0] == '~')
+	else if (*lstenv && (!(lst_at(lstenv, "HOME"))) && arg && arg[0] == '~')
 		return (fd_printf(2, "cd: HOME not set\n"));
 	return (0);
 }
@@ -172,14 +171,16 @@ int				ft_cd(t_ast **ast, t_env **env)
 	i = 0;
 	path = NULL;
 	targ = creat_arg_env(&(*ast)->left->right);
-	if ((targ && get_opt(targ, &i, &opt))
-		|| (check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
-		return (0);
+	if (!*env)
+		return (fd_printf(2, "Ok\n"));
+	if ((targ && get_opt(targ, &i, &opt)) ||
+	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
+			return (0);
 	arg = targ ? targ[i] : NULL;
 	cd_get_path(env, arg, &path);
 	if (chdirectory(&path, opt, arg))
 		return (0);
 	mod_env(env, path);
-	ft_free(targ, NULL);
+	ft_free(targ, NULL, 1);
 	return (1);
 }

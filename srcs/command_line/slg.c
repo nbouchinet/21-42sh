@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   slg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:57:21 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 14:53:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_his		**his_slg(void)
 		if (!(his = (t_his *)malloc(sizeof(t_his))))
 			exit(0);
 		his->cmdl = "";
+		his->add = 1;
 		his->n = NULL;
 		his->p = NULL;
 	}
@@ -33,14 +34,14 @@ void		init_cmdl(void)
 
 	cmdl = *cmdl_slg();
 	cmdl->opt = 0;
-	cmdl->exit = 0;
-	cmdl->prompt = NULL;
+	cmdl->col = 0;
+	cmdl->offset = -1;
+	cmdl->exit = 256;
+	cmdl->comp = NULL;
 	cmdl->line.str ? ft_strdel(&cmdl->line.str) : 0;
 	cmdl->line.str = ft_memalloc(1024);
 	cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
-	cmdl->line.save = NULL;
 	cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
-	cmdl->ccp.cpy = NULL;
 	cmdl->line.len = 1024;
 	cmdl->line.cur = 3;
 	cmdl->line.pr = 3;
@@ -62,4 +63,20 @@ t_cmdl		**cmdl_slg(void)
 		cmdl->ccp.cpy = NULL;
 	}
 	return (&cmdl);
+}
+
+t_local		**local_slg(int mode)
+{
+	static t_local *loc = NULL;
+
+	if (!loc && mode)
+	{
+		if (!(loc = (t_local*)malloc(sizeof(t_local))))
+			exit(fd_printf(2, "malloc error\n"));
+		loc->var = NULL;
+		loc->val = NULL;
+		loc->n = NULL;
+		loc->p = NULL;
+	}
+	return (&loc);
 }

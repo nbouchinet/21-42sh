@@ -74,8 +74,6 @@ int			exec_cmd_seq(t_ast **ast, t_env **env, int type)
 
 	i = -1;
 	tmp = *ast;
-	if (check_local(tmp, type))
-		return (1);
 	while (type != PIPE_SEQ && ++i < 11)
 		if (ft_strcmp(cmd[i].cmd, tmp->left->left->str) == 0)
 		{

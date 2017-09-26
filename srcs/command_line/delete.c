@@ -37,8 +37,16 @@ int				del(t_cmdl *cmdl)
 {
 	int		i;
 
+	if (cmdl->opt & CCMODE)
+		return (beep());
 	if (cmdl->opt & CHIS_S)
 		return (delete_sh(cmdl));
+	if (cmdl->opt & CCOMP)
+	{
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
+		cmdl->opt &= ~(CCOMP);
+		return (1);
+	}
 	if (cmdl->line.cur == cmdl->line.pr)
 		return (1);
 	arrow_left(cmdl);

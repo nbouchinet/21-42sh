@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:55:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 15:30:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/26 02:49:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ int		job_pipe(t_ast **ast, t_env **env, int foreground)
 		tmp = job;
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
+		{
 			return (pipe_job(&job, env, foreground));
+		}
 		delete_job(&job);
 	}
 	return (0);
@@ -58,7 +60,7 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 
 	tmp = *lst;
 	job_control(lst, NULL, ADD);
-	n_env = get_env(env, tmp->first_process->argv[0]);
+	n_env = get_env(env, tmp->first_process->argv ? tmp->first_process->argv[0] : NULL);
 	if (foreground)
 	{
 		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
@@ -104,8 +106,14 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			signal(SIGTTIN, SIG_DFL);
 			signal(SIGTTOU, SIG_DFL);
 			signal(SIGCHLD, SIG_DFL);
-			ft_putendl_fd(tmp->argv[0], 2);
-			execve(tmp->argv[0], tmp->argv, env);
+			if (tmp->builtin)
+			{
+				if (job_cmd_seq(&tmp->builtin, &tmp->env, 1))
+					exit(EXIT_SUCCESS);
+			}
+			else
+				execve(tmp->argv[0], tmp->argv, env);
+			exit(EXIT_FAILURE);
 		}
 		else
 		{

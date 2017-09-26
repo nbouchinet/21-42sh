@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:45:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/18 15:45:44 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/26 02:29:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
 
 void	relink(t_process **tmp, t_process **del)
 {
-	ft_freetab((*tmp)->argv);
+	if ((*tmp)->argv)
+		ft_freetab((*tmp)->argv);
 	(*tmp)->pid = 0;
+	(*tmp)->builtin = NULL;
 	(*tmp)->rdir = NULL;
 	*del = *tmp;
 	(*tmp) = (*tmp)->next;

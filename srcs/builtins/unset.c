@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:22:14 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 15:05:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int		unset_env(t_env **env, char *str)
 {
-	t_env		*tmp;
-	t_env		*prev;
+	t_env     *tmp;
+	t_env     *prev;
 
 	tmp = *env;
 	prev = NULL;
@@ -40,40 +40,39 @@ static int		unset_env(t_env **env, char *str)
 
 static int		unset_lst(char *str)
 {
-	t_local		*loc;
-	t_local		*prev;
+	t_local   *loc;
 
-	loc = *local_sgt(0);
-	prev = NULL;
+	loc = *local_slg(0);
 	if (!loc)
 		return (0);
 	while (loc && ft_strcmp(str, loc->var))
-	{
-		prev = loc;
 		loc = loc->n;
-	}
 	if (!loc)
 		return (0);
 	free(loc->var);
 	free(loc->val);
-	if (prev)
-		prev->n = loc->n;
-	else if (!prev && loc->n)
-		*local_sgt(0) = loc->n;
-	else if (!prev && !loc->n)
-		*local_sgt(0) = NULL;
+	if (loc->p)
+		loc->p->n = loc->n;
+	else if (!loc->p && loc->n)
+		*local_slg(0) = loc->n;
+	else if (!loc->p && !loc->n)
+		*local_slg(0) = NULL;
 	free(loc);
 	return (1);
 }
 
 int				ft_unset(t_ast **ast, t_env **env)
 {
+	t_ast	*tmp;
+
 	if (!(*ast)->left->right)
 		return (0);
-	if (unset_lst((*ast)->left->right->str))
+	tmp = (*ast)->left->right;
+	while (tmp)
 	{
-		unset_env(env, (*ast)->left->right->str);
-		return (1);
+		if (unset_lst(tmp->str))
+			unset_env(env, tmp->str);
+		tmp = tmp->right;
 	}
-	return (0);
+	return (1);
 }

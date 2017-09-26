@@ -6,17 +6,32 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 13:26:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 14:54:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
+
+t_local			*find_local(t_local **local, char *var)
+{
+	t_local		*tmp;
+
+	if (*local)
+	{
+		tmp = *local;
+		while (tmp && ft_strcmp(var, tmp->var) != 0)
+			tmp = tmp->n;
+		return (tmp);
+	}
+	return (NULL);
+}
 
 static char		*replace_env(char *str, int s, int len, t_env **env)
 {
 	char	*beg;
 	char	*end;
 	char	*var;
+	t_local	*tmp;
 	t_env	*var_env;
 
 	beg = ft_strndup(str, s);
@@ -24,6 +39,8 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	var = ft_strsub(str, s + 1, len - 1);
 	if ((var_env = find_node(env, var, NULL)))
 		beg = ft_strjoinf(beg, var_env->value, 1);
+	else if ((tmp = find_local(local_slg(0), var)))
+		beg = ft_strjoinf(beg, tmp->val, 1);
 	else
 	{
 		free(beg);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:25:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/23 10:43:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,19 @@
 
 void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
+	int		type;
 	char	quote;
-
 	quote = line[(*i)++];
+	if (ft_strlen(*stack) > 0)
+		type = WORD;
+	else
+		type = (quote == '\'' ? QUOTE : DQUOTE);
 	while (line[(*i)] && line[(*i)] != quote)
 		st_tok(stack, line[(*i)++]);
-	tok_save(lst, stack, WORD);
+	tok_save(lst, stack, type);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 }
@@ -35,7 +39,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, io_number(*stack) ? IO_N : WORD);
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)++]);
@@ -51,7 +55,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 	tok_save(lst, stack, CHEVRON);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 }
@@ -61,14 +65,14 @@ void	question_mark(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)]);
 	tok_save(lst, stack, QM);
 	if (check_end(line + (*i) + 1) == 1)
 	{
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 }
@@ -78,7 +82,7 @@ void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)]);
@@ -89,7 +93,7 @@ void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
 	}
 	else
 		tok_save(lst, stack, PIPE);
-	init_token(&(*lst)->n);
+	(*lst)->n = init_tok(lst, NE);
 	*lst = (*lst)->n;
 }
 
@@ -98,7 +102,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)]);
@@ -111,7 +115,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, BG);
 	if (check_end(line + (*i) + 1) == 1)
 	{
-		init_token(&(*lst)->n);
+		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
 }

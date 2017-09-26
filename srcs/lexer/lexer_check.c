@@ -6,12 +6,46 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/20 17:32:07 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:12:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/header.h"
 
+/*
+*************** NEW BEGINNING *************
+*/
+
+
+int		new_lexercheck(t_tok **lst)
+{
+	t_tok	*tmp;
+
+	if (*lst)
+	{
+		tmp = *lst;
+		while (tmp)
+		{
+			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BG))
+				if (tmp->type & (AND | OR | QM | PIPE | CHEVRON | BG))
+				{
+					if (!tmp->p && (tmp->type & (AND | OR | QM | PIPE | BG)))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
+					else if (!tmp->n && (tmp->type & CHEVRON))
+						return (write(2, "parse error near unexpected token `newline'\n", 45));
+					else if (!tmp->n && !(tmp->type & BG))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
+					else if (tmp->n && (tmp->n->type & (AND | OR | BG | CHEVRON | PIPE | QM | IO_N)) && !(tmp->n->type & (QUOTE | DQUOTE)))
+						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->n->str));
+				}
+			tmp = tmp->n;
+		}
+	}
+	return (1);
+}
+/*
+**************** END OF THE NEW BEGINNING ****************
+*/
 int				cmp_sep(t_tok *tmp)
 {
 	if (tmp->type == SPACE_TOK)
@@ -102,46 +136,21 @@ static int		loop(t_tok **lst, t_tok **command)
 
 void	replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end)
 {
-	t_tok	*tmp;
 	t_tok	*start2;
 	t_tok	*next2;
 	t_tok	*sub2;
 	t_tok	*sub_end2;
 
-	// sub2 = *sub;
-	// sub_end2 = (*sub_end)->n;
-	// ft_printf("start->n = [%s] next->n = [%s] sub = [%s] sub_end = [%s]\n", (*sub)->str, (*sub_end)->n->str, (*sub)->str, (*sub_end)->str);
 	start2 = *start;
 	next2 = *next;
 	sub2 = *sub;
 	sub_end2 = *sub_end;
 	start2->n = *sub;
-	if (sub_end2->n)
-		next2->n->n = sub_end2->n;
+	if (next2->type != IO_N)
+		next2->n->n = sub_end2->n ? sub_end2->n : NULL;
 	else
-		next2->n->n = NULL;
+		next2->n->n->n = sub_end2->n ? sub_end2->n : NULL;
 	sub_end2->n = next2;
-	// start = [-l] next = [>] sub = [POPO] sub_end = [XD]
-	// ls -l > tutu POPO PTDR XD > popo
-	// ft_putendl(tmp->str);
-	// (*start)->n = *sub; // WORK
-	// ft_putendl((*next)->str);
-	// (*next)->n->n = (*sub_end)->n;
-	// ft_putendl((*next)->str);
-	// ft_putendl((*next)->n->str);
-	// sleep(30);
-	// (*next)->n->n = sub_end2;
-	// (*sub_end)->n = *next;
-	ft_putendl((*next)->str);
-	ft_printf("[%s] [%s]\n", (*next)->n->n->str, (*sub_end)->n->str);
-	tmp = *start;
-	ft_putendl("=========");
-	while (tmp)
-	{
-		ft_putendl(tmp->str);
-		tmp = tmp->n;
-	}
-	ft_putendl("=========");
 }
 
 void	check_rdir(t_tok **start, t_tok **next)
@@ -157,33 +166,29 @@ void	check_rdir(t_tok **start, t_tok **next)
 		if (tmp->type == IO_N)
 		{
 			if (tmp->n && tmp->n->type == CHEVRON)
-			{
 				if (tmp->n->n && tmp->n->n->type == WORD)
-				{
 					if (tmp->n->n->n && tmp->n->n->n->type == WORD)
-					{}
-				}
-			}
+					{
+						sub = tmp->n->n->n;
+						tmp2 = tmp->n->n->n;
+						while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
+							tmp2 = tmp2->n;
+						sub_end = tmp2;
+						replace_tok(start, next, &sub, &sub_end);
+					}
 		}
 		else if (tmp->type == CHEVRON)
 		{
 			if (tmp->n && tmp->n->type == WORD)
-			{
 				if (tmp->n->n && tmp->n->n->type == WORD)
 				{
 					sub = tmp->n->n;
 					tmp2 = tmp->n->n;
-					while (tmp2 && tmp2->n && tmp2->n->type == WORD)
+					while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
 						tmp2 = tmp2->n;
 					sub_end = tmp2;
-					ft_putendl("LOL");
-					ft_printf("start = [%s] next = [%s] sub = [%s] sub_end = [%s]\n", (*start)->str, (*next)->str, sub->str, tmp2->str);
-					// sleep(30);
 					replace_tok(start, next, &sub, &sub_end);
-					// break ;
-					// tmp = *start;
 				}
-			}
 		}
 		tmp = tmp->n;
 	}
@@ -199,10 +204,8 @@ void	restruct_lst(t_tok **lst)
 		tmp = *lst;
 		while (tmp)
 		{
-			ft_putendl("HERE");
 			if (tmp->n && (tmp->n->type == CHEVRON || tmp->n->type == IO_N))
 			{
-				ft_putendl("PASS");
 				save = tmp;
 				check_rdir(&save, &tmp->n);
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job_exec_seq.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 12:18:09 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/14 13:42:14 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 15:14:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int		job_qm_seq(t_ast **ast, t_env **env, int foreground)
 	if (tmp->left->type == QM)
 	{
 		if (job_qm_seq(&tmp->left, env, foreground) == 1)
-			job_ast(&tmp->left->right, env, foreground);
+			return (job_ast(&tmp->left->right, env, foreground));
 	}
 	else if (tmp->left->type == CMD_SEQ)
-		job_ast(&tmp->left, env, foreground);
+		return (job_ast(&tmp->left, env, foreground));
 	return (1);
 }
 

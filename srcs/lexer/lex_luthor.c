@@ -6,20 +6,37 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 09:39:09 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:11:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	init_token(t_tok **lst)
+// void	init_token(t_tok **lst, int mod)
+// {
+// 	if (!((*lst)->n = (t_tok*)malloc(sizeof(t_tok))))
+// 		return ;
+// 	(*lst)->type = 0;
+// 	(*lst)->str = NULL;
+// 	(*lst)->hd = 0;
+// 	(*lst)->n = (mod & N) ? *lst : NULL;
+//
+// }
+
+t_tok	*init_tok(t_tok **lst, int mod)
 {
-	if (!((*lst) = (t_tok*)malloc(sizeof(t_tok))))
-		return ;
-	(*lst)->type = 0;
-	(*lst)->str = NULL;
-	(*lst)->hd = 0;
-	(*lst)->n = NULL;
+	t_tok	*tmp;
+
+	mod = 0;
+	(void)lst;
+	if (!(tmp = (t_tok*)malloc(sizeof(t_tok))))
+		return (NULL);
+	tmp->type = 0;
+	tmp->hd = 0;
+	tmp->str = NULL;
+	tmp->p = NULL;
+	tmp->n = NULL;
+	return (tmp);
 }
 
 void	tok_save(t_tok **lst, char **stack, int type)
@@ -47,7 +64,7 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, WORD);
 		if (check_end(line + (*i)) == 1)
 		{
-			init_token(&(*lst)->n);
+			(*lst)->n = init_tok(lst, NE);
 			*lst = (*lst)->n;
 		}
 	}

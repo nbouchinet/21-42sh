@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/16 17:08:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/25 12:04:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_token
 	int				type;
 	int				hd;
 	struct s_token	*n;
+	struct s_token	*p;
 }					t_tok;
 
 typedef struct		s_key
@@ -45,40 +46,45 @@ typedef struct		s_key
 	void			(*f)(t_tok**, char**, char*, int*);
 }					t_key;
 
+#define NE 1
+#define CURR 2
+
 enum				e_token
 {
+	NONE = 0,
 	PIPE = 1,
-	QM,
-	AND,
-	OR,
-	CHEVRON,
-	IO_N,
-	QUOTE,
-	SPACE_TOK,
-	WORD,
-	FIL,
-	DQUOTE,
-	LOCAL,
-	BG
+	QM = 2,
+	AND = 4,
+	OR = 8,
+	CHEVRON = 16,
+	IO_N = 32,
+	QUOTE = 64,
+	SPACE_TOK = 128,
+	WORD = 256,
+	FIL = 512,
+	DQUOTE = 1024,
+	LOCAL = 2048,
+	BG = 4096
 };
 
 enum				e_dir
 {
-	RDIR = 22,
-	BDIR = 23,
-	RRDIR = 24,
-	BBDIR = 25,
-	AGRE = 26,
-	BGRE = 27
+	RDIR = 8192,
+	BDIR = 16384,
+	RRDIR = 32768,
+	BBDIR = 65536,
+	AGRE = 131072,
+	BGRE = 262144
 };
 
+int					restruct_tok(t_tok **cmd);
+t_tok				*init_tok(t_tok **lst, int mod);
 void				input(t_tok **cmd);
 void				init_token(t_tok **lst);
 void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
 void				new_parser(t_tok **cmd, char *line);
 void				quote(t_tok **lst, char **stack, char *line, int *i);
-void				bang(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
 void				question_mark(t_tok **lst, char **stack,
 					char *line, int *i);

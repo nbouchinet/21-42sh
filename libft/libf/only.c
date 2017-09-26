@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   only.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 14:40:41 by zadrien          ###   ########.fr       */
+/*   Created: 2017/09/17 15:37:41 by khabbar           #+#    #+#             */
+/*   Updated: 2017/09/17 15:41:00 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-int		ft_free(char *tab[], char **line, int w)
+int		only(char *str, int lower, int upper)
 {
-	int			i;
+	int		i;
 
 	i = -1;
-	if (w == 2 || w == 3)
-		ft_strdel(line);
-	if (w == 1 ||  w == 3)
-		if (tab)
-		{
-			while (tab[++i])
-				tab[i] ? ft_strdel(&tab[i]) : 0;
-			free(tab);
-		}
+	if (str[0] == 0)
+		return (0);
+	while (str[++i])
+		if (!(str[i] >= lower && str[i] <= upper))
+			return (0);
 	return (1);
 }

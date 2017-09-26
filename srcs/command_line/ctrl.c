@@ -3,14 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   ctrl.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 16:39:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:41:16 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/25 12:17:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int            ctrlt(t_cmdl *cmdl)
+{
+    int        i;
+    char    stock;
+    int        min;
+
+	if (cmdl->opt & (CCOMP | CCMODE))
+		return (beep());
+    i = cmdl->line.cur - cmdl->line.pr;
+    if (i == 0 || ft_strlen(cmdl->line.str) < 2)
+        return (beep());
+    min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
+    stock = cmdl->line.str[i - min - 1];
+    cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
+    cmdl->line.str[i - min] = stock;
+    arrow_left(cmdl);
+    min == 1 ? arrow_left(cmdl) : 0;
+    write(1, (cmdl->line.str + (i - min - 1)), 2 + min);
+    cmdl->line.cur += 2;
+    if (cmdl->line.cur % cmdl->line.co == 0)
+        tputs(tgetstr("do", NULL), 1, ft_putchar);
+    return (1);
+}
+
+int			ctrl_u(t_cmdl *cmdl)
+{
+	char	*sub;
+
+	if (cmdl->opt & (CCOMP | CCMODE))
+		return (beep());
+	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
+	home(cmdl);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
+	cmdl->line.str = ft_strcat(cmdl->line.str, sub);
+	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+	home(cmdl);
+	free(sub);
+	return (1);
+}
 
 static void	register_cmdl(t_cmdl *cmdl)
 {
@@ -21,13 +63,13 @@ static void	register_cmdl(t_cmdl *cmdl)
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
-	((cmdl->opt & (CPIPE | CAND | COR))))
+		((cmdl->opt & (CPIPE | CAND | COR))))
 	{
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
 	}
 	else if (cmdl->line.str && !cmdl->line.str[0] &&
-	(cmdl->opt & CSQ || cmdl->opt & CDQ))
+		(cmdl->opt & CSQ || cmdl->opt & CDQ))
 	{
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: unexpected EOF while looking for a "
