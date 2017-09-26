@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 14:58:38 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/26 02:19:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,11 @@ int		mark_process_status(t_job **job)
 	t_process	*p;
 
 	if (*job)
-	{		
+	{
 		p = (*job)->first_process;
 		while (p)
 		{
+			// ft_putendl("8-0");
 			/* if (WSTOPSIG(p->status) == 19) */
 			/* 	ft_putendl("TEST"); */
 			if (WIFSTOPPED(p->status))
@@ -124,6 +125,7 @@ int		mark_process_status(t_job **job)
 				break ;
 			}
 			p = p->next;
+			// ft_putendl("8-1");
 		}
 		return (0);
 	}

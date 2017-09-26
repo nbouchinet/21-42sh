@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/19 15:35:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/26 02:50:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int		init_proc(t_process **process)
 		return (-1);
 	(*process)->status = 0;
 	(*process)->argv = NULL;
+	(*process)->env = NULL;
+	(*process)->builtin = NULL;
 	(*process)->rdir = NULL;
 	(*process)->stopped = 0;
 	(*process)->completed = 0;
@@ -40,10 +42,34 @@ int		init_proc(t_process **process)
 	return (1);
 }
 
+typedef struct		s_bi
+{
+	char			*builtin;
+}					t_bi;
+
+int		check_builtin(t_ast **ast, t_process **p, t_env **env)
+{
+	int					i;
+	t_ast				*tmp;
+	static const t_bi	cmd[14] = {{"unsetenv"}, {"hash"}, {"setenv"}, {"env"},
+	{"jobs"}, {"fg"}, {"echo"}, {"exit"}, {"history"}, {"bg"}, {"read"},
+	{"unset"}, {"export"}, {"cd"}};
+
+	i = -1;
+	tmp = *ast;
+	while (++i < 14)
+		if (!ft_strcmp(tmp->left->left->str, cmd[i].builtin))
+		{
+			(*p)->builtin = tmp;
+			(*p)->env = *env;
+			return (1);
+		}
+	return (0);
+}
+
 int		init_process(t_ast **ast, t_process **proc, t_env **env)
 {
 	t_process	*tmp;
-
 	if ((*proc))
 	{
 		tmp = *proc;
@@ -58,6 +84,8 @@ int		init_process(t_ast **ast, t_process **proc, t_env **env)
 			return (-1);
 		tmp = (*proc);
 	}
+	if (check_builtin(ast, &tmp, env))
+		return (1);
 	if ((tmp->argv = creat_arg_process(&(*ast)->left, env)) != NULL)
 	{
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
@@ -92,19 +120,18 @@ char	*init_pipe_job(t_ast **ast)
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
 {
-	t_ast	*tmp;
+	t_ast			*tmp;
 
 	tmp = *ast;
 	if (tmp->type == PIPE)
 	{
-		if (init_process(&tmp->left, p, env) == 0)
-			return (0);
-		return (complete_process(&tmp->right, &(*p)->next, env));
+		if (init_process(&tmp->left, p, env))
+			return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
 	{
-		if (init_process(&tmp, p, env) == 0)
-			return (0);
+		if (init_process(&tmp, p, env))
+			return (1);
 	}
-	return (1);
+	return (0);
 }
