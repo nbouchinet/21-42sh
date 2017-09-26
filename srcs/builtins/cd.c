@@ -181,7 +181,11 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	arg = targ ? targ[i] : NULL;
 	cd_get_path(env, arg, &path, NULL);
 	if (chdirectory(&path, opt, arg))
+	{
+		ft_strdel(&path);
+		targ ? ft_free(targ, NULL, 1) : 0;
 		return (0);
+	}
 	mod_env(env, path);
 	targ ? ft_free(targ, NULL, 1) : 0;
 	path ? ft_strdel(&path) : 0;
