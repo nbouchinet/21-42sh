@@ -55,28 +55,29 @@ static int	check(t_cmdl *cmdl, int i)
 	return (0);
 }
 
-int			only_space(t_cmdl *cmdl, int limit, int w)
+int			only_space(t_cmdl *cmdl, int i, int w)
 {
-	int		i;
+	int		tmp;
 	char	*str;
 
-	i = -1;
 	str = cmdl->line.str;
 	if (!w)
 	{
+		i = -1;
 		while (str[++i])
 			if (str[i] != ' ')
 				return (0);
 	}
 	else
 	{
-		while (str[i--])
-			if (i && str[i] != ' ' && str[i] != '|' && str[i] != '&'
+		tmp = i;
+		while (i > 0 && str[--i])
+			if (str[i] != ' ' && str[i] != '|' && str[i] != '&'
 			&& str[i] != ';' && str[i] != '<' && str[i] != '>')
 				return (0);
 		fd_printf(2, "\n42sh: syntax error near unexpected token `");
-		write(2, str + limit - (limit > 0 && str[limit - 1] == str[limit] ?
-		1 : 0), (limit > 0 && str[limit - 1] == str[limit] ? 2 : 1));
+		write(2, str + tmp - (tmp > 0 && str[tmp - 1] == str[tmp] ?
+		1 : 0), (tmp > 0 && str[tmp - 1] == str[tmp] ? 2 : 1));
 		write(2, "\'", 1);
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
