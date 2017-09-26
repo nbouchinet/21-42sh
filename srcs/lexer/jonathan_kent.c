@@ -17,6 +17,7 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 	int		type;
 	char	quote;
 	quote = line[(*i)++];
+
 	if (ft_strlen(*stack) > 0)
 		type = WORD;
 	else
