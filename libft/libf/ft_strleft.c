@@ -36,6 +36,7 @@ void		ft_strleft(char **str, int c)
 {
 	char	*match;
 
+	ft_putendl("hello");
 	while ((match = ft_str_save_chr((*str), c)))
 	{
 		while (*match)

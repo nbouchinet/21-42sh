@@ -75,11 +75,6 @@ static int		check_expanse(char **str, t_env **env)
 			else
 				return (1);
 		}
-		else if (i == 0 && (*str)[i] == '\\')
-		{
-			ft_strleft(str, (*str)[i]);
-			return (0);
-		}
 		else
 			i++;
 	return (0);

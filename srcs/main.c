@@ -16,20 +16,21 @@ static void     exec_part(char **line, t_env **env)
 {
 	t_ast   *ast;
 	t_tok   *cmd;
+	t_tok   *tmp;
 
 	init_token(&cmd);
-	ft_putendl("0");
 	new_parser(&cmd, *line);
-	ft_putendl("1");
 	lexer_check(&cmd);
-	ft_putendl("2");
+	tmp = cmd;
+	while (tmp)
+	{
+		ft_putendl(tmp->str);
+		tmp = tmp->n;
+	}
 	expanse(&cmd, env);
-	ft_putendl("3");
 	if (!cmd)
 		return ;
-	ft_putendl("4");
 	init_ast(&ast, NULL, 0);
-	ft_putendl("5");
 	primary_sequence(&ast, &cmd);
 	//      ft_putast(ast);
 	job_ast(&ast, env, 1);

@@ -19,7 +19,7 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 	quote = line[(*i)++];
 	while (line[(*i)] && line[(*i)] != quote)
 		st_tok(stack, line[(*i)++]);
-	tok_save(lst, stack, WORD);
+	tok_save(lst, stack, QUOTE);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
 		init_token(&(*lst)->n);
