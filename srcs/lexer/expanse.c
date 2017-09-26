@@ -68,8 +68,7 @@ static int		check_expanse(char **str, t_env **env)
 				end++;
 			if ((tmp = replace_env(*str, i, end, env)))
 			{
-				ft_strdel(str);
-				*str = ft_strdup(tmp);
+				*str = ft_strdups(tmp, str);
 				ft_strdel(&tmp);
 				i = 0;
 			}
@@ -96,7 +95,8 @@ static void		tild(char **str, t_env **env)
 	{
 		if ((*str)[0] == '~' && ((*str)[1] == '/' || (*str)[1] == '\0'))
 		{
-			tmp = ft_strdup((*str) + 1);
+			tmp = ft_strdup(*str + 1);
+			free(*str);
 			tmp2 = ft_strdup(var_env->value);
 			tmp2 = ft_strjoinf(tmp2, tmp, 3);
 			*str = ft_strdupf(&tmp2);

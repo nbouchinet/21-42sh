@@ -17,12 +17,12 @@ int		inhibiteur(t_cmdl *cmdl, int len)
 	int		count;
 
 	count = 0;
-	while (cmdl->line.str[len] == '\\' && len > 0)
+	while (cmdl->line.str[len] == '\\' && len >= 0)
 	{
 		count++;
-		len -= 1;
+		len--;
 	}
-	if (!len || count % 2)
+	if ((count % 2))
 	{
 		write(1, "\n$> ", 4);
 		cmdl->line.cur = 3;

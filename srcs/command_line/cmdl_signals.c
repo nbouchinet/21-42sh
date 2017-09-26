@@ -59,10 +59,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)
-	{
-		del_all(cmdl_slg(), his_slg(), local_slg());
-		exit(EXIT_SUCCESS);
-	}
+		;
 }
 
 void 	cmdl_signals(t_cmdl *cmdl)

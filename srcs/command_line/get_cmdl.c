@@ -83,7 +83,7 @@ void		get_cmdl(t_cmdl *cmdl)
 		else if (i == 23)
 			print(cmdl, cmdl->line.buf);
 		// ft_printf("buf: %d %d %d %d\n", cmdl->line.buf[0], cmdl->line.buf[1],
-  // 		cmdl->line.buf[2], cmdl->line.buf[3]);
+  		// cmdl->line.buf[2], cmdl->line.buf[3]);
 	}
 	exit_cmdl(cmdl);
 }

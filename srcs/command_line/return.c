@@ -63,9 +63,9 @@ static int	check_cmdl(t_cmdl *cmdl, int len)
 	else if (!(cmdl->opt & (CSQ | CDQ)) && !(cmdl->opt & CHIS_S) &&
 	handle_pipe_and_or(cmdl, 0))
 		save_cmdl(&cmdl);
-	else if (cmdl->line.str && !(cmdl->opt & (CSQ | CDQ)) &&
-	!(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) &&
-	cmdl->line.str[len > 0 ? len : 0] == '\\' && inhibiteur(cmdl, len))
+	else if (cmdl->line.str && !(cmdl->opt & (CSQ | CDQ | CPIPE | CAND | COR |
+	CHIS_S)) && cmdl->line.str[len > 0 ? len : 0] == '\\' &&
+	inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
 	else if (check_save(cmdl))
 		return (1);
@@ -94,8 +94,8 @@ int 		return_cmdl(t_cmdl *cmdl)
 		tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 		return (1);
 	}
-	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)
-	- 1)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
+	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str) - 1
+	)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
 		return (2);
 	return (1);
 }
