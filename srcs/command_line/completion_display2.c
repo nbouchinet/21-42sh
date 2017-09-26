@@ -89,7 +89,6 @@ void 		call_print_lst(t_cmdl *cmdl, t_comp **comp)
 	cur_save = cmdl->line.cur;
 	while (cmdl->line.str[cmdl->line.cur++ - cmdl->line.pr])
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
-	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	cmdl->line.cur = cur_save;
 	write(1, "\n", 1);
 	if ((nbr_col = get_nbr_col(cmdl, comp, &winsize)) < cmdl->line.li)

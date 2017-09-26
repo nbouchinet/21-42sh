@@ -12,22 +12,6 @@
 
 #include "header.h"
 
-/* t_env 	*lst_at(t_env **env, char *cmp) */
-/* { */
-/* 	t_env	*tmp; */
-
-/* 	tmp = *env; */
-/* 	if (!tmp) */
-/* 		return (NULL); */
-/* 	while (tmp->next && ft_strcmp(tmp->var, cmp)) */
-/* 		tmp = tmp->next; */
-/* 	return (tmp); */
-
-/* 	(void)env; */
-/* 	(void)cmp; */
-/* 	return (*env); */
-/* } */
-
 static void		mod_env(t_env **env, char *path)
 {
 	t_env		*tmp;
@@ -35,16 +19,15 @@ static void		mod_env(t_env **env, char *path)
 	tmp = lst_at(env, "OLDPWD");
 	if (tmp)
 	{
-		free(tmp->value);
+		ft_strdel(&tmp->value);
 		tmp->value = ft_strdup(lst_at(env, "PWD")->value);
 	}
 	tmp = lst_at(env, "PWD");
 	if (tmp)
 	{
-		free(tmp->value);
+		ft_strdel(&tmp->value);
 		tmp->value = ft_strdup(path);
 	}
-	free(path);
 }
 
 static int		chdirectory(char **path, int opt, char *arg)
@@ -106,7 +89,7 @@ static void		build_path(char **path, char *arg, t_env **env)
 	int		len;
 
 	i = -1;
-	(*path) = ft_strdup(lst_at(env, "PWD")->value);
+	(*path) = ft_strdups(lst_at(env, "PWD")->value, path);
 	(*path)[ft_strlen(*path) - 1] == '/' ? (*path)[ft_strlen(*path) - 1] = 0 : 0;
 	rpath = ft_strsplit(arg, '/');
 	while (rpath[++i])
@@ -122,16 +105,14 @@ static void		build_path(char **path, char *arg, t_env **env)
 		}
 		else
 			(*path) = (*path)[ft_strlen((*path))] == '/' ?
-			ft_strjoinf((*path), rpath[i], 3) :
+			ft_strjoinf((*path), rpath[i], 1) :
 			ft_strjoinf(ft_strjoin((*path), "/"), rpath[i], 1);
 	}
+	ft_free(rpath, NULL, 1);
 }
 
-static void		cd_get_path(t_env **lstenv, char *arg, char **path)
+static void		cd_get_path(t_env **lstenv, char *arg, char **path, char *tmp)
 {
-	char	*tmp;
-
-	tmp = NULL;
 	if (arg)
 		arg[ft_strlen(arg) - 1] == '/' ? arg[ft_strlen(arg) - 1] = 0 : 0;
 	if (!arg)
@@ -140,7 +121,8 @@ static void		cd_get_path(t_env **lstenv, char *arg, char **path)
 		(*path) = ft_strdup("/");
 	else if (arg[0] == '-' && arg[1] == 0)
 		(*path) = ft_strdup(lst_at(lstenv, "OLDPWD")->value);
-	else if ((!(tmp = ft_strstr(arg, ".."))) || (tmp && tmp[2] != 0 && tmp[2] != '/'))
+	else if ((!(tmp = ft_strstr(arg, ".."))) ||
+	(tmp && tmp[2] != 0 && tmp[2] != '/'))
 	{
 		if (arg[0] == '/')
 			(*path) = ft_strdup(arg);
@@ -162,11 +144,13 @@ static int		check_arg(int len, char *arg, t_env **lstenv)
 		return (fd_printf(2, "cd: string not in pwd: %s\n", arg));
 	else if (len > 2)
 		return (fd_printf(2, "cd: too many arguments\n"));
-	if (*lstenv && (!(lst_at(lstenv, "PWD"))) && arg && arg[0] == '-' && arg[1] == 0)
+	if (*lstenv && (!(lst_at(lstenv, "PWD"))) && arg && arg[0] == '-' &&
+	arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
-	else if (*lstenv && (!(lst_at(lstenv, "OLDPWD"))) && arg && arg[0] == '-' && arg[1] == 0)
+	else if (*lstenv && (!(lst_at(lstenv, "OLDPWD"))) && arg && arg[0] == '-' &&
+	arg[1] == 0)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
-	else if (*lstenv && (!(lst_at(lstenv, "HOME"))) && arg && arg[0] == '~')
+	else if (*lstenv && !(lst_at(lstenv, "HOME")) && arg && arg[0] == '~')
 		return (fd_printf(2, "cd: HOME not set\n"));
 	return (0);
 }
@@ -182,17 +166,24 @@ int     		ft_cd(t_ast **ast, t_env **env)
 	opt = 2;
 	i = 0;
 	path = NULL;
+	arg = NULL;
 	targ = creat_arg_env(&(*ast)->left->right);
 	if (!*env)
-		return (fd_printf(2, "Ok\n"));
+		return (1);
 	if ((targ && get_opt(targ, &i, &opt)) ||
-	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
-			return (0);
+	(check_arg(i ? ft_tablen(targ + i) : 0, (*ast)->left->right ? targ[i] : NULL
+	, env)))
+	{
+		targ ? ft_free(targ, NULL, 1) : 0;
+		path ? ft_strdel(&path) : 0;
+		return (1);
+	}
 	arg = targ ? targ[i] : NULL;
-	cd_get_path(env, arg, &path);
+	cd_get_path(env, arg, &path, NULL);
 	if (chdirectory(&path, opt, arg))
 		return (0);
 	mod_env(env, path);
-	ft_free(targ, NULL, 1);
+	targ ? ft_free(targ, NULL, 1) : 0;
+	path ? ft_strdel(&path) : 0;
 	return (1);
 }

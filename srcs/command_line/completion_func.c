@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static void insert(t_comp **comp, t_comp *lnk, int i)
+void insert(t_comp **comp, t_comp *lnk, int i)
 {
 	t_comp	*tmp;
 	t_comp	*save;
@@ -43,12 +43,9 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 	t_comp	*stock;
 
 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
-	{
-		del_all(cmdl_slg(), his_slg(), local_slg());
 		exit(EXIT_FAILURE);
-	}
-	tmp->str = (param == 2 && rdd->d_type == 4 ?
-		ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
+	ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
 	tmp->bol = 0;
 	tmp->n = NULL;

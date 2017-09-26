@@ -12,6 +12,49 @@
 
 #include "header.h"
 
+static t_comp  *fill_builtin(t_comp **comp, char *builin)
+{
+	t_comp	*tmp;
+	t_comp	*stock;
+	int		i;
+
+	i = 0;
+	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+		exit(EXIT_FAILURE);
+	tmp->str = ft_strdup(builin);
+	ft_memset(tmp->pad, 0, 512);
+	tmp->bol = 0;
+	tmp->n = NULL;
+	tmp->p = NULL;
+	if (!(*comp))
+		return (tmp);
+	stock = *comp;
+	while (stock && ft_strcmp(stock->str, builin) < 0)
+	{
+		i++;
+		stock = stock->n;
+	}
+	insert(comp, tmp, i);
+	return (tmp);
+}
+
+void 	check_built_in(t_cmdl *cmdl, char *tmp)
+{
+	char	*builtin[8] = {"setenv", "unsetenv", "history", "read", "hash",
+	"env", "unset", "export"};
+	int		i;
+
+	i = 0;
+	while (builtin[i])
+	{
+		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0 &&
+		!check_comp(&cmdl->comp, builtin[i]))
+			!cmdl->comp ? cmdl->comp = fill_builtin(&cmdl->comp, builtin[i]) :
+			fill_builtin(&cmdl->comp, builtin[i]);
+		i++;
+	}
+}
+
 void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 {
 	tmp = line->str[line->cur - line->pr] ?

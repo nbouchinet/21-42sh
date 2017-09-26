@@ -70,8 +70,9 @@ int			only_space(t_cmdl *cmdl, int limit, int w)
 	}
 	else
 	{
-		while (++i < limit)
-			if (str[i] != ' ' && str[i] != 0 && str[i] != '|' && str[i] != '&')
+		while (str[i--])
+			if (i && str[i] != ' ' && str[i] != '|' && str[i] != '&'
+			&& str[i] != ';' && str[i] != '<' && str[i] != '>')
 				return (0);
 		fd_printf(2, "\n42sh: syntax error near unexpected token `");
 		write(2, str + limit - (limit > 0 && str[limit - 1] == str[limit] ?
@@ -112,12 +113,12 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 	}
 	if (cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 		return (0);
+	i -= (i > 0 && cmdl->line.str[i - 1] == cmdl->line.str[i]) ? 1 : 0;
 	if (only_space(cmdl, i, 1))
 	{
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		return (0);
 	}
-	i -= (i > 0 && cmdl->line.str[i - 1] == cmdl->line.str[i]) ? 1 : 0;
 	if (i > 0 && cmdl->line.str[i - 1] == '\\')
 		check_inhib(cmdl->line.str, &i);
 	if (!k && check(cmdl, i))

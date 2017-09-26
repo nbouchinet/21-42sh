@@ -23,7 +23,7 @@ t_env 		*lst_at(t_env **env, char *cmp)
 	tmp = *env;
 	if (!tmp)
 		return (NULL);
-	while (tmp->next && ft_strcmp(tmp->var, cmp))
+	while (tmp && ft_strcmp(tmp->var, cmp))
 			tmp = tmp->next;
 	return (tmp);
 }
@@ -45,10 +45,9 @@ void        set_buff(char **git, int fd)
     }
 }
 
-void        get_git(char **git)
+void        get_git(char **git, int status)
 {
     int		pid;
-	int		status;
     int		fd[2];
     char	*arg[3];
 
@@ -57,7 +56,7 @@ void        get_git(char **git)
     if ((pid = fork()))
     {
 		waitpid(pid, &status, WUNTRACED);
-		if (status == -1)
+		if (WEXITSTATUS(status))
 			return ;
 		close(fd[1]);
 	}
@@ -84,7 +83,7 @@ void     print_prompt(void)
 
 	cmdl = *cmdl_slg();
     git = NULL;
-    get_git(&git);
+    get_git(&git, 0);
 	pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
     if (pwd)
         ft_printf("\%@42sh: %s%@",
@@ -97,5 +96,5 @@ void     print_prompt(void)
         write(1, "\n$> ", 4);
     else if ((cmdl->opt & (CSQ | CDQ)))
         cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
-
+	git ? ft_strdel(&git) : 0;
 }
