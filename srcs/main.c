@@ -58,19 +58,32 @@ void	db_lst(t_tok **lst)
 		}
 	}
 }
+
 static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	// t_tok	*tmp;
 	int		i;
 
 	i = 0;
 	if (*line)
 	{
-		cmd = init_tok(&cmd, CURR);
+		ft_putendl("6.1");
+		init_token(&cmd);
+		ft_putendl("6.2");
 		new_parser(&cmd, *line);
+		// tmp = cmd;
+		// while (tmp)
+		// {
+		// 	ft_putendl(tmp->str);
+		// 	tmp = tmp->n;
+		// }
+		ft_putendl("6.3");
 		restruct_lst(&cmd);
+		ft_putendl("6.4");
 		db_lst(&cmd);
+		ft_putendl("6.5");
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
@@ -103,16 +116,29 @@ static void		loop(t_cmdl *cmdl)
 
 	while (42)
 	{
+		ft_putendl("0");
 		job_control(NULL, NULL, UPT);
+		ft_putendl("1");
 		job_control(NULL, NULL, CHK);
+		ft_putendl("2");
 		init_cmdl();
+		ft_putendl("3");
 		get_cmdl(cmdl);
-		// ft_printf("exec: %s\n", cmdl->line.str);
+		ft_putendl("4");
+		ft_printf("exec: %s\n", cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
+		ft_putendl("5");
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-									cmdl->line.str[1] == 0))
+			cmdl->line.str[1] == 0))
+		{
+			ft_putendl("6");
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
+			ft_putendl("7");
+		}
+		if (cmdl->exit != 256)
+			break ;
+		ft_putendl("8");
 	}
 	unset_shell(cmdl);
 }

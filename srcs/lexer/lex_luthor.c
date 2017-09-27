@@ -12,16 +12,17 @@
 
 #include "header.h"
 
-// void	init_token(t_tok **lst, int mod)
-// {
-// 	if (!((*lst)->n = (t_tok*)malloc(sizeof(t_tok))))
-// 		return ;
-// 	(*lst)->type = 0;
-// 	(*lst)->str = NULL;
-// 	(*lst)->hd = 0;
-// 	(*lst)->n = (mod & N) ? *lst : NULL;
-//
-// }
+void	init_token(t_tok **lst)
+{
+	if (!((*lst) = (t_tok*)malloc(sizeof(t_tok))))
+		return ;
+	(*lst)->type = 0;
+	(*lst)->str = NULL;
+	(*lst)->hd = 0;
+	(*lst)->n = NULL;
+	(*lst)->p = NULL;
+
+}
 
 t_tok	*init_tok(t_tok **lst, int mod)
 {

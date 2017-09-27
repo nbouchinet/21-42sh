@@ -25,8 +25,11 @@ static void	swap(t_cmdl *cmdl, int w, int i)
 	}
 	else
 	{
-		if (cmdl->line.cur == 3)
-			return ;
+		while ((cmdl->line.cur - cmdl->line.pr) < cmdl->ccp.end)
+		{
+			tputs(tgetstr("nd", NULL), 1, ft_putchar);
+			cmdl->line.cur++;
+		}
 		while (i--)
 			del(cmdl);
 	}
@@ -34,19 +37,13 @@ static void	swap(t_cmdl *cmdl, int w, int i)
 
 static void	get_b_e(t_cmdl *cmdl)
 {
-	if (CUT(cmdl->line.buf))
+	if (CUT(cmdl->line.buf) && CPY(cmdl->line.buf))
 	{
-		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
-		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
-	}
-	else if (CPY(cmdl->line.buf))
-	{
-		cmdl->ccp.start != -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr : 0;
-		cmdl->ccp.start == -1 && cmdl->ccp.end == -1 ?
-		cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr : 0;
+		if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1)
+			cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr;
+		if (cmdl->ccp.start == -1 && cmdl->ccp.end == -1)
+			cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr +
+			(cmdl->line.cur - cmdl->line.pr ? 1 : 0);
 	}
 }
 
