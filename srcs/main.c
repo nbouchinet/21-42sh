@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 18:27:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 18:57:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,12 @@ void	db_lst(t_tok **lst)
 		}
 	}
 }
+
 static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tmp;
+	// t_tok	*tmp;
 	int		i;
 
 	i = 0;
@@ -70,21 +71,21 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	ft_putendl("comme on");
 	if (*line)
 	{
+		ft_putendl("6.1");
 		init_token(&cmd);
-		ft_putendl("1");
+		ft_putendl("6.2");
 		new_parser(&cmd, *line);
-		ft_putendl("2");
-		tmp = cmd;
-		while (tmp)
-		{
-			ft_putnbrl(i++);
-			ft_putendl(tmp->str);
-			tmp = tmp->n;
-		}
+		// tmp = cmd;
+		// while (tmp)
+		// {
+		// 	ft_putendl(tmp->str);
+		// 	tmp = tmp->n;
+		// }
+		ft_putendl("6.3");
 		restruct_lst(&cmd);
-		ft_putendl("3");
+		ft_putendl("6.4");
 		db_lst(&cmd);
-		ft_putendl("4");
+		ft_putendl("6.5");
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
@@ -127,9 +128,11 @@ static void		loop(t_cmdl *cmdl)
 
 	while (42)
 	{
-		ft_putendl("???");
+		ft_putendl("0");
 		job_control(NULL, NULL, UPT);
+		ft_putendl("1");
 		job_control(NULL, NULL, CHK);
+		ft_putendl("2");
 		init_cmdl();
 		ft_putendl("get_cmdl");
 		get_cmdl(cmdl);
@@ -140,8 +143,15 @@ static void		loop(t_cmdl *cmdl)
 			break ;
 		ft_putendl("?");
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-									cmdl->line.str[1] == 0))
+			cmdl->line.str[1] == 0))
+		{
+			ft_putendl("6");
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
+			ft_putendl("7");
+		}
+		if (cmdl->exit != 256)
+			break ;
+		ft_putendl("8");
 	}
 	unset_shell(cmdl);
 }

@@ -92,14 +92,18 @@ int			ctrl_l(t_cmdl *cmdl)
 {
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	print_prompt();
-	if (cmdl->opt & CHIS_S)
+	if (cmdl->opt & CHIS_S && (cmdl->opt &= ~(CHIS_S)) && cmdl->line.str[0])
 	{
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		ft_strcpy(cmdl->line.str,
 		findcmdl(cmdl->line.str, cmdl->line.buf, 2)->cmdl);
 		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->opt &= ~(CHIS_S);
 		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	}
+	else if (cmdl->opt & CCOMP)
+	{
+		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+		display_comp(cmdl, &cmdl->comp, cmdl->offset);
 	}
 	else if (cmdl->line.str[0])
 		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));

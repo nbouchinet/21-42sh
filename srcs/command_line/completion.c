@@ -109,6 +109,8 @@ int				completion(t_cmdl *cmdl)
 {
 	int		i;
 
+	if (cmdl->opt & CCP)
+		return (beep());
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->comp && (cmdl->opt & CCOMP))
 		return (c_move(&cmdl->comp));

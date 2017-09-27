@@ -16,30 +16,19 @@ static void	exit_cmdl(t_cmdl *cmdl)
 {
 	char	*s1;
 
-	ft_putendl("0");
 	if (cmdl->line.save)
 	{
-		ft_putendl("0.0");
 		s1 = cmdl->line.str;
-		ft_putendl("0.1");
 		cmdl->line.str = ft_strtrimf(ft_strjoin(cmdl->line.save,
 		cmdl->line.str));
-		ft_putendl("0.2");
 		free(s1);
-		ft_putendl("0.4");
 		ft_strdel(&cmdl->line.save);
-		ft_putendl("0.5");
 	}
-	ft_putendl("0.6");
 	cmd_save_history(cmdl->line.str);
-	ft_putendl("0.7");
 	cmdl->opt |= CRESET;
 	cmd_history(cmdl);
-	ft_putendl("0.8");
 	cmdl->opt = 0;
-	ft_putendl("0.9");
 	write(1, "\n", 1);
-	ft_putendl("0.10");
 }
 
 static void	get_op(t_cmdl *cmdl, int *ret, int *i)
@@ -95,4 +84,5 @@ void		get_cmdl(t_cmdl *cmdl)
 			print(cmdl, cmdl->line.buf);
 	}
 	exit_cmdl(cmdl);
+	ft_putendl("\nAbort\n");
 }
