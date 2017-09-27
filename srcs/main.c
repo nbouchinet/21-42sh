@@ -16,17 +16,10 @@ static void     exec_part(char **line, t_env **env)
 {
 	t_ast   *ast;
 	t_tok   *cmd;
-	t_tok   *tmp;
 
 	init_token(&cmd);
 	new_parser(&cmd, *line);
 	lexer_check(&cmd);
-	tmp = cmd;
-	while (tmp)
-	{
-		ft_putendl(tmp->str);
-		tmp = tmp->n;
-	}
 	expanse(&cmd, env);
 	if (!cmd)
 		return ;
@@ -47,13 +40,11 @@ static void     loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-		// ft_printf("exec: %s\n", cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
 		cmdl->line.str[1] == 0) && !only_space(cmdl, 0, 0))
 		{
-			ft_putendl(cmdl->line.str);
 			mode_off(cmdl);
 			exec_part(&cmdl->line.str, &cmdl->lstenv);
 			mode_on(cmdl);
