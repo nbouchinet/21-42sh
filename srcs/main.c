@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:12:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 18:27:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,46 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	t_ast	*ast;
 	t_tok	*cmd;
+	t_tok	*tmp;
 	int		i;
 
 	i = 0;
+	ast = NULL;
+	ft_putendl("comme on");
 	if (*line)
 	{
-		cmd = init_tok(&cmd, CURR);
+		init_token(&cmd);
+		ft_putendl("1");
 		new_parser(&cmd, *line);
+		ft_putendl("2");
+		tmp = cmd;
+		while (tmp)
+		{
+			ft_putnbrl(i++);
+			ft_putendl(tmp->str);
+			tmp = tmp->n;
+		}
 		restruct_lst(&cmd);
+		ft_putendl("3");
 		db_lst(&cmd);
+		ft_putendl("4");
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
+			ft_putendl("5");
 			if (cmd)
 			{
+				ft_putendl("6");
 				init_ast(&ast, NULL, 0);
+				ft_putendl("7");
 				primary_sequence(&ast, &cmd);
+				ft_putendl("8");
 				ft_putast(ast);
+				ft_putendl("9");
 				mode_off(cmdl);
+				ft_putendl("10");
 				stock_restore(1);
 				i = job_ast(&ast, env, 1);
 				stock_restore(0);
@@ -89,7 +109,9 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				mode_on(cmdl);
 			}
 		}
+		ft_putendl("11");
 		destroy_tok(&cmd);
+		ft_putendl("12");
 	}
 	return (i);
 }
@@ -105,13 +127,18 @@ static void		loop(t_cmdl *cmdl)
 
 	while (42)
 	{
+		ft_putendl("???");
 		job_control(NULL, NULL, UPT);
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
+		ft_putendl("get_cmdl");
 		get_cmdl(cmdl);
-		// ft_printf("exec: %s\n", cmdl->line.str);
+		ft_putendl("hugo");
+		cmdl->line.str ? ft_printf("exec: %s\n", cmdl->line.str) : 0;
+		ft_putendl("here");
 		if (cmdl->opt & CCTRLD)
 			break ;
+		ft_putendl("?");
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
 									cmdl->line.str[1] == 0))
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
