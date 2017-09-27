@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 15:07:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 15:12:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int			ft_export(t_ast **ast, t_env **env)
 	t_local   *loc;
 	t_env     *tmp;
 
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	loc = *local_slg(0);
 	tmp = *env;
 	if (!(*ast)->left->right)
 		return (0);

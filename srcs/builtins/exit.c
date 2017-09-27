@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpelat <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 16:11:48 by hpelat            #+#    #+#             */
-/*   Updated: 2017/09/06 16:29:27 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/27 15:01:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		ft_exit(t_ast **ast, t_env **env)
 	t_cmdl	**cmdl;
 
 	(void)env;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	cmdl = cmdl_slg();
 	if (!(arg = creat_arg_env(&(*ast)->left->right)))
 		return (((*cmdl)->exit = (*cmdl)->exit != 256 ?

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:26:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:32:59 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/27 15:01:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ int         ft_read(t_ast **ast, t_env **env)
 
 	(void)env;
 	(void)ast;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	cmdl = *cmdl_slg();
 	ft_memset(&var, 0, sizeof(t_read));
 	targ = creat_arg_env(&(*ast)->left->right);

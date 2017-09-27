@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpelat <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:35:31 by hpelat            #+#    #+#             */
-/*   Updated: 2017/06/06 16:14:27 by hpelat           ###   ########.fr       */
+/*   Updated: 2017/09/27 14:47:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,31 @@ static void		if_env(char **arg, t_env **env)
 	}
 }
 
+void		stock_restore(int mod)
+{
+	static int		stdin = -1;
+	static int		stdout = -1;
+	static int		stderr = -1;
+
+	if (mod)
+	{
+		stdin = dup(STDIN_FILENO);
+		stdout = dup(STDOUT_FILENO);
+		stderr = dup(STDERR_FILENO);
+	}
+	else
+	{
+		dup2(stdin, STDIN_FILENO);
+		dup2(stdout, STDOUT_FILENO);
+		dup2(stderr, STDERR_FILENO);
+	}
+}
 int				ft_echo(t_ast **ast, t_env **env)
 {
 	int		i;
 	char	**arg;
 
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	if (!(arg = creat_arg_env(&(*ast)->left->right)) || !arg[0])
 		return (write(1, "\n", 1));
 	i = (arg[0] && !ft_strcmp(arg[0], "-n") ? 1 : 0);

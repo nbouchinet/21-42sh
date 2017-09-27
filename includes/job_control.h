@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/26 01:46:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 15:11:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct			s_tab
 	int					(*f)(t_job**, t_ast**, t_job**);
 }						t_tab;
 
+void					stock_restore(int mod);
 void					init_shell();
 void					delete_tnode(t_job **node, t_job **prev, t_job **table);
 int						ft_joblstadd(t_job **new, t_ast **ast, t_job **table);

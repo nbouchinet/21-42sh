@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 13:00:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 15:01:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int				ft_cd(t_ast **ast, t_env **env)
 	opt = 2;
 	i = 0;
 	path = NULL;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	targ = creat_arg_env(&(*ast)->left->right);
 	if (!*env)
 		return (fd_printf(2, "Ok\n"));

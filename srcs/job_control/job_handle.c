@@ -94,8 +94,8 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 
 int		inter_job(t_ast **ast, t_env **env)
 {
-	(void)ast;
 	(void)env;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	return (job_control(NULL, ast, BUILTIN));
 }
 
