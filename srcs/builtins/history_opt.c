@@ -39,6 +39,17 @@ static void no_options(t_his **his, int offset, int his_len)
 	}
 }
 
+static int	ft_string_ascii(char *line)
+{
+	int		i;
+
+	i = -1;
+	while (line[++i])
+		if (!(ft_isascii(line[i])))
+			return (0);
+	return (1);
+}
+
 void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 {
 	char	*line;
@@ -57,7 +68,8 @@ void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 	}
 	while (get_next_line(fd, &line))
 	{
-		cmd_save_history(line);
+		if (ft_string_ascii(line))
+			cmd_save_history(line);
 		free(line);
 		if (count != -1)
 			count -= 1;
@@ -66,7 +78,7 @@ void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 	}
 }
 
-void hist_append(t_his **his, int offset, int his_len, char *arg)
+void 		hist_append(t_his **his, int offset, int his_len, char *arg)
 {
 	t_his	*tmp;
 	int		fd;

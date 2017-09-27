@@ -97,7 +97,7 @@ static int	get_event(char *event, t_bang *bang)
 static int	bang_error(char *sub, char **opt)
 {
 	fd_printf(2, "\n42sh: %s: event not found", sub[0] == '^' ? sub : opt[0]);
-	ft_free(opt, NULL, 1);
+	ft_free(opt, &sub, 1);
 	return (1);
 }
 
@@ -109,7 +109,7 @@ int			bang_parse(char *sub, t_bang *bang)
 
 	opt = ft_strsplit(sub, ':');
 	len = ft_tablen(opt);
-	if ( !(his = (*his_slg())->n) )
+	if (!(his = (*his_slg())))
 		return (bang_error(sub, opt));
 	if (0 < len && get_event(opt[0], bang))
 		return (ft_free(opt, NULL, 1));
