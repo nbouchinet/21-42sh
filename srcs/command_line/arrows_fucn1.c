@@ -68,7 +68,7 @@ int		arrow_right(t_cmdl *cmdl)
 		return (beep());
 	if (cmdl->opt & CCOMP)
 		return (c_arrow_right(&cmdl->comp));
-	if (cmdl->ccp.start != -1 &&  cmdl->ccp.end == -1 &&
+	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1 &&
 	cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
 		tputs(tgetstr("mr", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);

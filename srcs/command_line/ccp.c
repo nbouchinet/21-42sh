@@ -19,7 +19,7 @@ static void	swap(t_cmdl *cmdl, int w, int i)
 	(void)i;
 	if (!w)
 	{
-		tmp = cmdl->ccp.start;
+		tmp = cmdl->ccp.start + 1;
 		cmdl->ccp.start = cmdl->ccp.end;
 		cmdl->ccp.end = tmp;
 	}
@@ -42,10 +42,11 @@ static void	get_b_e(t_cmdl *cmdl)
 	if (CUT(cmdl->line.buf))
 	{
 		if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1)
-			cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr;
-		if (cmdl->ccp.start == -1 && cmdl->ccp.end == -1)
-			cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr +
+			cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr +
 			(cmdl->line.cur - cmdl->line.pr ? 1 : 0);
+		if (cmdl->ccp.start == -1 && cmdl->ccp.end == -1)
+			cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr;
+			// (cmdl->line.cur - cmdl->line.pr ? 1 : 0);
 	}
 	else if (CPY(cmdl->line.buf))
 	{
@@ -53,8 +54,8 @@ static void	get_b_e(t_cmdl *cmdl)
 			cmdl->ccp.end = cmdl->line.cur - cmdl->line.pr +
 			(cmdl->line.cur - cmdl->line.pr ? 1 : 0);
 		if (cmdl->ccp.start == -1 && cmdl->ccp.end == -1)
-			cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr +
-			(cmdl->line.cur - cmdl->line.pr ? 1 : 0);
+			cmdl->ccp.start = cmdl->line.cur - cmdl->line.pr;
+			// (cmdl->line.cur - cmdl->line.pr ? 1 : 0);
 	}
 	if (cmdl->ccp.end != -1)
 		cmdl->opt &= ~CCP;
