@@ -44,7 +44,8 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
 	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ')
 		ft_strleft(&(*lst)->str, '\\');
-	(*lst)->type = QUOTE ? (*lst)->type = WORD : 0;
+	if ((*lst)->type == QUOTE)
+		(*lst)->type = WORD;
 	ft_memset(*stack, 0, ft_strlen(*stack));
 }
 
