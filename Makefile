@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/27 11:10:24 by khabbar          ###   ########.fr        #
+#    Updated: 2017/09/27 16:18:16 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,7 @@ fclean: clean
 	make -C libft fclean
 	rm -rf $(NAME)
 	rm -rf $(OPATH)
-	rm srcs/.42sh_history
+	rm .42sh_history
 
 re: fclean all
 
