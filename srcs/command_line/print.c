@@ -59,6 +59,8 @@ void remalloc_cmdl(t_line *line, int len)
 	line->len += 1024;
 }
 
+//	Seg ctrl-v
+
 static int	regular_print(t_line *line, char buf[], int i)
 {
 	int		len;
@@ -67,7 +69,7 @@ static int	regular_print(t_line *line, char buf[], int i)
 	len = ft_strlen(line->str);
 	if (len + line->pr >= line->co * line->li - (line->co + 1) && beep())
 		return (-1);
-	len == line->len ? remalloc_cmdl(line, len) : 0;
+	len >= line->len ? remalloc_cmdl(line, len) : 0;
 	if (line->str[i] == 0)
 		line->str = ft_strcat(line->str, buf);
 	else

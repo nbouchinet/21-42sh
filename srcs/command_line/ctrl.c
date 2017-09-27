@@ -68,8 +68,7 @@ int			ctrl_d(t_cmdl *cmdl)
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
 	}
-	else if (cmdl->line.str && !cmdl->line.str[0] &&
-		(cmdl->opt & CSQ || cmdl->opt & CDQ))
+	else if (cmdl->line.str && !cmdl->line.str[0] && (cmdl->opt & (CSQ | CDQ)))
 	{
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: unexpected EOF while looking for a "
