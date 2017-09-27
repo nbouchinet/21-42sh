@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 15:05:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 15:02:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				ft_unset(t_ast **ast, t_env **env)
 {
 	t_ast	*tmp;
 
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	if (!(*ast)->left->right)
 		return (0);
 	tmp = (*ast)->left->right;

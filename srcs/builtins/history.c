@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:33:42 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/09/27 15:01:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int         ft_history(t_ast **ast, t_env **env)
 	opt = 0;
 	offset = 0;
 	arg = NULL;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	if ((targ = creat_arg_env(&(*ast)->left->right)) && parse_opt(targ, &opt,
 	&offset, &arg))
 		return (0);

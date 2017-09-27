@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 17:13:52 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 15:39:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 14:59:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		ft_unsetenv(t_ast **ast, t_env **env)
 	int		i;
 
 	arg = NULL;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	arg = creat_arg_env(&(*ast)->left->right);
 	if ((i = countab(arg)) == 1)
 		deletevarenv(env, arg[0]);

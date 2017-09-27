@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 18:21:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 14:46:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				primary_sequence(&ast, &cmd);
 				ft_putast(ast);
 				mode_off(cmdl);
+				stock_restore(1);
 				i = job_ast(&ast, env, 1);
+				stock_restore(0);
 				destroy_ast(&ast);
 				mode_on(cmdl);
 			}
