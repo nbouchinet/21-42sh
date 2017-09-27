@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/30 17:11:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/17 18:28:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 18:25:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_ast(t_ast **ast, t_tok **tok, int type)
 	}
 	if (tok && *tok)
 	{
-		(*ast)->str = ft_strdup((*tok)->str);
+		(*tok)->str ? (*ast)->str = ft_strdup((*tok)->str) : 0;
 		(*ast)->type = (*tok)->hd != 0 ? (*tok)->hd : type;
 	}
 	else

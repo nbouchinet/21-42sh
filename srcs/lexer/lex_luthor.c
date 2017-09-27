@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 12:11:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 18:56:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	init_token(t_tok **lst)
 	(*lst)->hd = 0;
 	(*lst)->n = NULL;
 	(*lst)->p = NULL;
-
 }
 
 t_tok	*init_tok(t_tok **lst, int mod)
@@ -63,9 +62,9 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		if (check_end(line + (*i)) == 1)
+		if (check_end(line + (*i)))
 		{
-			(*lst)->n = init_tok(lst, NE);
+			init_token(&(*lst)->n);
 			*lst = (*lst)->n;
 		}
 	}
@@ -96,9 +95,12 @@ void	new_parser(t_tok **cmd, char *line)
 				key[j].f(&tmp, &stack, line, &i);
 				break ;
 			}
+		ft_putendl("1.1");
 		j == 8 ? st_tok(&stack, line[i]) : 0;
+		ft_putendl("1.b");
 		i++;
 	}
 	stack && ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;
-	stack ? free(stack) : 0;
+	tmp->n = NULL;
+	stack && stack[0] ? free(stack) : 0;
 }

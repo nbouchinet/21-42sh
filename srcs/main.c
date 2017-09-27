@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:12:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 18:57:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 
 	i = 0;
+	ast = NULL;
+	ft_putendl("comme on");
 	if (*line)
 	{
 		ft_putendl("6.1");
@@ -89,12 +91,18 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
+			ft_putendl("5");
 			if (cmd)
 			{
+				ft_putendl("6");
 				init_ast(&ast, NULL, 0);
+				ft_putendl("7");
 				primary_sequence(&ast, &cmd);
+				ft_putendl("8");
 				ft_putast(ast);
+				ft_putendl("9");
 				mode_off(cmdl);
+				ft_putendl("10");
 				stock_restore(1);
 				i = job_ast(&ast, env, 1);
 				stock_restore(0);
@@ -102,7 +110,9 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				mode_on(cmdl);
 			}
 		}
+		ft_putendl("11");
 		destroy_tok(&cmd);
+		ft_putendl("12");
 	}
 	return (i);
 }
@@ -124,13 +134,14 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		ft_putendl("2");
 		init_cmdl();
-		ft_putendl("3");
+		ft_putendl("get_cmdl");
 		get_cmdl(cmdl);
-		ft_putendl("4");
-		ft_printf("exec: %s\n", cmdl->line.str);
+		ft_putendl("hugo");
+		cmdl->line.str ? ft_printf("exec: %s\n", cmdl->line.str) : 0;
+		ft_putendl("here");
 		if (cmdl->opt & CCTRLD)
 			break ;
-		ft_putendl("5");
+		ft_putendl("?");
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
 			cmdl->line.str[1] == 0))
 		{

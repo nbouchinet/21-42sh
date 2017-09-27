@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 12:12:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 16:54:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,20 +197,20 @@ void	check_rdir(t_tok **start, t_tok **next)
 void	restruct_lst(t_tok **lst)
 {
 	t_tok	*tmp;
-	t_tok	*save;
 
 	if (*lst)
 	{
+		ft_putendl("2.1");
 		tmp = *lst;
+		ft_putendl("2.2");
 		while (tmp)
 		{
+			ft_putendl("2.3");
 			if (tmp->n && (tmp->n->type == CHEVRON || tmp->n->type == IO_N))
-			{
-				save = tmp;
-				check_rdir(&save, &tmp->n);
-			}
+				check_rdir(&tmp, &tmp->n);
 			tmp = tmp->n;
 		}
+		ft_putendl("2.4");
 	}
 }
 
