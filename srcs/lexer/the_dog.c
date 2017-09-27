@@ -37,7 +37,7 @@ void	st_tok(char **stack, char c)
 	if (ft_strlen(*stack) >= len)
 	{
 		tmp = (*stack);
-		if (!((*stack) = (char *)malloc(sizeof(char) * (len + 100))))
+		if (!((*stack) = ft_memalloc(len + 100)))
 			exit(fd_printf(2, "malloc error\n"));
 		(*stack) = ft_strcpy((*stack), tmp);
 		(*stack) = ft_strcat((*stack), word);
