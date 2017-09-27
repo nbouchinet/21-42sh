@@ -96,7 +96,7 @@ int			cmd_history(t_cmdl *cmdl)
 	t_his			*his;
 	static t_his	*match = NULL;
 
-	if (cmdl->opt & CCMODE)
+	if (cmdl->opt & (CCMODE | CCP))
 		return (beep());
 	if (cmdl->opt & CCOMP)
 		return (UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :

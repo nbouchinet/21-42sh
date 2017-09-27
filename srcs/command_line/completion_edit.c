@@ -14,14 +14,14 @@
 
 void	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 {
-	tmp = line->str[line->cur - line->pr] ?
-	ft_strdup(line->str + (line->cur - line->pr)) : NULL;
+	tmp = ft_strdup(line->str + (line->cur - line->pr));
 	if (!tmp)
 	{
 		line->str = ft_strcat(line->str, (*comp)->str + offset);
 		write(1, line->str + (line->cur - line->pr),
 		ft_strlen(line->str + (line->cur - line->pr)));
 		line->cur = ft_strlen(line->str) + line->pr;
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	}
 	else
 	{
@@ -35,6 +35,7 @@ void	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 		line->str = ft_strcat(line->str, tmp);
 		write(1, line->str + (line->cur - line->pr),
 		ft_strlen(line->str + (line->cur - line->pr)));
+		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
 		tmp ? free(tmp) : 0;
 	}

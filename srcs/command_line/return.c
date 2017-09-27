@@ -52,15 +52,13 @@ static int	check_save(t_cmdl *cmdl)
 
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
-	if (!(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) &&
-	check_quote(cmdl))
+	if (!(cmdl->opt & (CHIS_S | CPIPE | CAND | COR)) && check_quote(cmdl))
 		save_cmdl(&cmdl);
-	else if (!(cmdl->opt & (CSQ | CDQ)) && !(cmdl->opt & CHIS_S) &&
-	handle_pipe_and_or(cmdl, 0))
+	else if (!(cmdl->opt & (CSQ | CDQ | CHIS_S)) && handle_pipe_and_or(cmdl, 0))
 		save_cmdl(&cmdl);
-	else if (cmdl->line.str && !(cmdl->opt & (CSQ | CDQ)) &&
-	!(cmdl->opt & CHIS_S) && !(cmdl->opt & (CPIPE | CAND | COR)) &&
-	cmdl->line.str[len > 0 ? len : 0] == '\\' && inhibiteur(cmdl, len))
+	else if (cmdl->line.str && !(cmdl->opt & (CSQ | CDQ | CHIS_S | CPIPE | CAND
+	| COR)) && cmdl->line.str[len > 0 ? len : 0] == '\\' &&
+	inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
 	else if (check_save(cmdl))
 		return (1);
@@ -72,7 +70,7 @@ int			return_cmdl(t_cmdl *cmdl)
 	t_comp	*tmp;
 
 	if (cmdl->opt & CCMODE)
-		return (beep() == 1 ? 1 : 1);
+		return (beep() == OK ? 1 : 1);
 	if (cmdl->opt & CCOMP)
 	{
 		cmdl->opt &= ~(CCOMP);
@@ -80,10 +78,6 @@ int			return_cmdl(t_cmdl *cmdl)
 		while (tmp && !tmp->bol)
 			tmp = tmp->n;
 		completion_edit(&cmdl->line, &tmp, NULL, cmdl->offset);
-		!(cmdl->line.cur % cmdl->line.co) ?
-		tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
-		tputs(tgetstr("cd", NULL), 1, ft_putchar);
-		comp_del(&cmdl->comp);
 		cmdl->offset = -1;
 		!(cmdl->line.cur % cmdl->line.co) ?
 		tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;

@@ -127,6 +127,7 @@ typedef struct					s_local
 # define CHD		256
 # define CCOMP		512
 # define CCMODE		1024
+# define CCP		2048
 
 typedef struct		s_cmdl
 {
