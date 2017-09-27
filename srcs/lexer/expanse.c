@@ -21,6 +21,7 @@ t_local			*find_local(t_local **local, char *var)
 		tmp = *local;
 		while (tmp && ft_strcmp(var, tmp->var) != 0)
 			tmp = tmp->n;
+		ft_putendl(tmp->val);
 		return (tmp);
 	}
 	return (NULL);

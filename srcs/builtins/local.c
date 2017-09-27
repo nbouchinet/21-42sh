@@ -12,21 +12,36 @@
 
 #include "header.h"
 
-static void stock_loc(t_local *loc, char *str, char *sub, int match)
+static void 	mod_env(t_env **env, char *str, char *sub)
+{
+	t_env 		*tmp;
+
+	tmp = *env;
+	if (!tmp)
+		return ;
+	while (tmp && ft_strcmp(tmp->var, str))
+		tmp = tmp->next;
+	if (!tmp)
+		return ;
+	tmp->value = ft_strdups(sub, &tmp->value);
+}
+
+static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
 {
 	if (match)
 	{
-		if (!(loc->n = (t_local*)malloc(sizeof(t_local))))
+		ft_putendl(str);
+		if (!((*loc)->n = (t_local*)malloc(sizeof(t_local))))
 		  exit(fd_printf(2, "malloc error\n"));
-		loc->n->var = ft_strdup(str);
-		loc->n->val = ft_strdup(sub);
-		loc->n->n = NULL;
-		loc->n->p = loc;
+		(*loc)->n->var = ft_strdup(str);
+		(*loc)->n->val = ft_strdup(sub);
+		(*loc)->n->n = NULL;
+		(*loc)->n->p = (*loc);
 	}
 	else
 	{
-		loc->var = ft_strdups(str, &loc->var);
-		loc->val = ft_strdups(sub, &loc->val);
+		ft_strdel(&(*loc)->val);
+		(*loc)->val = ft_strdup(sub);
 	}
 }
 
@@ -51,7 +66,8 @@ int				local(char *str)
 	}
 	while (loc->n && (match = ft_strcmp(loc->var, str)))
 		loc = loc->n;
-	stock_loc(loc, str, sub, match);
+	stock_loc(&loc, str, sub, match);
+	mod_env(&(*cmdl_slg())->lstenv, str, sub);
 	ft_strdel(&sub);
 	return (1);
 }

@@ -71,7 +71,6 @@ typedef struct		s_comp
 	char			*str;
 	char			pad[512];
 	int				bol;
-	// int				col;
 	struct s_comp	*p;
 	struct s_comp	*n;
 }					t_comp;
@@ -251,7 +250,7 @@ int					opt_left(t_cmdl *cmdl);
 */
 
 int					ccp(t_cmdl *cmd);
-int					paste(t_cmdl *cmdl, int len_cpy, int len_str);
+int					paste(t_cmdl *cmdl, int len_cpy);
 
 /*
 **	Fonctions de gestion de l historique et recherche dans l historique

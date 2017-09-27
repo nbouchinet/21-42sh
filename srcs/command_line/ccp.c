@@ -83,10 +83,7 @@ int			ccp(t_cmdl *cmdl)
 	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP))
 		return (beep());
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
-	{
-		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy),
-		ft_strlen(cmdl->line.str)));
-	}
+		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy)));
 	if (PST(cmdl->line.buf) && cmdl->ccp.end == -1)
 		return (1);
 	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2)

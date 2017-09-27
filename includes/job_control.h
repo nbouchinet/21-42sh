@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/27 14:45:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/27 15:11:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void					signal_handler(void);
 typedef struct			s_process
 {
 	char				**argv;
+	t_ast				*builtin;
+	t_env				*env;
 	pid_t				pid;
 	char				completed;
 	char				stopped;
