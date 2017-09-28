@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:54:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/28 18:11:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void        set_buff(char **git, int fd)
 		}
 		ft_strdel(&line);
 	}
+	close(fd);
 }
 
 void        get_git(char **git)

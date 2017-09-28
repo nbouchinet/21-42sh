@@ -6,7 +6,7 @@
 /*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:35:31 by hpelat            #+#    #+#             */
-/*   Updated: 2017/09/27 14:47:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/28 18:10:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ void		stock_restore(int mod)
 		dup2(stdin, STDIN_FILENO);
 		dup2(stdout, STDOUT_FILENO);
 		dup2(stderr, STDERR_FILENO);
+		close(stdin);
+		close(stdout);
+		close(stderr);
 	}
 }
 int				ft_echo(t_ast **ast, t_env **env)
