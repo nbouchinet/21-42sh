@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 15:56:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:18:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/28 15:02:16 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void 		cmd_save_history(char *str)
 	t_his	*new;
 
 	head = *his_slg();
+	ft_putendl(str);
 	if (!str[0] || bang(str))
 		return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
@@ -83,7 +84,7 @@ static void	print_cmdl(t_cmdl *cmdl, t_his *his)
 	while (pos--)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
-	while ((int)ft_strlen(his->cmdl) > cmdl->line.len)
+	while ((int)ft_strlen(his->cmdl) >= (cmdl->line.len - 1))
 		remalloc_cmdl(&cmdl->line);
 	cmdl->line.str = ft_strcpy(cmdl->line.str, his->cmdl);
 	// cmdl->line.str = ft_strdup(his->cmdl);

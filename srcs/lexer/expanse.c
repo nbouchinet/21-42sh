@@ -91,8 +91,8 @@ static void		tild(char **str, t_env **env)
 	char	*tmp2;
 	t_env	*var_env;
 
-	if ((var_env = find_node(env, "HOME", NULL)))
-		if ((*str)[0] == '~' && ((*str)[1] == '/' || (*str)[1] == '\0'))
+	if ((*str) && (*str)[0] == '~' && ((*str)[1] == '/' || (*str)[1] == '\0'))
+		if ((var_env = find_node(env, "HOME", NULL)) && var_env->value)
 		{
 			tmp = ft_strdup((*str) + 1);
 			tmp2 = ft_strdup(var_env->value);

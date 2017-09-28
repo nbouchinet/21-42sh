@@ -91,6 +91,8 @@ void hist_append(t_his **his, int offset, int his_len, char *arg)
 			ft_putendl_fd(tmp->cmdl, fd);
 			tmp->add = 1;
 		}
+		else
+			ft_putendl("FAIL");
 		tmp = tmp->p;
 	}
 	close(fd);

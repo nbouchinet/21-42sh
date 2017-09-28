@@ -14,6 +14,7 @@
 
 void	init_ast(t_ast **ast, t_tok **tok, int type)
 {
+	ft_putnbrl(type);
 	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
 	{
 		*ast = NULL;

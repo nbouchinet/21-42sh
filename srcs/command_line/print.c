@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:18:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/28 14:52:28 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	regular_print(t_line *line, char buf[], int i)
 	len = ft_strlen(line->str);
 	if (len + line->pr >= line->co * line->li - (line->co + 1) && beep())
 		return (-1);
-	len >= line->len ? remalloc_cmdl(line) : 0;
+	len == (line->len - 1) ? remalloc_cmdl(line) : 0;
 	if (line->str[i] == 0)
 		line->str = ft_strcat(line->str, buf);
 	else
