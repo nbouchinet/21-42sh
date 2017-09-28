@@ -20,7 +20,7 @@ static void	swap(t_cmdl *cmdl, int w, int i)
 	if (!w)
 	{
 		tmp = cmdl->ccp.start + 1;
-		cmdl->ccp.start = cmdl->ccp.end;
+		cmdl->ccp.start = cmdl->ccp.end - (cmdl->ccp.end ? 1 : 0);
 		cmdl->ccp.end = tmp;
 	}
 	else
@@ -64,13 +64,13 @@ static void	mark_b_e(t_cmdl *cmdl)
 	int		i;
 
 	get_b_e(cmdl);
+	if (cmdl->ccp.cpy)
+		ft_strdel(&cmdl->ccp.cpy);
 	if (cmdl->ccp.end == -1)
 		return ;
 	if (cmdl->ccp.start > cmdl->ccp.end)
 		swap(cmdl, 0, 0);
 	i = cmdl->ccp.end - cmdl->ccp.start;
-	if (cmdl->ccp.cpy)
-		ft_strdel(&cmdl->ccp.cpy);
 	cmdl->ccp.cpy = ft_strsub(cmdl->line.str, cmdl->ccp.start, i);
 	if (CUT(cmdl->line.buf))
 		swap(cmdl, 1, i);
