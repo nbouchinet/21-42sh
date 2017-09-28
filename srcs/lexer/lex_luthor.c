@@ -15,7 +15,7 @@
 void	init_token(t_tok **lst)
 {
 	if (!((*lst) = (t_tok*)malloc(sizeof(t_tok))))
-		return ;
+		exit (0);
 	(*lst)->type = 0;
 	(*lst)->str = NULL;
 	(*lst)->hd = 0;
@@ -54,7 +54,7 @@ void	tok_save(t_tok **lst, char **stack, int type)
 	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' &&
 	*(bs + 1) != '\\')
 		ft_strleft(&(*lst)->str, '\\');
-	ft_memset(*stack, 0, ft_strlen(*stack));
+	ft_memset(*stack, '\0', ft_strlen(*stack));
 }
 
 void	flush(t_tok **lst, char **stack, char *line, int *i)
@@ -82,12 +82,14 @@ void	new_parser(t_tok **cmd, char *line)
 	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush},
 						{'>', &chevron}, {'<', &chevron}, {';', &question_mark},
 						{'|', &pipe_pars}, {'&', &and_pars}};
+	int			len;
 
 	i = 0;
 	tmp = *cmd;
-	if (!(stack = (char *)malloc(sizeof(char) * 100)))
+	len = 100;
+	if (!(stack = (char *)malloc(sizeof(char) * len)))
 		exit (0);
-	ft_memset(stack, '\0', 100);
+	ft_memset(stack, '\0', len);
 	while (line[i])
 	{
 		j = -1;
@@ -97,7 +99,7 @@ void	new_parser(t_tok **cmd, char *line)
 				key[j].f(&tmp, &stack, line, &i);
 				break ;
 			}
-		j == 8 ? st_tok(&stack, line[i]) : 0;
+		j == 8 ? st_tok(&stack, line[i], &len) : 0;
 		i++;
 	}
 	stack && ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;

@@ -26,25 +26,24 @@ void	delete_lst(t_tok **cmd)
 	*cmd = NULL;
 }
 
-void	st_tok(char **stack, char c)
+void	st_tok(char **stack, char c, int *len)
 {
 	int				i;
 	char			*tmp;
-	static int		len = 100;
 
 	i = 0;
-	if ((i = (int)ft_strlen(*stack)) == (len - 1))
+	if ((i = (int)ft_strlen(*stack)) == ((*len) - 1))
 	{
 		i = -1;
-		if (!(tmp = (char *)malloc(sizeof(char) * (len + 100))))
+		if (!(tmp = (char *)malloc(sizeof(char) * ((*len) + 100))))
 			exit (0);
-		ft_memset(tmp, 0, (len + 100));
+		ft_memset(tmp, 0, ((*len) + 100));
 		while ((*stack)[++i])
 			tmp[i] = (*stack)[i];
 		tmp[i + 1] = c;
 		ft_strdel(stack);
 		*stack = tmp;
-		len += 100;
+		(*len) += 100;
 	}
 	else
 		(*stack)[i] = c;

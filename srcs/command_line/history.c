@@ -55,7 +55,6 @@ void 		cmd_save_history(char *str)
 	t_his	*new;
 
 	head = *his_slg();
-	ft_putendl(str);
 	if (!str[0] || bang(str))
 		return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
