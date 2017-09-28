@@ -84,7 +84,7 @@ static void	print_cmdl(t_cmdl *cmdl, t_his *his)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	while ((int)ft_strlen(his->cmdl) > cmdl->line.len)
-		remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
+		remalloc_cmdl(&cmdl->line);
 	cmdl->line.str = ft_strcpy(cmdl->line.str, his->cmdl);
 	// cmdl->line.str = ft_strdup(his->cmdl);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));

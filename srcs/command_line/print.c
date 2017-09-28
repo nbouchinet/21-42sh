@@ -46,17 +46,18 @@ static int 	cmode(t_cmdl *cmdl)
 	return (1);
 }
 
-void remalloc_cmdl(t_line *line, int len)
+void remalloc_cmdl(t_line *line)
 {
 	char	*tmp;
 
-	tmp = line->str;
-	if (!(line->str = (char *)malloc(sizeof(char) * (len + 1024))))
+	tmp = ft_strdup(line->str);
+	ft_strdel(&line->str);
+	if (!(line->str = (char *)malloc(sizeof(char) * (line->len + line->len))))
 		exit(0);
-	ft_memset(line->str, 0, (len + 1024));
+	ft_memset(line->str, 0, (line->len + line->len));
 	line->str = ft_strcpy(line->str, tmp);
 	free(tmp);
-	line->len += 1024;
+	line->len += line->len;
 }
 
 //	Seg ctrl-v
@@ -69,7 +70,7 @@ static int	regular_print(t_line *line, char buf[], int i)
 	len = ft_strlen(line->str);
 	if (len + line->pr >= line->co * line->li - (line->co + 1) && beep())
 		return (-1);
-	len >= line->len ? remalloc_cmdl(line, len) : 0;
+	len >= line->len ? remalloc_cmdl(line) : 0;
 	if (line->str[i] == 0)
 		line->str = ft_strcat(line->str, buf);
 	else

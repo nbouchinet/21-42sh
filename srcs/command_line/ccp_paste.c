@@ -12,14 +12,14 @@
 
 #include "header.h"
 
-static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int len_str, int i)
+static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int i)
 {
 	char	*tmp;
 	int		j;
 
 	j = -1;
-	while ((len_str = ft_strlen(cmdl->line.str)) + len_cpy >= cmdl->line.len)
-		remalloc_cmdl(&cmdl->line, len_str);
+	while ((int)ft_strlen(cmdl->line.str) + len_cpy >= cmdl->line.len)
+		remalloc_cmdl(&cmdl->line);
 	if (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] == 0)
 	{
 		cmdl->line.str = ft_strcat(cmdl->line.str, cmdl->ccp.cpy);
@@ -47,7 +47,7 @@ int			paste(t_cmdl *cmdl, int len_cpy)
 	cmdl->line.co * cmdl->line.li - (cmdl->line.co - 1))
 		return (beep());
 	write(1, cmdl->ccp.cpy, len_cpy);
-	edit_cmdl(cmdl, len_cpy, 0, -1);
+	edit_cmdl(cmdl, len_cpy, -1);
 	if (cmdl->line.cur % cmdl->line.co == 0)
 		tputs(tgetstr("do", NULL), 1, ft_putchar);
 	cmdl->ccp.start = -1;

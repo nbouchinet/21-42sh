@@ -54,7 +54,7 @@ static void quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 	while (qsub[j])
 		len_sub += ft_strlen(qsub[j]);
 	while (len_sub > (*cmdl_slg())->line.len)
-		remalloc_cmdl(&(*cmdl_slg())->line, len_cmd);
+		remalloc_cmdl(&(*cmdl_slg())->line);
 	j = -1;
 	while (qsub[++j])
 	{
@@ -83,7 +83,7 @@ void 		fill_buf(t_bang *bang, char **cmd, int *i)
 	ft_memset(*cmd + bang->start, 0, len_cmd + bang->start);
 	while (len_cmd - (bang->end - bang->start) + len_sub >
 	(*cmdl_slg())->line.len)
-		remalloc_cmdl(&(*cmdl_slg())->line, len_cmd);
+		remalloc_cmdl(&(*cmdl_slg())->line);
 	*cmd = ft_strcat(*cmd, bang->tmp);
 	*i = ft_strlen(*cmd) - 1;
 	*cmd = ft_strcat(*cmd, sub);

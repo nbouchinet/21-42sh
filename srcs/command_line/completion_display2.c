@@ -108,7 +108,7 @@ void 		call_completion_edit(t_cmdl *cmdl, t_comp **comp, int offset)
 {
 	while ((int)ft_strlen(cmdl->line.str) +
 		(int)ft_strlen((*comp)->str + offset) >= cmdl->line.len)
-		remalloc_cmdl(&cmdl->line, ft_strlen(cmdl->line.str));
+		remalloc_cmdl(&cmdl->line);
 	completion_edit(&cmdl->line, comp, NULL, offset);
 	!(cmdl->line.cur % cmdl->line.co) ?
 	tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;

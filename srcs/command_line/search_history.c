@@ -71,7 +71,7 @@ int				search_history_print(t_cmdl *cmdl, char buf[])
 	len = ft_strlen(cmdl->line.str);
 	if (!(SH(buf)) && !(NEXT(buf)))
 	{
-		len == cmdl->line.len ? remalloc_cmdl(&cmdl->line, len) : 0;
+		len == cmdl->line.len ? remalloc_cmdl(&cmdl->line) : 0;
 		cmdl->line.str = ft_strcat(cmdl->line.str, buf);
 	}
 	if (cmdl->line.str[0] && (his = findcmdl(cmdl->line.str, buf, 0)))
