@@ -81,6 +81,7 @@ int			return_cmdl(t_cmdl *cmdl)
 		cmdl->offset = -1;
 		!(cmdl->line.cur % cmdl->line.co) ?
 		tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
+		comp_del(&cmdl->comp);
 		return (1);
 	}
 	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)

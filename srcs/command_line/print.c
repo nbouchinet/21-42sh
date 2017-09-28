@@ -19,6 +19,7 @@ static void clear_comp(t_cmdl *cmdl)
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	cmdl->opt &= ~(CCOMP);
+	comp_del(&cmdl->comp);
 }
 
 static int 	cmode(t_cmdl *cmdl)
@@ -26,7 +27,7 @@ static int 	cmode(t_cmdl *cmdl)
 	int		cur_save;
 
 	if (cmdl->line.buf[0] != 'y' && cmdl->line.buf[0] != 'n')
-		return (beep() == OK ? 1  : 1);
+		return (beep() == OK ? 1 : 1);
 	else if (cmdl->line.buf[0] == 'y')
 		print_comp(&cmdl->comp);
 	else
@@ -50,13 +51,12 @@ void remalloc_cmdl(t_line *line)
 {
 	char	*tmp;
 
-	tmp = ft_strdup(line->str);
-	ft_strdel(&line->str);
-	if (!(line->str = (char *)malloc(sizeof(char) * (line->len + line->len))))
+	if (!(tmp = (char *)malloc(sizeof(char) * (line->len + line->len))))
 		exit(0);
-	ft_memset(line->str, 0, (line->len + line->len));
-	line->str = ft_strcpy(line->str, tmp);
-	free(tmp);
+	ft_memset(tmp, 0, (line->len + line->len));
+	tmp = ft_strcpy(tmp, line->str);
+	ft_strdel(&line->str);
+	line->str = tmp;
 	line->len += line->len;
 }
 

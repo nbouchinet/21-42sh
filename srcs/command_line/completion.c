@@ -19,8 +19,6 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 	int				i;
 
 	i = -1;
-	// if (cmdl->opt & (CSQ | CDQ |CPIPE | CAND | COR))
-		// return (0);
 	while (arr_path[++i])
 	{
 		if (!(dir = opendir(arr_path[i])))
