@@ -82,14 +82,12 @@ void	new_parser(t_tok **cmd, char *line)
 	static const t_key	key[8] = {{'"', &quote}, {'\'', &quote}, {' ', &flush},
 						{'>', &chevron}, {'<', &chevron}, {';', &question_mark},
 						{'|', &pipe_pars}, {'&', &and_pars}};
-	int			len;
 
 	i = 0;
 	tmp = *cmd;
-	len = 100;
-	if (!(stack = (char *)malloc(sizeof(char) * len)))
+	if (!(stack = (char *)malloc(sizeof(char) * 100)))
 		exit (0);
-	ft_memset(stack, '\0', len);
+	ft_memset(stack, '\0', 100);
 	while (line[i])
 	{
 		j = -1;
@@ -99,10 +97,11 @@ void	new_parser(t_tok **cmd, char *line)
 				key[j].f(&tmp, &stack, line, &i);
 				break ;
 			}
-		j == 8 ? st_tok(&stack, line[i], &len) : 0;
+		j == 8 ? st_tok(&stack, line[i], 0) : 0;
 		i++;
 	}
 	stack && ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;
 	tmp->n = NULL;
 	ft_strdel(&stack);
+	st_tok(NULL, 0, 1);
 }

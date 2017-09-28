@@ -96,7 +96,7 @@ void				specified_dir(t_tok **lst);
 int					is_space(char c);
 int					check_end(char *line);
 void				delete_lst(t_tok **cmd);
-void				st_tok(char **stack, char c, int *len);
+void				st_tok(char **stack, char c, int reset);
 void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
