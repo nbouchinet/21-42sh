@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 14:54:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/28 11:30:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static int		check_expanse(char **str, t_env **env)
 			end = 0;
 			while ((*str)[i + end] && !is_space((*str)[i + end]))
 				end++;
+			if (!ft_strcmp("$", *str))
+				return (0);
 			if ((tmp = replace_env(*str, i, end, env)))
 			{
 				ft_strdel(str);
