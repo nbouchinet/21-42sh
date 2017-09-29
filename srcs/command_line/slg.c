@@ -21,7 +21,6 @@ t_his		**his_slg(void)
 		if (!(his = (t_his *)malloc(sizeof(t_his))))
 			exit(0);
 		his->cmdl = "";
-		his->add = 1;
 		his->n = NULL;
 		his->p = NULL;
 	}

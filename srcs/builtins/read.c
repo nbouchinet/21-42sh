@@ -12,29 +12,29 @@
 
 #include "header.h"
 
-// static void   save_input(t_read *var)
-// {
-// 	char	**aname;
-// 	char	*bs;
-//
-// 	if (!var->stack)
-// 		var->stack[0] = 0;
-// 	if (!(var->opt & RR) && (bs = ft_strchr(var->stack, '\\')))
-// 		while (*bs)
-// 		{
-// 			(*bs) = *(bs + 1);
-// 			bs++;
-// 		}
-// 	if (var->opt & AR)
-// 	{
-// 		aname = ft_strsplit(var->stack, ' ');
-// 		local(ft_strjoinf(ft_strjoin(var->local, "="), aname[0], 1));
-// 		ft_free(aname, NULL);
-// 		return ;
-// 	}
-// 	var->stack = ft_strjoinf(ft_strjoin(var->local, "="), var->stack, 3);
-// 	local(var->stack);
-// }
+static void   save_input(t_read *var)
+{
+	char	**aname;
+	char	*bs;
+
+	if (!var->stack)
+		var->stack[0] = 0;
+	if (!(var->opt & RR) && (bs = ft_strchr(var->stack, '\\')))
+		while (*bs)
+		{
+			(*bs) = *(bs + 1);
+			bs++;
+		}
+	if (var->opt & AR)
+	{
+		aname = ft_strsplit(var->stack, ' ');
+		local(ft_strjoinf(ft_strjoin(var->local, "="), aname[0], 1));
+		ft_free(aname, NULL, 1);
+		return ;
+	}
+	var->stack = ft_strjoinf(ft_strjoin(var->local, "="), var->stack, 3);
+	local(var->stack);
+}
 
 static void   buf_save(char **stack, char buf[], int *i, int type)
 {
@@ -55,11 +55,23 @@ static void   buf_save(char **stack, char buf[], int *i, int type)
 		(*stack)[++(*i)] = !type ? buf[0] : 0;
 }
 
+static void handle_c(int sig)
+{
+	t_cmdl	*cmdl;
+
+	(void)sig;
+	cmdl = *cmdl_slg();
+	cmdl->opt |= RRET;
+}
+
 static void   read_input(t_read *var, int i, int nchar, char buf[])
 {
+	signal(SIGINT, &handle_c);
 	var->stack = ft_memalloc(512);
 	while (var->time ? var->time < var->endwait  : 1)
 	{
+		if ((*cmdl_slg())->opt & RRET && (write(1, "\n", 1)))
+			break ;
 		ft_memset(buf, '\0', 6);
 		read(var->fd, buf, 1);
 		if (CTRL_D(buf) && (var->eot = 1))
@@ -135,16 +147,18 @@ int         ft_read(t_ast **ast, t_env **env)
 		return (0);
 	!var.local ? var.local = ft_strdup("REPLY") : 0;
 	mode_on(*cmdl_slg());
-	cmdl->term.c_lflag |= ECHO;
+	cmdl->term.c_lflag &= ~ECHO;
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
 	read_input(&var, -1, 0, buf);
 	mode_off(*cmdl_slg());
-	// save_input(&var);
-	// ft_free(targ, NULL);
-	// var.delim ? ft_strdel(&var.delim) : 0;
-	// var.local ? ft_strdel(&var.local) : 0;
-	// var.stack ? ft_strdel(&var.stack) : 0;
+	if (!(cmdl->opt & RRET))
+		save_input(&var);
+	cmdl->opt &= ~RRET;
+	ft_free(targ, NULL, 1);
+	var.delim ? ft_strdel(&var.delim) : 0;
+	var.local ? ft_strdel(&var.local) : 0;
+	var.stack ? ft_strdel(&var.stack) : 0;
 	(var.eot || var.opt & DR) ? write(1, "\n", 1) : 0;
 	return (1);
 }
