@@ -18,3 +18,5 @@ have to print : custom: No such file or directory
 
 '"""\\"\''\"'\|"||'\|"|
 enter to dquote instead of pipe
+
+unset and expot to do
