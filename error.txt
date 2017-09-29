@@ -1,0 +1,20 @@
+/bin/echo lol 1> &  /dev/null
+need syntax error near token `&'
+
+/bin/echo 'Clafouti' > /tmp/merlin.log
+need to work but do : parse error near unexpected token `>'
+
+'ls -a'
+need to print pls -a command not found instead of parse error
+
+cd /tmp; mkdir bar; chmod a-x bar; cd bar; rm -rf bar
+cd: bar:not a directoryn instead of permission denied
+
+cd -; pwd
+print only one /tmp instead of two
+
+<custom>setenv SWAGG_VAR SWAGG_VAL
+have to print : custom: No such file or directory
+
+'"""\\"\''\"'\|"||'\|"|
+enter to dquote instead of pipe
