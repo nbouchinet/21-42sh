@@ -18,7 +18,7 @@ int            ctrlt(t_cmdl *cmdl)
     char    stock;
     int        min;
 
-	if (cmdl->opt & (CCOMP | CCMODE))
+	if (cmdl->opt & (CCOMP | CCMODE | CCP | CHIS_S))
 		return (beep());
     i = cmdl->line.cur - cmdl->line.pr;
     if (i == 0 || ft_strlen(cmdl->line.str) < 2)
@@ -40,7 +40,7 @@ int			ctrl_u(t_cmdl *cmdl)
 {
 	char	*sub;
 
-	if (cmdl->opt & (CCOMP | CCMODE))
+	if (cmdl->opt & (CCOMP | CCMODE | CCP | CHIS_S))
 		return (beep());
 	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
 	home(cmdl);
@@ -106,6 +106,12 @@ int			ctrl_l(t_cmdl *cmdl)
 		display_comp(cmdl, &cmdl->comp, cmdl->offset);
 	}
 	else if (cmdl->line.str[0])
+	{
+		cmdl->ccp.start = -1;
+		cmdl->ccp.end = -1;
+		cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
 		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	}
 	return (1);
 }

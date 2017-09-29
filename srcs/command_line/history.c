@@ -54,6 +54,7 @@ void 		cmd_save_history(char *str)
 	t_his	*head;
 	t_his	*new;
 
+	ft_printf("%@%s%@\n", GREEN, str, I);
 	head = *his_slg();
 	if (!str[0] || bang(str))
 		return ;
@@ -86,7 +87,6 @@ static void	print_cmdl(t_cmdl *cmdl, t_his *his)
 	while ((int)ft_strlen(his->cmdl) >= (cmdl->line.len - 1))
 		remalloc_cmdl(&cmdl->line);
 	cmdl->line.str = ft_strcpy(cmdl->line.str, his->cmdl);
-	// cmdl->line.str = ft_strdup(his->cmdl);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	cmdl->line.cur = ft_strlen(his->cmdl) + cmdl->line.pr;
 }

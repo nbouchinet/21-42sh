@@ -53,5 +53,6 @@ int			paste(t_cmdl *cmdl, int len_cpy)
 	cmdl->ccp.start = -1;
 	cmdl->ccp.end = -1;
 	cmdl->ccp.ccp = 0;
+	cmdl->opt &= ~CCP;
 	return (1);
 }
