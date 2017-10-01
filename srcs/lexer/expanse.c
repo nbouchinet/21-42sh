@@ -21,7 +21,6 @@ t_local			*find_local(t_local **local, char *var)
 		tmp = *local;
 		while (tmp && ft_strcmp(var, tmp->var) != 0)
 			tmp = tmp->n;
-		ft_putendl(tmp->val);
 		return (tmp);
 	}
 	return (NULL);
@@ -44,9 +43,9 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 		beg = ft_strjoinf(beg, tmp->val, 1);
 	else
 	{
-		free(beg);
-		free(end);
-		free(var);
+		ft_strdel(&beg);
+		ft_strdel(&end);
+		ft_strdel(&var);
 		return (NULL);
 	}
 	beg = ft_strjoinf(beg, end, 3);
@@ -54,13 +53,11 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	return (beg);
 }
 
-static int		check_expanse(char **str, t_env **env)
+static int		check_expanse(char **str, t_env **env, int i)
 {
-	int		i;
 	int		end;
 	char	*tmp;
 
-	i = 0;
 	while ((*str)[i])
 		if ((*str)[i] == '$')
 		{
@@ -95,6 +92,7 @@ static void		tild(char **str, t_env **env)
 		if ((var_env = find_node(env, "HOME", NULL)) && var_env->value)
 		{
 			tmp = ft_strdup((*str) + 1);
+			ft_strdel(str);
 			tmp2 = ft_strdup(var_env->value);
 			tmp2 = ft_strjoinf(tmp2, tmp, 3);
 			*str = ft_strdupf(&tmp2);
@@ -115,7 +113,7 @@ void			expanse(t_tok **lst, t_env **env)
 		if (tmp->type == DQUOTE || tmp->type == WORD)
 		{
 			tmp->type == WORD ? tild(&tmp->str, env) : 0;
-			if (check_expanse(&tmp->str, env))
+			if (check_expanse(&tmp->str, env, 0))
 			{
 				save = tmp;
 				!prev ? *lst = tmp->n : 0;
@@ -124,7 +122,7 @@ void			expanse(t_tok **lst, t_env **env)
 		}
 		prev = tmp;
 		tmp = tmp->n;
-		save ? free(save->str) : 0;
+		save ? ft_strdel(&save->str) : 0;
 		save ? free(save) : 0;
 		save ? save = NULL : 0;
 	}
