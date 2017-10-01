@@ -54,7 +54,18 @@ void 	hist_write(t_his **his, int offset, int his_len, char *arg)
 	close(fd);
 }
 
-void 	hist_session()
+static int	ft_is_valid(char *line)
+{
+	int		i;
+
+	i = -1;
+	while (line[++i])
+		if (!ft_isprint(line[i]))
+			return (0);
+	return (1);
+}
+
+void 		hist_session()
 {
 	int		fd;
 	char	*line;
@@ -63,7 +74,8 @@ void 	hist_session()
 		return ;
 	while (get_next_line(fd, &line))
 	{
-		cmd_save_history(line);
+		if (ft_is_valid(line))
+			cmd_save_history(line);
 		ft_strdel(&line);
 	}
 	close(fd);
