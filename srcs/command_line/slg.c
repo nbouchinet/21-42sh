@@ -47,6 +47,8 @@ void		init_cmdl(void)
 	cmdl->ccp.start = -1;
 	cmdl->ccp.end = -1;
 	cmdl->ccp.ccp = 0;
+	cmdl->comp ? comp_del(&cmdl->comp) : 0;
+	cmdl->comp = NULL;
 }
 
 t_cmdl		**cmdl_slg(void)

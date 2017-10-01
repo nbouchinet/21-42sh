@@ -19,16 +19,15 @@ static void		mod_env(t_env **env, char *path)
 	tmp = lst_at(env, "OLDPWD");
 	if (tmp)
 	{
-		free(tmp->value);
+		ft_strdel(&tmp->value);
 		tmp->value = ft_strdup(lst_at(env, "PWD")->value);
 	}
 	tmp = lst_at(env, "PWD");
 	if (tmp)
 	{
-		free(tmp->value);
+		ft_strdel(&tmp->value);
 		tmp->value = ft_strdup(path);
 	}
-	free(path);
 }
 
 static int		chdirectory(char **path, int opt, char *arg)
@@ -87,7 +86,7 @@ static int		get_opt(char **arg, int *i, int *opt)
 
 static void		build_path(char **path, char *arg, t_env **env)
 {
-	char	**rpath;
+	char	**rp;
 	int		i;
 	int		len;
 
@@ -95,11 +94,11 @@ static void		build_path(char **path, char *arg, t_env **env)
 	(*path) = ft_strdup(lst_at(env, "PWD")->value);
 	(*path)[ft_strlen(*path) - 1] == '/' ?
 	(*path)[ft_strlen(*path) - 1] = 0 : 0;
-	rpath = ft_strsplit(arg, '/');
-	while (rpath[++i])
+	rp = ft_strsplit(arg, '/');
+	while (rp[++i])
 	{
 		len = 0;
-		if (rpath[i][0] == '.' && rpath[i][1] == '.' && rpath[i][2] == 0)
+		if (rp[i][0] == '.' && rp[i][1] == '.' && rp[i][2] == 0)
 		{
 			len = ft_strlen((*path));
 			while ((*path)[--len])
@@ -108,10 +107,10 @@ static void		build_path(char **path, char *arg, t_env **env)
 			(*path)[len + (len ? 0 : 1)] = 0;
 		}
 		else
-			(*path) = (*path)[ft_strlen((*path))] == '/' ?
-			ft_strjoinf((*path), rpath[i], 3) :
-			ft_strjoinf(ft_strjoin((*path), "/"), rpath[i], 1);
+			(*path) = (*path)[ft_strlen((*path))] == '/' ? ft_strjoinf((*path),
+			rp[i], 3) : ft_strjoinf(ft_strjoinf((*path), "/", 1), rp[i], 1);
 	}
+	ft_free(rp, NULL, 1);
 }
 
 static void		cd_get_path(t_env **lstenv, char *arg, char **path)
@@ -172,16 +171,20 @@ int				ft_cd(t_ast **ast, t_env **env)
 	path = NULL;
 	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	targ = creat_arg_env(&(*ast)->left->right);
-	if (!*env)
-		return (fd_printf(2, "Ok\n"));
 	if ((targ && get_opt(targ, &i, &opt)) ||
 	(check_arg(i ? ft_tablen(targ + i) : 0, i ? targ[i] : NULL, env)))
-			return (0);
+	{
+		ft_free(targ, NULL, 1);
+		return (0);
+	}
 	arg = targ ? targ[i] : NULL;
 	cd_get_path(env, arg, &path);
 	if (chdirectory(&path, opt, arg))
+	{
+		ft_free(targ, &path, 3);
 		return (0);
+	}
 	mod_env(env, path);
-	ft_free(targ, NULL, 1);
+	ft_free(targ, &path, 3);
 	return (1);
 }

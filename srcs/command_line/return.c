@@ -14,15 +14,20 @@
 
 int			exit_search_mode(t_cmdl *cmdl)
 {
+	t_his	*his;
 	char	*str;
 
-	str = findcmdl(cmdl->line.str, cmdl->line.buf, 2)->cmdl;
-	while (cmdl->line.cur)
-	{
+	his = findcmdl(cmdl->line.str, cmdl->line.buf, 2);
+	str = NULL;
+	while (cmdl->line.cur--)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
-		cmdl->line.cur--;
-	}
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	if (!his)
+	{
+		init_cmdl();
+		return (RETURN(cmdl->line.buf) ? 1 : 2);
+	}
+	str = his->cmdl;
 	ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 	cmdl->line.str = ft_strcpy(cmdl->line.str, str);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));

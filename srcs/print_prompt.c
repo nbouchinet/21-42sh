@@ -23,7 +23,7 @@ t_env 		*lst_at(t_env **env, char *cmp)
 	tmp = *env;
 	if (!tmp)
 		return (NULL);
-	while (tmp->next && ft_strcmp(tmp->var, cmp))
+	while (tmp && ft_strcmp(tmp->var, cmp))
 		tmp = tmp->next;
 	return (tmp);
 }

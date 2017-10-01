@@ -12,65 +12,73 @@
 
 #include "header.h"
 
-static void add_to_env(t_env **env, t_local *loc)
+static void 	export_local(t_env **env, char *str)
 {
-	if (*env)
-	{
-		if (!((*env)->next = (t_env *)malloc(sizeof(t_env))))
-		exit(fd_printf(2, "malloc error\n"));
-		(*env)->next->var = ft_strdup(loc->var);
-		(*env)->next->value = ft_strdup(loc->val);
-		(*env)->next->next = NULL;
-	}
-	else
-	{
-		if (!((*env) = (t_env *)malloc(sizeof(t_env))))
-		exit(fd_printf(2, "malloc error\n"));
-		(*env)->var = ft_strdup(loc->var);
-		(*env)->value = ft_strdup(loc->val);
-		(*env)->next = NULL;
-	}
+	t_local		*local;
+	t_env		*tmp;
+
+	local = *local_slg(0);
+	if (!local)
+		return ;
+	while (local && ft_strcmp(local->var, str))
+		local = local->n;
+	if (!local)
+		return ;
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	if (!(tmp->next = (t_env *)malloc(sizeof(t_env))))
+		exit (EXIT_FAILURE);
+	tmp->next->var = ft_strdup(local->var);
+	tmp->next->value = ft_strdup(local->val);
+	tmp->next->next = NULL;
 }
 
-static void check_local_lst(t_local **head, char *str)
+static void 	export_to_env(t_env **env, char *copy)
 {
-	t_local	*tmp;
-	char	*copy;
-	char	*ptr;
-	char	*sub;
+	t_env		*tmp;
+	char		*ptr;
+	char		*sub;
 
-	tmp = *head;
-	copy = ft_strdup(str);
-	ptr = ft_strchr(copy, '=');
+	if (!(ptr = ft_strchr(copy, '=')))
+		return ;
 	sub = ft_strdup(ptr + 1);
 	*ptr = 0;
-	while (tmp && ft_strcmp(tmp->var, copy))
-		tmp = tmp->n;
+	tmp = lst_at(env, copy);
 	if (!tmp)
-		local(str);
-	free(copy);
-	free(sub);
+	{
+		tmp = *env;
+		while (tmp->next)
+			tmp = tmp->next;
+		if (!(tmp->next = (t_env *)malloc(sizeof(t_env))))
+			exit (EXIT_FAILURE);
+		tmp->next->var = ft_strdup(copy);
+		tmp->next->value = ft_strdup(sub);
+		tmp->next->next = NULL;
+	}
+	else
+		tmp->value = ft_strdups(sub, &tmp->value);
+	ft_strdel(&sub);
+	ft_strdel(&copy);
 }
 
-int			ft_export(t_ast **ast, t_env **env)
+int				ft_export(t_ast **ast, t_env **env)
 {
-	t_local   *loc;
-	t_env     *tmp;
+	t_ast		*tmp;
 
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
-	loc = *local_slg(0);
-	tmp = *env;
-	if (!(*ast)->left->right)
-		return (0);
-	if (ft_strchr((*ast)->left->right->str, '='))
-		check_local_lst(local_slg(0), (*ast)->left->right->str);
-	loc = *local_slg(0);
-	while (loc && ft_strcmp(loc->var, (*ast)->left->right->str))
-		loc = loc->n;
-	if (!loc)
-		return (0);
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	add_to_env(tmp ? &tmp : env, loc);
+	if ((*ast)->right)
+		io_seq(&(*ast)->right->right);
+	tmp = (*ast)->left->right;
+	while (tmp)
+	{
+		if (ft_strchr(tmp->str, '='))
+		{
+			export_to_env(env, ft_strdup(tmp->str));
+			local(tmp->str);
+		}
+		else
+			export_local(env, tmp->str);
+		tmp = tmp->right;
+	}
 	return (1);
 }

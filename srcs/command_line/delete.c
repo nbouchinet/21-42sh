@@ -33,20 +33,25 @@ static int		delete_sh(t_cmdl *cmdl)
 	return (1);
 }
 
+static int 		delete_comp_lst(t_cmdl *cmdl)
+{
+	if (cmdl->comp)
+		comp_del(&cmdl->comp);
+	cmdl->comp = NULL;
+	cmdl->opt &= ~CCOMP;
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	return (1);
+}
 int				del(t_cmdl *cmdl)
 {
 	int		i;
 
 	if (cmdl->opt & CHIS_S)
 		return (delete_sh(cmdl));
+	if (cmdl->opt & CCOMP)
+		return (delete_comp_lst(cmdl));
 	if (cmdl->opt & CCMODE || cmdl->line.cur == cmdl->line.pr)
 		return (beep());
-	if (cmdl->opt & CCOMP)
-	{
-		cmdl->opt &= ~CCOMP;
-		tputs(tgetstr("cd", NULL), 1, ft_putchar);
-		return (1);
-	}
 	arrow_left(cmdl);
 	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	i = cmdl->line.cur - cmdl->line.pr - 1;

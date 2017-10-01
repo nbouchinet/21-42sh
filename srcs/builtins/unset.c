@@ -26,8 +26,8 @@ static int		unset_env(t_env **env, char *str)
 	}
 	if (!tmp)
 		return (0);
-	free(tmp->var);
-	free(tmp->value);
+	ft_strdel(&tmp->var);
+	ft_strdel(&tmp->value);
 	if (prev)
 		prev->next = tmp->next;
 	else if (!prev && tmp->next)
@@ -49,8 +49,8 @@ static int		unset_lst(char *str)
 		loc = loc->n;
 	if (!loc)
 		return (0);
-	free(loc->var);
-	free(loc->val);
+	ft_strdel(&loc->var);
+	ft_strdel(&loc->val);
 	if (loc->p)
 		loc->p->n = loc->n;
 	else if (!loc->p && loc->n)
