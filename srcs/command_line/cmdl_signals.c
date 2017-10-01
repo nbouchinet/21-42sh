@@ -77,6 +77,6 @@ void			cmdl_signals(t_cmdl *cmdl)
 		sigaction(SIGQUIT, &sig, NULL) == -1)
 	{
 		unset_shell(cmdl);
-		exit(fd_printf(2, "signals: sigaction error\n"));
+		exit(fd_printf(2, "cmdl_signals: sigaction error\n"));
 	}
 }
