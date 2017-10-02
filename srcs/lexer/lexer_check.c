@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 16:54:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 05:05:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,14 @@ void	replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end)
 	next2 = *next;
 	sub2 = *sub;
 	sub_end2 = *sub_end;
-	start2->n = *sub;
+	if (start2 != next2)
+		start2->n = *sub;
 	if (next2->type != IO_N)
 		next2->n->n = sub_end2->n ? sub_end2->n : NULL;
 	else
 		next2->n->n->n = sub_end2->n ? sub_end2->n : NULL;
 	sub_end2->n = next2;
-}
+} // to check
 
 void	check_rdir(t_tok **start, t_tok **next)
 {
@@ -174,7 +175,7 @@ void	check_rdir(t_tok **start, t_tok **next)
 						while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
 							tmp2 = tmp2->n;
 						sub_end = tmp2;
-						replace_tok(start, next, &sub, &sub_end);
+						replace_tok(start ? start : next, next, &sub, &sub_end);
 					}
 		}
 		else if (tmp->type == CHEVRON)
@@ -197,20 +198,23 @@ void	check_rdir(t_tok **start, t_tok **next)
 void	restruct_lst(t_tok **lst)
 {
 	t_tok	*tmp;
+	t_tok	*prev;
 
 	if (*lst)
 	{
-		ft_putendl("2.1");
+		prev = *lst;
 		tmp = *lst;
-		ft_putendl("2.2");
 		while (tmp)
 		{
-			ft_putendl("2.3");
-			if (tmp->n && (tmp->n->type == CHEVRON || tmp->n->type == IO_N))
-				check_rdir(&tmp, &tmp->n);
+			ft_putendl("+");
+			if (tmp && (tmp->type == CHEVRON || tmp->type == IO_N))
+			{
+				ft_putendl("????");
+				check_rdir(&prev, &tmp);
+			}
+			prev = tmp;
 			tmp = tmp->n;
 		}
-		ft_putendl("2.4");
 	}
 }
 

@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kill_job.c                                         :+:      :+:    :+:   */
+/*   misc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/06 18:55:00 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 12:30:55 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/10/02 00:33:04 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 00:33:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		kill_job(t_ast **ast, t_env **env)
+int		check_equal(char *s)
 {
-	t_ast	*tmp;
+	int		i;
 
-	(void)env;
-	if (*ast)
-	{
-		tmp = (*ast)->left;
-	}
-	return (1);
+	i = -1;
+	while (s[++i])
+		if (s[i] == '=')
+			return (1);
+	return (0);
+}
+
+int		test(char *s)
+{
+	if (check_equal(s) == 1)
+		return (1);
+	return (0);
 }

@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_fin_helper.c                                   :+:      :+:    :+:   */
+/*   bin_fin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/28 16:21:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/18 13:24:35 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/10/02 02:35:16 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 02:37:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+t_env	*find_node(t_env **env, char *var, char *value)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	if (var != NULL)
+		while (tmp && ft_strcmp(tmp->var, var) != 0)
+			tmp = tmp->next;
+	else
+		while (tmp && ft_strcmp(tmp->value, value) != 0)
+			tmp = tmp->next;
+	return (tmp);
+}
 
 int		count_arg_node(t_ast **ast)
 {
@@ -42,33 +56,6 @@ int		find_bin(t_ast **ast)
 	}
 	free(dir);
 	return (0);
-}
-
-char	*binary_find(char *cmd, char **path)
-{
-	int		i;
-	char	*bin;
-	DIR		*dir;
-
-	i = -1;
-	if (path)
-	{
-		while (path[++i])
-			if ((dir = opendir(path[i])))
-			{
-				if (ft_checkbin(dir, cmd) == 1)
-				{
-					bin = create_path(path[i], cmd);
-					closedir(dir);
-					if (isexec(bin) == 1)
-						return (bin);
-					free(bin);
-					return (NULL);
-				}
-				closedir(dir);
-			}
-	}
-	return (NULL);
 }
 
 int		find_cmd_bin(t_ast **ast, char **path)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_exec_seq.c                                     :+:      :+:    :+:   */
+/*   ast_seq.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/13 12:18:09 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/25 15:14:53 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/01 22:12:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,4 @@ int		job_oa_seq(t_ast **ast, t_env **env, int foreground)
 int		job_andor(t_ast **ast, t_env **env, int foreground)
 {
 	return (job_oa_seq(&(*ast)->left, env, foreground));
-}
-
-void	print_process(t_process **pro)
-{
-	int			i;
-	t_process	*tmp;
-
-	tmp = *pro;
-	i = -1;
-	while (tmp->argv[++i])
-		printf("%s\n", tmp->argv[i]);
 }

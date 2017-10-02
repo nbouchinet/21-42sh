@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/30 17:11:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 18:25:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 02:59:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	init_ast(t_ast **ast, t_tok **tok, int type)
 {
-	ft_putnbrl(type);
 	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
 	{
 		*ast = NULL;

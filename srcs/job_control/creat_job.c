@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_tools.c                                       :+:      :+:    :+:   */
+/*   creat_job.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:38:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/26 02:50:19 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 02:14:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ int		init_proc(t_process **process)
 	(*process)->next = NULL;
 	return (1);
 }
-
-typedef struct		s_bi
-{
-	char			*builtin;
-}					t_bi;
 
 int		check_builtin(t_ast **ast, t_process **p, t_env **env)
 {
@@ -92,30 +87,6 @@ int		init_process(t_ast **ast, t_process **proc, t_env **env)
 		return (1);
 	}
 	return (0);
-}
-
-char	*init_pipe_job(t_ast **ast)
-{
-	char	*cmd;
-	char	*get;
-	t_ast	*tmp;
-
-	cmd = NULL;
-	get = NULL;
-	tmp = (*ast)->right;
-	while (tmp && (tmp->type == PIPE || tmp->type == CMD_SEQ))
-	{
-		if (tmp->type == PIPE)
-			cmd = !cmd ? init_job_name(&tmp->left) :
-					ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
-		else if (tmp->type == CMD_SEQ)
-			cmd = ft_strjoinf(cmd,
-			(get = init_job_name(&tmp)), 1);
-		if ((tmp = tmp->right) && (tmp->type == PIPE || tmp->type == CMD_SEQ))
-			cmd = ft_strjoinf(cmd, " | ", 1);
-	}
-	get ? ft_strdel(&get) : 0;
-	return (cmd);
 }
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)

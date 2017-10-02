@@ -1,31 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils2.c                                       :+:      :+:    :+:   */
+/*   delete_job.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/06 14:55:29 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/06 14:55:46 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/01 21:45:46 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 02:15:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		check_equal(char *s)
+int			delete_job(t_job **job)
 {
-	int		i;
+	t_job		*j;
+	t_process	*p;
+	t_process	*tmp;
 
-	i = -1;
-	while (s[++i])
-		if (s[i] == '=')
-			return (1);
-	return (0);
-}
-
-int		test(char *s)
-{
-	if (check_equal(s) == 1)
-		return (1);
+	j = *job;
+	if (j)
+	{
+		if (j->command)
+			ft_strdel(&j->command);
+		p = j->first_process;
+		while (p)
+		{
+			tmp = p;
+			if (tmp->argv)
+				ft_freetab(tmp->argv);
+			if (tmp->rdir)
+				tmp->rdir = NULL;
+			p = p->next;
+			free(tmp);
+		}
+		free(j);
+	}
 	return (0);
 }

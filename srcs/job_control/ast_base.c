@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_exec.c                                         :+:      :+:    :+:   */
+/*   ast_base.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:21:15 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 18:19:15 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/01 21:47:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,33 +33,6 @@ int		job_ast(t_ast **ast, t_env **env, int foreground)
 		tmp = tmp->right;
 	}
 	return (j);
-}
-
-int			delete_job(t_job **job)
-{
-	t_job		*j;
-	t_process	*p;
-	t_process	*tmp;
-
-	j = *job;
-	if (j)
-	{
-		if (j->command)
-			ft_strdel(&j->command);
-		p = j->first_process;
-		while (p)
-		{
-			tmp = p;
-			if (tmp->argv)
-				ft_freetab(tmp->argv);
-			if (tmp->rdir)
-				tmp->rdir = NULL;
-			p = p->next;
-			free(tmp);
-		}
-		free(j);
-	}
-	return (0);
 }
 
 int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
@@ -109,43 +82,4 @@ int			exec_job(t_job **job, t_env **env, int foreground)
 		return (1);
 	}
 	return (0);
-}
-
-int			exec_pro(t_process **lst, t_env **env, t_job **j)
-{
-	char		**n_env;
-	t_process	*tmp;
-
-	tmp = *lst;
-	n_env = get_env(env, tmp->argv[0]);
-	if (!(tmp->pid = fork()))
-	{
-		if (g_shell_is_interactive)
-		{
-			setpgid(getpid(), getpid());
-			tcsetpgrp(g_shell_terminal, tmp->pid);
-			signal(SIGTSTP, SIG_DFL);
-			signal(SIGWINCH, SIG_DFL);
-			signal(SIGCHLD, SIG_DFL);
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			signal(SIGTTIN, SIG_DFL);
-			signal(SIGTTOU, SIG_DFL);
-		}
-		if (tmp->rdir)
-			if (!io_seq(&tmp->rdir))
-				exit(EXIT_FAILURE);
-		execve(tmp->argv[0], tmp->argv, n_env);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		(*j)->pgid = tmp->pid;
-		setpgid(tmp->pid, (*j)->pgid);
-		tcsetpgrp(g_shell_terminal, (*j)->pgid);
-		waitpid(tmp->pid, &tmp->status, WCONTINUED | WUNTRACED);
-		tcsetpgrp(g_shell_terminal, g_shell_pgid);
-	}
-	ft_freetab(n_env);
-	return (tmp->status);
 }

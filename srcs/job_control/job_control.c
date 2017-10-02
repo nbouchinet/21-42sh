@@ -5,73 +5,161 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/16 20:14:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/23 13:24:23 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 02:20:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*rdir_print(int type)
+int		job_control(t_job **job, t_ast **ast, int mod)
 {
-	if (type == RDIR)
-		return (">");
-	else if (type == BDIR)
-		return ("<");
-	else if (type == RRDIR)
-		return (">>");
-	else if (type == BBDIR)
-		return ("<<");
-	else if (type == AGRE)
-		return (">&");
-	else if (type == BGRE)
-		return ("<&");
-	return (NULL);
+	int					i;
+	static t_job		*table = NULL;
+	static const t_tab	state[6] = {{ADD, &ft_joblstadd},
+									{CHK, &check_job}, {FG, &foreground},
+									{UPT, &update_status},
+									{BUILTIN, &builtin_job}, {BG, &background}};
+
+	i = -1;
+	while (++i < 6)
+		if (state[i].mod == mod)
+			if (state[i].f(job, ast, &table) == 1)
+				return (1);
+	return (0);
 }
 
-char	*init_rdir(char **cmd, t_ast **ast)
+int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
 {
-	t_ast	*tmp;
+	t_job	*tmp;
+	int		prev;
 
-	if (*ast)
+	prev = 0;
+	(void)ast;
+	if (*table)
 	{
-		tmp = *ast;
-		if (tmp->type >= RDIR && tmp->type <= BGRE)
-			init_rdir(cmd, &tmp->right);
-		(*cmd) = ft_strjoinf((*cmd), " ", 1);
-		if (tmp->str)
-			(*cmd) = ft_strjoinf((*cmd), tmp->str, 1);
-		(*cmd) = ft_strjoinf((*cmd), rdir_print(tmp->type), 1);
-		(*cmd) = ft_strjoinf((*cmd), " ", 1);
-		(*cmd) = ft_strjoinf((*cmd), tmp->left->str, 1);
+		tmp = *table;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = *new;
+		(*new)->num = tmp->num + 1;
 	}
-	return (NULL);
+	else
+	{
+		*table = *new;
+		(*table)->num = 1;
+	}
+	return (1);
 }
 
-char	*init_job_name(t_ast **ast)
+int		update_status(t_job **job, t_ast **ast, t_job **table)
 {
-	char	*cmd;
-	t_ast	*tmp;
-	t_ast	*tmp2;
+	t_job		*j;
+	t_process	*p;
 
-	tmp = *ast;
-	if (tmp->left->left)
+	(void)job;
+	(void)ast;
+	if (*table)
 	{
-		cmd = ft_strdup(tmp->left->left->str);
-		if (tmp->left->right)
+		j = *table;
+		while (j)
 		{
-			cmd = ft_strjoinf(cmd, " ", 1);
-			tmp2 = tmp->left->right;
-			while (tmp2)
+			p = j->first_process;
+			while (p)
 			{
-				cmd = ft_strjoinf(cmd, tmp2->str, 1);
-				if ((tmp2 = tmp2->right))
-					cmd = ft_strjoinf(cmd, " ", 1);
+				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
+				j->status = WTERMSIG(p->status);
+				if (!j->next && j->notified != 1)
+					catch_error(&j, p->status);
+				p = p->next;
+			}
+			mark_process_status(&j);
+			j = j->next;
+		}
+	}
+	return (1);
+}
+
+int		check_job(t_job **job, t_ast **ast, t_job **table)
+{
+	t_job		*j;
+	t_job		*prev;
+
+	(void)job;
+	(void)ast;
+	if (*table)
+	{
+		prev = NULL;
+		j = *table;
+		while (j)
+		{
+			if (kill(j->pgid, 0) < 0)
+			{
+				delete_tnode(&j, &prev, table);
+				if (*table)
+				{
+					j = *table;
+					prev = NULL;
+				}
+				else
+					break ;
+			}
+			else
+			{
+				prev = j;
+				j = j->next;
 			}
 		}
-		if (tmp->right)
-			init_rdir(&cmd, &tmp->right->right);
-		return (cmd);
 	}
-	return (NULL);
+	return (1);
+}
+
+int		builtin_job(t_job **job, t_ast **ast, t_job **table)
+{
+	t_job		*j;
+	int			len;
+	int			status;
+	char		symb;
+	int			pos;
+
+	(void)job;
+	(void)ast;
+	pos = 0;
+	len = 0;
+	status = 0;
+	update_status(job, ast, table);
+	if (*table)
+	{
+		j = *table;
+		while (j)
+		{
+			j = j->next;
+			len++;
+		}
+		j = *table;
+		while (j)
+		{
+			pos++;
+			if (len == pos)
+				symb = '+';
+			else if (len - 1 == pos)
+				symb = '-';
+			else
+				symb = ' ';
+			if (j->status == SIGSEGV)
+				fd_printf(2, "[%d]%c Segmentation fault: 11 \t%s\n", j->num, symb, j->command);
+			else if (j->status == SIGABRT)
+				fd_printf(2, "[%d]%c Abort trap: 6 \t\t%s\n", j->num, symb, j->command);
+			else if (j->status == SIGTSTP)
+				fd_printf(2, "[%d]%c Bus error: 10 \t\t%s\n", j->num, symb, j->command);
+			else if (j->status == 15)
+				fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n", j->num, symb, j->command);
+			else
+				fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
+			j = j->next;
+		}
+	}
+	else
+		ft_errormsg("42sh:", NULL, " No jobs.");
+	return (1);
 }
