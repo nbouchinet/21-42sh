@@ -20,3 +20,19 @@ have to print : custom: No such file or directory
 enter to dquote instead of pipe
 
 unset and expot to do
+
+base64 /dev/random | head -c -1000 | grep '42'
+
+create leaks on -c and -1
+
+ctrl+c \n ctr+d : pointer being freed was not allocated abort
+
+setenv TATA=toto TOTO=tata
+export TATA=toto
+export TOTO=tata
+
+unset TATA
+unset TOTO
+unset TATA=toto
+
+segmentation fault
