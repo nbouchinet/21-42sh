@@ -71,8 +71,8 @@ int				ft_unset(t_ast **ast, t_env **env)
 	tmp = (*ast)->left->right;
 	while (tmp)
 	{
-		if (unset_lst(tmp->str))
-			unset_env(env, tmp->str);
+		unset_lst(tmp->str);
+		unset_env(env, tmp->str);
 		tmp = tmp->right;
 	}
 	return (1);
