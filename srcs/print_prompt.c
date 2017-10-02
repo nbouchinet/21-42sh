@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 11:34:49 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/02 17:57:24 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void     print_prompt(void)
 	if (pwd)
 		ft_printf("\%@42sh: %s%@", H_BLUE, pwd, I);
 	else if (getcwd(buff, 1024))
-		ft_printf("%@42sh %s\n%@", H_BLUE, buff, I);
+		ft_printf("%@42sh %s%@", H_BLUE, buff, I);
 	if (git)
 	{
 		ft_printf(": %@git(%@%s%@)%@", RED, YELLOW, git, RED, I);

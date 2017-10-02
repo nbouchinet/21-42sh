@@ -34,3 +34,5 @@ unsetenv HOME | unsetenv OLDPWD | unsetenv PWD
 cd
 
 segfault
+
+TATA=toto alone segfault

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 17:39:19 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/02 17:41:15 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,6 @@ int				ft_cd(t_ast **ast, t_env **env)
 	int		opt;
 	int		i;
 
-	
 	opt = 2;
 	i = 0;
 	path = NULL;
