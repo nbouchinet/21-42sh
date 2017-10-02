@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/28 18:11:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 11:34:49 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ void     print_prompt(void)
 	cmdl = *cmdl_slg();
 	git = NULL;
 	get_git(&git);
-	pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+	if (lst_at(&(cmdl)->lstenv, "PWD"))
+		pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+	else
+		pwd = NULL;
 	if (pwd)
 		ft_printf("\%@42sh: %s%@", H_BLUE, pwd, I);
 	else if (getcwd(buff, 1024))
@@ -97,8 +100,7 @@ void     print_prompt(void)
 		ft_strdel(&git);
 	}
 	if (!(cmdl->opt & (CSQ | CDQ)))
-		write(1, "\n$> ", 4);
+			write(1, "\n$> ", 4);
 	else if ((cmdl->opt & (CSQ | CDQ)))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
-
 }

@@ -27,12 +27,10 @@ create leaks on -c and -1
 
 ctrl+c \n ctr+d : pointer being freed was not allocated abort
 
-setenv TATA=toto TOTO=tata
-export TATA=toto
-export TOTO=tata
+cd src
+cd ../
+cd -
+unsetenv HOME | unsetenv OLDPWD | unsetenv PWD
+cd
 
-unset TATA
-unset TOTO
-unset TATA=toto
-
-segmentation fault
+segfault
