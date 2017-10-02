@@ -98,7 +98,7 @@ void 		call_print_lst(t_cmdl *cmdl, t_comp **comp)
 	}
 	else
 	{
-		ft_printf("42sh: do ypu want to see all %d possibilities "
+		ft_printf("42sh: do you want to see all %d possibilities "
 		"(y or n) ?", comp_len(comp));
 		cmdl->opt |= CCMODE;
 	}

@@ -1,40 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   job_handle_utils.c                                 :+:      :+:    :+:   */
+/*   job_control_tools.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:45:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/26 02:29:45 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/02 00:12:55 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 00:15:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
+int		inter_job(t_ast **ast, t_env **env)
 {
-	t_job	*tmp;
-	int		prev;
-
-	prev = 0;
-	(void)ast;
-	if (*table)
-	{
-		tmp = *table;
-		while (tmp->next)
-		{
-			tmp = tmp->next;
-		}
-		tmp->next = *new;
-		(*new)->num = tmp->num + 1;
-	}
-	else
-	{
-		*table = *new;
-		(*table)->num = 1;
-	}
-	return (1);
+	(void)env;
+	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	return (job_control(NULL, ast, BUILTIN));
 }
 
 void	relink(t_process **tmp, t_process **del)

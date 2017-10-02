@@ -33,22 +33,25 @@ static int		delete_sh(t_cmdl *cmdl)
 	return (1);
 }
 
+static int 		delete_comp_lst(t_cmdl *cmdl)
+{
+	if (cmdl->comp)
+		comp_del(&cmdl->comp);
+	cmdl->comp = NULL;
+	cmdl->opt &= ~CCOMP;
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	return (1);
+}
 int				del(t_cmdl *cmdl)
 {
 	int		i;
 
-	if (cmdl->opt & CCMODE)
-		return (beep());
 	if (cmdl->opt & CHIS_S)
 		return (delete_sh(cmdl));
 	if (cmdl->opt & CCOMP)
-	{
-		tputs(tgetstr("cd", NULL), 1, ft_putchar);
-		cmdl->opt &= ~(CCOMP);
-		return (1);
-	}
-	if (cmdl->line.cur == cmdl->line.pr)
-		return (1);
+		return (delete_comp_lst(cmdl));
+	if (cmdl->opt & CCMODE || cmdl->line.cur == cmdl->line.pr)
+		return (beep());
 	arrow_left(cmdl);
 	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	i = cmdl->line.cur - cmdl->line.pr - 1;
@@ -56,8 +59,10 @@ int				del(t_cmdl *cmdl)
 	while (cmdl->line.str[++i])
 		cmdl->line.str[i] = cmdl->line.str[i + 1];
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
 	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
 	ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
+	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	return (1);
 }

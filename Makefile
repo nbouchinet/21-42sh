@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/09/16 17:12:11 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/02 02:54:41 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,15 +43,6 @@ CFILES= 		main.c \
 				AST/destroy_ast.c \
 				AST/creat_bg_seq.c \
 				init_env/check_env.c \
-				execution/bin_fin_help2.c \
-				execution/bin_fin_helper.c \
-				execution/binary_finders.c	\
-				execution/env_tools.c \
-				execution/exec_seq.c \
-				execution/exec_tools.c \
-				execution/get_env.c \
-				execution/main_exec.c \
-				execution/redirection.c \
 				builtins/cd.c \
 				builtins/unsetenv.c \
 				builtins/setenv.c \
@@ -100,24 +91,33 @@ CFILES= 		main.c \
 				command_line/search_history.c \
 				command_line/set_shell.c \
 				command_line/slg.c \
-				job_control/creat_process.c \
-				job_control/foreground.c \
-				job_control/heredock.c \
-				job_control/init_tools.c \
-				job_control/job_control.c \
-				job_control/job_exec_seq.c \
-				job_control/job_exec.c \
-				job_control/job_handle_utils.c \
-				job_control/job_handle.c \
-				job_control/job_pipe.c \
-				job_control/job_tools.c \
+				job_control/ast_base.c \
+				job_control/ast_bg.c \
+				job_control/ast_seq.c \
 				job_control/catch_error.c \
-				job_control/job_bg_seq.c \
-				job_control/job_env.c \
-				job_control/env_tools.c \
-				job_control/env_utils.c \
-				job_control/env_utils2.c \
-				job_control/kill_job.c \
+				job_control/creat_job.c \
+				job_control/creat_job_name.c \
+				job_control/delete_job.c \
+				job_control/env_builtin.c \
+				job_control/exec_env.c \
+				job_control/exec_env_tools.c \
+				job_control/fg_bg.c \
+				job_control/fill_argv_job.c \
+				job_control/fork.c \
+				job_control/fork_utils.c \
+				job_control/heredoc.c \
+				job_control/job_control.c \
+				job_control/job_control_tools.c \
+				job_control/job_tools.c \
+				job_control/misc.c \
+				job_control/pipe_exec.c \
+				job_control/bin_fin.c \
+				job_control/bin_fin2.c \
+				job_control/bin_fin3.c \
+				job_control/bin_fin4.c \
+				job_control/bin_fin5.c \
+				job_control/redirection.c \
+
 
 OFILES=			$(CFILES:.c=.o)
 

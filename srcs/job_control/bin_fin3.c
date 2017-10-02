@@ -1,31 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_tools.c                                        :+:      :+:    :+:   */
+/*   bin_fin3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/06/30 17:37:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:54:16 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/02 02:40:28 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 02:48:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		countnode(t_env *env)
-{
-	int		i;
-
-	i = 0;
-	if (!env)
-		return (i);
-	while (env)
-	{
-		i++;
-		env = env->next;
-	}
-	return (i);
-}
 
 void	increase_shlvl(t_env **env)
 {
@@ -56,4 +41,25 @@ void	reduc_shlvl(t_env **env, char *s)
 	c = ft_itoa(i);
 	addvalue(&tmp, c);
 	free(c);
+}
+
+void	addvalue(t_env **env, char *str)
+{
+	ft_strdel(&(*env)->value);
+	if (str)
+		(*env)->value = ft_strdup(str);
+	else
+		(*env)->value = NULL;
+}
+
+int		seak(char *s)
+{
+	char *name;
+
+	if (ft_strcmp(s, "21sh") == 0)
+		return (1);
+	else if ((name = ft_strrchr(s, '/')))
+		if (ft_strcmp(name + 1, "21sh") == 0)
+			return (1);
+	return (0);
 }

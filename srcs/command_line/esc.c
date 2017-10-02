@@ -18,7 +18,10 @@ int		esc(t_cmdl *cmdl)
 
 	if (cmdl->opt & (CCOMP))
 	{
-		cmdl->opt &= ~(CCOMP);
+		if (cmdl->comp)
+			comp_del(&cmdl->comp);
+		cmdl->comp = NULL;
+		cmdl->opt &= ~CCOMP;
 		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	}
 	else if (cmdl->ccp.ccp)

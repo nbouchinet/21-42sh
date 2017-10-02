@@ -33,12 +33,12 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 			remalloc_cmdl(&cmdl->line);
 		cmdl->line.str = ft_strcpy(cmdl->line.str,cmdl->line.save);
 		cmdl->line.str = ft_strcat(cmdl->line.str, tmp);
-		free(tmp);
+		ft_strdel(&tmp);
 	}
-	cmd_save_history(cmdl->line.str);
+	if (cmdl->opt & (CSQ | CDQ | CPIPE | CAND | COR))
+		cmd_save_history(cmdl->line.str);
 	cmd_history(cmdl);
 	init_cmdl();
-	cmdl->opt = 0;
 }
 
 static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
@@ -77,6 +77,6 @@ void			cmdl_signals(t_cmdl *cmdl)
 		sigaction(SIGQUIT, &sig, NULL) == -1)
 	{
 		unset_shell(cmdl);
-		exit(fd_printf(2, "signals: sigaction error\n"));
+		exit(fd_printf(2, "cmdl_signals: sigaction error\n"));
 	}
 }

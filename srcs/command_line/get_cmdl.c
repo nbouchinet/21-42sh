@@ -84,5 +84,4 @@ void		get_cmdl(t_cmdl *cmdl)
 			print(cmdl, cmdl->line.buf);
 	}
 	exit_cmdl(cmdl);
-	ft_putendl("\nAbort\n");
 }

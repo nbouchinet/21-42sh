@@ -28,7 +28,7 @@ int				unset_shell(t_cmdl *cmdl)
 	if (mode_off(cmdl))
 		return (1);
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
-	hist_append(his_slg(), 0, 0, 0);
+	hist_add(his_slg());
 	del_all(cmdl_slg(), his_slg(), local_slg(0));
 	write(1, "\nBye\n", 5);
 	return (0);

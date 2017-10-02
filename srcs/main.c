@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/28 17:05:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 04:48:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,49 +61,36 @@ void	db_lst(t_tok **lst)
 
 static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
+	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*tmp;
-	int		i;
+	t_tok	*t;
 
 	i = 0;
 	ast = NULL;
-	ft_putendl("comme on");
 	if (*line)
 	{
-		printf("(%s)\n", *line);
-		// ft_putendl("6.1");
 		init_token(&cmd);
-		// ft_putendl("6.2");
 		new_parser(&cmd, *line);
-		tmp = cmd;
-		while (tmp)
-		{
-			ft_putendl(tmp->str);
-			tmp = tmp->n;
-		}
-		// ft_putendl("6.3");
 		restruct_lst(&cmd);
-		// ft_putendl("6.4");
+		t = cmd;
+		while (t)
+		{
+			ft_putendl(t->str);
+			t = t->n;
+		}
 		db_lst(&cmd);
-		// ft_putendl("6.5");
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
-			// ft_putendl("5");
 			if (cmd)
 			{
-				// ft_putendl("6");
 				init_ast(&ast, NULL, 0);
-				// ft_putendl("7");
 				primary_sequence(&ast, &cmd);
-				// ft_putendl("8");
 				ft_putast(ast);
-				// ft_putendl("9");
 				mode_off(cmdl);
-				// ft_putendl("10");
 				stock_restore(1);
 				i = job_ast(&ast, env, 1);
 				stock_restore(0);
@@ -111,9 +98,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				mode_on(cmdl);
 			}
 		}
-		// ft_putendl("11");
 		destroy_tok(&cmd);
-		// ft_putendl("12");
 	}
 	return (i);
 }
@@ -129,30 +114,18 @@ static void		loop(t_cmdl *cmdl)
 
 	while (42)
 	{
-		// ft_putendl("0");
 		job_control(NULL, NULL, UPT);
-		// ft_putendl("1");
 		job_control(NULL, NULL, CHK);
-		// ft_putendl("2");
 		init_cmdl();
-		// ft_putendl("get_cmdl");
 		get_cmdl(cmdl);
-		// ft_putendl("hugo");
-		cmdl->line.str ? ft_printf("exec: %s\n", cmdl->line.str) : 0;
-		// ft_putendl("here");
+		// cmdl->line.str ? ft_printf("exec: %s\n", cmdl->line.str) : 0;
 		if (cmdl->opt & CCTRLD)
 			break ;
-		// ft_putendl("?");
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
 			cmdl->line.str[1] == 0))
-		{
-			// ft_putendl("6");
 			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
-			// ft_putendl("7");
-		}
 		if (cmdl->exit != 256)
 			break ;
-		// ft_putendl("8");
 	}
 	unset_shell(cmdl);
 }
@@ -167,7 +140,7 @@ int				main(int ac, char *av[], char *env[])
 	cmdl = *cmdl_slg();
 	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl)->lstenv, env))
 		return (1);
-	hist_read(NULL, 0, -1, NULL);
+	hist_session();
 	loop(cmdl);
 	return (cmdl->exit ? cmdl->exit : 0);
 }

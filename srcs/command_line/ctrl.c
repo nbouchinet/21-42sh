@@ -18,8 +18,8 @@ int            ctrlt(t_cmdl *cmdl)
     char    stock;
     int        min;
 
-	if (cmdl->opt & (CCOMP | CCMODE))
-		return (beep());
+    if (cmdl->opt & (CCOMP | CCMODE | CHIS_S))
+        return (beep());
     i = cmdl->line.cur - cmdl->line.pr;
     if (i == 0 || ft_strlen(cmdl->line.str) < 2)
         return (beep());
@@ -29,18 +29,24 @@ int            ctrlt(t_cmdl *cmdl)
     cmdl->line.str[i - min] = stock;
     arrow_left(cmdl);
     min == 1 ? arrow_left(cmdl) : 0;
-    write(1, (cmdl->line.str + (i - min - 1)), 2 + min);
-    cmdl->line.cur += 2;
+    if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
+    && cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+        tputs(tgetstr("mr", NULL), 1, ft_putchar);
+    cmdl->line.cur += write(1, (cmdl->line.str + (i - min - 1)), 1);
+    if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
+    && cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+        tputs(tgetstr("mr", NULL), 1, ft_putchar);
+    cmdl->line.cur += write(1, (cmdl->line.str + (i - min)), 1 + min) - min;
     if (cmdl->line.cur % cmdl->line.co == 0)
         tputs(tgetstr("do", NULL), 1, ft_putchar);
-    return (1);
+    return ((tputs(tgetstr("me", NULL), 1, ft_putchar) ? 1 : 1));
 }
 
 int			ctrl_u(t_cmdl *cmdl)
 {
 	char	*sub;
 
-	if (cmdl->opt & (CCOMP | CCMODE))
+	if (cmdl->opt & (CCOMP | CCMODE | CCP | CHIS_S))
 		return (beep());
 	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
 	home(cmdl);
@@ -106,6 +112,12 @@ int			ctrl_l(t_cmdl *cmdl)
 		display_comp(cmdl, &cmdl->comp, cmdl->offset);
 	}
 	else if (cmdl->line.str[0])
+	{
+		cmdl->ccp.start = -1;
+		cmdl->ccp.end = -1;
+		cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
 		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	}
 	return (1);
 }

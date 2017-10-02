@@ -43,26 +43,21 @@ void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 {
 	char	*line;
 	int		fd;
-	int		count;
 
 	(void)his;
 	(void)offset;
 	(void)arg;
+	(void)his_len;
 	line = NULL;
-	count = his_len == -1 ? 30 : -1;
 	if ((fd = open(".42sh_history", O_RDONLY)) == -1)
 	{
-		his_len != -1 ? fd_printf(2, "Error while opening .42sh_history\n") : 0;
+		fd_printf(2, "Error while opening .42sh_history\n");
 		return ;
 	}
 	while (get_next_line(fd, &line))
 	{
 		cmd_save_history(line);
-		free(line);
-		if (count != -1)
-			count -= 1;
-		if (!count)
-			break ;
+		ft_strdel(&line);
 	}
 }
 
@@ -86,13 +81,7 @@ void hist_append(t_his **his, int offset, int his_len, char *arg)
 	}
 	while (tmp->p)
 	{
-		if (!tmp->add)
-		{
-			ft_putendl_fd(tmp->cmdl, fd);
-			tmp->add = 1;
-		}
-		else
-			ft_putendl("FAIL");
+		ft_putendl_fd(tmp->cmdl, fd);
 		tmp = tmp->p;
 	}
 	close(fd);
@@ -115,7 +104,7 @@ static void hist_del(t_his **his, int offset, int his_len, char *arg)
 		tmp->p->n = tmp->n;
 	if (tmp->n)
 		tmp->n->p = tmp->p;
-	free(tmp->cmdl);
+	ft_strdel(&tmp->cmdl);
 	free(tmp);
 }
 

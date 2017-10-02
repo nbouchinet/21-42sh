@@ -1,52 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   foreground.c                                       :+:      :+:    :+:   */
+/*   fg_bg.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/08/17 11:48:35 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/21 10:08:53 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 00:23:20 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		sus_pid(t_job **job, t_ast **ast, t_job **table)
-{
-	(void)job;
-	(void)ast;
-	(void)table;
-	/* int			nbjob; */
-	/* t_job		*head; */
-	/* t_process	*phead; */
-
-	/* (void)job; */
-	/* (void)ast; */
-	/* nbjob = 1; */
-	/* if (!(*table)) */
-	/* 	return (0); */
-	/* head = (*table); */
-	/* phead = (*table)->first_process; */
-	/* while ((*table)->next) */
-	/* { */
-	/* 	(*table) = (*table)->next; */
-	/* 	nbjob++; */
-	/* } */
-	/* if ((*table)->first_process->stopped != 1) */
-	/* { */
-	/* 	phead = (*table)->first_process; */
-	/* 	kill((*table)->pgid, SIGTSTP); */
-	/* 	(*table)->first_process = phead; */
-	/* } */
-	/* (*table) = head; */
-	return (1);
-}
-
 void	wait_for_job(t_job **job)
 {
 	pid_t		pid;
-	// int			status;
 	t_process	*p;
 
 	p = (*job)->first_process;
@@ -110,7 +78,8 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 			}
 			else
-				ft_errormsg("42sh: bg: ", (*ast)->left->right->str, " no such job.");
+				ft_errormsg("42sh: bg: ", (*ast)->left->right->str,
+					" no such job.");
 		}
 		return (1);
 	}
@@ -138,7 +107,6 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 					perror("kill (SIGCONT)");
 				tcsetpgrp(g_shell_terminal, j->pgid);
 				wait_for_job(&j); // find alternative
-				// sleep(30);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 			}
 			else

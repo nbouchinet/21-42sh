@@ -78,7 +78,6 @@ typedef struct		s_comp
 typedef struct		s_his
 {
 	char			*cmdl;
-	int				add;
 	struct s_his	*n;
 	struct s_his	*p;
 }					t_his;
@@ -128,6 +127,7 @@ typedef struct					s_local
 # define CCOMP		512
 # define CCMODE		1024
 # define CCP		2048
+# define RRET		4096
 
 typedef struct		s_cmdl
 {
@@ -258,6 +258,8 @@ int					paste(t_cmdl *cmdl, int len_cpy);
 */
 
 t_his				*findcmdl(char *str, char buf[], int reset);
+void 				hist_session();
+void 				hist_add(t_his **his);
 void				his_del(t_his **his, int mode);
 void 				cmd_save_history(char *str);
 int 				cmd_history(t_cmdl *cmdl);

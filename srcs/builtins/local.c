@@ -30,7 +30,6 @@ static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
 {
 	if (match)
 	{
-		ft_putendl(str);
 		if (!((*loc)->n = (t_local*)malloc(sizeof(t_local))))
 		  exit(fd_printf(2, "malloc error\n"));
 		(*loc)->n->var = ft_strdup(str);
@@ -66,6 +65,8 @@ int				local(char *str)
 	}
 	while (loc->n && (match = ft_strcmp(loc->var, str)))
 		loc = loc->n;
+	if (!loc->n)
+		(match = ft_strcmp(loc->var, str));
 	stock_loc(&loc, str, sub, match);
 	mod_env(&(*cmdl_slg())->lstenv, str, sub);
 	ft_strdel(&sub);

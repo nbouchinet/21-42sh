@@ -5,39 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/16 16:25:42 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/26 02:19:51 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/02 00:27:26 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/02 00:27:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-void	init_shell(void)
-{
-	g_shell_terminal = STDIN_FILENO;
-	g_shell_is_interactive = isatty(g_shell_terminal);
-	if (g_shell_is_interactive)
-	{
-		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
-			kill(-g_shell_pgid, SIGTTIN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGWINCH, SIG_IGN);
-		signal(SIGCHLD, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGTTIN, SIG_IGN);
-		signal(SIGTTOU, SIG_IGN);
-		g_shell_pgid = getpid();
-		if (setpgid(g_shell_pgid, g_shell_pgid) < 0)
-		{
-			ft_errormsg("42sh: ", NULL, "Couldn't put the shell in its own process group");
-			exit(1);
-		}
-		tcsetpgrp(g_shell_terminal, g_shell_pgid);
-		tcgetattr(g_shell_terminal, &g_shell_tmodes);
-	}
-} // to remove
 
 int		job_is_stopped(t_job *j)
 {
@@ -112,9 +85,6 @@ int		mark_process_status(t_job **job)
 		p = (*job)->first_process;
 		while (p)
 		{
-			// ft_putendl("8-0");
-			/* if (WSTOPSIG(p->status) == 19) */
-			/* 	ft_putendl("TEST"); */
 			if (WIFSTOPPED(p->status))
 				p->stopped = 1;
 			else if (WIFEXITED(p->status) && !WEXITSTATUS(p->status))
@@ -125,7 +95,6 @@ int		mark_process_status(t_job **job)
 				break ;
 			}
 			p = p->next;
-			// ft_putendl("8-1");
 		}
 		return (0);
 	}

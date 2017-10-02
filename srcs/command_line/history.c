@@ -49,6 +49,19 @@ int			his_len(t_his **his)
 	return (len);
 }
 
+static void head_smasher(t_his **head)
+{
+	t_his	*tmp;
+
+	tmp = *head;
+	while (tmp->n)
+		tmp = tmp->n;
+	ft_strdel(&tmp->cmdl);
+	tmp->p->n = NULL;
+	free(tmp);
+	tmp = NULL;
+}
+
 void 		cmd_save_history(char *str)
 {
 	t_his	*head;
@@ -60,7 +73,6 @@ void 		cmd_save_history(char *str)
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
 		exit(0);
 	new->cmdl = ft_strdup(str);
-	new->add = 0;
 	if (!head->n)
 	{
 		head->n = new;
@@ -72,7 +84,8 @@ void 		cmd_save_history(char *str)
 	head->n->p = new;
 	new->p = head;
 	head->n = new;
-	head = *his_slg();
+	if (his_len(his_slg()) - 2 > 500)
+		head_smasher(his_slg());
 }
 
 static void	print_cmdl(t_cmdl *cmdl, t_his *his)
@@ -86,7 +99,6 @@ static void	print_cmdl(t_cmdl *cmdl, t_his *his)
 	while ((int)ft_strlen(his->cmdl) >= (cmdl->line.len - 1))
 		remalloc_cmdl(&cmdl->line);
 	cmdl->line.str = ft_strcpy(cmdl->line.str, his->cmdl);
-	// cmdl->line.str = ft_strdup(his->cmdl);
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	cmdl->line.cur = ft_strlen(his->cmdl) + cmdl->line.pr;
 }

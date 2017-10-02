@@ -6,7 +6,7 @@
 /*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:35:31 by hpelat            #+#    #+#             */
-/*   Updated: 2017/09/28 18:10:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 02:44:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,6 @@ static void		if_env(char **arg, t_env **env)
 	}
 }
 
-void		stock_restore(int mod)
-{
-	static int		stdin = -1;
-	static int		stdout = -1;
-	static int		stderr = -1;
-
-	if (mod)
-	{
-		stdin = dup(STDIN_FILENO);
-		stdout = dup(STDOUT_FILENO);
-		stderr = dup(STDERR_FILENO);
-	}
-	else
-	{
-		dup2(stdin, STDIN_FILENO);
-		dup2(stdout, STDOUT_FILENO);
-		dup2(stderr, STDERR_FILENO);
-		close(stdin);
-		close(stdout);
-		close(stderr);
-	}
-}
 int				ft_echo(t_ast **ast, t_env **env)
 {
 	int		i;
