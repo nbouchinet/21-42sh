@@ -41,21 +41,16 @@ static void process_mod(t_bang *bang, char *ptr)
 
 static void process_des_and_mod(t_bang *bang, char *match[])
 {
-	int		arg;
-
 	if (bang->mod & 128)
 	{
-		arg = bang->des < 0 || bang->y < 0 ? ft_tablen(match) -
-		(bang->des == -2 || bang->y == -2 ? 2 : 1) : 0;
-		if (!bang->des && !bang->x && !bang->y)
+		if (bang->des == -1 && bang->x == -1 && bang->y == -1)
 			bang->tmp = ft_strdups(match[0], &bang->tmp);
-		else if (bang->des != 0 && !bang->x && !bang->y)
-			bang->tmp = ft_strdups(bang->des != -1 ?
-			match[bang->des] : match[arg], &bang->tmp);
-		else if (bang->x && bang->y == -1 ? arg : bang->y)
+		else if (bang->des != -1 && bang->x == -1 && bang->y == -1)
+			bang->tmp = ft_strdups(match[bang->des], &bang->tmp);
+		else if (bang->x != -1 && bang->y != -1 && bang->des == -1)
 		{
 			ft_strdel(&bang->tmp);
-			while (bang->x <= (bang->y < 0 ? arg : bang->y))
+			while (bang->x <= bang->y)
 				bang->tmp = ft_strjoinf(ft_strjoinf(bang->tmp, match[bang->x++],
 				1), " ", 1);
 		}
@@ -64,7 +59,7 @@ static void process_des_and_mod(t_bang *bang, char *match[])
 		process_mod(bang, NULL);
 }
 
-static int	get_match(t_his *his, t_bang *bang)
+int			get_match(t_his *his, t_bang *bang)
 {
 	if (bang->string)
 		while (his)
@@ -83,7 +78,7 @@ static int	get_match(t_his *his, t_bang *bang)
 	bang->string));
 }
 
-static int	get_line(t_his *his, t_bang *bang)
+int			get_line(t_his *his, t_bang *bang)
 {
 	int		tmp;
 
@@ -112,11 +107,9 @@ int			bang_sub(t_bang *bang, t_his *his)
 {
 	char	**match;
 
-	if ((bang->n ? get_line(his, bang) : get_match(his, bang)))
-		return (1);
 	match = ft_strsplit(bang->tmp, ' ');
 	if (check_event_and_designator(bang, his_len(&his), ft_tablen(match) - 1))
-		return (ft_free(match, NULL, 1));
+		return (ft_free(match, &bang->tmp, 1));
 	if (!bang->s1)
 		process_des_and_mod(bang, match);
 	ft_free(match, NULL, 1);

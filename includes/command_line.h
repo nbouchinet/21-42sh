@@ -339,5 +339,7 @@ int					bang_parse(char *sub, t_bang *bang);
 int					bang_sub(t_bang *bang, t_his *his);
 int					check_event_and_designator(t_bang *bang, int his_len,
 	 int match_len);
+int					get_line(t_his *his, t_bang *bang);
+int					get_match(t_his *his, t_bang *bang);
 
 #endif

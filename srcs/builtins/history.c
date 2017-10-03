@@ -96,14 +96,6 @@ static int	parse_opt(char *targ[], int *opt, int *offset, char **arg)
 			return (1);
 		else if (targ[i][0] == '-' && ret == 0 && (*opt & S))
 				return ((*arg = ft_strdup(targ[i + 1])) ? 0 : 0);
-		else
-		{
-			if (only(targ[i], '0', '9'))
-				(*offset) = ft_atoi(targ[i]);
-			else
-				return (fd_printf(2, "history: %s: numeric argument required\n"
-				, targ[i]));
-		}
 	}
 	return (0);
 }
