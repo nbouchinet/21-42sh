@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 12:04:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 16:23:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,9 @@ void				remove_cmd(t_ast **ast, t_hash **table);
 void				clean_cmd(t_hash **table, t_hash **prev, t_hash **curr);
 int					count_opt(t_ast **ast);
 int					check_opt(char *opt);
+int					clean_hash(t_ast *ast, t_job **job, t_hash **table);
+int					clear_table(t_hash **table);
+
 
 /*
 ********************************************************************************

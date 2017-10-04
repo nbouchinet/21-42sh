@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/02 02:55:27 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 16:22:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,10 @@ int			check_equal(char *s);
 int			test(char *s);
 int			job_pipe(t_ast **ast, t_env **env, int foreground);
 int			pipe_job(t_job **lst, t_env **env, int foreground);
-void		job_cont_pipe(t_process **lst, char **env, t_job **job, int *p);
+int			job_cont_pipe(t_process **lst, char **env, t_job **job, int *p);
 void		stock_restore(int mod);
 int			ft_fg(t_ast **ast, t_env **env);
 int			ft_bg(t_ast **ast, t_env **env);
+int			return_exec(int status);
+// int			clean_hash(t_ast *ast, t_job **job, t_hash **table);
 #endif

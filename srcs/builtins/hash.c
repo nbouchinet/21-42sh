@@ -6,23 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 09:13:24 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/04 15:44:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		hash_cmd(char *cmd)
-{
-	int		i;
-	int		key;
-
-	i = -1;
-	key = 0;
-	while (cmd[++i])
-		key += cmd[i];
-	return (key);
-}
 
 int		search(t_ast **ast, t_hash **table, int i)
 {

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/01 21:47:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 16:31:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int		job_ast(t_ast **ast, t_env **env, int foreground)
 		while (++i < 5)
 			if (seq[i].type == tmp->type)
 				if (!seq[i].f(&tmp, env, foreground))
+				{
+					ft_putendl("ERROR");
 					j = 0;
+				}
 		tmp = tmp->right;
 	}
 	return (j);
@@ -48,10 +51,6 @@ int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 
 	i = -1;
 	tmp = *ast;
-	if (tmp->left->left && (tmp->left->left->type == LOCAL) && !tmp->left->right)
-		return (local(tmp->left->left->str));
-	else if (tmp->left->left && (tmp->left->left->type == LOCAL) && tmp->left->right)
-		return (exec_env(&tmp->left->right, env, env));
 	while (++i < 14)
 		if (tmp->left->left && !ft_strcmp(cmd[i].cmd, tmp->left->left->str))
 			return (cmd[i].f(&tmp, env));
@@ -62,6 +61,17 @@ int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 		return (exec_job(&job, env, foreground));
 	}
 	return (-1);
+}
+
+int		return_exec(int status)
+{
+	if (WIFSTOPPED(status) && (WSTOPSIG(status) == SIGTSTP))
+		return (1);
+	else if (WTERMSIG(status) == SIGINT)
+		return (0);
+	else if (WIFEXITED(status) && !WEXITSTATUS(status))
+		return (1);
+	return (0);
 }
 
 int			exec_job(t_job **job, t_env **env, int foreground)
@@ -75,8 +85,8 @@ int			exec_job(t_job **job, t_env **env, int foreground)
 		mark_process_status(job);
 	}
 	else
-		exec_pro_bg(&(*job)->first_process, env, job);
-	if (job_is_stopped(*job))
+		status = exec_pro_bg(&(*job)->first_process, env, job);
+	if (return_exec(status))
 	{
 		hash(NULL, job, PUT);
 		return (1);

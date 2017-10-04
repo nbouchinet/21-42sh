@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:18:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 14:32:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ int			exec_pro(t_process **lst, t_env **env, t_job **j)
 int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 {
 	int			p[2];
+	int			status;
 	t_process	*tmp;
 
 	tmp = *lst;
+	status = 0;
 	if (pipe(p) == 0)
 	{
 		if ((tmp->pid = fork()) == 0)
@@ -63,13 +65,13 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		else
 		{
 			set_pgid(tmp->pid, &(*job)->pgid, 1);
-			job_cont_pipe(&tmp, env, job, p);
+			status = job_cont_pipe(&tmp, env, job, p);
 			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
 			catch_error(job, tmp->status);
 			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 	}
-	return (tmp->status);
+	return (tmp->next ? status : tmp->status);
 }
 
 int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
