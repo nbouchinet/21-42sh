@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-int			check_event_and_designator(t_bang *bang, int his_len, int match_len)
+int			check_ed(t_bang *bang, int his_len, int match_len)
 {
 	if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > his_len)
 		return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));

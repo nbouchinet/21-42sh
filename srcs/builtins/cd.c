@@ -67,16 +67,15 @@ static int change_dir(t_ast **ast, int opt, char **path)
 	return (0);
 }
 
-static void build_path(t_env **env, char *str, char **path)
+static void build_path(t_env **env, char *str, char **path, int i)
 {
 	char	**rp;
-	int		i;
 	int		len;
 
-	i = -1;
-	*path = ft_strdup(lst_at(env, "PWD")->value);
-	*path[ft_strlen(*path) - (*path)[0] ? 1 : 0] == '/' ?
-	*path[ft_strlen(*path) - (*path)[0] ? 1 : 0]  = 0: 0;
+	*path = lst_at(env, "PWD") ? ft_strdup(lst_at(env, "PWD")->value) :
+	getcwd(*path, MAXPATHLEN);
+	len = ft_strlen(*path) - (*path)[0] ? 1 : 0;
+	*path[len] == '/' ? *path[len] = 0 : 0;
 	rp = ft_strsplit(str, '/');
 	while (rp[++i])
 	{
@@ -96,6 +95,25 @@ static void build_path(t_env **env, char *str, char **path)
 	ft_free(rp, NULL, 1);
 }
 
+static void	get_arg2(t_ast *tmp, t_env **env, char *match, char **path)
+{
+	if (tmp->str[0] == '/')
+		*path = ft_strdup(tmp->str);
+	else if (tmp->str[0] == '.' && !tmp->str[1])
+		(*path) = ft_strdup(lst_at(env, "PWD")->value);
+
+	else
+	{
+		if (lst_at(env, "PWD") && (match = lst_at(env, "PWD")->value))
+			(*path) = match[ft_strlen(match) - 1] == '/' ?
+			ft_strjoin(match, tmp->str)	: ft_strjoinf(ft_strjoin
+			(match, "/"), tmp->str, 1);
+		else if (getcwd(match, MAXPATHLEN))
+			(*path )= match[ft_strlen(match) - 1] == '/' ? ft_strjoin(match,
+			tmp->str) : ft_strjoinf(ft_strjoin(match, "/"), tmp->str, 1);
+	}
+}
+
 static int	get_arg(t_ast **ast, t_env **env, char **path)
 {
 	char	*match;
@@ -113,25 +131,9 @@ static int	get_arg(t_ast **ast, t_env **env, char **path)
 		*path = ft_strdup(lst_at(env, "OLDPWD")->value);
 	else if ((tmp && !(match = ft_strstr(tmp->str, ".."))) ||
 	(match && match[2] != 0 && match[2] != '/'))
-	{
-		if (tmp->str[0] == '/')
-			*path = ft_strdup(tmp->str);
-		else if (tmp->str[0] == '.' && !tmp->str[1])
-			(*path) = ft_strdup(lst_at(env, "PWD")->value);
-
-		else
-		{
-			if (lst_at(env, "PWD") && (match = lst_at(env, "PWD")->value))
-				(*path) = match[ft_strlen(match) - 1] == '/' ?
-				ft_strjoin(match, tmp->str)	: ft_strjoinf(ft_strjoin
-				(match, "/"), tmp->str, 1);
-			else if (getcwd(match, MAXPATHLEN))
-				(*path )= match[ft_strlen(match) - 1] == '/' ? ft_strjoin(match,
-				tmp->str) : ft_strjoinf(ft_strjoin(match, "/"), tmp->str, 1);
-		}
-	}
+		get_arg2(tmp, env, match, path);
 	if (!*path)
-		build_path(env, tmp->str, path);
+		build_path(env, tmp->str, path, -1);
 	return (0);
 }
 

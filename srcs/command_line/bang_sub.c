@@ -103,13 +103,11 @@ int			get_line(t_his *his, t_bang *bang)
 	return (bang->tmp ? 0 : 1);
 }
 
-int			bang_sub(t_bang *bang, t_his *his)
+int			bang_sub(t_bang *bang)
 {
 	char	**match;
 
 	match = ft_strsplit(bang->tmp, ' ');
-	if (check_event_and_designator(bang, his_len(&his), ft_tablen(match) - 1))
-		return (ft_free(match, &bang->tmp, 1));
 	if (!bang->s1)
 		process_des_and_mod(bang, match);
 	ft_free(match, NULL, 1);
