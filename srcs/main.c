@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/04 14:10:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:55:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,6 @@ int				main(int ac, char *av[], char *env[])
 		return (1);
 	hist_session();
 	loop(cmdl);
+	ft_putnbrl(cmdl->exit);
 	return (cmdl->exit ? cmdl->exit : 0);
 }
