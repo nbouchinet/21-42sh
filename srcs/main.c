@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 17:57:33 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/04 12:11:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*t;
+	// t_tok	*t;
 
 	i = 0;
 	ast = NULL;
@@ -73,12 +73,12 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		init_token(&cmd);
 		new_parser(&cmd, *line);
 		restruct_lst(&cmd);
-		t = cmd;
-		while (t)
-		{
-			ft_putendl(t->str);
-			t = t->n;
-		}
+		// t = cmd;
+		// while (t)
+		// {
+		// 	ft_putendl(t->str);
+		// 	t = t->n;
+		// }
 		db_lst(&cmd);
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
