@@ -121,7 +121,6 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-		// cmdl->line.str ? ft_printf("exec: %s\n", cmdl->line.str) : 0;
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&

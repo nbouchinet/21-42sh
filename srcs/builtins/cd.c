@@ -31,7 +31,7 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 	}
 }
 
-static void		mod_env(t_env **env, int opt, char *path, char *save)
+static void		mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
 	char		*buff;
@@ -176,7 +176,7 @@ int			ft_cd(t_ast **ast, t_env **env)
 		return (0);
 	}
 	current_dir = getcwd(current_dir, MAXPATHLEN);
-	mod_env(env, opt, path, current_dir);
+	mod_env(env, path, current_dir);
 	ft_strdel(&current_dir);
 	ft_strdel(&path);
 	return (1);
