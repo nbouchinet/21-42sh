@@ -135,14 +135,14 @@ int		bang_parse(char *sub, t_bang *bang)
 	opt = ft_strsplit(sub, ':');
 	if (!(his = (*his_slg())->n))
 		return (bang_error(sub, opt));
-	if ((opt && opt[0] && get_event(opt[0], bang)) ||
-	(check_ed(bang, his_len(&his), 0)) || (bang->n ? get_line(his, bang) :
-	get_match(his, bang)))
+	if ((opt && opt[0] && get_event(opt[0], bang)) || (bang->n ?
+	get_line(his, bang) : get_match(his, bang)) ||
+	(check_ed(bang, his_len(&his), ft_nbr_words(bang->tmp, ' ') - 1, 0)))
 		return (ft_free(opt, NULL, 1));
-	if (opt && opt[1] && ((opt[1][0] >= '0' && opt[1][0] <= '9') ||
-	((opt[1][0] == '^' || opt[1][0] == '$' || opt[1][0] == '*' ||
-	opt[1][0] == '-'))) && (get_designators(opt[1], bang,
-	ft_nbr_words(bang->tmp, ' ') - 1)))
+	if ((opt && opt[1]) && ((((opt[1][0] >= '0' && opt[1][0] <= '9') ||
+	((opt[1][0] == '^' || opt[1][0] == '$' || opt[1][0] == '*' || opt[1][0] ==
+	'-'))) && (get_designators(opt[1], bang, ft_nbr_words(bang->tmp, ' ') - 1)))
+	|| ((check_ed(bang, his_len(&his), ft_nbr_words(bang->tmp, ' ') - 1, 1)))))
 		return (ft_free(opt, &bang->tmp, 3));
 	if ((opt && opt[1] && opt[2] && !ft_isdigit(opt[2][0]) && (opt[2][0] != '^'
 	&& opt[2][0] != '$' && opt[2][0] != '*' && opt[2][0] != '-' &&

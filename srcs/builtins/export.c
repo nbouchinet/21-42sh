@@ -12,6 +12,25 @@
 
 #include "header.h"
 
+static void 	handle_env(t_env **env, t_env **tmp)
+{
+	if (*env)
+	{
+		(*tmp) = *env;
+		while ((*tmp)->next)
+			(*tmp) = (*tmp)->next;
+		if (!((*tmp)->next = (t_env *)malloc(sizeof(t_env))))
+			exit (EXIT_FAILURE);
+		(*tmp) = (*tmp)->next;
+	}
+	else
+	{
+		if (!((*tmp) = (t_env *)malloc(sizeof(t_env))))
+			exit (EXIT_FAILURE);
+		*env = *tmp;
+	}
+}
+
 static void 	export_local(t_env **env, char *str)
 {
 	t_local		*local;
@@ -24,14 +43,10 @@ static void 	export_local(t_env **env, char *str)
 		local = local->n;
 	if (!local)
 		return ;
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	if (!(tmp->next = (t_env *)malloc(sizeof(t_env))))
-		exit (EXIT_FAILURE);
-	tmp->next->var = ft_strdup(local->var);
-	tmp->next->value = ft_strdup(local->val);
-	tmp->next->next = NULL;
+	handle_env(env, &tmp);
+	tmp->var = ft_strdup(local->var);
+	tmp->value = ft_strdup(local->val);
+	tmp->next = NULL;
 }
 
 static void 	export_to_env(t_env **env, char *copy)
@@ -47,14 +62,10 @@ static void 	export_to_env(t_env **env, char *copy)
 	tmp = lst_at(env, copy);
 	if (!tmp)
 	{
-		tmp = *env;
-		while (tmp->next)
-			tmp = tmp->next;
-		if (!(tmp->next = (t_env *)malloc(sizeof(t_env))))
-			exit (EXIT_FAILURE);
-		tmp->next->var = ft_strdup(copy);
-		tmp->next->value = ft_strdup(sub);
-		tmp->next->next = NULL;
+		handle_env(env, &tmp);
+		tmp->var = ft_strdup(copy);
+		tmp->value = ft_strdup(sub);
+		tmp->next = NULL;
 	}
 	else
 		tmp->value = ft_strdups(sub, &tmp->value);
