@@ -51,7 +51,7 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl, int i, int ret)
 
 	if (pipe(p) == -1)
 		return (fd_printf(2, "heredoc: pipe error\n"));
-	print_prompt();
+	write(1, "heredoc> ", 9);
 	while (1)
 	{
 		get_op(cmdl, &ret, &i);
