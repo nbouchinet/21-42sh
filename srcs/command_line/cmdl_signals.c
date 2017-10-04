@@ -22,8 +22,8 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 	tputs(tgetstr("cr", NULL), 1, ft_putchar);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	!(cmdl->opt & CHIS_S) ? write(1, "\n", 1) : 0;
-	!(cmdl->opt & CHIS_S) ? print_prompt() : write(1, "$> ", 3);
 	cmdl->opt = 0;
+	!(cmdl->opt & CHIS_S) ? print_prompt() : write(1, "$> ", 3);
 	cmdl->opt |= CRESET;
 	if (cmdl->line.save)
 	{
@@ -59,10 +59,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)
-	{
-		del_all(cmdl_slg(), his_slg(), local_slg(0));
-		exit(EXIT_SUCCESS);
-	}
+		;
 }
 
 void			cmdl_signals(t_cmdl *cmdl)

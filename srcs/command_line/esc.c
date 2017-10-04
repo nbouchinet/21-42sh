@@ -35,6 +35,7 @@ int		esc(t_cmdl *cmdl)
 		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
 		while (cmdl->line.cur - cmdl->line.pr > save_cmdl)
 			arrow_left(cmdl);
+		cmdl->opt &= ~CCP;
 	}
 	return (1);
 }

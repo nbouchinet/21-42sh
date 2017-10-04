@@ -28,6 +28,7 @@ typedef struct		s_env
 # include <curses.h>
 # include <signal.h>
 # include <sys/ioctl.h>
+# include <sys/param.h>
 # include "command_line.h"
 # include "lexer_parser.h"
 # include "abstract_syntax_tree.h"

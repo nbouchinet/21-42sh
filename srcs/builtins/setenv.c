@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 12:42:25 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 14:59:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 09:13:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,21 @@ int		ft_setenv(t_ast **ast, t_env **env)
 	arg = creat_arg_env(&(*ast)->left->right);
 	if ((i = countab(arg)) == 1 || i == 2)
 	{
+		if (ft_strchr(arg[0], '='))
+		{
+			ft_errormsg("21sh: ", "setenv: ",
+			            "Variable name must contain alphanumeric characters.");
+			arg ? ft_freetab(arg) : 0;
+			return (0);
+		}
 		add_env(env, arg);
 		arg ? ft_freetab(arg) : 0;
 		return (1);
 	}
 	else if (i > 2)
-		ft_errormsg("21sh: ", "env: ", "Too many arguments.");
+		ft_errormsg("21sh: ", "setenv: ", "Too many arguments.");
 	else if (i == 0)
-		ft_errormsg("21sh: ", "env: ", "Too few arguments.");
+		print_env(*env);
 	arg ? ft_freetab(arg) : 0;
 	return (0);
 }

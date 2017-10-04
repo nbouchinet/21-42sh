@@ -12,20 +12,6 @@
 
 #include "header.h"
 
-static void 	mod_env(t_env **env, char *str, char *sub)
-{
-	t_env 		*tmp;
-
-	tmp = *env;
-	if (!tmp)
-		return ;
-	while (tmp && ft_strcmp(tmp->var, str))
-		tmp = tmp->next;
-	if (!tmp)
-		return ;
-	tmp->value = ft_strdups(sub, &tmp->value);
-}
-
 static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
 {
 	if (match)
@@ -44,17 +30,12 @@ static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
 	}
 }
 
-int				local(char *str)
+int				put_into_lst(char *str, char *sub)
 {
 	t_local		*loc;
-	char		*sep;
-	char		*sub;
 	int			match;
 
 	loc = *local_slg(1);
-	sep = ft_strchr(str, '=');
-	sub = ft_strdup(sep + 1);
-	*sep = 0;
 	match = 0;
 	if (!loc->var)
 	{
@@ -68,7 +49,27 @@ int				local(char *str)
 	if (!loc->n)
 		(match = ft_strcmp(loc->var, str));
 	stock_loc(&loc, str, sub, match);
-	mod_env(&(*cmdl_slg())->lstenv, str, sub);
 	ft_strdel(&sub);
+	return (1);
+}
+
+int				local(char *str)
+{
+	t_env 		**env;
+	t_env		*match;
+	char		*sep;
+	char		*sub;
+
+	env = &(*cmdl_slg())->lstenv;
+	sep = ft_strchr(str, '=');
+	sub = ft_strdup(sep + 1);
+	*sep = 0;
+	if ((match = lst_at(env, str)))
+	{
+		ft_strdel(&match->value);
+		match->value = ft_strdup(sub);
+	}
+	else
+		put_into_lst(str, sub);
 	return (1);
 }

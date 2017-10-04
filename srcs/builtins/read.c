@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static void   save_input(t_read *var)
+void   save_input(t_read *var)
 {
 	char	**aname;
 	char	*bs;
@@ -36,7 +36,7 @@ static void   save_input(t_read *var)
 	local(var->stack);
 }
 
-static void   buf_save(char **stack, char buf[], int *i, int type)
+static int   buf_save(char **stack, char buf[], int *i, int type)
 {
 	char 		*tmp;
 	static int 	len = 512;
@@ -53,9 +53,10 @@ static void   buf_save(char **stack, char buf[], int *i, int type)
 	}
 	else
 		(*stack)[++(*i)] = !type ? buf[0] : 0;
+	return (1);
 }
 
-static void handle_c(int sig)
+void handle_c(int sig)
 {
 	t_cmdl	*cmdl;
 
@@ -64,19 +65,18 @@ static void handle_c(int sig)
 	cmdl->opt |= RRET;
 }
 
-static void   read_input(t_read *var, int i, int nchar, char buf[])
+int   read_input(t_read *var, int i, int nchar, char buf[])
 {
-	signal(SIGINT, &handle_c);
 	var->stack = ft_memalloc(512);
 	while (var->time ? var->time < var->endwait  : 1)
 	{
 		if ((*cmdl_slg())->opt & RRET && (write(1, "\n", 1)))
-			break ;
+			return (1);
 		ft_memset(buf, '\0', 6);
 		read(var->fd, buf, 1);
 		if (CTRL_D(buf) && (var->eot = 1))
-			return ;
-		!(var->opt & (SR | TR)) ? write(1, &buf[0], 1) : 0;
+			return (1);
+		!(var->opt & SR) ? write(1, &buf[0], 1) : 0;
 		var->opt & NR && PRINT(buf) ? nchar += 1 : 0;
 		(PRINT(buf) && !var->delim) || (PRINT(buf) && var->delim &&
 		var->delim[0] != buf[0]) ? buf_save(&var->stack, buf, &i, 0) : 0;
@@ -87,78 +87,9 @@ static void   read_input(t_read *var, int i, int nchar, char buf[])
 			var->stack[i] == '\\' && !(var->opt & RR) ? write(var->fd, "$> ", 3)
 			: 0;
 			if (!(var->stack[i] == '\\' && !(var->opt & RR)))
-			{
-			 	buf_save(&var->stack, buf, &i, 1);
-			 	return ;
-			}
+			 	return (buf_save(&var->stack, buf, &i, 1));
 		}
 		var->time = var->time ? time(NULL) : 0;
 	}
-}
-
-static int  get_opt(t_read *var, char **arg, int *i, int k)
-{
-	int           j;
-	static const  t_opt opt[8] = {{"a", &aname} ,{"d", &delim}, {"n", &nchars},
-	{"p", &prompt}, {"r", &back_slash}, {"s", &silent}, {"t", &rtimeout},
-	{"u", &fd}};
-
-	while (arg[++(*i)])
-	{
-		j = 0;
-		k = -1;
-		while (++k < 8 && arg[(*i)][j])
-		{
-			j += j == 0 && arg[(*i)][j] == '-' ? 1 : 0;
-			if (j == 0 && arg[(*i)][j] != '-' &&
-			(var->local = ft_strdup(arg[(*i)])))
-				return (0);
-			if (arg[(*i)][j] == opt[k].c[0])
-			{
-		 		if (opt[k].f(var, arg, i, ++j))
-					return (1);
-				if (opt[k].c[0] != 's' && opt[k].c[0] != 'r')
-					break ;
-			}
-		}
-		if (k == 8)
-			return (fd_printf(2, "42sh: read: -%c: invalid option\n%s\n",
-			arg[(*i)][j], RU));
-	}
-	return (0);
-}
-
-int         ft_read(t_ast **ast, t_env **env)
-{
-	t_read  var;
-	t_cmdl	*cmdl;
-	char	buf[6];
-	char    **targ;
-	int     i;
-
-	(void)env;
-	(void)ast;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
-	cmdl = *cmdl_slg();
-	ft_memset(&var, 0, sizeof(t_read));
-	targ = creat_arg_env(&(*ast)->left->right);
-	i = -1;
-	if (targ && get_opt(&var, targ, &i, -1))
-		return (0);
-	!var.local ? var.local = ft_strdup("REPLY") : 0;
-	mode_on(*cmdl_slg());
-	cmdl->term.c_lflag &= ~ECHO;
-	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
-		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
-	read_input(&var, -1, 0, buf);
-	mode_off(*cmdl_slg());
-	if (!(cmdl->opt & RRET))
-		save_input(&var);
-	cmdl->opt &= ~RRET;
-	ft_free(targ, NULL, 1);
-	var.delim ? ft_strdel(&var.delim) : 0;
-	var.local ? ft_strdel(&var.local) : 0;
-	var.stack ? ft_strdel(&var.stack) : 0;
-	(var.eot || var.opt & DR) ? write(1, "\n", 1) : 0;
 	return (1);
 }

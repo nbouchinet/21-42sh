@@ -127,21 +127,17 @@ int				fd(t_read *var, char **arg, int *i, int j)
 	if (arg[(*i)][j])
 	{
 		if (!ft_isdigit(arg[(*i)][j]))
-		{
 			return (fd_printf(2,
 			"42sh: read: %s: invalid file descriptor specification\n",
 			&arg[(*i)][j]));
-		}
 		var->fd = ft_atoi(arg[(*i)] + j);
 	}
 	else if (arg[(*i) + 1])
 	{
 		if (!ft_isdigit(arg[(*i) + 1][0]))
-		{
 			return (fd_printf(2,
 			"42sh: read: %s: invalid file descriptor specification\n",
 			&arg[(*i) + 1]));
-		}
 		var->fd = ft_atoi(arg[++(*i)]);
 	}
 	else

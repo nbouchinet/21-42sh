@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:02:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 08:56:29 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int				ft_unset(t_ast **ast, t_env **env)
 	tmp = (*ast)->left->right;
 	while (tmp)
 	{
-		if (unset_lst(tmp->str))
-			unset_env(env, tmp->str);
+		unset_lst(tmp->str);
+		unset_env(env, tmp->str);
 		tmp = tmp->right;
 	}
 	return (1);

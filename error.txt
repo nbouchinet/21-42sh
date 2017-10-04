@@ -18,3 +18,21 @@ have to print : custom: No such file or directory
 
 '"""\\"\''\"'\|"||'\|"|
 enter to dquote instead of pipe
+
+unset and expot to do
+
+base64 /dev/random | head -c -1000 | grep '42'
+
+create leaks on -c and -1
+
+ctrl+c \n ctr+d : pointer being freed was not allocated abort
+
+cd src
+cd ../
+cd -
+unsetenv HOME | unsetenv OLDPWD | unsetenv PWD
+cd
+
+segfault
+
+TATA=toto alone segfault

@@ -14,7 +14,6 @@
 
 int			check_event_and_designator(t_bang *bang, int his_len, int match_len)
 {
-	bang->des == -1 ? bang->des = match_len : 0;
 	if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > his_len)
 		return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
 	else if (bang->des > match_len)
@@ -99,12 +98,16 @@ static char *get_bang(int *i, char *cmd, t_bang *bang)
 	start = 0;
 	end = 0;
 	ft_memset(bang, 0, sizeof(t_bang));
+	bang->x = -1;
+	bang->y = -1;
+	bang->des = -1;
 	bang->start = *i;
 	start = cmd[*i] == '!' ? *i + 1 : *i;
 	(*i) += cmd[*i + 1] == '!' ? 1 : 0;
 	while (cmd[++(*i)] && cmd[(*i)] != '<' && cmd[(*i)] != '>' &&
 	cmd[(*i)] != '"' && cmd[(*i)] != '\'' && cmd[(*i)] != ';' &&
-	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!')
+	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!' && cmd[(*i)] != '*'
+	&& cmd[(*i)] != '^' && cmd[(*i)] != '$')
 		;
 	end = *i;
 	bang->end = *i;

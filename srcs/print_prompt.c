@@ -6,15 +6,11 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/28 18:11:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 17:57:24 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-/*
-**	A supprimer
-*/
 
 t_env 		*lst_at(t_env **env, char *cmp)
 {
@@ -76,29 +72,43 @@ void        get_git(char **git)
 	set_buff(git, fd[0]);
 }
 
+static void print_and_del(char **str, int w)
+{
+	if (!w)
+	{
+		ft_printf("%@42sh %s%@", H_BLUE, *str, I);
+		ft_strdel(str);
+	}
+	else
+	{
+		ft_printf(": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
+		ft_strdel(str);
+	}
+}
+
 void     print_prompt(void)
 {
 	t_cmdl	*cmdl;
-	char	buff[1024];
+	char	*buff;
 	char	*git;
 	char	*pwd;
 
 	cmdl = *cmdl_slg();
+	buff = NULL;
 	git = NULL;
 	get_git(&git);
-	pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+	if (lst_at(&(cmdl)->lstenv, "PWD"))
+		pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+	else
+		pwd = NULL;
 	if (pwd)
 		ft_printf("\%@42sh: %s%@", H_BLUE, pwd, I);
-	else if (getcwd(buff, 1024))
-		ft_printf("%@42sh %s\n%@", H_BLUE, buff, I);
+	else if ((buff = getcwd(buff, MAXPATHLEN)))
+		print_and_del(&buff, 0);
 	if (git)
-	{
-		ft_printf(": %@git(%@%s%@)%@", RED, YELLOW, git, RED, I);
-		ft_strdel(&git);
-	}
+		print_and_del(&git, 1);
 	if (!(cmdl->opt & (CSQ | CDQ)))
-		write(1, "\n$> ", 4);
+			write(1, "\n$> ", 4);
 	else if ((cmdl->opt & (CSQ | CDQ)))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
-
 }
