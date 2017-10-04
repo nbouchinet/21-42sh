@@ -6,17 +6,22 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/22 14:41:12 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/22 15:24:33 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:43:26 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-static char *ft_str_save_chr(const char *s, int c)
+static char *ft_str_save_chr(const char *s, int c, int reset)
 {
 	static char		*save = NULL;
 
-	if (!s || *s == '\0' )
+	if (reset)
+	{
+		save = NULL;
+		return (NULL);
+	}
+	if (!s || *s == '\0')
 		return (NULL);
 	if (save)
 		while (s != save)
@@ -36,7 +41,7 @@ void		ft_strleft(char **str, int c)
 {
 	char	*match;
 
-	while ((match = ft_str_save_chr((*str), c)))
+	while ((match = ft_str_save_chr((*str), c, 0)))
 	{
 		while (*match)
 		{
@@ -44,4 +49,5 @@ void		ft_strleft(char **str, int c)
 			match++;
 		}
 	}
+	ft_str_save_chr(NULL, 0, 1);
 }
