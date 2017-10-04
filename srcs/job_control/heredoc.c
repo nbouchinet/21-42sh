@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:24:30 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 14:55:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 16:32:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl, int i, int ret)
 
 	if (pipe(p) == -1)
 		return (fd_printf(2, "heredoc: pipe error\n"));
-	// print_prompt();
-	write(2, "heredoc> ", 9);
+	write(1, "heredoc> ", 9);
 	while (1)
 	{
 		get_op(cmdl, &ret, &i);

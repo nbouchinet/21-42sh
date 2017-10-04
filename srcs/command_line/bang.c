@@ -12,17 +12,23 @@
 
 #include "header.h"
 
-int			check_ed(t_bang *bang, int his_len, int match_len)
+int			check_ed(t_bang *bang, int his_len, int match_len, int w)
 {
-	if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > his_len)
-		return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
-	else if (bang->des > match_len)
-		return (fd_printf(2, "\n42sh: !%d: bad word specifier", bang->des));
-	else if ((bang->x > match_len || bang->y > match_len) && bang->y > 0)
-		return (fd_printf(2, "\n42sh: !%d-%d: bad word specifier", bang->x,
-		bang->y));
-	else if ((bang->x > match_len) && bang->y < 0)
-		return (fd_printf(2, "\n42sh: !%d-: bad word specifier", bang->x));
+	if (!w)
+	{
+		if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > his_len)
+			return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
+	}
+	else
+	{
+		if (bang->des != -1 > match_len)
+			return (fd_printf(2, "\n42sh: !%d: bad word specifier", bang->des));
+		else if ((bang->x > match_len || bang->y > match_len) && bang->y > 0)
+			return (fd_printf(2, "\n42sh: !%d-%d: bad word specifier", bang->x,
+			bang->y));
+		else if ((bang->x > match_len) && bang->y < 0)
+			return (fd_printf(2, "\n42sh: !%d-: bad word specifier", bang->x));
+	}
 	return (0);
 }
 

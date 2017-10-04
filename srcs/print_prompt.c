@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-t_env 		*lst_at(t_env **env, char *cmp)
+t_env		*lst_at(t_env **env, char *cmp)
 {
 	t_env	*tmp;
 
@@ -24,7 +24,7 @@ t_env 		*lst_at(t_env **env, char *cmp)
 	return (tmp);
 }
 
-void        set_buff(char **git, int fd)
+void		set_buff(char **git, int fd)
 {
 	int		i;
 	char	*line;
@@ -42,7 +42,7 @@ void        set_buff(char **git, int fd)
 	close(fd);
 }
 
-void        get_git(char **git)
+void		get_git(char **git)
 {
 	int		pid;
 	int		status;
@@ -54,7 +54,7 @@ void        get_git(char **git)
 	if ((pid = fork()))
 	{
 		waitpid(pid, &status, WUNTRACED);
-		if (status == -1)
+		if (WEXITSTATUS(status))
 			return ;
 		close(fd[1]);
 	}
@@ -66,13 +66,12 @@ void        get_git(char **git)
 		arg[0] = "git";
 		arg[1] = "branch";
 		arg[2] = NULL;
-		execve("/usr/bin/git", arg, NULL);
-		exit (0);
+		exit(execve("/usr/bin/git", arg, NULL));
 	}
 	set_buff(git, fd[0]);
 }
 
-static void print_and_del(char **str, int w)
+static void	print_and_del(char **str, int w)
 {
 	if (!w)
 	{
@@ -86,29 +85,31 @@ static void print_and_del(char **str, int w)
 	}
 }
 
-void     print_prompt(void)
+void		print_prompt(void)
 {
 	t_cmdl	*cmdl;
 	char	*buff;
-	char	*git;
-	char	*pwd;
 
 	cmdl = *cmdl_slg();
 	buff = NULL;
-	git = NULL;
-	get_git(&git);
-	if (lst_at(&(cmdl)->lstenv, "PWD"))
-		pwd = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
-	else
-		pwd = NULL;
-	if (pwd)
-		ft_printf("\%@42sh: %s%@", H_BLUE, pwd, I);
-	else if ((buff = getcwd(buff, MAXPATHLEN)))
-		print_and_del(&buff, 0);
-	if (git)
-		print_and_del(&git, 1);
-	if (!(cmdl->opt & (CSQ | CDQ)))
+	if (!cmdl->opt)
+	{
+		if (lst_at(&(cmdl)->lstenv, "PWD"))
+			buff = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+		if (buff)
+			ft_printf("\%@42sh: %s%@", H_BLUE, buff, I);
+		else if ((buff = getcwd(buff, MAXPATHLEN)))
+			print_and_del(&buff, 0);
+		buff = NULL;
+		get_git(&buff);
+		if (buff)
+			print_and_del(&buff, 1);
+		if (!(cmdl->opt & (CSQ | CDQ)))
 			write(1, "\n$> ", 4);
+	}
 	else if ((cmdl->opt & (CSQ | CDQ)))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
+	else if ((cmdl->opt & (CHD)))
+		cmdl->line.pr = write(1, "\nheredoc> ", 10) - 1;
+	cmdl->line.cur = cmdl->line.pr;
 }
