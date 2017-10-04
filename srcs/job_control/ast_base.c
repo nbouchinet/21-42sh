@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 16:31:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 19:02:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,26 @@ int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 
 int		return_exec(int status)
 {
+	t_cmdl	*cmdl;
+
+	cmdl = *cmdl_slg();
+	ft_putnbrl(status);
 	if (WIFSTOPPED(status) && (WSTOPSIG(status) == SIGTSTP))
+	{
+		cmdl->ret = status;
 		return (1);
+	}
 	else if (WTERMSIG(status) == SIGINT)
+	{
+		cmdl->ret = status;
 		return (0);
+	}
 	else if (WIFEXITED(status) && !WEXITSTATUS(status))
+	{
+		cmdl->ret = status;
 		return (1);
+	}
+	cmdl->ret = status;
 	return (0);
 }
 

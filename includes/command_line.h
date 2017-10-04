@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 14:53:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 18:29:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct					s_local
 typedef struct		s_cmdl
 {
 	int				exit;
+	int				ret;
 	int				opt;
 	int				col;
 	int				offset;
