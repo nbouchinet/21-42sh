@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 05:05:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 12:08:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end)
 	sub_end2->n = next2;
 } // to check
 
-void	check_rdir(t_tok **start, t_tok **next)
+void	check_rdir(t_tok **lst, t_tok **start, t_tok **next)
 {
 	t_tok	*tmp;
 	t_tok	*tmp2;
@@ -176,6 +176,7 @@ void	check_rdir(t_tok **start, t_tok **next)
 							tmp2 = tmp2->n;
 						sub_end = tmp2;
 						replace_tok(start ? start : next, next, &sub, &sub_end);
+						break ;
 					}
 		}
 		else if (tmp->type == CHEVRON)
@@ -188,7 +189,11 @@ void	check_rdir(t_tok **start, t_tok **next)
 					while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
 						tmp2 = tmp2->n;
 					sub_end = tmp2;
+					if (*lst == *next)
+						*lst = sub;
 					replace_tok(start, next, &sub, &sub_end);
+					break ;
+
 				}
 		}
 		tmp = tmp->n;
@@ -206,12 +211,8 @@ void	restruct_lst(t_tok **lst)
 		tmp = *lst;
 		while (tmp)
 		{
-			ft_putendl("+");
 			if (tmp && (tmp->type == CHEVRON || tmp->type == IO_N))
-			{
-				ft_putendl("????");
-				check_rdir(&prev, &tmp);
-			}
+				check_rdir(lst, &prev, &tmp);
 			prev = tmp;
 			tmp = tmp->n;
 		}
