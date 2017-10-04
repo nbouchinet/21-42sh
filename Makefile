@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/02 02:54:41 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/04 15:45:14 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ CFILES= 		main.c \
 				builtins/read_parse.c \
 				builtins/fg.c \
 				builtins/read_opt1.c \
+				builtins/hash_clean.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
 				command_line/bang.c \

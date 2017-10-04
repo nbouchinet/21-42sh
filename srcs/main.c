@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/04 13:05:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 14:10:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				ft_putast(ast);
 				mode_off(cmdl);
 				stock_restore(1);
-				i = job_ast(&ast, env, 1);
+				if ((i = job_ast(&ast, env, 1)))
+					ft_putendl_fd("Success", 2);
+				else
+					ft_putendl_fd("Failure", 2);
 				stock_restore(0);
 				destroy_ast(&ast);
 				mode_on(cmdl);

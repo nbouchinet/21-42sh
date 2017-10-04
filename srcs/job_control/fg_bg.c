@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:23:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/04 16:31:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 		{
 			if ((j = find_pgid(table, ast)))
 			{
-				ft_putendl_fd("Pass", 2);
 				mark_job_as_running(&j);
 				if (kill(-j->pgid, SIGCONT) < 0)
 					perror("kill (SIGCONT)");
 				tcsetpgrp(g_shell_terminal, j->pgid);
 				wait_for_job(&j); // find alternative
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
+				return (return_exec(j->first_process->status));
 			}
 			else
 				ft_errormsg("42sh: fg: ",
