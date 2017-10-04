@@ -14,18 +14,18 @@
 
 static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 {
-	(*tmp) = *env;
-	while ((*tmp) && (*tmp)->next)
-		(*tmp) = (*tmp)->next;
 	if (*env)
 	{
+		(*tmp) = *env;
+		while ((*tmp) && (*tmp)->next)
+			(*tmp) = (*tmp)->next;
 		if (!((*tmp)->next = (t_env *)ft_memalloc(sizeof(t_env))))
 			exit(EXIT_FAILURE);
 		(*tmp) = (*tmp)->next;
 	}
 	else
 	{
-		if (!((*tmp)->next = (t_env *)ft_memalloc(sizeof(t_env))))
+		if (!((*tmp) = (t_env *)ft_memalloc(sizeof(t_env))))
 			exit(EXIT_FAILURE);
 		*env = (*tmp);
 	}
@@ -34,7 +34,9 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 static void		mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
+	char		*buff;
 
+	buff = NULL;
 	if ((tmp = lst_at(env, "OLDPWD")))
 		ft_strdel(&tmp->value);
 	else
@@ -51,23 +53,23 @@ static void		mod_env(t_env **env, char *path, char *save)
 		malloc_env_lnk(env, &tmp);
 		tmp->var = ft_strdup("PWD");
 	}
-	tmp->value = getcwd(path, MAXPATHLEN);
+	tmp->value = ft_strdup(path);
 }
 
 static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
 {
 	t_ast			*tmp;
 	struct stat		st;
-	char			*buff;
+	char			buff[MAXPATHLEN];
 	char			*bs;
 	int				i;
 
 	tmp = *ast;
-	buff = NULL;
 	i = 0;
+	ft_memset(buff, 0, MAXPATHLEN);
 	while (tmp && tmp->str && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
-	if (stat((*path), &st) == -1)
+	if (lstat((*path), &st) == -1)
 			return (fd_printf(2, "cd: %s: no such file or directory\n",
 			tmp && tmp->str ? tmp->str : lst_at(env, "HOME")->value));
 	if (S_ISDIR(st.st_mode) || (i = S_ISLNK(st.st_mode)))
@@ -76,7 +78,7 @@ static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
 			return (fd_printf(2, "cd: permission denied: %@\n", tmp->str));
 		if (chdir((*path)) == -1)
 			return (fd_printf(2, "cd: %@:not a directoryn", tmp->str));
-		if (i && opt == 1)
+		if (i && opt == 2)
 		{
 			readlink((*path), buff, 1024);
 			bs = ft_strrchr((*path), '/');
@@ -118,9 +120,10 @@ static int	get_opt(t_ast **ast, int *opt)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->str && tmp->str[0] == '-' && tmp->str[1] == '-' && !tmp->str[2])
+		if (tmp->str && ((tmp->str[0] == '-' && tmp->str[1] == '-' && !tmp->str[2])
+		|| (tmp->str[0] != '-')))
 			return (0);
-		while (tmp->str[++i] && tmp->str[i] == '-')
+		while (tmp->str[++i])
 			if (tmp->str[i] == 'P')
 				(*opt) = 1;
 			else if (tmp->str[i] == 'L')
@@ -172,9 +175,9 @@ int			ft_cd(t_ast **ast, t_env **env)
 		ft_strdel(&path);
 		return (0);
 	}
-	ft_strdel(&path);
 	current_dir = getcwd(current_dir, MAXPATHLEN);
 	mod_env(env, path, current_dir);
 	ft_strdel(&current_dir);
+	ft_strdel(&path);
 	return (1);
 }
