@@ -71,17 +71,21 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	if (*line)
 	{
 		init_token(&cmd);
+		ft_putendl("-1");
 		new_parser(&cmd, *line);
+		ft_putendl("0");
 		restruct_lst(&cmd);
+		ft_putendl("1");
 		t = cmd;
 		while (t)
 		{
 			ft_printf("%s | %d\n", t->str, t->type);
 			t = t->n;
 		}
-		db_lst(&cmd);
+		// db_lst(&cmd);
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
+			ft_putendl("HELLO");
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
@@ -121,6 +125,8 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
+		ft_putendl("C EST PLUS MON PROBLEME");
+		ft_putendl(cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&

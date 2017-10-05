@@ -17,11 +17,12 @@ int		inhibiteur(t_cmdl *cmdl, int len)
 	int		count;
 
 	count = 0;
-	while (cmdl->line.str[len] == '\\' && len > 0)
+	while (cmdl->line.str[len] == '\\' && len > -1)
 	{
 		count++;
 		len -= 1;
 	}
+	ft_printf("\t%d %d\n", len, count);
 	if (!len || count % 2)
 	{
 		write(1, "\n$> ", 4);

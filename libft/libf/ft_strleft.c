@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/22 14:41:12 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/05 17:20:32 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/05 17:24:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char *ft_str_save_chr(const char *s, int c, int reset)
 
 	if (reset)
 		return ((save = NULL));
-	if (!s || *s == '\0' )
+	if (!s || *s == '\0')
 		return (NULL);
 	if (save)
 		while (s != save)
