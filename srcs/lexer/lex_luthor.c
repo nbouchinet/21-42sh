@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/28 15:00:57 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/05 17:18:38 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ void	tok_save(t_tok **lst, char **stack, int type)
 		(*lst)->type = type;
 	if ((*lst)->type != QUOTE && (bs = ft_strchr((*lst)->str, '\\')) &&
 	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
-	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ' &&
-	*(bs + 1) != '\\')
+	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ')
 		ft_strleft(&(*lst)->str, '\\');
 	ft_memset(*stack, '\0', ft_strlen(*stack));
+	if ((*lst)->type == QUOTE)
+		(*lst)->type = WORD;
 }
 
 void	flush(t_tok **lst, char **stack, char *line, int *i)
