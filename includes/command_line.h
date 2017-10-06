@@ -234,6 +234,7 @@ int					ctrl_l(t_cmdl *cmdl);
 int					ctrl_u(t_cmdl *cmdl);
 int					ctrlt(t_cmdl *cmdl);
 int					esc(t_cmdl *cmdl);
+int					set_exiting_value(t_cmdl **cmdl, int r_value);
 
 /*
 **	Deplacement
