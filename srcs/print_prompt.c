@@ -94,10 +94,10 @@ void		print_prompt(void)
 	buff = NULL;
 	if (!cmdl->opt)
 	{
-		if (lst_at(&(cmdl)->lstenv, "PWD"))
-			buff = cmdl->lstenv ? lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
+		if (cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD"))
+			buff = lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
 		if (buff)
-			ft_printf("\%@42sh: %s%@", H_BLUE, buff, I);
+			ft_printf("%@42sh: %s%@", H_BLUE, buff, I);
 		else if ((buff = getcwd(buff, MAXPATHLEN)))
 			print_and_del(&buff, 0);
 		buff = NULL;
