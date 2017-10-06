@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/04 18:55:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:23:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,6 @@ void	restruct_lst(t_tok **lst);
 int		new_lexercheck(t_tok **lst);
 
 
-void	db_lst(t_tok **lst)
-{
-	t_tok *tmp;
-	t_tok *prev;
-
-	if (*lst)
-	{
-		prev = NULL;
-		tmp = *lst;
-		while (tmp)
-		{
-			if (prev)
-				tmp->p = prev;
-			prev = tmp;
-			tmp = tmp->n;
-		}
-	}
-}
-
 static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 {
 	int		i;
@@ -82,7 +63,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 			ft_printf("%s | %d\n", t->str, t->type);
 			t = t->n;
 		}
-		// db_lst(&cmd);
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			ft_putendl("HELLO");

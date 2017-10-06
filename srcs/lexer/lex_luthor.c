@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/05 17:25:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/06 14:23:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_token(t_tok **lst)
 	(*lst)->str = NULL;
 	(*lst)->hd = 0;
 	(*lst)->n = NULL;
-	(*lst)->p = NULL;
 }
 
 t_tok	*init_tok(t_tok **lst, int mod)
@@ -34,7 +33,6 @@ t_tok	*init_tok(t_tok **lst, int mod)
 	tmp->type = 0;
 	tmp->hd = 0;
 	tmp->str = NULL;
-	tmp->p = NULL;
 	tmp->n = NULL;
 	return (tmp);
 }
