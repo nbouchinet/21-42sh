@@ -12,6 +12,16 @@
 
 #include "header.h"
 
+int		set_exiting_value(t_cmdl **cmdl, int r_value)
+{
+	if ((*cmdl)->ret != 0 && (*cmdl)->ret != 256)
+		(*cmdl)->ret += 128;
+	else if ((*cmdl)->ret == 256)
+		(*cmdl)->ret -= 255;
+	(*cmdl)->exit = (*cmdl)->ret;
+	return (r_value);
+}
+
 int		ft_exit(t_ast **ast, t_env **env)
 {
 	int		i;
@@ -22,13 +32,7 @@ int		ft_exit(t_ast **ast, t_env **env)
 	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
 	cmdl = cmdl_slg();
 	if (!(arg = creat_arg_env(&(*ast)->left->right)))
-	{
-		if ((*cmdl)->ret != 0 && (*cmdl)->ret != 256)
-			(*cmdl)->ret += 128;
-		else if ((*cmdl)->ret == 256)
-			(*cmdl)->ret -= 255;
-		return (((*cmdl)->exit = (*cmdl)->ret) - ((*cmdl)->exit + 1));
-	}
+		return (set_exiting_value(cmdl, 1));
 	i = (arg[0][0] == '-' && arg[0][1] ? 0 : -1);
 	while (arg[0][++i])
 		if (!ft_isdigit(arg[0][i]))

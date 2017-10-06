@@ -69,7 +69,7 @@ static void	register_cmdl(t_cmdl *cmdl)
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
-		((cmdl->opt & (CPIPE | CAND | COR))))
+	((cmdl->opt & (CPIPE | CAND | COR))))
 	{
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
@@ -82,14 +82,14 @@ int			ctrl_d(t_cmdl *cmdl)
 		cmdl->opt & CSQ ? '\'' : '"'));
 	}
 	else if (cmdl->line.str && cmdl->line.str[0])
-		return (0);
+	return (0);
 	if (cmdl->line.save && !cmdl->line.str[0])
-		ft_strdel(&cmdl->line.save);
+	ft_strdel(&cmdl->line.save);
 	if (cmdl->line.str && !cmdl->line.str[0])
 	{
 		ft_strdel(&cmdl->line.str);
 		cmdl->opt |= CCTRLD;
-		return (1);
+		return (set_exiting_value(&cmdl, 1));
 	}
 	return (0);
 }

@@ -79,7 +79,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 			ft_printf("%s | %d\n", t->str, t->type);
 			t = t->n;
 		}
-		db_lst(&cmd);
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
