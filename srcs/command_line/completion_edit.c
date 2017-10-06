@@ -6,13 +6,53 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 18:05:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:38:24 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/06 11:46:47 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
+static t_comp  *fill_builtin(t_comp **comp, char *builin)
+{
+	t_comp	*tmp;
+	t_comp	*stock;
+	int		i;
+
+	i = 0;
+	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+		exit(EXIT_FAILURE);
+	tmp->str = ft_strdup(builin);
+	ft_memset(tmp->pad, 0, 512);
+	tmp->bol = 0;
+	tmp->n = NULL;
+	tmp->p = NULL;
+	if (!(*comp))
+		return (tmp);
+	stock = *comp;
+	while (stock && ft_strcmp(stock->str, builin) < 0)
+	{
+		i++;
+		stock = stock->n;
+	}
+	insert(comp, tmp, i);
+	return (tmp);
+}
+
+void 	check_built_in(t_cmdl *cmdl, char *tmp)
+{
+	char	*builtin[5] = {"setenv", "unsetenv", "history", "hash", "env"};
+	int		i;
+
+	i = -1;
+	while (++i < 5)
+	{
+		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0)
+			!cmdl->comp ? cmdl->comp = fill_builtin(&cmdl->comp, builtin[i]) :
+			fill_builtin(&cmdl->comp, builtin[i]);
+	}
+}
+
+void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 {
 	tmp = ft_strdup(line->str + (line->cur - line->pr));
 	if (!tmp)

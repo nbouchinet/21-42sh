@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 14:55:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 11:26:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void	insert(t_comp **comp, t_comp *lnk, int i)
+void	insert(t_comp **comp, t_comp *lnk, int i)
 {
 	t_comp	*tmp;
 	t_comp	*save;
@@ -47,8 +47,8 @@ t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 		del_all(cmdl_slg(), his_slg(), local_slg(0));
 		exit(EXIT_FAILURE);
 	}
-	tmp->str = (param == 2 && rdd->d_type == 4 ?
-		ft_strjoin(rdd->d_name, "/") : ft_strdup(rdd->d_name));
+	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
+	ft_strdup(rdd->d_name));
 	ft_memset(tmp->pad, 0, 512);
 	tmp->bol = 0;
 	tmp->n = NULL;

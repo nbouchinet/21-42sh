@@ -6,15 +6,15 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 17:57:24 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/06 11:04:43 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_env		*lst_at(t_env **env, char *cmp)
+t_env		 *lst_at(t_env **env, char *cmp)
 {
-	t_env	*tmp;
+	t_env	 *tmp;
 
 	tmp = *env;
 	if (!tmp)
@@ -71,7 +71,7 @@ void		get_git(char **git)
 	set_buff(git, fd[0]);
 }
 
-static void	print_and_del(char **str, int w)
+static void	   print_and_del(char **str, int w)
 {
 	if (!w)
 	{

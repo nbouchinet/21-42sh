@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 18:21:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/14 18:21:40 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/06 10:39:10 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static int	get_event(char *event, t_bang *bang)
 static int	bang_error(char *sub, char **opt)
 {
 	fd_printf(2, "\n42sh: %s: event not found", sub[0] == '^' ? sub : opt[0]);
-	ft_free(opt, NULL, 1);
+	ft_free(opt, &sub, 1);
 	return (1);
 }
 

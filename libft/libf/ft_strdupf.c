@@ -22,9 +22,9 @@ char	*ft_strdupf(char **src)
 	if (dest)
 	{
 		ft_strcpy(dest, (*src));
-		free(*src);
-		*src = NULL;
+		ft_strdel(src);
 		return (dest);
 	}
+	ft_strdel(src);
 	return (NULL);
 }
