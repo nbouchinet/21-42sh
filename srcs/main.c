@@ -76,12 +76,12 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		t = cmd;
 		while (t)
 		{
-			ft_printf("%s | %d\n", t->str, t->type);
+			ft_printf("\n%@%s | %d%@\n", GREEN, t->str, t->type, I);
 			t = t->n;
 		}
-		db_lst(&cmd);
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
+			ft_putendl("HELLO");
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);

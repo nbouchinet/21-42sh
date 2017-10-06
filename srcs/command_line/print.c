@@ -20,6 +20,7 @@ static void clear_comp(t_cmdl *cmdl)
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	cmdl->opt &= ~(CCOMP);
 	comp_del(&cmdl->comp);
+	cmdl->offset = -1;
 }
 
 static int 	cmode(t_cmdl *cmdl)
@@ -27,7 +28,7 @@ static int 	cmode(t_cmdl *cmdl)
 	int		cur_save;
 
 	if (cmdl->line.buf[0] != 'y' && cmdl->line.buf[0] != 'n')
-		return (beep() == OK ? 1 : 1);
+		return (write(1, "\7", 1));
 	else if (cmdl->line.buf[0] == 'y')
 		print_comp(&cmdl->comp);
 	else
@@ -68,7 +69,8 @@ static int	regular_print(t_line *line, char buf[], int i)
 	int		j;
 
 	len = ft_strlen(line->str);
-	if (len + line->pr >= line->co * line->li - (line->co + 1) && beep())
+	if (len + line->pr >= line->co * line->li - (line->co + 1) &&
+	write(1, "\7", 1))
 		return (-1);
 	len == (line->len - 1) ? remalloc_cmdl(line) : 0;
 	if (line->str[i] == 0)

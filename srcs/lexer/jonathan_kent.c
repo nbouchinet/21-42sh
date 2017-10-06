@@ -24,7 +24,7 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 		type = (quote == '\'' ? QUOTE : DQUOTE); //TODO
 	while (line[(*i)] && line[(*i)] != quote)
 		st_tok(stack, line[(*i)++], 0);
-	tok_save(lst, stack, (QUOTE | DQUOTE));
+	tok_save(lst, stack, type);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
 		(*lst)->n = init_tok(lst, NE);

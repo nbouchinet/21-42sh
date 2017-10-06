@@ -66,7 +66,7 @@ int				search_history_print(t_cmdl *cmdl, char buf[])
 	int				len;
 
 	if (cmdl->opt & (CCMODE | CCOMP))
-		return (beep());
+		return (write(1, "\7", 1));
 	pos = cmdl->line.cur - cmdl->line.pr;
 	len = ft_strlen(cmdl->line.str);
 	if (!(SH(buf)) && !(NEXT(buf)))
@@ -86,7 +86,7 @@ int				cmd_search_history(t_cmdl *cmdl)
 	int		len;
 
 	if (cmdl->opt & (CCMODE | CCOMP | CCP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & (CHIS_S))
 		return (search_history_print(cmdl, cmdl->line.buf));
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);

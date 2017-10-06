@@ -21,8 +21,8 @@ static void 	del_loc(t_local **loc_head)
 	while (loc)
 	{
 		save = loc->n;
-		free(loc->var);
-		free(loc->val);
+		ft_strdel(&loc->var);
+		ft_strdel(&loc->val);
 		free(loc);
 		loc = save;
 	}
@@ -39,7 +39,8 @@ static void 	del_his(t_his **his_head)
 	while (his)
 	{
 		save = his->n;
-		ft_strcmp(his->cmdl, "") ? free(his->cmdl) : 0;
+		if (his != *his_head)
+			ft_strdel(&his->cmdl);
 		free(his);
 		his = save;
 	}
@@ -58,6 +59,5 @@ void 			del_all(t_cmdl **cmdl_head, t_his **his_head,
 	if (his_head)
 		del_his(his_head);
 	if (loc_head)
-
 		del_loc(loc_head);
 }

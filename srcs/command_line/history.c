@@ -109,7 +109,7 @@ int			cmd_history(t_cmdl *cmdl)
 	static t_his	*match = NULL;
 
 	if (cmdl->opt & (CCMODE | CCP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 		return (UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
 		c_arrow_down(&cmdl->comp));
@@ -126,7 +126,7 @@ int			cmd_history(t_cmdl *cmdl)
 	else if (DOWN(cmdl->line.buf) && his->p)
 		his = his->p;
 	else
-		return (beep());
+		return (write(1, "\7", 1));
 	match = his;
 	print_cmdl(cmdl, his);
 	return (1);
