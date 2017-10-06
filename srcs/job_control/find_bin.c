@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 19:11:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 19:36:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int		check_abs_bin(char *str)
 	return (0);
 }
 
+int		check_file
 int		exist_bin(char **str, char **value)
 {
 	int		i;
