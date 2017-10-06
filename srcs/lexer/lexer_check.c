@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 12:08:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 13:41:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 int		new_lexercheck(t_tok **lst)
 {
 	t_tok	*tmp;
+	t_tok	*prev;
 
+	prev = NULL;
 	if (*lst)
 	{
 		tmp = *lst;
@@ -29,7 +31,7 @@ int		new_lexercheck(t_tok **lst)
 			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BG))
 				if (tmp->type & (AND | OR | QM | PIPE | CHEVRON | BG))
 				{
-					if (!tmp->p && (tmp->type & (AND | OR | QM | PIPE | BG)))
+					if (!prev && (tmp->type & (AND | OR | QM | PIPE | BG)))
 						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
 					else if (!tmp->n && (tmp->type & CHEVRON))
 						return (write(2, "parse error near unexpected token `newline'\n", 45));
@@ -38,6 +40,7 @@ int		new_lexercheck(t_tok **lst)
 					else if (tmp->n && (tmp->n->type & (AND | OR | BG | CHEVRON | PIPE | QM | IO_N)) && !(tmp->n->type & (QUOTE | DQUOTE)))
 						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->n->str));
 				}
+			prev = tmp;
 			tmp = tmp->n;
 		}
 	}

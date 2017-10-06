@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 12:04:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 13:39:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct		s_token
 	int				type;
 	int				hd;
 	struct s_token	*n;
-	struct s_token	*p;
 }					t_tok;
 
 typedef struct		s_key

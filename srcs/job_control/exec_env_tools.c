@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:31:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:34:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 13:28:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ int		find_rlt(t_ast **cmd, t_env **env)
 
 	path = NULL;
 	if (env && !(path = find_node(env, "PATH", NULL)))
-		return (ft_errormsg("21sh: ", NULL, "PATH not set"));
+		return (ft_errormsg("42sh: ", NULL, "PATH not set"));
 	if (find_cmd_bin(cmd, (value = ft_strsplit(path->value, ':'))) == 0)
 	{
 		ft_freetab(value);
-		return (ft_errormsg("21sh: ", (*cmd)->str, ": Command not found."));
+		return (ft_errormsg("42sh: ", (*cmd)->str, ": Command not found."));
 	}
 	ft_freetab(value);
 	(*cmd)->type = CMD_NAME_ABS;

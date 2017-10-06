@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 14:32:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:15:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int			exec_pro(t_process **lst, t_env **env, t_job **j)
 		set_pid(tmp->pid, &(*j)->pgid, 1);
 		waitpid(tmp->pid, &tmp->status, WCONTINUED | WUNTRACED);
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
+		ft_putendl_fd("koko", 2);
 	}
 	ft_freetab(n_env);
 	return (tmp->status);
@@ -58,7 +59,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			active_sig(tmp->pid, (*job)->pgid, 1);
 			if (tmp->builtin && job_cmd_seq(&tmp->builtin, &tmp->env, 1))
 					exit(EXIT_SUCCESS);
-			else
+			else if (!tmp->builtin)
 				execve(tmp->argv[0], tmp->argv, env);
 			exit(EXIT_FAILURE);
 		}
@@ -71,7 +72,7 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			tcsetpgrp(g_shell_terminal, g_shell_pgid);
 		}
 	}
-	return (tmp->next ? status : tmp->status);
+	return (tmp->status);
 }
 
 int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
