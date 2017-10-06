@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 11:33:40 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/06 14:27:52 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/06 18:38:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,4 @@ void		catch_error(t_job **job, int status)
 		fd_printf(2, "Bus error: 10\n");
 	else if (status == SIGTSTP)
 		fd_printf(2, "[%d]+  Stopped	%s\n", (*job)->num, (*job)->command);
-	else if (status == SIGTERM)
-		fd_printf(2, "Treminated: 11\n");
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 14:15:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 15:35:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int			exec_pro(t_process **lst, t_env **env, t_job **j)
 		set_pid(tmp->pid, &(*j)->pgid, 1);
 		waitpid(tmp->pid, &tmp->status, WCONTINUED | WUNTRACED);
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
-		ft_putendl_fd("koko", 2);
 	}
 	ft_freetab(n_env);
 	return (tmp->status);
@@ -57,6 +56,8 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			if (tmp->rdir && !io_seq(&tmp->rdir))
 					exit(EXIT_FAILURE);
 			active_sig(tmp->pid, (*job)->pgid, 1);
+			if (tmp->builtin)
+				ft_putendl("OKeeeee");
 			if (tmp->builtin && job_cmd_seq(&tmp->builtin, &tmp->env, 1))
 					exit(EXIT_SUCCESS);
 			else if (!tmp->builtin)

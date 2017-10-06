@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:14:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:05:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int		init_process(t_ast **ast, t_process **proc, t_env **env)
 		return (1);
 	if ((tmp->argv = creat_arg_process(&(*ast)->left, env)) != NULL)
 	{
+		tmp->builtin = NULL;
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
 		return (1);
 	}

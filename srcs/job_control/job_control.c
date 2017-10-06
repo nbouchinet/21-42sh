@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:20:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:00:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,22 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 	return (1);
 }
 
+// int		check_kill(t_job **job)
+// {
+// 	int			i;
+// 	t_job		*j;
+// 	t_process	*p;
+//
+// 	i = 0;
+// 	p = (*job)->first_process;
+// 	while (p)
+// 	{
+// 		if (kill(p->pid, 0) < 0)
+// 			i == 0 ? i = 1 : 0;
+// 		else
+// 			i = 0;
+// 	}
+// }
 int		check_job(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
