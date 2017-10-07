@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 02:40:28 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:48:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 16:38:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int		seak(char *s)
 {
 	char *name;
 
-	if (ft_strcmp(s, "21sh") == 0)
+	if (ft_strcmp(s, "42sh") == 0)
 		return (1);
 	else if ((name = ft_strrchr(s, '/')))
-		if (ft_strcmp(name + 1, "21sh") == 0)
+		if (ft_strcmp(name + 1, "42sh") == 0)
 			return (1);
 	return (0);
 }

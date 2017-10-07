@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/04 18:45:20 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/07 17:02:45 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,6 +119,7 @@ CFILES= 		main.c \
 				job_control/bin_fin4.c \
 				job_control/bin_fin5.c \
 				job_control/redirection.c \
+				job_control/find_bin.c \
 
 
 OFILES=			$(CFILES:.c=.o)

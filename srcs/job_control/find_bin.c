@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 19:36:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 17:34:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		print_error(int err, char *str)
 		ft_errormsg("42sh: ", NULL, "Path's value not set.");
 	else if (err == -3)
 		ft_errormsg("42sh: ", str, ": Command not found.");
+	else if (err == 1)
+		return (1);
 	return (0);
 }
 
@@ -27,8 +29,8 @@ int		check_type_bin(t_ast **ast, t_env **env)
 {
 	if ((*ast)->left->type == CMD_NAME_ABS)
 		return (check_abs_bin((*ast)->left->str));
-	else if ((*ast)->left->type == CMD_NAME_ABS)
-		return (check_rlt_bin((*ast)->left->str), env);
+	else if ((*ast)->left->type == CMD_NAME_RLT)
+		return (check_rlt_bin(&(*ast)->left->str, env));
 	return (0);
 }
 
@@ -48,34 +50,98 @@ int		check_abs_bin(char *str)
 	return (0);
 }
 
-int		check_file
-int		exist_bin(char **str, char **value)
+int		check_file(DIR *dir, char *directory, char **str)
+{
+	struct dirent	*file;
+
+	while ((file = readdir(dir)))
+	{
+		if (!ft_strcmp(file->d_name, *str))
+		{
+			ft_strdel(str);
+			*str = ft_strjoin(directory, "/");
+			*str = ft_strjoinf(*str, file->d_name, 1);
+			closedir(dir);
+			return (1);
+		}
+	}
+	closedir(dir);
+	return (0);
+}
+
+int		exist_bin(char **str, char *value)
 {
 	int		i;
 	DIR		*dir;
 	char	**path;
 
-	if ((path = ft_strsplit(*value, ':')))
+	if ((path = ft_strsplit(value, ':')))
 	{
 		i = -1;
 		while (path[++i])
-		{
 			if ((dir = opendir(path[i])))
-				check_file(dir, str);
-		}
+				if (check_file(dir, path[i], str))
+				{
+					ft_freetab(path);
+					return (1);
+				}
 	}
+	ft_freetab(path);
+	return (-2);
 }
+
 int		check_rlt_bin(char **str, t_env **env)
 {
 	t_env	*tmp;
 
 	if ((tmp = find_node(env, "PATH", NULL)))
-	{
-		if (tmp->value)
-		{
-			exist_bin(str, tmp->value);
-		}
-		return (-2);
-	}
+		return (tmp->value ? exist_bin(str, tmp->value) : -2);
 	return (-1);
+}
+
+int		nbr_arg(t_ast **ast)
+{
+	t_ast	*tmp;
+	int		i;
+
+	i = 1;
+	if (*ast)
+	{
+		tmp = *ast;
+		while (tmp)
+		{
+			tmp = tmp->right;
+			i++;
+		}
+		return (i);
+	}
+	return (0);
+}
+char	**creat_argv(t_ast **ast)
+{
+	int		i;
+	char	**argv;
+	t_ast	*tmp;
+
+	tmp = *ast;
+	i = 1;
+	i += nbr_arg(&tmp->right);
+	ft_putendl("after nbr_arg");
+	if (!(argv = (char**)malloc(sizeof(char*) * (i + 1))))
+		return (NULL);
+	ft_putendl("after malloc argv");
+	argv[i] = NULL;
+	argv[0] = ft_strdup(tmp->left->str);
+	ft_putendl("after strdup ls");
+	ft_putast(*ast);
+	if (tmp->right)
+	{
+		ft_putnbrl(tmp->type);
+		i = 0;
+		tmp = tmp->right;
+		while (tmp)
+			argv[++i] = ft_strdup(tmp->str);
+		ft_putendl("LLLLLLLL");
+	}
+	return (argv);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 16:05:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 17:30:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,43 @@ int		check_builtin(t_ast **ast, t_process **p, t_env **env)
 	return (0);
 }
 
-int		init_process(t_ast **ast, t_process **proc, t_env **env)
+// int		init_process(t_ast **ast, t_process **proc, t_env **env)
+// {
+// 	t_process	*tmp;
+// 	if ((*proc))
+// 	{
+// 		tmp = *proc;
+// 		while (tmp->next)
+// 			tmp = tmp->next;
+// 		if (init_proc(&tmp->next) == -1)
+// 			return (-1);
+// 	}
+// 	else
+// 	{
+// 		if (init_proc(proc) == -1)
+// 			return (-1);
+// 		tmp = (*proc);
+// 	}
+// 	if (check_builtin(ast, &tmp, env))
+// 		return (1);
+// 	if ((tmp->argv = creat_arg_process(&(*ast)->left, env)) != NULL)
+// 	{
+// 		tmp->builtin = NULL;
+// 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
+// 		return (1);
+// 	}
+// 	return (0);
+// }
+
+int		init_process(t_ast **ast, t_process **p, t_env **env)
 {
+	int			i;
 	t_process	*tmp;
-	if ((*proc))
+
+	tmp = NULL;
+	if (*p)
 	{
-		tmp = *proc;
+		tmp = *p;
 		while (tmp->next)
 			tmp = tmp->next;
 		if (init_proc(&tmp->next) == -1)
@@ -75,19 +106,27 @@ int		init_process(t_ast **ast, t_process **proc, t_env **env)
 	}
 	else
 	{
-		if (init_proc(proc) == -1)
+		if (init_proc(p) == -1)
 			return (-1);
-		tmp = (*proc);
+		tmp = *p;
 	}
-	if (check_builtin(ast, &tmp, env))
-		return (1);
-	if ((tmp->argv = creat_arg_process(&(*ast)->left, env)) != NULL)
+	ft_putendl("WTF");
+	ft_putendl("!!!");
+	i = check_type_bin(&(*ast)->left, env);
+	if (i != 1 && check_builtin(ast, &tmp, env))
 	{
-		tmp->builtin = NULL;
-		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
-		return (1);
+		ft_putnbrl(i);
+		return (print_error(1, (*ast)->left->left->str));
 	}
-	return (0);
+	if (i)
+	{
+		ft_putendl("i == 1");
+		tmp->argv = creat_argv(&(*ast)->left);
+		ft_putendl("WEFWEFWEFEWFWEF");
+		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
+	}
+	ft_putendl((*ast)->left->left->str);
+	return (print_error(i, (*ast)->left->left->str));
 }
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
