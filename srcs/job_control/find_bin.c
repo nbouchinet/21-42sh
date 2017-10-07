@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 17:34:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 20:26:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int		exist_bin(char **str, char *value)
 				}
 	}
 	ft_freetab(path);
-	return (-2);
+	return (-3);
 }
 
 int		check_rlt_bin(char **str, t_env **env)
@@ -104,7 +104,7 @@ int		nbr_arg(t_ast **ast)
 	t_ast	*tmp;
 	int		i;
 
-	i = 1;
+	i = 0;
 	if (*ast)
 	{
 		tmp = *ast;
@@ -113,9 +113,8 @@ int		nbr_arg(t_ast **ast)
 			tmp = tmp->right;
 			i++;
 		}
-		return (i);
 	}
-	return (0);
+	return (i);
 }
 char	**creat_argv(t_ast **ast)
 {
@@ -123,25 +122,22 @@ char	**creat_argv(t_ast **ast)
 	char	**argv;
 	t_ast	*tmp;
 
-	tmp = *ast;
 	i = 1;
-	i += nbr_arg(&tmp->right);
-	ft_putendl("after nbr_arg");
+	tmp = *ast;
+	i = nbr_arg(&tmp->right) + i;
 	if (!(argv = (char**)malloc(sizeof(char*) * (i + 1))))
 		return (NULL);
-	ft_putendl("after malloc argv");
 	argv[i] = NULL;
 	argv[0] = ft_strdup(tmp->left->str);
-	ft_putendl("after strdup ls");
-	ft_putast(*ast);
 	if (tmp->right)
 	{
-		ft_putnbrl(tmp->type);
 		i = 0;
 		tmp = tmp->right;
 		while (tmp)
+		{
 			argv[++i] = ft_strdup(tmp->str);
-		ft_putendl("LLLLLLLL");
+			tmp = tmp->right;
+		}
 	}
 	return (argv);
 }

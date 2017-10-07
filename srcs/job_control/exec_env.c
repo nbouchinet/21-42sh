@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:34:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:36:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 21:49:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,16 @@ void	complete_node(t_env **node, char **env)
 
 int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 {
+	int		i;
 	t_tok	*tok;
 	t_ast	*tmp;
 	t_ast	*new_ast;
 	char	*cmd;
 
+	i = 0;
 	tmp = *ast;
 	tok = NULL;
-	cmd = recreat_cmd(&tmp);
-	if (cmd != NULL)
+	if ((cmd = recreat_cmd(&tmp)))
 	{
 		tok = init_tok(&tok, C);
 		new_parser(&tok, cmd);
@@ -121,8 +122,8 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 		if ((new_ast->left->left->type == CMD_NAME_ABS ?
 			find_bin(&new_ast->left->left) :
 				find_rlt(&new_ast->left->left, r_env)) == 1)
-			job_ast(&new_ast, env, 1);
+			i = job_ast(&new_ast, env, 1);
 		destroy_ast(&new_ast);
 	}
-	return (0);
+	return (i);
 }

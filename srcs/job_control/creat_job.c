@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 17:30:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 20:36:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		init_job(t_job **job)
 int		init_proc(t_process **process)
 {
 	if (!((*process) = (t_process*)malloc(sizeof(t_process))))
-		return (-1);
+		return (0);
 	(*process)->status = 0;
 	(*process)->argv = NULL;
 	(*process)->env = NULL;
@@ -101,31 +101,18 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 		tmp = *p;
 		while (tmp->next)
 			tmp = tmp->next;
-		if (init_proc(&tmp->next) == -1)
-			return (-1);
 	}
-	else
-	{
-		if (init_proc(p) == -1)
-			return (-1);
-		tmp = *p;
-	}
-	ft_putendl("WTF");
-	ft_putendl("!!!");
+	if (!init_proc(tmp ? &tmp->next : p))
+		return (0);
+	tmp = (tmp ? tmp->next : *p);
 	i = check_type_bin(&(*ast)->left, env);
 	if (i != 1 && check_builtin(ast, &tmp, env))
-	{
-		ft_putnbrl(i);
 		return (print_error(1, (*ast)->left->left->str));
-	}
 	if (i)
 	{
-		ft_putendl("i == 1");
 		tmp->argv = creat_argv(&(*ast)->left);
-		ft_putendl("WEFWEFWEFEWFWEF");
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
 	}
-	ft_putendl((*ast)->left->left->str);
 	return (print_error(i, (*ast)->left->left->str));
 }
 

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 15:35:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 21:20:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			active_sig(tmp->pid, (*job)->pgid, 1);
 			if (tmp->builtin)
 				ft_putendl("OKeeeee");
-			if (tmp->builtin && job_cmd_seq(&tmp->builtin, &tmp->env, 1))
-					exit(EXIT_SUCCESS);
+			if (tmp->builtin && !job_cmd_seq(&tmp->builtin, &tmp->env, 1))
+					exit(EXIT_FAILURE);
 			else if (!tmp->builtin)
 				execve(tmp->argv[0], tmp->argv, env);
-			exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{

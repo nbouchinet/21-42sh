@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 16:31:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/07 21:32:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ int			foreground(t_job **job, t_ast **ast, t_job **table)
 			if ((j = find_pgid(table, ast)))
 			{
 				mark_job_as_running(&j);
+				ft_putnbrl(j->pgid);
+				if (j->first_process->argv)
+					ft_putendl(j->first_process->argv[0]);
 				if (kill(-j->pgid, SIGCONT) < 0)
 					perror("kill (SIGCONT)");
 				tcsetpgrp(g_shell_terminal, j->pgid);
