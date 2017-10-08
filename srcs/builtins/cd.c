@@ -34,9 +34,7 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 static void		mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
-	char		*buff;
 
-	buff = NULL;
 	if ((tmp = lst_at(env, "OLDPWD")))
 		ft_strdel(&tmp->value);
 	else
@@ -53,7 +51,12 @@ static void		mod_env(t_env **env, char *path, char *save)
 		malloc_env_lnk(env, &tmp);
 		tmp->var = ft_strdup("PWD");
 	}
-	tmp->value = ft_strdup(path);
+	if (ft_strcmp(path, ".") && ft_strcmp(path, ".."))
+		tmp->value = ft_strdup(path);
+	else if (ft_strcmp(path, "."))
+		tmp->value = ft_strdup(save);
+	else
+		tmp->value = ft_strdup(lst_at(env, "OLDPWD")->value);
 }
 
 static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
