@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 13:38:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/08 12:51:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,14 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_ast = *ast;
 	if (tmp != *sep && !(tmp->type & (RDIR | BDIR | RRDIR | BBDIR | AGRE | BGRE)))
 	{
-		ft_putendl("here");
 		if (valid_local(&tmp, sep))
 		{
-			ft_putendl("????");
 			stock_local(&tmp, sep, 1);
 			return ;
 		}
 		else
 			if ((tmp = stock_local(&tmp, sep, 0)) == *sep)
 				return ;
-		ft_putendl("ahhh");
 		if (ft_strchr(tmp->str, '/'))
 			init_ast(&tmp_ast->left, &tmp, CMD_NAME_ABS);
 		else

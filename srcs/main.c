@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 14:23:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/08 12:48:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,27 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*t;
+	// t_tok	*t;
 
 	i = 0;
 	ast = NULL;
 	if (*line)
 	{
 		init_token(&cmd);
-		ft_putendl("-1");
+		// ft_putendl("-1");
 		new_parser(&cmd, *line);
-		ft_putendl("0");
+		// ft_putendl("0");
 		restruct_lst(&cmd);
-		ft_putendl("1");
-		t = cmd;
-		while (t)
-		{
-			ft_printf("%s | %d\n", t->str, t->type);
-			t = t->n;
-		}
+		// ft_putendl("1");
+		// t = cmd;
+		// while (t)
+		// {
+		// 	ft_printf("%s | %d\n", t->str, t->type);
+		// 	t = t->n;
+		// }
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
-			ft_putendl("HELLO");
+			// ft_putendl("HELLO");
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
@@ -105,8 +105,8 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-		ft_putendl("C EST PLUS MON PROBLEME");
-		ft_putendl(cmdl->line.str);
+		// ft_putendl("C EST PLUS MON PROBLEME");
+		// ft_putendl(cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
@@ -130,6 +130,6 @@ int				main(int ac, char *av[], char *env[])
 		return (1);
 	hist_session();
 	loop(cmdl);
-	ft_putnbrl(cmdl->exit);
+	// ft_putnbrl(cmdl->exit);
 	return (cmdl->exit ? cmdl->exit : 0);
 }

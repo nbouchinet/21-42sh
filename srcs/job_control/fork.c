@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 21:20:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/08 11:40:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,8 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 			if (tmp->rdir && !io_seq(&tmp->rdir))
 					exit(EXIT_FAILURE);
 			active_sig(tmp->pid, (*job)->pgid, 1);
-			if (tmp->builtin)
-				ft_putendl("OKeeeee");
-			if (tmp->builtin && !job_cmd_seq(&tmp->builtin, &tmp->env, 1))
-					exit(EXIT_FAILURE);
+			if (tmp->builtin && !pipe_builtin(&tmp->builtin, &tmp->env, 1))
+				exit(EXIT_FAILURE);
 			else if (!tmp->builtin)
 				execve(tmp->argv[0], tmp->argv, env);
 			exit(EXIT_SUCCESS);
@@ -91,7 +89,11 @@ int		exec_pipe_bg(t_process **pro, char **env, int r, t_job **job)
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
 			r != -1 ? dup2(r, STDIN_FILENO) : 0;
 			if (tmp->rdir && !io_seq(&tmp->rdir))
-					exit(EXIT_FAILURE);
+				exit(EXIT_FAILURE);
+			if (tmp->builtin && !pipe_builtin(&tmp->builtin, &tmp->env, 1))
+				exit(EXIT_FAILURE);
+			else if (!tmp->builtin)
+				execve(tmp->argv[0], tmp->argv, env);
 			execve(tmp->argv[0], tmp->argv, env);
 		}
 		else

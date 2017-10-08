@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:06:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 21:24:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/08 10:31:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_pgid(pid_t pid, pid_t *pgid, int foreground)
 {
 	*pgid == 0 ? (*pgid = pid) : 0;
-	setpgid(pid, *pgid);
+	*pgid == pid ? setpgid(pid, *pgid) : 0;
 	if (foreground)
 		tcsetpgrp(g_shell_terminal, *pgid);
 }

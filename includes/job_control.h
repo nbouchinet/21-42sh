@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/07 17:04:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/08 11:23:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,6 @@ int			exist_bin(char **str, char *value);
 int			check_rlt_bin(char **str, t_env **env);
 int			nbr_arg(t_ast **ast);
 char		**creat_argv(t_ast **ast);
-
+int			pipe_builtin(t_ast **ast, t_env **env, int foreground);
 
 #endif
