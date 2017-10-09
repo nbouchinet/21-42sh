@@ -1,38 +1,73 @@
-/bin/echo lol 1> &  /dev/null
-need syntax error near token `&'
+/bin/echo lol 1> &  /dev/null -> need syntax error near token `&' (do not leaks)
 
-/bin/echo 'Clafouti' > /tmp/merlin.log
-need to work but do : parse error near unexpected token `>'
+cd -; pwd -> print only one /tmp instead of two (do not leaks)
 
-'ls -a'
-need to print pls -a command not found instead of parse error
+<custom>setenv SWAGG_VAR SWAGG_VAL -> have to print : custom: No such file or directory
+(do leaks):
+{
+		leaks Report Version:  2.0
+	Process 18739: 543 nodes malloced for 45 KB
+	Process 18739: 4 leaks for 96 total leaked bytes.
+	Leak: 0x7f98a1c05de0  size=16  zone: DefaultMallocZone_0x10bbd8000  length: 1  ">"
+	Leak: 0x7f98a1c05e60  size=16  zone: DefaultMallocZone_0x10bbd8000  length: 6  "setenv"
+	Leak: 0x7f98a1c063c0  size=32  zone: DefaultMallocZone_0x10bbd8000
+		0xa1c05de0 0x00007f98 0x00000010 0x00000000 	.]..............
+		0xa1c063e0 0x00007f98 0x00000000 0x00000000 	.c..............
+	Leak: 0x7f98a1c063e0  size=32  zone: DefaultMallocZone_0x10bbd8000
+		0xa1c05e60 0x00007f98 0x00000100 0x00000000 	`^..............
+		0xa1c06400 0x00007f98 0x00000000 0x00000000 	.d..............
+}
 
-cd /tmp; mkdir bar; chmod a-x bar; cd bar; rm -rf bar
-cd: bar:not a directoryn instead of permission denied
+TATA=toto -> (do leaks):
+{
+	leaks Report Version:  2.0
+	Process 18983: 541 nodes malloced for 45 KB
+	Process 18983: 1 leak for 112 total leaked bytes.
+	Leak: 0x7fa0b35000e0  size=112  zone: DefaultMallocZone_0x100b8e000
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+}
 
-cd -; pwd
-print only one /tmp instead of two
+ls | ls | ls -> (do leaks)
+{
+	leaks Report Version:  2.0
+	Process 19119: 540 nodes malloced for 45 KB
+	Process 19119: 1 leak for 16 total leaked bytes.
+	Leak: 0x7fbea4e00290  size=16  zone: DefaultMallocZone_0x107962000  length: 2  "ls"
+}
 
-<custom>setenv SWAGG_VAR SWAGG_VAL
-have to print : custom: No such file or directory
 
-'"""\\"\''\"'\|"||'\|"|
-enter to dquote instead of pipe
+cd /; cd -; cd /; cd ../; cd; -> syntax error near `;'
 
-unset and expot to do
+ls && dfe -> syntax error near `&&'
 
-base64 /dev/random | head -c -1000 | grep '42'
+ls ../ && ls -> syntax error near `&&'
 
-create leaks on -c and -1
+ls || ls ../ -> syntax error near `||'
 
-ctrl+c \n ctr+d : pointer being freed was not allocated abort
+ls | wc -l > toto; cat -e << abc | wc -l >> toto; cat -e toto -> do not print the goog result
 
-cd src
-cd ../
-cd -
-unsetenv HOME | unsetenv OLDPWD | unsetenv PWD
-cd
+setenv TEST test ; echo $TEST -> do not work
+{
+	t: 42 |(null)|
+  |-left--: t: 43 |(null)|
+    |-left--: t: 49 |(null)|
+      |-left--: t: 52 |setenv|
+      |-right-: t: 50 |TOTO|
+        |-right-: t: 50 |tata|
+  |-right-: t: 43 |(null)|
+    |-left--: t: 49 |(null)|
+      |-left--: t: 52 |echo|
 
-segfault
+Success
+}
 
-TATA=toto alone segfault
+
+setenv TRUC toto ; echo $TRUC ; echo $truc ; setenv TRUC titi ; echo $TRUC ; echo $sdse -> do not react as csh
+
+ls /dev | grep tty | sort -r | rev > toto ; < toto cat | rev | wc -l > titi -> rev: cat: No such file or directory
