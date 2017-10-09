@@ -31,10 +31,40 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 	}
 }
 
+static char		*construct_path(t_env **env, char *save, char *path)
+{
+	char		*np;
+	char		**array;
+	char		**save_array;
+
+	np = path[0] == '/' ? NULL : ft_strdup(save);
+	array = NULL;
+	if (!ft_strcmp(path, "-"))
+		return (lst_at(env, "OLDPWD")->value);
+	else if (!ft_strcmp(path, "."))
+		return (lst_at(env, "PWD")->value);
+	array = ft_strsplit(path, '/');
+	save_array = array;
+	while (*array)
+	{
+		if (!ft_strcmp(*array, ".."))
+			*ft_strrchr(np, '/') = 0;
+		else if (ft_strcmp(*array, ".") && ft_strcmp(*array, "-"))
+		{
+			np = np ? ft_strjoinf(np, "/", 1) : ft_strjoin(np, "/");
+			np = ft_strjoinf(np, *array, 1);
+		}
+		array++;
+	}
+	ft_free(save_array, NULL, 1);
+	return (np);
+}
+
 static void		mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
 
+	ft_putendl(path);
 	if ((tmp = lst_at(env, "OLDPWD")))
 		ft_strdel(&tmp->value);
 	else
@@ -51,12 +81,7 @@ static void		mod_env(t_env **env, char *path, char *save)
 		malloc_env_lnk(env, &tmp);
 		tmp->var = ft_strdup("PWD");
 	}
-	if (ft_strcmp(path, ".") && ft_strcmp(path, ".."))
-		tmp->value = ft_strdup(path);
-	else if (ft_strcmp(path, "."))
-		tmp->value = ft_strdup(save);
-	else
-		tmp->value = ft_strdup(lst_at(env, "OLDPWD")->value);
+	tmp->value = ft_strdup(construct_path(env, save, path));
 }
 
 static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
@@ -81,7 +106,7 @@ static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
 			return (fd_printf(2, "cd: permission denied: %@\n", tmp->str));
 		if (chdir((*path)) == -1)
 			return (fd_printf(2, "cd: %@:not a directoryn", tmp->str));
-		if (i && opt == 2)
+		if (i && opt == 1)
 		{
 			readlink((*path), buff, 1024);
 			bs = ft_strrchr((*path), '/');
@@ -97,14 +122,14 @@ static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
 static int	get_arg(t_ast **ast, t_env **env, char **path)
 {
 	char	*match;
+	int		len;
 	t_ast	*tmp;
 
 	match = NULL;
 	tmp = *ast;
 	while (tmp && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
-	if (tmp && tmp->str && tmp->str[ft_strlen(tmp->str) - 1] == '/')
-		tmp->str[ft_strlen(tmp->str) - 1] = 0;
+	len = ft_strlen(tmp->str);
 	if (!tmp && lst_at(env, "HOME"))
 		*path = ft_strdup(lst_at(env, "HOME")->value);
 	else if (tmp && tmp->str[0] == '-' && !tmp->str[1])
@@ -123,8 +148,8 @@ static int	get_opt(t_ast **ast, int *opt)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->str && ((tmp->str[0] == '-' && tmp->str[1] == '-' && !tmp->str[2])
-		|| (tmp->str[0] != '-')))
+		if (tmp->str && ((tmp->str[0] == '-' && tmp->str[1] == '-' &&
+		!tmp->str[2]) || (tmp->str[0] != '-')))
 			return (0);
 		while (tmp->str[++i])
 			if (tmp->str[i] == 'P')
@@ -167,18 +192,19 @@ int			ft_cd(t_ast **ast, t_env **env)
 	path = NULL;
 	current_dir = NULL;
 	opt = 2;
-	if (check_arg(&(*ast)->left->right, env))
+	if ((check_arg(&(*ast)->left->right, env)) ||
+	((*ast)->left->right && get_opt(&(*ast)->left->right, &opt)) ||
+	((*ast)->left->right && get_arg(&(*ast)->left->right, env, &path)))
 		return (0);
-	if ((*ast)->left->right && get_opt(&(*ast)->left->right, &opt))
-		return (0);
-	if (get_arg(&(*ast)->left->right, env, &path))
-		return (0);
+	current_dir = getcwd(current_dir, MAXPATHLEN);
+	if (!path)
+		path = lst_at(env, "HOME") ? ft_strdup(lst_at(env, "HOME")->value) : NULL;
 	if (change_dir(env, &(*ast)->left->right, opt, &path))
 	{
 		ft_strdel(&path);
+		ft_strdel(&current_dir);
 		return (0);
 	}
-	current_dir = getcwd(current_dir, MAXPATHLEN);
 	mod_env(env, path, current_dir);
 	ft_strdel(&current_dir);
 	ft_strdel(&path);
