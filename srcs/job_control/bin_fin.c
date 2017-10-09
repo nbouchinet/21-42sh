@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 02:35:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:37:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 18:00:20 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ t_env	*find_node(t_env **env, char *var, char *value)
 		while (tmp && ft_strcmp(tmp->var, var) != 0)
 			tmp = tmp->next;
 	else
+	{
 		while (tmp && ft_strcmp(tmp->value, value) != 0)
 			tmp = tmp->next;
+	}
 	return (tmp);
 }
 
