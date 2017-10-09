@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 13:41:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 16:35:29 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		new_lexercheck(t_tok **lst)
 		while (tmp)
 		{
 			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BG))
-				if (tmp->type & (AND | OR | QM | PIPE | CHEVRON | BG))
+				if (tmp->n && tmp->n->type & (AND | OR | QM | PIPE | CHEVRON | BG))
 				{
 					if (!prev && (tmp->type & (AND | OR | QM | PIPE | BG)))
 						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
