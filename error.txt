@@ -1,38 +1,22 @@
-/bin/echo lol 1> &  /dev/null
-need syntax error near token `&'
+/bin/echo lol 1> &  /dev/null -> need syntax error near token `&'
 
-/bin/echo 'Clafouti' > /tmp/merlin.log
-need to work but do : parse error near unexpected token `>'
-
-'ls -a'
-need to print pls -a command not found instead of parse error
-
-cd /tmp; mkdir bar; chmod a-x bar; cd bar; rm -rf bar
-cd: bar:not a directoryn instead of permission denied
-
-cd -; pwd
-print only one /tmp instead of two
+cd -; pwd -> print only one /tmp instead of two
 
 <custom>setenv SWAGG_VAR SWAGG_VAL
 have to print : custom: No such file or directory
 
-'"""\\"\''\"'\|"||'\|"|
-enter to dquote instead of pipe
-
-unset and expot to do
-
-base64 /dev/random | head -c -1000 | grep '42'
-
-create leaks on -c and -1
-
-ctrl+c \n ctr+d : pointer being freed was not allocated abort
-
-cd src
-cd ../
-cd -
-unsetenv HOME | unsetenv OLDPWD | unsetenv PWD
-cd
-
-segfault
-
 TATA=toto alone segfault
+
+Those 4 commands creat leaks.
+
+cd /; cd -; cd /; cd ../; cd; -> syntax error near `;'
+
+ls && dfe -> syntax error near `&&'
+
+ls ../ && ls -> syntax error near `&&'
+
+ls || ls ../ -> syntax error near `||'
+
+ls | wc -l > toto; cat -e << abc | wc -l >> toto; cat -e toto -> do not print the goog result
+
+setenv TRUC toto ; echo $TRUC ; echo $truc ; setenv TRUC titi ; echo $TRUC ; echo $sdse -> do not react as csh
