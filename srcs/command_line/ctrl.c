@@ -101,7 +101,10 @@ int			ctrl_d(t_cmdl *cmdl)
 
 int			ctrl_l(t_cmdl *cmdl)
 {
+	int		save;
+
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
+	save = cmdl->line.cur;
 	print_prompt();
 	if (cmdl->opt & CHIS_S && (cmdl->opt &= ~(CHIS_S)) && cmdl->line.str[0])
 	{
@@ -114,6 +117,9 @@ int			ctrl_l(t_cmdl *cmdl)
 	else if (cmdl->opt & CCOMP)
 	{
 		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+		while (cmdl->line.cur > save)
+			arrow_left(cmdl);
 		display_comp(cmdl, &cmdl->comp, cmdl->offset);
 	}
 	else if (cmdl->line.str[0])

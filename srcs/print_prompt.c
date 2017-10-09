@@ -92,7 +92,7 @@ void		print_prompt(void)
 
 	cmdl = *cmdl_slg();
 	buff = NULL;
-	if (!cmdl->opt)
+	if (!(cmdl->opt & (CSQ | CDQ | CHD)))
 	{
 		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
 		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
