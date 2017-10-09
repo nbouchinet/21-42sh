@@ -52,4 +52,8 @@ ls || ls ../ -> syntax error near `||'
 
 ls | wc -l > toto; cat -e << abc | wc -l >> toto; cat -e toto -> do not print the goog result
 
+setenv TEST test ; echo $TEST -> do not work
+
 setenv TRUC toto ; echo $TRUC ; echo $truc ; setenv TRUC titi ; echo $TRUC ; echo $sdse -> do not react as csh
+
+ls /dev | grep tty | sort -r | rev > toto ; < toto cat | rev | wc -l > titi -> rev: cat: No such file or directory
