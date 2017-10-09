@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/08 11:21:24 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/09 17:29:02 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC=				gcc
 
 NAME=			42sh
 
-CFLAGS=			-g3 -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS=			-g3 -Wall -Werror -Wextra#-fsanitize=address
 
 CPATH=			srcs/
 
@@ -161,6 +161,7 @@ fclean: clean
 	make -C libft fclean
 	rm -rf $(NAME)
 	rm -rf $(OPATH)
+	rm .42sh_history
 
 re: fclean all
 

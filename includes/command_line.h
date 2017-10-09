@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/04 18:29:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 11:13:55 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,9 @@ int					c_arrow_right(t_comp **comp);
 int					c_arrow_left(t_comp **comp);
 void 				restor_cursor_position(t_cmdl *cmdl, int up);
 void 				print_comp(t_comp **comp);
+void 				check_built_in(t_cmdl *cmdl, char *tmp);
+void				insert(t_comp **comp, t_comp *lnk, int i);
+
 /*
 **	Bang
 */

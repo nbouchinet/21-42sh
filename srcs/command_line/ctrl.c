@@ -14,15 +14,15 @@
 
 int            ctrlt(t_cmdl *cmdl)
 {
-    int        i;
-    char    stock;
-    int        min;
+    int		i;
+    char	stock;
+    int		min;
 
     if (cmdl->opt & (CCOMP | CCMODE | CHIS_S))
-        return (beep());
+        return (write(1, "\7", 1));
     i = cmdl->line.cur - cmdl->line.pr;
     if (i == 0 || ft_strlen(cmdl->line.str) < 2)
-        return (beep());
+        return (write(1, "\7", 1));
     min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
     stock = cmdl->line.str[i - min - 1];
     cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
@@ -47,7 +47,7 @@ int			ctrl_u(t_cmdl *cmdl)
 	char	*sub;
 
 	if (cmdl->opt & (CCOMP | CCMODE | CCP | CHIS_S))
-		return (beep());
+		return (write(1, "\7", 1));
 	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
 	home(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
@@ -56,14 +56,19 @@ int			ctrl_u(t_cmdl *cmdl)
 	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	home(cmdl);
-	free(sub);
+	ft_strdel(&sub);
 	return (1);
 }
 
 static void	register_cmdl(t_cmdl *cmdl)
 {
-	cmdl->line.str = ft_strjoinf(cmdl->line.save, cmdl->line.str, 0);
+	char	*tmp;
+
+	tmp = cmdl->line.str;
+	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
+	ft_strdel(&tmp);
 	cmd_save_history(cmdl->line.str);
+	init_cmdl();
 }
 
 int			ctrl_d(t_cmdl *cmdl)
@@ -72,13 +77,13 @@ int			ctrl_d(t_cmdl *cmdl)
 	((cmdl->opt & (CPIPE | CAND | COR))))
 	{
 		register_cmdl(cmdl);
-		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file"));
+		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file\n"));
 	}
 	else if (cmdl->line.str && !cmdl->line.str[0] && (cmdl->opt & (CSQ | CDQ)))
 	{
 		register_cmdl(cmdl);
 		return (fd_printf(2, "\n42sh: unexpected EOF while looking for a "
-		"matching `%c'\n42sh: syntax error: unexpected end of file",
+		"matching `%c'\n42sh: syntax error: unexpected end of file\n",
 		cmdl->opt & CSQ ? '\'' : '"'));
 	}
 	else if (cmdl->line.str && cmdl->line.str[0])

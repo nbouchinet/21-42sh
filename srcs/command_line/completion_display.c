@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 16:59:26 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:16:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 11:39:16 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 	else if ((*comp))
 		call_completion_edit(cmdl, comp, offset);
 	else
-		beep();
+		write(1, "\7", 1);
 	return (1);
 }
 
@@ -93,8 +93,10 @@ int					check_comp(t_comp **head, char *name)
 	tmp = *head;
 	while (tmp)
 	{
-		if (!ft_strcmp(name, tmp->str))
+		if (ft_strcmp(name, tmp->str) == 0)
+		{
 			return (1);
+		}
 		tmp = tmp->n;
 	}
 	return (0);

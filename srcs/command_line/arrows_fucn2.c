@@ -15,7 +15,7 @@
 int			opt_left(t_cmdl *cmdl)
 {
 	if (cmdl->opt & (CCMODE |  CCOMP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (cmdl->line.str[0])
@@ -33,7 +33,7 @@ int			opt_left(t_cmdl *cmdl)
 int			opt_right(t_cmdl *cmdl)
 {
 	if (cmdl->opt & (CCMODE | CCOMP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CHIS_S)
 		return (1);
 	if (cmdl->line.str[0])

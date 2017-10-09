@@ -30,90 +30,96 @@ static int	opt_check(int *opt, int bit, int loop, int count)
 	return (0);
 }
 
-static int	get_offset(char **targ, int i, int j, int *offset)
+static int	get_offset(t_ast *tmp, char *str, int *offset)
 {
 	int		ret;
 
 	ret = 1;
-	if (targ[i][j + 1] != 0 &&
-	(ret = only(targ[i] + (j + 1), '0', '9')))
-		(*offset) = ft_atoi(targ[i] + (j + 1));
-	else if (targ[i][j + 1] && !ret)
-		return (fd_printf(2, "42sh: history: -d: %s: "
-		"history position out of range\n", targ[i] + (j + 1)));
-	else if (targ[i + 1] && (ret = only(targ[i + 1], '0', '9')))
-		(*offset) = ft_atoi(targ[i + 1]);
-	else if (targ[i + 1] && !ret)
-		return (fd_printf(2, "42sh: history: -d: %s: "
-		"history position out of range\n", targ[i + 1]));
+	if (*(str + 1) && (ret == only(str + 1, '0', '9')))
+		*offset = ft_atoi(str + 1);
+	else if (*(str + 1) && !ret)
+		return (fd_printf(2, "42sh: history: -d: %s "
+		"history position out of range\n", str + 1));
+	else if (tmp->right && (ret = (only(tmp->right->str, '0', '9'))))
+		*offset = ft_atoi(tmp->right->str);
+	else if (tmp->right && !ret)
+		return (fd_printf(2, "42sh: history: -d: %s "
+		"history position out of range\n", tmp->right->str));
 	else
 		return (fd_printf(2, "42sh: history: -d: option "
 		"requires an argument\n"));
 	return (0);
 }
 
-static int	options(char **arg, int i, int *opt, int *offset)
+static int	options(t_ast *tmp, int *opt, int *offset)
 {
-	int		j;
+	char	*str;
 
-	j = 0;
-	while (arg[i][++j])
+	str = tmp->str + 1;
+	while (*str)
 	{
-		if (!ft_strchr("cdanrwps", arg[i][j]))
-			return (fd_printf(2, "history: -%c: %s\n%s%s",
-			arg[i][j], HO, HU1, HU2));
-		if (arg[i][j] == 'd' && ((*opt) |= D) && get_offset(arg, i, j, offset))
+		if (!ft_strchr("cdanrwps", *str))
+			return (fd_printf(2, "history: -%c: %s\n%s%s", *str, HO, HU1, HU2));
+		if (*str == 'd' && (*opt |= D) && get_offset(tmp, str, offset))
 			return (1);
-		else if (arg[i][j] == 'd' && ((*opt) |= D))
+		else if (*str == 'd' && (*opt |= D))
 			break ;
-		arg[i][j] == 'c' ? (*opt) |= C : 0;
-		arg[i][j] == 'a' ? (*opt) |= A : 0;
-		arg[i][j] == 'n' ? (*opt) |= N : 0;
-		arg[i][j] == 'r' ? (*opt) |= R : 0;
-		arg[i][j] == 'w' ? (*opt) |= W : 0;
-		arg[i][j] == 'p' ? (*opt) |= P : 0;
-		if (arg[i][j] == 's' && ((*opt) |= S))
+		*str == 'c' ? (*opt) |= C : 0;
+		*str == 'a' ? (*opt) |= A : 0;
+		*str == 'n' ? (*opt) |= N : 0;
+		*str == 'r' ? (*opt) |= R : 0;
+		*str == 'w' ? (*opt) |= W : 0;
+		*str == 'p' ? (*opt) |= P : 0;
+		if (*str == 's' && (*opt |= S))
 			return (0);
+		str++;
 	}
 	if (opt_check(opt, 4, 3, 0))
 		return (1);
 	return (0);
 }
 
-static int	parse_opt(char *targ[], int *opt, int *offset, char **arg)
+static int	parse_opt(t_ast **ast, char **arg, int *opt, int *offset)
 {
+	t_ast	*tmp;
+	char	*str;
 	int		ret;
-	int		i;
 
-	i = -1;
-	while (targ[++i])
+	tmp = *ast;
+	str = tmp->str;
+	while (tmp)
 	{
 		ret = -1;
-		if (targ[i][0] == '-' && ((targ[i][1] == '-' && !targ[i][2])
-		|| !targ[i][1]))
+		if (str[0] == '-' && ((str[1] == '-' && !str[2]) ||
+		!str[1]))
 			return (0);
-		if (targ[i][0] == '-' && (ret = options(targ, i, opt, offset)))
+		if (str[0] == '-' && (ret = options(tmp, opt, offset)))
 			return (1);
-		else if (targ[i][0] == '-' && ret == 0 && (*opt & S))
-				return ((*arg = ft_strdup(targ[i + 1])) ? 0 : 0);
+		else if (tmp->str[0] == '-' && ret == 0 && (*opt & S))
+		{
+			*arg = tmp->right && tmp->right->str ?
+			ft_strdup(tmp->right->str) : NULL;
+			return (0);
+		}
+		tmp = tmp->right;
 	}
 	return (0);
 }
 
-int         ft_history(t_ast **ast, t_env **env)
+int 		ft_history(t_ast **ast, t_env **env)
 {
 	int		opt;
 	int		offset;
-	char	**targ;
 	char	*arg;
 
 	(void)env;
 	opt = 0;
 	offset = 0;
 	arg = NULL;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
-	if ((targ = creat_arg_env(&(*ast)->left->right)) && parse_opt(targ, &opt,
-	&offset, &arg))
+	if ((*ast)->right)
+		io_seq(&(*ast)->right->right);
+	if ((*ast)->left->right && parse_opt(&(*ast)->left->right,
+	&arg, &opt, &offset))
 		return (0);
 	run_his(arg, opt, offset, (*his_slg())->n ? his_len(his_slg()) : 0);
 	return (1);

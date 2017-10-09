@@ -53,6 +53,8 @@ static int   buf_save(char **stack, char buf[], int *i, int type)
 	}
 	else
 		(*stack)[++(*i)] = !type ? buf[0] : 0;
+	if (type)
+		len = 512;
 	return (1);
 }
 

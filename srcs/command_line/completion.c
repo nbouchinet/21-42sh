@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:16:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/06 11:43:42 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 {
 	struct dirent	*rdd;
 	DIR				*dir;
-	int				i;
 
-	i = -1;
-	while (arr_path[++i])
+	while (*arr_path++)
 	{
-		if (!(dir = opendir(arr_path[i])))
-			return (1);
+		if (!(dir = opendir(*arr_path)))
+			continue ;
 		while ((rdd = readdir(dir)) != 0)
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
 			!check_comp(&cmdl->comp, rdd->d_name))
@@ -30,10 +28,11 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 				fill_comp(&cmdl->comp, rdd, 2, 0);
 		closedir(dir);
 	}
+	check_built_in(cmdl, tmp);
 	cmdl->comp ? cmdl->comp->bol = 1 : 0;
 	if (cmdl->comp)
 		return (display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)));
-	beep();
+	write(1, "\7", 1);
 	return (0);
 }
 
@@ -45,7 +44,10 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 
 	path = (*tmp ? get_path(tmp) : ft_strdup("."));
 	if (!(dir = opendir(path)))
+	{
+		ft_strdel(&path);
 		return ;
+	}
 	while ((rdd = readdir(dir)) != 0)
 		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
@@ -53,14 +55,11 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 			!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
 			fill_comp(&cmdl->comp, rdd, 2, 0);
 	closedir(dir);
-	free(path);
-	if (cmdl->comp)
-	{
-		cmdl->comp->bol = 1;
+	ft_strdel(&path);
+	if (cmdl->comp && (cmdl->comp->bol = 1))
 		display_comp(cmdl, &cmdl->comp, ft_strlen(*tmp));
-	}
 	else
-		beep();
+		write(1, "\7", 1);
 }
 
 static void		get_comp(t_cmdl *cmdl, int i)
@@ -81,26 +80,24 @@ static void		get_comp(t_cmdl *cmdl, int i)
 		cmdl->line.cur - cmdl->line.pr - i - (i ? 1 : 0));
 	else
 		tmp = NULL;
+	if (tmp && tmp[0] == '~' && tmp[1] == '/' && lst_at(&cmdl->lstenv, "HOME"))
+		tmp = ft_strjoinf(lst_at(&cmdl->lstenv, "HOME")->value,
+		ft_strdups(tmp + 1, &tmp), 2);
 	if (tmp && is_exec(cmdl))
 		list_exec(cmdl, tmp, path) ? 0 : list_files(cmdl, &tmp);
 	else
 		list_files(cmdl, &tmp);
-	if (tmp)
-		free(tmp);
-	ft_free(path, NULL, 1);
+	ft_free(path, tmp ? &tmp : NULL, tmp ? 3 : 1);
 }
 
 static int		only_space_comp(char *str)
 {
-	int		i;
-
-	i = -1;
-	while (str[++i])
-		if (str[i] != ' ')
+	while (*str)
+		if (*(++str) != ' ')
 			return (0);
 	write(1, "\033[1mRTFM\n", 9);
 	print_prompt();
-	return (1);
+	return (write(1, "\7", 1));
 }
 
 int				completion(t_cmdl *cmdl)
@@ -108,7 +105,7 @@ int				completion(t_cmdl *cmdl)
 	int		i;
 
 	if (cmdl->opt & CCP)
-		return (beep());
+		return (write(1, "\7", 1));
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->comp && (cmdl->opt & CCOMP))
 		return (c_move(&cmdl->comp));

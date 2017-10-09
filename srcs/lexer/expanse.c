@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/28 11:30:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/06 10:46:27 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ static int		check_expanse(char **str, t_env **env, int i)
 			else
 				return (1);
 		}
-		else if (i == 0 && (*str)[i] == '\\')
-			ft_strleft(str, (*str)[i]);
 		else
 			i++;
 	return (0);

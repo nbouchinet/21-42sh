@@ -18,7 +18,7 @@ int		up_dwn(t_cmdl *cmdl)
 	int		len;
 
 	if (cmdl->opt & (CCMODE | CCOMP | CHIS_S))
-		return (beep());
+		return (write(1, "\7", 1));
 	tmp = cmdl->line.co + 1;
 	len = ft_strlen(cmdl->line.str);
 	if (OPT_D(cmdl->line.buf) && cmdl->line.cur + cmdl->line.co - cmdl->line.pr
@@ -37,7 +37,7 @@ int		up_dwn(t_cmdl *cmdl)
 int		home(t_cmdl *cmdl)
 {
 	if (cmdl->opt & (CCMODE | CCOMP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (cmdl->line.str[0])
@@ -49,7 +49,7 @@ int		home(t_cmdl *cmdl)
 int		end(t_cmdl *cmdl)
 {
 	if (cmdl->opt & (CCMODE | CCOMP))
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (cmdl->line.str[0])
@@ -65,7 +65,7 @@ int		arrow_right(t_cmdl *cmdl)
 		return (return_cmdl(cmdl));
 	if ((!(cmdl->opt & CCOMP) && !cmdl->line.str[cmdl->line.cur - cmdl->line.pr]
 	) || cmdl->opt & CCMODE)
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 		return (c_arrow_right(&cmdl->comp));
 	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1 &&
@@ -92,7 +92,7 @@ int		arrow_left(t_cmdl *cmdl)
 		return (return_cmdl(cmdl));
 	if ((!(cmdl->opt & CCOMP) && cmdl->line.cur == cmdl->line.pr) ||
 	cmdl->opt & CCMODE)
-		return (beep());
+		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 		return (c_arrow_left(&cmdl->comp));
 	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1 &&

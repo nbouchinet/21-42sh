@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 14:23:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 17:30:18 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	tok_save(t_tok **lst, char **stack, int type)
 		(*lst)->type = LOCAL;
 	else
 		(*lst)->type = type;
-	if ((*lst)->type != QUOTE && (bs = ft_strchr((*lst)->str, '\\')) &&
-	*(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
+	if (!((*lst)->type & (QUOTE | DQUOTE)) && (bs = ft_strchr((*lst)->str, '\\'))
+	&& *(bs + 1) != '*' && *(bs + 1) != '$' && *(bs + 1) != ';' &&
 	*(bs + 1) != '<' && *(bs + 1) != '>' && *(bs + 1) != ' ')
 		ft_strleft(&(*lst)->str, '\\');
 	ft_memset(*stack, '\0', ft_strlen(*stack));
@@ -84,9 +84,7 @@ void	new_parser(t_tok **cmd, char *line)
 
 	i = 0;
 	tmp = *cmd;
-	if (!(stack = (char *)malloc(sizeof(char) * 100)))
-		exit (0);
-	ft_memset(stack, '\0', 100);
+	stack = ft_memalloc(100);
 	while (line[i])
 	{
 		j = -1;
