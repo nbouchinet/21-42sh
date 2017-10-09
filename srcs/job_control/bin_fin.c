@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 02:35:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:37:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 19:02:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env	*find_node(t_env **env, char *var, char *value)
 		while (tmp && ft_strcmp(tmp->value, value) != 0)
 			tmp = tmp->next;
 	return (tmp);
-}
+} // 1
 
 int		count_arg_node(t_ast **ast)
 {
@@ -42,7 +42,7 @@ int		count_arg_node(t_ast **ast)
 		}
 	}
 	return (i);
-}
+} // 0
 
 int		find_bin(t_ast **ast)
 {
@@ -56,7 +56,7 @@ int		find_bin(t_ast **ast)
 	}
 	free(dir);
 	return (0);
-}
+} // 0
 
 int		find_cmd_bin(t_ast **ast, char **path)
 {

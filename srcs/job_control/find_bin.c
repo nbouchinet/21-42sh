@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 20:26:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 19:14:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int		print_error(int err, char *str)
 	else if (err == -2)
 		ft_errormsg("42sh: ", NULL, "Path's value not set.");
 	else if (err == -3)
-		ft_errormsg("42sh: ", str, ": Command not found.");
+		ft_errormsg("42sh: ", str ? str : NULL, ": Command not found.");
 	else if (err == 1)
 		return (1);
 	return (0);
-}
+} // 1
 
 int		check_type_bin(t_ast **ast, t_env **env)
 {
@@ -45,26 +45,34 @@ int		check_abs_bin(char *str)
 				return (1);
 		return (-3);
 	}
-	else
-		perror("lstat ");
 	return (0);
-}
+} // 1
+
+int			isnt_dot(char *file, char *str)
+{
+	if (!ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
+		return (0);
+	else if (!ft_strcmp(file, str))
+		return (1);
+	return (0);
+} // 1
 
 int		check_file(DIR *dir, char *directory, char **str)
 {
 	struct dirent	*file;
 
 	while ((file = readdir(dir)))
-	{
-		if (!ft_strcmp(file->d_name, *str))
+		if (isnt_dot(file->d_name, *str))
 		{
 			ft_strdel(str);
 			*str = ft_strjoin(directory, "/");
 			*str = ft_strjoinf(*str, file->d_name, 1);
-			closedir(dir);
-			return (1);
+			if (check_abs_bin(*str) == 1)
+			{
+				closedir(dir);
+				return (1);
+			}
 		}
-	}
 	closedir(dir);
 	return (0);
 }
@@ -115,7 +123,8 @@ int		nbr_arg(t_ast **ast)
 		}
 	}
 	return (i);
-}
+} // 1
+
 char	**creat_argv(t_ast **ast)
 {
 	int		i;

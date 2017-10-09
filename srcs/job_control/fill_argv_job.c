@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:36:34 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:36:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 19:01:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		new_abs_cmd(t_ast **ast)
 	if (find_bin(&tmp->left) == 1)
 		return (1);
 	return (ft_errormsg("42sh: ", tmp->left->str, ": Command not found."));
-}
+} // 0
 
 int		new_rlt_cmd(t_ast **ast, t_env **env)
 {
@@ -49,7 +49,7 @@ int		new_rlt_cmd(t_ast **ast, t_env **env)
 	if (i == 0 && (e_n && !e_n->value))
 		return (ft_errormsg("42sh: ", NULL, "PATH not set."));
 	return (1);
-}
+} // 0
 
 int		rlt_ou_abs(t_ast **ast, t_env **env)
 {
@@ -64,7 +64,7 @@ int		rlt_ou_abs(t_ast **ast, t_env **env)
 			return (new_rlt_cmd(&tmp, env));
 	}
 	return (0);
-}
+} // 0
 
 char	**creat_arg_process(t_ast **ast, t_env **env)
 {
@@ -76,4 +76,4 @@ char	**creat_arg_process(t_ast **ast, t_env **env)
 	if (rlt_ou_abs(ast, env) == 1)
 		argv = creat_arg(&tmp->right, tmp->left->str);
 	return (argv);
-}
+} // not used

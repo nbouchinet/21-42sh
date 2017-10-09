@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 17:13:52 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 14:59:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 18:58:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**creat_arg_env(t_ast **ast)
 	if (!*ast)
 		return (NULL);
 	tmp = *ast;
-	i = count_arg_node(&tmp);
+	i = nbr_arg(&tmp);
 	if (!(arg = (char**)malloc(sizeof(char*) * (i + 1))))
 		return (NULL);
 	j = 0;

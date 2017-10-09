@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 19:02:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 17:40:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,13 @@ int		job_ast(t_ast **ast, t_env **env, int foreground)
 		while (++i < 5)
 			if (seq[i].type == tmp->type)
 				if (!seq[i].f(&tmp, env, foreground))
-				{
-					ft_putendl("ERROR");
 					j = 0;
-				}
 		tmp = tmp->right;
 	}
 	return (j);
 }
 
-int			job_cmd_seq(t_ast **ast, t_env **env, int foreground)
+int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_job				*job;
@@ -68,27 +65,17 @@ int		return_exec(int status)
 	t_cmdl	*cmdl;
 
 	cmdl = *cmdl_slg();
-	ft_putnbrl(status);
-	if (WIFSTOPPED(status) && (WSTOPSIG(status) == SIGTSTP))
-	{
-		cmdl->ret = status;
-		return (1);
-	}
-	else if (WTERMSIG(status) == SIGINT)
-	{
-		cmdl->ret = status;
-		return (0);
-	}
-	else if (WIFEXITED(status) && !WEXITSTATUS(status))
-	{
-		cmdl->ret = status;
-		return (1);
-	}
 	cmdl->ret = status;
+	if (WIFSTOPPED(status) && (WSTOPSIG(status) == SIGTSTP))
+		return (1);
+	else if (WTERMSIG(status) == SIGINT)
+		return (0);
+	else if (WIFEXITED(status) && !WEXITSTATUS(status))
+		return (1);
 	return (0);
 }
 
-int			exec_job(t_job **job, t_env **env, int foreground)
+int		exec_job(t_job **job, t_env **env, int foreground)
 {
 	int		status;
 

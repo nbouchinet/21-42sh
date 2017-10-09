@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:34:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 21:49:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 19:15:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 
 	i = 0;
 	tmp = *ast;
+	new_ast = NULL;
 	tok = NULL;
 	if ((cmd = recreat_cmd(&tmp)))
 	{
@@ -119,10 +120,12 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);
 		delete_lst(&tok);
-		if ((new_ast->left->left->type == CMD_NAME_ABS ?
-			find_bin(&new_ast->left->left) :
-				find_rlt(&new_ast->left->left, r_env)) == 1)
+		if ((i = check_type_bin(&(new_ast)->left, r_env)) == 1)
+		{
+			new_ast->left->left->type = CMD_NAME_ABS;
 			i = job_ast(&new_ast, env, 1);
+		}
+		print_error(i, new_ast->left->left->str);
 		destroy_ast(&new_ast);
 	}
 	return (i);

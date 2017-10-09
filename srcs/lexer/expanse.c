@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/28 11:30:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/09 18:02:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	beg = ft_strndup(str, s);
 	end = ft_strdup(str + (s + len));
 	var = ft_strsub(str, s + 1, len - 1);
-	if ((var_env = find_node(env, var, NULL)))
+	if (var && (var_env = find_node(env, var, NULL)))
 		beg = ft_strjoinf(beg, var_env->value, 1);
 	else if ((tmp = find_local(local_slg(0), var)))
 		beg = ft_strjoinf(beg, tmp->val, 1);
