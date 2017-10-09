@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 16:35:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/09 17:08:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,42 +164,35 @@ void	check_rdir(t_tok **lst, t_tok **start, t_tok **next)
 	t_tok	*sub;
 	t_tok	*sub_end;
 
-	tmp = *start;
-	while (tmp)
+	tmp = *next;
+	if (tmp->type & IO_N)
 	{
-		if (tmp->type == IO_N)
-		{
-			if (tmp->n && tmp->n->type == CHEVRON)
-				if (tmp->n->n && tmp->n->n->type == WORD)
-					if (tmp->n->n->n && tmp->n->n->n->type == WORD)
-					{
-						sub = tmp->n->n->n;
-						tmp2 = tmp->n->n->n;
-						while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
-							tmp2 = tmp2->n;
-						sub_end = tmp2;
-						replace_tok(start ? start : next, next, &sub, &sub_end);
-						break ;
-					}
-		}
-		else if (tmp->type == CHEVRON)
-		{
-			if (tmp->n && tmp->n->type == WORD)
-				if (tmp->n->n && tmp->n->n->type == WORD)
+		if (tmp->n && tmp->n->type == CHEVRON)
+			if (tmp->n->n && tmp->n->n->type == WORD)
+				if (tmp->n->n->n && tmp->n->n->n->type == WORD)
 				{
-					sub = tmp->n->n;
-					tmp2 = tmp->n->n;
-					while (tmp2 && tmp2->n && (tmp2->n->type == WORD || tmp2->n->type == LOCAL))
+					sub = tmp->n->n->n;
+					tmp2 = tmp->n->n->n;
+					while (tmp2 && tmp2->n && (tmp2->n->type & ((WORD | LOCAL))))
 						tmp2 = tmp2->n;
 					sub_end = tmp2;
-					if (*lst == *next)
-						*lst = sub;
-					replace_tok(start, next, &sub, &sub_end);
-					break ;
-
+					replace_tok(start ? start : next, next, &sub, &sub_end);
 				}
-		}
-		tmp = tmp->n;
+	}
+	else if (tmp->type == CHEVRON)
+	{
+		if (tmp->n && tmp->n->type == WORD)
+			if (tmp->n->n && tmp->n->n->type == WORD)
+			{
+				sub = tmp->n->n;
+				tmp2 = tmp->n->n;
+				while (tmp2 && tmp2->n && (tmp2->n->type & (WORD | LOCAL)))
+					tmp2 = tmp2->n;
+				sub_end = tmp2;
+				if (*lst == *next)
+					*lst = sub;
+				replace_tok(start, next, &sub, &sub_end);
+			}
 	}
 }
 
@@ -214,7 +207,7 @@ void	restruct_lst(t_tok **lst)
 		tmp = *lst;
 		while (tmp)
 		{
-			if (tmp && (tmp->type == CHEVRON || tmp->type == IO_N))
+			if (tmp && (tmp->type & (CHEVRON | IO_N)))
 				check_rdir(lst, &prev, &tmp);
 			prev = tmp;
 			tmp = tmp->n;

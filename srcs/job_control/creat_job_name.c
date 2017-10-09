@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   creat_job.c                                        :+:      :+:    :+:   */
+/*   creat_job_name.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:16:05 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:19:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/09 17:15:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,9 @@ char	*init_pipe_job(t_ast **ast)
 	while (tmp && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 	{
 		if (tmp->type == PIPE)
-			cmd = !cmd ? init_job_name(&tmp->left) :
-					ft_strjoinf(cmd, (get = init_job_name(&tmp->left)), 1);
+			cmd = !cmd ? init_job_name(&tmp->left) : ft_strjoinf(cmd, init_job_name(&tmp->left), 3);
 		else if (tmp->type == CMD_SEQ)
-			cmd = ft_strjoinf(cmd,
-			(get = init_job_name(&tmp)), 1);
+			cmd = ft_strjoinf(cmd, init_job_name(&tmp), 3);
 		if ((tmp = tmp->right) && (tmp->type == PIPE || tmp->type == CMD_SEQ))
 			cmd = ft_strjoinf(cmd, " | ", 1);
 	}
