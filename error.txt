@@ -1,13 +1,46 @@
-/bin/echo lol 1> &  /dev/null -> need syntax error near token `&'
+/bin/echo lol 1> &  /dev/null -> need syntax error near token `&' (do not leaks)
 
-cd -; pwd -> print only one /tmp instead of two
+cd -; pwd -> print only one /tmp instead of two (do not leaks)
 
-<custom>setenv SWAGG_VAR SWAGG_VAL
-have to print : custom: No such file or directory
+<custom>setenv SWAGG_VAR SWAGG_VAL -> have to print : custom: No such file or directory
+(do leaks):
+{
+		leaks Report Version:  2.0
+	Process 18739: 543 nodes malloced for 45 KB
+	Process 18739: 4 leaks for 96 total leaked bytes.
+	Leak: 0x7f98a1c05de0  size=16  zone: DefaultMallocZone_0x10bbd8000  length: 1  ">"
+	Leak: 0x7f98a1c05e60  size=16  zone: DefaultMallocZone_0x10bbd8000  length: 6  "setenv"
+	Leak: 0x7f98a1c063c0  size=32  zone: DefaultMallocZone_0x10bbd8000
+		0xa1c05de0 0x00007f98 0x00000010 0x00000000 	.]..............
+		0xa1c063e0 0x00007f98 0x00000000 0x00000000 	.c..............
+	Leak: 0x7f98a1c063e0  size=32  zone: DefaultMallocZone_0x10bbd8000
+		0xa1c05e60 0x00007f98 0x00000100 0x00000000 	`^..............
+		0xa1c06400 0x00007f98 0x00000000 0x00000000 	.d..............
+}
 
-TATA=toto alone segfault
+TATA=toto -> (do leaks):
+{
+	leaks Report Version:  2.0
+	Process 18983: 541 nodes malloced for 45 KB
+	Process 18983: 1 leak for 112 total leaked bytes.
+	Leak: 0x7fa0b35000e0  size=112  zone: DefaultMallocZone_0x100b8e000
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+		0x00000000 0x00000000 0x00000000 0x00000000 	................
+}
 
-Those 4 commands creat leaks.
+ls | ls | ls -> (do leaks)
+{
+	leaks Report Version:  2.0
+	Process 19119: 540 nodes malloced for 45 KB
+	Process 19119: 1 leak for 16 total leaked bytes.
+	Leak: 0x7fbea4e00290  size=16  zone: DefaultMallocZone_0x107962000  length: 2  "ls"
+}
+
 
 cd /; cd -; cd /; cd ../; cd; -> syntax error near `;'
 
