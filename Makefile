@@ -67,6 +67,7 @@ CFILES= 		main.c \
 				command_line/arrows_fucn2.c \
 				command_line/bang.c \
 				command_line/bang_parse.c \
+				command_line/bang_check_ed.c \
 				command_line/bang_sub.c \
 				command_line/clear.c \
 				command_line/ccp.c \

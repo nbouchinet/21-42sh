@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/21 16:05:05 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 13:06:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:58:27 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 			ft_padd_x(t_comp **comp, int *len, int i)
+static void		ft_padd_x(t_comp **comp, int *len, int i)
 {
 	t_comp		*tmp;
 	int			save;
@@ -37,7 +37,7 @@ static void 			ft_padd_x(t_comp **comp, int *len, int i)
 	}
 }
 
-static int	comp_len(t_comp **comp)
+static int		comp_len(t_comp **comp)
 {
 	t_comp		*tmp;
 	int			len;
@@ -52,7 +52,7 @@ static int	comp_len(t_comp **comp)
 	return (len);
 }
 
-static int get_nbr_col(t_cmdl *cmdl, t_comp **comp, size_t *winsize)
+static int		get_nbr_col(t_cmdl *cmdl, t_comp **comp, size_t *winsize)
 {
 	t_comp	*tmp;
 	int		len;
@@ -78,7 +78,7 @@ static int get_nbr_col(t_cmdl *cmdl, t_comp **comp, size_t *winsize)
 	return (col);
 }
 
-void 		call_print_lst(t_cmdl *cmdl, t_comp **comp)
+void			call_print_lst(t_cmdl *cmdl, t_comp **comp)
 {
 	size_t		winsize;
 	int			nbr_col;
@@ -104,7 +104,7 @@ void 		call_print_lst(t_cmdl *cmdl, t_comp **comp)
 	}
 }
 
-void 		call_completion_edit(t_cmdl *cmdl, t_comp **comp, int offset)
+void			call_completion_edit(t_cmdl *cmdl, t_comp **comp, int offset)
 {
 	while ((int)ft_strlen(cmdl->line.str) +
 		(int)ft_strlen((*comp)->str + offset) >= (cmdl->line.len - 1))

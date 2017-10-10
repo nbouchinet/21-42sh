@@ -75,7 +75,7 @@ static void	   print_and_del(char **str, int w)
 {
 	if (!w)
 	{
-		ft_printf("%@42sh %s%@", H_BLUE, *str, I);
+		ft_printf("%@42sh: %s%@", H_BLUE, *str, I);
 		ft_strdel(str);
 	}
 	else

@@ -26,21 +26,18 @@ static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl)
 	return (p[0]);
 }
 
-void	creat_file(t_tok **lst)
+void			creat_file(t_tok **lst)
 {
 	int		fd;
 
 	if (!io_number((*lst)->n->str))
-	{
-		if ((fd = open((*lst)->n->str, ((*lst)->type == RRDIR ? O_APPEND : O_TRUNC)
-			| O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) != -1)
-		{
+		if ((fd = open((*lst)->n->str, ((*lst)->type == RRDIR ? O_APPEND :
+		O_TRUNC) | O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH))
+		!= -1)
 			close(fd);
-		}
-	}
 }
 
-int		heredoc(t_tok **lst)
+int				heredoc(t_tok **lst)
 {
 	t_tok	*tmp;
 	t_cmdl	*cmdl;

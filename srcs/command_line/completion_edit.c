@@ -6,13 +6,29 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 18:05:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 11:46:47 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 19:01:59 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static t_comp  *fill_builtin(t_comp **comp, char *builin)
+void			comp_del(t_comp **head)
+{
+	t_comp		*tmp;
+	t_comp		*save;
+
+	tmp = *head;
+	while (tmp)
+	{
+		save = tmp->n;
+		free(tmp->str);
+		free(tmp);
+		tmp = save;
+	}
+	*head = NULL;
+}
+
+static t_comp	*fill_builtin(t_comp **comp, const char *builin)
 {
 	t_comp	*tmp;
 	t_comp	*stock;
@@ -38,10 +54,10 @@ static t_comp  *fill_builtin(t_comp **comp, char *builin)
 	return (tmp);
 }
 
-void 	check_built_in(t_cmdl *cmdl, char *tmp)
+void			check_built_in(t_cmdl *cmdl, char *tmp)
 {
-	char	*builtin[5] = {"setenv", "unsetenv", "history", "hash", "env"};
-	int		i;
+	const char	*builtin[5] = {"setenv", "unsetenv", "history", "hash", "env"};
+	int			i;
 
 	i = -1;
 	while (++i < 5)
@@ -52,7 +68,8 @@ void 	check_built_in(t_cmdl *cmdl, char *tmp)
 	}
 }
 
-void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
+void			completion_edit(t_line *line, t_comp **comp, char *tmp,
+			int offset)
 {
 	if (!(tmp = ft_strdup(line->str + (line->cur - line->pr))))
 	{
@@ -80,7 +97,7 @@ void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 	}
 }
 
-void 	restor_cursor_position(t_cmdl *cmdl, int up)
+void			restor_cursor_position(t_cmdl *cmdl, int up)
 {
 	int		save;
 	int		nd;

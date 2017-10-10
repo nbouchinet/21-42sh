@@ -6,22 +6,24 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 10:32:50 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/14 10:33:01 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:51:05 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void process_mod(t_bang *bang, char *ptr)
+static void	process_mod(t_bang *bang, char *ptr)
 {
 	char	**arr;
 	int		i;
 
-	bang->mod & HB && (ptr = ft_strchr(bang->tmp, '/')) ? *ptr = 0 : 0;
-	bang->mod & RB && (ptr = ft_strchr(bang->tmp, '.')) ? *ptr = 0 : 0;
+	bang->mod & HB && (ptr = ft_strchr(bang->tmp, '/')) ?
+	*ptr = 0 : 0;
+	bang->mod & RB && (ptr = ft_strchr(bang->tmp, '.')) ?
+	*ptr = 0 : 0;
 	bang->mod & QB ? (bang->tmp) = ft_strjoinf(ft_strjoinf("\'", bang->tmp, 2),
 	"\'", 1) : 0;
-	bang->mod & PB ? write(1, bang->tmp, ft_strlen(bang->tmp)): 0;
+	bang->mod & PB ? write(1, bang->tmp, ft_strlen(bang->tmp)) : 0;
 	if (bang->mod & TB && (ptr = ft_strchr(bang->tmp, '/')) && *(ptr + 1))
 		bang->tmp = ft_strdups(ptr + 1, &bang->tmp);
 	if (bang->mod & EB && (ptr = ft_strchr(bang->tmp, '.')))
@@ -39,7 +41,7 @@ static void process_mod(t_bang *bang, char *ptr)
 	}
 }
 
-static void process_des_and_mod(t_bang *bang, char *match[])
+static void	process_des_and_mod(t_bang *bang, char *match[])
 {
 	if (bang->mod & 128)
 	{

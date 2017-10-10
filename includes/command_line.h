@@ -342,6 +342,8 @@ typedef struct		s_bang
 void 				fill_buf(t_bang *bang, char **cmd, int *i);
 int					bang(char *str);
 int					bang_parse(char *sub, t_bang *bang);
+int					bang_error(char *sub, char **opt);
+int 				bang_range(t_bang *bang, char *edit, char *ptr, int max_arg);
 int					bang_sub(t_bang *bang);
 int					check_ed(t_bang *bang, int his_len,
 	 int match_len, int w);

@@ -6,31 +6,15 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/17 18:55:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/17 18:55:15 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:05:10 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void 	comp_del(t_comp **head)
+int			c_move(t_comp **comp)
 {
-	t_comp 		*tmp;
-	t_comp		*save;
-
-	tmp = *head;
-	while (tmp)
-	{
-		save = tmp->n;
-		free(tmp->str);
-		free(tmp);
-		tmp = save;
-	}
-	*head = NULL;
-}
-
-int		c_move(t_comp **comp)
-{
-	t_comp 		*tmp;
+	t_comp		*tmp;
 
 	tmp = *comp;
 	if (!tmp)
@@ -46,9 +30,9 @@ int		c_move(t_comp **comp)
 	return (1);
 }
 
-int		c_arrow_left(t_comp **comp)
+int			c_arrow_left(t_comp **comp)
 {
-	t_comp 		*tmp;
+	t_comp		*tmp;
 
 	tmp = *comp;
 	if (!tmp)
@@ -68,7 +52,7 @@ int		c_arrow_left(t_comp **comp)
 	return (1);
 }
 
-int		c_arrow_right(t_comp **comp)
+int			c_arrow_right(t_comp **comp)
 {
 	t_comp		*tmp;
 
@@ -86,9 +70,9 @@ int		c_arrow_right(t_comp **comp)
 	return (1);
 }
 
-int		c_arrow_up(t_comp **comp)
+int			c_arrow_up(t_comp **comp)
 {
-	t_comp 		*tmp;
+	t_comp		*tmp;
 	int			elem_per_line;
 
 	tmp = *comp;
@@ -107,9 +91,9 @@ int		c_arrow_up(t_comp **comp)
 	return (1);
 }
 
-int		c_arrow_down(t_comp **comp)
+int			c_arrow_down(t_comp **comp)
 {
-	t_comp 		*tmp;
+	t_comp		*tmp;
 	int			elem_per_line;
 
 	tmp = *comp;

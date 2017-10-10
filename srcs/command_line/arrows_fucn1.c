@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 15:59:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:15:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:25:05 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,12 @@ int		end(t_cmdl *cmdl)
 	return (1);
 }
 
-
 int		arrow_right(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
-	if ((!(cmdl->opt & CCOMP) && !cmdl->line.str[cmdl->line.cur - cmdl->line.pr]
-	) || cmdl->opt & CCMODE)
+	if ((!(cmdl->opt & CCOMP) &&
+	!cmdl->line.str[cmdl->line.cur - cmdl->line.pr]) || cmdl->opt & CCMODE)
 		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 		return (c_arrow_right(&cmdl->comp));
@@ -75,7 +74,7 @@ int		arrow_right(t_cmdl *cmdl)
 	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr), 1);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
-	cmdl->line.cur += 1;
+	cmdl->line.cur++;
 	if (cmdl->line.cur % cmdl->line.co == 0)
 		tputs(tgetstr("do", NULL), 1, ft_putchar);
 	else
@@ -103,13 +102,11 @@ int		arrow_left(t_cmdl *cmdl)
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	if (cmdl->line.cur % cmdl->line.co == 0)
-	{
 		while (++i < cmdl->line.co)
 			tputs(tgetstr("nd", NULL), 1, ft_putchar);
-		tputs(tgetstr("up", NULL), 1, ft_putchar);
-	}
 	else
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
-	cmdl->line.cur -= 1;
+	(cmdl->line.cur-- % cmdl->line.co == 0) ?
+	tputs(tgetstr("up", NULL), 1, ft_putchar) : 0;
 	return (1);
 }
