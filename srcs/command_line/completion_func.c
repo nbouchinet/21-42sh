@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 11:26:00 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 19:03:10 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	insert(t_comp **comp, t_comp *lnk, int i)
+void		insert(t_comp **comp, t_comp *lnk, int i)
 {
 	t_comp	*tmp;
 	t_comp	*save;
@@ -37,7 +37,7 @@ void	insert(t_comp **comp, t_comp *lnk, int i)
 	}
 }
 
-t_comp 		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
+t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 {
 	t_comp	*tmp;
 	t_comp	*stock;

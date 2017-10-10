@@ -34,6 +34,7 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 static char		*construct_path(t_env **env, char *save, char *path)
 {
 	char		*np;
+	char		*ptr;
 	char		**array;
 	char		**save_array;
 
@@ -48,7 +49,15 @@ static char		*construct_path(t_env **env, char *save, char *path)
 	while (*array)
 	{
 		if (!ft_strcmp(*array, ".."))
-			*ft_strrchr(np, '/') = 0;
+		{
+			if ((ptr = ft_strrchr(np, '/')))
+				*ptr = 0;
+			else
+			{
+				ft_free(save_array, NULL, 1);
+				return ("/");
+			}
+		}
 		else if (ft_strcmp(*array, ".") && ft_strcmp(*array, "-"))
 		{
 			np = np ? ft_strjoinf(np, "/", 1) : ft_strjoin(np, "/");
@@ -64,7 +73,6 @@ static void		mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
 
-	ft_putendl(path);
 	if ((tmp = lst_at(env, "OLDPWD")))
 		ft_strdel(&tmp->value);
 	else

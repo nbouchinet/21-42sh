@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 16:59:26 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 11:39:16 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:57:29 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 			get_elem_per_line(t_cmdl *cmdl, t_comp **comp,
+static void		get_elem_per_line(t_cmdl *cmdl, t_comp **comp,
 	size_t winsize, size_t len)
 {
 	int		col;
@@ -32,7 +32,7 @@ static void 			get_elem_per_line(t_cmdl *cmdl, t_comp **comp,
 	cmdl->col = col;
 }
 
-void 	print_comp(t_comp **comp)
+void			print_comp(t_comp **comp)
 {
 	t_comp	*tmp;
 
@@ -44,7 +44,7 @@ void 	print_comp(t_comp **comp)
 	}
 }
 
-void 	print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize, int *up)
+void			print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize, int *up)
 {
 	t_comp		*tmp;
 	int			len;
@@ -73,7 +73,7 @@ void 	print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize, int *up)
 	}
 }
 
-int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
+int				display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 {
 	cmdl->opt |= CCOMP;
 	cmdl->offset == -1 ? cmdl->offset = offset : 0;
@@ -86,7 +86,7 @@ int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 	return (1);
 }
 
-int					check_comp(t_comp **head, char *name)
+int				check_comp(t_comp **head, char *name)
 {
 	t_comp		*tmp;
 

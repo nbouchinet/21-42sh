@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 11:09:42 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 11:09:52 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:53:06 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void comp_mode(t_cmdl *cmdl, int save)
+static void	comp_mode(t_cmdl *cmdl, int save)
 {
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
@@ -21,7 +21,7 @@ static void comp_mode(t_cmdl *cmdl, int save)
 	display_comp(cmdl, &cmdl->comp, cmdl->offset);
 }
 
-static void his_mode(t_cmdl *cmdl)
+static void	his_mode(t_cmdl *cmdl)
 {
 	char	*match;
 

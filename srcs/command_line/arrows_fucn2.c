@@ -14,7 +14,7 @@
 
 int			opt_left(t_cmdl *cmdl)
 {
-	if (cmdl->opt & (CCMODE |  CCOMP))
+	if (cmdl->opt & (CCMODE | CCOMP))
 		return (write(1, "\7", 1));
 	if (cmdl->opt & CHIS_S)
 		return (1);

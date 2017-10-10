@@ -6,33 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 18:37:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 18:37:10 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:32:19 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int			check_ed(t_bang *bang, int his_len, int match_len, int w)
-{
-	if (!w)
-	{
-		if (bang->n && (bang->n < 0 ? -bang->n : bang->n) > his_len)
-			return (fd_printf(2, "\n42sh: !%d: no such event", bang->n));
-	}
-	else
-	{
-		if (bang->des != -1 > match_len)
-			return (fd_printf(2, "\n42sh: !%d: bad word specifier", bang->des));
-		else if ((bang->x > match_len || bang->y > match_len) && bang->y > 0)
-			return (fd_printf(2, "\n42sh: !%d-%d: bad word specifier", bang->x,
-			bang->y));
-		else if ((bang->x > match_len) && bang->y < 0)
-			return (fd_printf(2, "\n42sh: !%d-: bad word specifier", bang->x));
-	}
-	return (0);
-}
-
-static int qsub_error(t_bang *bang, char **qsub)
+static int		qsub_error(t_bang *bang, char **qsub)
 {
 	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2);
 	ft_free(qsub, &bang->tmp, 3);
@@ -41,7 +21,7 @@ static int qsub_error(t_bang *bang, char **qsub)
 	return (1);
 }
 
-static void quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
+static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 {
 	char			**qsub;
 	int				j;
@@ -70,7 +50,7 @@ static void quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 	ft_free(qsub, NULL, 1);
 }
 
-void 		fill_buf(t_bang *bang, char **cmd, int *i)
+void			fill_buf(t_bang *bang, char **cmd, int *i)
 {
 	char			*sub;
 	int				len_cmd;
@@ -96,7 +76,7 @@ void 		fill_buf(t_bang *bang, char **cmd, int *i)
 	ft_strdel(&bang->tmp);
 }
 
-static char *get_bang(int *i, char *cmd, t_bang *bang)
+static char		*get_bang(int *i, char *cmd, t_bang *bang)
 {
 	int		start;
 	int		end;
@@ -121,7 +101,7 @@ static char *get_bang(int *i, char *cmd, t_bang *bang)
 	return (ft_strsub(cmd, start, end - start));
 }
 
-int			bang(char *cmd)
+int				bang(char *cmd)
 {
 	int		i;
 	int		ret;

@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 13:58:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 13:58:25 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:21:44 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void			hd_signal(t_cmdl *cmdl)
 	}
 }
 
-int		next_hd(t_tok **tok)
+int				next_hd(t_tok **tok)
 {
 	t_tok	*tmp;
 
@@ -50,9 +50,9 @@ int		next_hd(t_tok **tok)
 	return (0);
 }
 
-int		hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
+int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 {
-	int 	i;
+	int		i;
 
 	while (1)
 	{
@@ -72,7 +72,7 @@ int		hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 		else if (CTRL_L(cmdl->line.buf))
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
-				break ;
+			break ;
 		else if (i == 23)
 			print(cmdl, cmdl->line.buf);
 	}

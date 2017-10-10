@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 18:21:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 10:39:10 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:46:58 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ static int	get_modifiers(char *event, t_bang *bang)
 	event[0] == 'q' ? bang->mod |= QB : 0;
 	event[0] == 'x' ? bang->mod |= XB : 0;
 	if (!ft_strchr("htrepqx", event[0]))
+	{
 		return (fd_printf(2, "\n42sh: %c: unrecognized history modifier",\
 		event[0]));
+	}
 	return (0);
 }
 
 static int	get_designators(char *event, t_bang *bang, int max_arg)
 {
-	char	**range;
 	char	*ptr;
 
 	if (event[0] >= '0' && event[0] <= '9' && !ft_strchr(event, '-') &&
@@ -39,27 +40,8 @@ static int	get_designators(char *event, t_bang *bang, int max_arg)
 		bang->des = event[0] == '^' ? 1 : max_arg;
 	else if ((ptr = ft_strchr(event, '-')))
 	{
-		range = ft_strsplit(event, '-');
-		if ((range[0] && (range[0][0] < '0' || range[0][0] > '9')) || (range[1] &&
-		(range[1][0] < '0' || range[1][0] > '9')))
-			return (fd_printf(2, "\n42sh: %s%@%@: invalid length specifier",
-			range[0], range[1] ? "-" : "", range[1] ? range[1] : ""));
-		if (ptr && *(ptr + 1) == 0)
-		{
-			bang->x = ft_atoi(range[0]);
-			bang->y = max_arg - 1;
-		}
-		else if (ptr && ptr == event)
-		{
-			bang->x = 0;
-			bang->y = ft_atoi(range[0]);
-		}
-		else
-		{
-			bang->x = ft_atoi(range[0]);
-			bang->y = ft_atoi(range[1]);
-		}
-		ft_free(range, NULL, 1);
+		if (bang_range(bang, event, ptr, max_arg))
+			return (1);
 	}
 	else if (ft_strchr(event, '*'))
 	{
@@ -72,7 +54,7 @@ static int	get_designators(char *event, t_bang *bang, int max_arg)
 	return (0);
 }
 
-static int		ft_nbr_words(char const *s, char c)
+static int	ft_nbr_words(char const *s, char c)
 {
 	int		i;
 	int		nbr;
@@ -120,14 +102,7 @@ static int	get_event(char *event, t_bang *bang)
 	return (0);
 }
 
-static int	bang_error(char *sub, char **opt)
-{
-	fd_printf(2, "\n42sh: %s: event not found", sub[0] == '^' ? sub : opt[0]);
-	ft_free(opt, &sub, 1);
-	return (1);
-}
-
-int		bang_parse(char *sub, t_bang *bang)
+int			bang_parse(char *sub, t_bang *bang)
 {
 	t_his		*his;
 	char		**opt;

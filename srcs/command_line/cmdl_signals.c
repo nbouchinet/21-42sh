@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 13:26:17 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 14:55:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:53:37 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	handle_ctrlc(t_cmdl *cmdl)
+static void		handle_ctrlc(t_cmdl *cmdl)
 {
 	char	*tmp;
 
@@ -31,7 +31,7 @@ static void 	handle_ctrlc(t_cmdl *cmdl)
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		while ((int)ft_strlen(cmdl->line.save) > cmdl->line.len)
 			remalloc_cmdl(&cmdl->line);
-		cmdl->line.str = ft_strcpy(cmdl->line.str,cmdl->line.save);
+		cmdl->line.str = ft_strcpy(cmdl->line.str, cmdl->line.save);
 		cmdl->line.str = ft_strcat(cmdl->line.str, tmp);
 		ft_strdel(&tmp);
 	}

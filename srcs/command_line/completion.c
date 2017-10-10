@@ -51,9 +51,9 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 	while ((rdd = readdir(dir)) != 0)
 		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
-		if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
-			!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
-			fill_comp(&cmdl->comp, rdd, 2, 0);
+			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
+				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
+				fill_comp(&cmdl->comp, rdd, 2, 0);
 	closedir(dir);
 	ft_strdel(&path);
 	if (cmdl->comp && (cmdl->comp->bol = 1))
