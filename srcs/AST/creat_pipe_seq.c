@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/08 12:51:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:45:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,41 +45,6 @@ void			pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	}
 }
 
-int				valid_local(t_tok **lst, t_tok **sep)
-{
-	t_tok	*tmp;
-
-	if (*lst)
-	{
-		tmp = *lst;
-		while (tmp && tmp != *sep)
-		{
-			if (tmp->type != LOCAL)
-			{
-				// ft_putendl(tmp->str);
-				return (0);
-			}
-			tmp = tmp->n;
-		}
-	}
-	return (1);
-}
-
-t_tok	*stock_local(t_tok **lst, t_tok **sep, int i)
-{
-	t_tok	*tmp;
-
-	tmp = *lst;
-	while (tmp && (tmp->type & LOCAL) && tmp != *sep)
-	{
-		ft_putendl("+-");
-		if (i)
-			local(tmp->str);
-		tmp = tmp->n;
-	}
-	return (tmp);
-}
-
 void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
@@ -87,22 +52,10 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 
 	tmp = *lst;
 	tmp_ast = *ast;
-	if (tmp != *sep && !(tmp->type & (RDIR | BDIR | RRDIR | BBDIR | AGRE | BGRE)))
-	{
-		if (valid_local(&tmp, sep))
-		{
-			stock_local(&tmp, sep, 1);
+	if (tmp != *sep &&
+		!(tmp->type & (RDIR | BDIR | RRDIR | BBDIR | AGRE | BGRE)))
+		if (!(tmp = valid_arg(&tmp, &tmp_ast, sep)))
 			return ;
-		}
-		else
-			if ((tmp = stock_local(&tmp, sep, 0)) == *sep)
-				return ;
-		if (ft_strchr(tmp->str, '/'))
-			init_ast(&tmp_ast->left, &tmp, CMD_NAME_ABS);
-		else
-			init_ast(&tmp_ast->left, &tmp, CMD_NAME_RLT);
-		tmp = tmp->n;
-	}
 	while (tmp != *sep)
 	{
 		init_ast(&tmp_ast->right, &tmp, CMD_ARG);

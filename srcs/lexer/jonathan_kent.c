@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 10:48:33 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 18:28:52 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 {
 	int		type;
 	char	quote;
-	quote = line[(*i)++];
 
+	quote = line[(*i)++];
 	if (ft_strlen(*stack) > 0)
 		type = WORD;
 	else
-		type = (quote == '\'' ? QUOTE : DQUOTE); //TODO
+		type = (quote == '\'' ? QUOTE : DQUOTE);
 	while (line[(*i)] && line[(*i)] != quote)
 		st_tok(stack, line[(*i)++], 0);
 	tok_save(lst, stack, type);

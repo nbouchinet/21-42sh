@@ -6,16 +6,24 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 17:08:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:22:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/header.h"
+#include "header.h"
 
-/*
-*************** NEW BEGINNING *************
-*/
-
+int		error_lexer(t_tok **p, t_tok **tmp, t_tok **n)
+{
+	if (!(*p) && ((*tmp)->type & (AND | OR | QM | PIPE | BGE)))
+		return (print_error_lexer(tmp, n, 1));
+	else if (!(*n) && ((*tmp)->type & CHEVRON))
+		return (print_error_lexer(NULL, NULL, 2));
+	else if (!(*n) && !((*tmp)->type & (BGE | QM)))
+		return (print_error_lexer(tmp, n, 3));
+	else if ((*n) && (*n)->type & (AND | OR | BGE | CHEVRON | QM | PIPE | IO_N))
+		return (print_error_lexer(NULL, n, 4));
+	return (0);
+}
 
 int		new_lexercheck(t_tok **lst)
 {
@@ -28,17 +36,10 @@ int		new_lexercheck(t_tok **lst)
 		tmp = *lst;
 		while (tmp)
 		{
-			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BG))
-				if (tmp->n && tmp->n->type & (AND | OR | QM | PIPE | CHEVRON | BG))
+			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BGE))
+				if (error_lexer(&prev, &tmp, &tmp->n))
 				{
-					if (!prev && (tmp->type & (AND | OR | QM | PIPE | BG)))
-						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
-					else if (!tmp->n && (tmp->type & CHEVRON))
-						return (write(2, "parse error near unexpected token `newline'\n", 45));
-					else if (!tmp->n && !(tmp->type & BG))
-						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->str));
-					else if (tmp->n && (tmp->n->type & (AND | OR | BG | CHEVRON | PIPE | QM | IO_N)) && !(tmp->n->type & (QUOTE | DQUOTE)))
-						return (fd_printf(2, "parse error near unexpected token `%s'\n", tmp->n->str));
+					return (0);
 				}
 			prev = tmp;
 			tmp = tmp->n;
@@ -46,24 +47,13 @@ int		new_lexercheck(t_tok **lst)
 	}
 	return (1);
 }
-/*
-**************** END OF THE NEW BEGINNING ****************
-*/
-int				cmp_sep(t_tok *tmp)
-{
-	if (tmp->type == SPACE_TOK)
-		tmp = tmp->n;
-	if (tmp->type <= CHEVRON)
-		return (1);
-	return (0);
-}
 
-void			specified_dir(t_tok **lst)
+void	specified_dir(t_tok **lst)
 {
 	int					i;
 	t_tok				*tmp;
 	static const t_lex	dir[6] = {{">", RDIR}, {"<", BDIR}, {">>", RRDIR},
-					{"<<", BBDIR}, {">&", AGRE}, {"<&", BGRE}};
+								{"<<", BBDIR}, {">&", AGRE}, {"<&", BGRE}};
 
 	tmp = *lst;
 	while (tmp)
@@ -77,92 +67,9 @@ void			specified_dir(t_tok **lst)
 	}
 }
 
-static int		check_lst(t_tok **lst)
-{
-	t_tok		*tmp;
-
-	tmp = (*lst);
-	while (tmp)
-	{
-		if (tmp->type == CHEVRON && !tmp->n)
-			return (write(2, "parse error near unexpected token `newline'\n",
-			              45));
-		else if (tmp->type == CHEVRON && (tmp->n->str[0] == '<'
-		                                  || tmp->n->str[0] == '&' || tmp->n->str[0] == ';'
-		                                  || tmp->n->str[0] == '>' || tmp->n->str[0] == ')'
-		                                  || tmp->n->str[0] == '|'))
-			return (fd_printf(2, "parse error near unexpected token `%s'\n",
-			                  tmp->str));
-		else if ((tmp->type == QM && tmp->n && tmp->n->type == QM) ||
-		         (tmp == *lst && tmp->type == QM && !tmp->n))
-			return (fd_printf(2,
-			                  "parse error near unexpected token `newline'\n"));
-		else
-			tmp = tmp->n;
-	}
-	return (0);
-}
-
-static int		loop(t_tok **lst, t_tok **command)
-{
-	t_tok		*save_lst;
-	t_tok		*save_next;
-	t_tok		*save_last;
-
-	save_lst = (*lst);
-	save_last = NULL;
-	save_next = NULL;
-	while ((*lst)->type != WORD)
-		if ((*lst)->type == CHEVRON)
-		{
-			(*lst) = (*lst)->n;
-			if ((*lst)->n && ((*lst)->n->type != QM && (*lst)->n->type != AND &&
-			(*lst)->n->type != OR && (*lst)->n->type != PIPE) && (*lst)->n->type != IO_N)
-			{
-				(*lst)->n->type != CHEVRON ? save_last = (*lst) : 0;
-				(*lst) = (*lst)->n;
-				save_last ? save_last->n = NULL : 0;
-			}
-			else
-				return (0);
-		}
-		else
-			(*lst) = (*lst)->n;
-	(*command)->n = (*lst);
-	while ((*lst)->n && (*lst)->n->type == WORD)
-		(*lst) = (*lst)->n;
-	save_next = (*lst)->n;
-	(*lst)->n = save_lst;
-	save_last->n = save_next;
-	return (1);
-}
-
-void	replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end)
-{
-	t_tok	*start2;
-	t_tok	*next2;
-	t_tok	*sub2;
-	t_tok	*sub_end2;
-
-	start2 = *start;
-	next2 = *next;
-	sub2 = *sub;
-	sub_end2 = *sub_end;
-	if (start2 != next2)
-		start2->n = *sub;
-	if (next2->type != IO_N)
-		next2->n->n = sub_end2->n ? sub_end2->n : NULL;
-	else
-		next2->n->n->n = sub_end2->n ? sub_end2->n : NULL;
-	sub_end2->n = next2;
-} // to check
-
 void	check_rdir(t_tok **lst, t_tok **start, t_tok **next)
 {
 	t_tok	*tmp;
-	t_tok	*tmp2;
-	t_tok	*sub;
-	t_tok	*sub_end;
 
 	tmp = *next;
 	if (tmp->type & IO_N)
@@ -170,29 +77,13 @@ void	check_rdir(t_tok **lst, t_tok **start, t_tok **next)
 		if (tmp->n && tmp->n->type == CHEVRON)
 			if (tmp->n->n && tmp->n->n->type == WORD)
 				if (tmp->n->n->n && tmp->n->n->n->type == WORD)
-				{
-					sub = tmp->n->n->n;
-					tmp2 = tmp->n->n->n;
-					while (tmp2 && tmp2->n && (tmp2->n->type & ((WORD | LOCAL))))
-						tmp2 = tmp2->n;
-					sub_end = tmp2;
-					replace_tok(start ? start : next, next, &sub, &sub_end);
-				}
+					swap_tok(lst, start, next, &tmp->n->n->n);
 	}
 	else if (tmp->type == CHEVRON)
 	{
 		if (tmp->n && tmp->n->type == WORD)
 			if (tmp->n->n && tmp->n->n->type == WORD)
-			{
-				sub = tmp->n->n;
-				tmp2 = tmp->n->n;
-				while (tmp2 && tmp2->n && (tmp2->n->type & (WORD | LOCAL)))
-					tmp2 = tmp2->n;
-				sub_end = tmp2;
-				if (*lst == *next)
-					*lst = sub;
-				replace_tok(start, next, &sub, &sub_end);
-			}
+				swap_tok(lst, start, next, &tmp->n->n);
 	}
 }
 
@@ -210,32 +101,6 @@ void	restruct_lst(t_tok **lst)
 			if (tmp && (tmp->type & (CHEVRON | IO_N)))
 				check_rdir(lst, &prev, &tmp);
 			prev = tmp;
-			tmp = tmp->n;
-		}
-	}
-}
-
-void			lexer_check(t_tok **lst)
-{
-	t_tok	*tmp;
-	t_tok	*save_addr;
-
-	tmp = *lst;
-	save_addr = NULL;
-	if (check_lst(lst) != 0)
-	{
-		delete_lst(lst);
-		return ;
-	}
-	while (tmp)
-	{
-		if (tmp->type == CHEVRON || tmp->type == IO_N)
-			loop(&tmp, &save_addr) ? tmp = (*lst) : 0;
-		// else if (tmp->type == LOCAL && ((tmp->n && tmp->n->type != WORD) || !tmp->n))
-		// 	tmp->type = WORD;
-		else
-		{
-			save_addr = tmp;
 			tmp = tmp->n;
 		}
 	}

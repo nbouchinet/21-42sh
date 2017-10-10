@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 15:03:54 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/10/10 18:41:55 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ CFILES= 		main.c \
 				lexer/expanse.c \
 				lexer/jonathan_kent.c \
 				lexer/the_dog.c \
+				lexer/misc_lexer.c \
 				AST/ast_tools.c \
 				AST/creat_ast.c \
 				AST/creat_io_seq.c \
@@ -42,6 +43,7 @@ CFILES= 		main.c \
 				AST/creat_qm_oa.c \
 				AST/destroy_ast.c \
 				AST/creat_bg_seq.c \
+				AST/misc_ast.c \
 				init_env/check_env.c \
 				builtins/cd.c \
 				builtins/unsetenv.c \
@@ -72,7 +74,6 @@ CFILES= 		main.c \
 				command_line/clear.c \
 				command_line/ccp.c \
 				command_line/ccp_paste.c \
-				command_line/check_env.c \
 				command_line/cmdl_signals.c \
 				command_line/completion.c \
 				command_line/completion_display.c \

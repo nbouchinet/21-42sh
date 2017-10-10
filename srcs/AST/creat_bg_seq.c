@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 13:26:25 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/17 18:11:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:17:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_tok	*find_bg_tok(t_tok **lst, t_tok **stop)
 	t_tok	*tmp;
 
 	tmp = *lst;
-	while (tmp && tmp != *stop && (tmp->type != BG))
+	while (tmp && tmp != *stop && (tmp->type != BGE))
 		tmp = tmp->n;
 	return (tmp);
 }
