@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 18:34:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:35:07 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	t_tok	*t;
 
 	i = 0;
 	ast = NULL;
