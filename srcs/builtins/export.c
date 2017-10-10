@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:12:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:23:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	handle_env(t_env **env, t_env **tmp)
+static void	handle_env(t_env **env, t_env **tmp)
 {
 	if (*env)
 	{
@@ -20,18 +20,18 @@ static void 	handle_env(t_env **env, t_env **tmp)
 		while ((*tmp)->next)
 			(*tmp) = (*tmp)->next;
 		if (!((*tmp)->next = (t_env *)malloc(sizeof(t_env))))
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		(*tmp) = (*tmp)->next;
 	}
 	else
 	{
 		if (!((*tmp) = (t_env *)malloc(sizeof(t_env))))
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		*env = *tmp;
 	}
 }
 
-static void 	export_local(t_env **env, char *str)
+static void	export_local(t_env **env, char *str)
 {
 	t_local		*local;
 	t_env		*tmp;
@@ -49,7 +49,7 @@ static void 	export_local(t_env **env, char *str)
 	tmp->next = NULL;
 }
 
-static void 	export_to_env(t_env **env, char *copy)
+static void	export_to_env(t_env **env, char *copy)
 {
 	t_env		*tmp;
 	char		*ptr;
@@ -73,7 +73,7 @@ static void 	export_to_env(t_env **env, char *copy)
 	ft_strdel(&copy);
 }
 
-int				ft_export(t_ast **ast, t_env **env)
+int			ft_export(t_ast **ast, t_env **env)
 {
 	t_ast		*tmp;
 

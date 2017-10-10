@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iris_west.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/20 16:37:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/20 16:37:14 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:30:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	check_save(t_cmdl *cmdl)
 		str = ft_strstr(cmdl->line.save, "||") + 2;
 	j = -1;
 	while (str[++j])
-		if (str[j] != ' ' &&  str[j] != '\\')
+		if (str[j] != ' ' && str[j] != '\\')
 			return (0);
 	return (1);
 }

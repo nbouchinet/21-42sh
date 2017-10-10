@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 12:53:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:15:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int					ft_setenv(t_ast **ast, t_env **env);
 void				add_env(t_env **env, char **arg);
 void				add_var(t_env **env, char *var, char *value);
 int					ft_unsetenv(t_ast **ast, t_env **env);
-int					ft_env(t_ast **ast, t_env **env);
 char				**creat_arg_env(t_ast **ast);
 void				deletevarenv(t_env **lst, char *var);
 int					countab(char **tob);
@@ -237,5 +236,5 @@ int					test(char *s);
 *************************************KILL***************************************
 */
 int					kill_job(t_ast **ast, t_env **env);
-
+void				hist_clear(t_his **his, int offset, int his_len, char *arg);
 #endif

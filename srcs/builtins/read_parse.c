@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 15:08:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 15:08:31 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:10:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	inner_loop(t_read *var, char **arg, int *i, const t_opt opt[])
 	while (++k < 8 && arg[(*i)][j])
 	{
 		j += j == 0 && arg[(*i)][j] == '-' ? 1 : 0;
-		if (j == 0 && arg[(*i)][j] != '-' &&
-		(var->local = ft_strdup(arg[(*i)])))
+		if (!j && arg[(*i)][j] != '-' && (var->local = ft_strdup(arg[(*i)])))
 			return (0);
 		if (arg[(*i)][j] == opt[k].c[0])
 		{
@@ -36,13 +35,13 @@ static int	inner_loop(t_read *var, char **arg, int *i, const t_opt opt[])
 	if (k == 8)
 		return (fd_printf(2, "42sh: read: -%c: invalid option\n%s\n",
 		arg[(*i)][j], RU));
-	return (-1);
+		return (-1);
 }
 
-static int  get_opt(t_read *var, char **arg, int *i)
+static int	get_opt(t_read *var, char **arg, int *i)
 {
 	int					ret;
-	static const  t_opt opt[8] = {{"a", &aname} ,{"d", &delim}, {"n", &nchars},
+	static const t_opt	opt[8] = {{"a", &aname}, {"d", &delim}, {"n", &nchars},
 	{"p", &prompt}, {"r", &back_slash}, {"s", &silent}, {"t", &rtimeout},
 	{"u", &fd}};
 
@@ -55,7 +54,7 @@ static int  get_opt(t_read *var, char **arg, int *i)
 	return (0);
 }
 
-static int 	free_var(t_cmdl *cmdl, t_read *var, char **targ)
+static int	free_var(t_cmdl *cmdl, t_read *var, char **targ)
 {
 	cmdl->opt &= ~RRET;
 	ft_free(targ, NULL, 1);
@@ -66,13 +65,13 @@ static int 	free_var(t_cmdl *cmdl, t_read *var, char **targ)
 	return (1);
 }
 
-int         ft_read(t_ast **ast, t_env **env)
+int			ft_read(t_ast **ast, t_env **env)
 {
-	t_read  var;
+	t_read	var;
 	t_cmdl	*cmdl;
 	char	buf[6];
-	char    **targ;
-	int     i;
+	char	**targ;
+	int		i;
 
 	(void)env;
 	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;

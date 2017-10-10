@@ -6,57 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 17:13:52 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 18:58:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:53:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-void	freenode(t_env *node)
-{
-	ft_strdel(&node->var);
-	if (node->value)
-		ft_strdel(&node->value);
-	free(node);
-}
-
-void	deletevar(t_env **tmp, t_env *prev)
-{
-	prev->next = (*tmp)->next;
-	freenode(*tmp);
-}
-
-void	deletefirstnode(t_env **lst)
-{
-	t_env	*tmp;
-
-	tmp = *lst;
-	if (tmp->next)
-		*lst = tmp->next;
-	else
-		*lst = NULL;
-	freenode(tmp);
-}
-
-void	deletevarenv(t_env **lst, char *var)
-{
-	t_env	*prev;
-	t_env	*tmp;
-
-	prev = NULL;
-	tmp = (*lst);
-	while (tmp && ft_strcmp(tmp->var, var) != 0)
-	{
-		prev = tmp;
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		ft_errormsg("env: ", var, ": Variable not set.");
-	else if (!prev)
-		deletefirstnode(lst);
-	else if (tmp && ft_strcmp(tmp->var, var) == 0)
-		deletevar(&tmp, prev);
-}
 
 int		countab(char **tob)
 {
@@ -95,19 +49,6 @@ char	**creat_arg_env(t_ast **ast)
 	}
 	arg[i] = NULL;
 	return (arg);
-}
-
-int		ft_env(t_ast **ast, t_env **env)
-{
-	char	**arg;
-	int		i;
-
-	arg = NULL;
-	arg = creat_arg_env(&(*ast)->right);
-	if ((i = countab(arg)) == 0)
-		print_env(*env);
-	arg ? ft_freetab(arg) : 0;
-	return (1);
 }
 
 int		ft_unsetenv(t_ast **ast, t_env **env)

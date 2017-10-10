@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/28 14:52:28 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:34:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void clear_comp(t_cmdl *cmdl)
+static void	clear_comp(t_cmdl *cmdl)
 {
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	end(cmdl);
@@ -23,7 +23,7 @@ static void clear_comp(t_cmdl *cmdl)
 	cmdl->offset = -1;
 }
 
-static int 	cmode(t_cmdl *cmdl)
+static int	cmode(t_cmdl *cmdl)
 {
 	int		cur_save;
 
@@ -48,7 +48,7 @@ static int 	cmode(t_cmdl *cmdl)
 	return (1);
 }
 
-void remalloc_cmdl(t_line *line)
+void		remalloc_cmdl(t_line *line)
 {
 	char	*tmp;
 

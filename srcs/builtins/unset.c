@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/02 08:56:29 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 20:19:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static int		unset_env(t_env **env, char *str)
 {
-	t_env     *tmp;
-	t_env     *prev;
+	t_env	*tmp;
+	t_env	*prev;
 
 	tmp = *env;
 	prev = NULL;
@@ -40,7 +40,7 @@ static int		unset_env(t_env **env, char *str)
 
 static int		unset_lst(char *str)
 {
-	t_local   *loc;
+	t_local		*loc;
 
 	loc = *local_slg(0);
 	if (!loc)

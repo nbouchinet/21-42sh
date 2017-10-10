@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 14:44:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:42:19 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 21:29:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int		delete_sh(t_cmdl *cmdl)
 	return (1);
 }
 
-static int 		delete_comp_lst(t_cmdl *cmdl)
+static int		delete_comp_lst(t_cmdl *cmdl)
 {
 	if (cmdl->comp)
 		comp_del(&cmdl->comp);
@@ -42,6 +42,7 @@ static int 		delete_comp_lst(t_cmdl *cmdl)
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	return (1);
 }
+
 int				del(t_cmdl *cmdl)
 {
 	int		i;

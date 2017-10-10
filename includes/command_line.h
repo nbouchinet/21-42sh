@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 11:13:55 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 21:26:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ int					unset_shell(t_cmdl *cmdl);
 int					mode_on(t_cmdl *cmdl);
 int					set_shell(t_cmdl *cmdl);
 int					get_win_data(t_cmdl *cmdl);
+void				shell_sig(void);
 
 /*
 **	========	Fonctions de la ligne de commande	========

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   history_opt2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/18 18:06:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 18:06:45 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:55:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void hist_sarg(t_his **his, int offset, int his_len, char *arg)
+void		hist_sarg(t_his **his, int offset, int his_len, char *arg)
 {
 	int		fd;
 
@@ -28,7 +28,7 @@ void hist_sarg(t_his **his, int offset, int his_len, char *arg)
 	close(fd);
 }
 
-void 	hist_write(t_his **his, int offset, int his_len, char *arg)
+void		hist_write(t_his **his, int offset, int his_len, char *arg)
 {
 	t_his	*tmp;
 	int		fd;
@@ -65,7 +65,7 @@ static int	ft_is_valid(char *line)
 	return (1);
 }
 
-void 		hist_session()
+void		hist_session(void)
 {
 	int		fd;
 	char	*line;
@@ -81,7 +81,7 @@ void 		hist_session()
 	close(fd);
 }
 
-void 	hist_add(t_his **his)
+void		hist_add(t_his **his)
 {
 	t_his	*tmp;
 	int		fd;

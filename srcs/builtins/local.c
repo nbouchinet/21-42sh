@@ -6,18 +6,18 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 16:56:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 15:07:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:50:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
+static void	stock_loc(t_local **loc, char *str, char *sub, int match)
 {
 	if (match)
 	{
 		if (!((*loc)->n = (t_local*)malloc(sizeof(t_local))))
-		  exit(fd_printf(2, "malloc error\n"));
+			exit(fd_printf(2, "malloc error\n"));
 		(*loc)->n->var = ft_strdup(str);
 		(*loc)->n->val = ft_strdup(sub);
 		(*loc)->n->n = NULL;
@@ -30,7 +30,7 @@ static void 	stock_loc(t_local **loc, char *str, char *sub, int match)
 	}
 }
 
-int				put_into_lst(char *str, char *sub)
+int			put_into_lst(char *str, char *sub)
 {
 	t_local		*loc;
 	int			match;
@@ -53,12 +53,12 @@ int				put_into_lst(char *str, char *sub)
 	return (1);
 }
 
-int				local(char *str)
+int			local(char *str)
 {
-	t_env 		**env;
-	t_env		*match;
-	char		*sep;
-	char		*sub;
+	t_env	**env;
+	t_env	*match;
+	char	*sep;
+	char	*sub;
 
 	env = &(*cmdl_slg())->lstenv;
 	sep = ft_strchr(str, '=');

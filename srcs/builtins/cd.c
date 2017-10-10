@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 10:33:41 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 21:13:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	malloc_env_lnk(t_env **env, t_env **tmp)
+static void	malloc_env_lnk(t_env **env, t_env **tmp)
 {
 	if (*env)
 	{
@@ -31,7 +31,7 @@ static void 	malloc_env_lnk(t_env **env, t_env **tmp)
 	}
 }
 
-static char		*construct_path(t_env **env, char *save, char *path)
+static char	*construct_path(t_env **env, char *save, char *path)
 {
 	char		*np;
 	char		*ptr;
@@ -69,7 +69,7 @@ static char		*construct_path(t_env **env, char *save, char *path)
 	return (np);
 }
 
-static void		mod_env(t_env **env, char *path, char *save)
+static void	mod_env(t_env **env, char *path, char *save)
 {
 	t_env		*tmp;
 
@@ -92,7 +92,7 @@ static void		mod_env(t_env **env, char *path, char *save)
 	tmp->value = ft_strdup(construct_path(env, save, path));
 }
 
-static int change_dir(t_env **env, t_ast **ast, int opt, char **path)
+static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 {
 	t_ast			*tmp;
 	struct stat		st;

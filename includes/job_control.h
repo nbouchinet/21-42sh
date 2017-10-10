@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/10 15:05:39 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 22:06:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,12 @@ typedef struct		s_bi
 {
 	char			*builtin;
 }					t_bi;
+
+typedef struct		s_fd
+{
+	int				fd;
+	struct s_fd		*next;
+}					t_fd;
 
 int			job_ast(t_ast **ast, t_env **env, int foreground);
 int			job_cmd_seq(t_ast **ast, t_env **env, int foreground);
@@ -171,4 +177,5 @@ int			bgre(t_ast **ast);
 int			check_job(t_job **job, t_ast **ast, t_job **table);
 void		job_len(t_job **j, t_job **table, int *len);
 void		print_job_message(t_job **j, int *len, int *pos);
+void		close_rdir(int fd, int mod);
 #endif

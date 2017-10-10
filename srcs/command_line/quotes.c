@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 18:06:32 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:18:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:36:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	bs(char *str, int i)
 	return (0);
 }
 
-static void count_quote(t_cmdl *cmdl)
+static void	count_quote(t_cmdl *cmdl)
 {
 	char	*str;
 	int		i;
@@ -46,7 +46,7 @@ static void count_quote(t_cmdl *cmdl)
 			cmdl->opt &= ~(CSQ);
 		else if (cmdl->line.str[i] == '"' && (cmdl->opt & CDQ) &&
 		!bs(cmdl->line.str, i))
-				cmdl->opt &= ~(CDQ);
+			cmdl->opt &= ~(CDQ);
 	}
 	free(str);
 }

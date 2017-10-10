@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 11:46:01 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:48:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int		search(t_ast **ast, t_hash **table, int i)
 
 	tmp_a = i == 1 ? (*ast) : (*ast)->left;
 	key = hash_cmd(tmp_a->str);
-	if (*table)
-	{
-		tmp = *table;
+	if ((tmp = *table))
 		while (tmp)
 		{
 			if (tmp->rlt_key == key || tmp->abs_key == key)
@@ -40,7 +38,6 @@ int		search(t_ast **ast, t_hash **table, int i)
 			}
 			tmp = tmp->next;
 		}
-	}
 	return (0);
 }
 

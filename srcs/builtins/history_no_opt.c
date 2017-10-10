@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history_no_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 16:35:31 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/18 08:30:16 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 20:54:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	no_options(t_his **his, int offset, int len, int i)
 {
-	int	nbr;
+	int		nbr;
 
 	nbr = 0;
 	if (i == 7 && (!offset || offset > len))
-    while ((*his) && ft_strcmp((*his)->cmdl, ""))
-    {
-      ft_printf("    %d  %s\n", ++nbr, (*his)->cmdl);
-      (*his) = (*his)->n;
-    }
+		while ((*his) && ft_strcmp((*his)->cmdl, ""))
+		{
+			ft_printf("    %d  %s\n", ++nbr, (*his)->cmdl);
+			(*his) = (*his)->n;
+		}
 	else if (i == 7 && offset)
 	{
 		len = len - offset;

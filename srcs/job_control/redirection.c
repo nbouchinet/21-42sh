@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 20:09:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 22:15:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ int		wtf_rdir(t_ast **ast)
 	if ((fd = open(tmp->left->str, (tmp->type == RRDIR ? O_APPEND : O_TRUNC) |
 		O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) != -1)
 	{
+		close_rdir(fd, 1);
 		std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
 		if (dup2(fd, std) != -1)
 			return (1);
 	}
+	ft_errormsg("42sh: ", tmp->left->str, ": Permission denied.");
 	return (0);
 }
 
@@ -38,12 +40,13 @@ int		bdir(t_ast **ast)
 	tmp = *ast;
 	if ((fd = open(tmp->left->str, O_RDONLY)) != -1)
 	{
+		close_rdir(fd, 1);
 		std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
 		if (dup2(fd, std) != -1)
 			return (1);
 	}
-	else
-		ft_errormsg("21sh: ", tmp->left->str, ": No such file or directory.");
+	ft_errormsg("42sh: ", tmp->left->str,
+		": No such file, directory or permission denied.");
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 18:40:57 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:45:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:39:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tok	*stock_local(t_tok **lst, t_tok **sep, int i)
 	return (tmp);
 }
 
-int				valid_local(t_tok **lst, t_tok **sep)
+int		valid_local(t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
 

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 12:52:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:18:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:35:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int			only_space(t_cmdl *cmdl, int i, int w)
 	return (1);
 }
 
-static void check_inhib(char *str, int *i)
+static void	check_inhib(char *str, int *i)
 {
 	int		j;
 	int		count;

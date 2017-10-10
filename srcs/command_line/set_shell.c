@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 12:35:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:46:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,13 @@ int				get_win_data(t_cmdl *cmdl)
 {
 	struct winsize	w;
 
-	if (ioctl(0, TIOCGWINSZ, &w) == -1)
-		return (fd_printf(2, "Error while accesing terminal data\n"));
-	cmdl->line.co = w.ws_col;
-	cmdl->line.li = w.ws_row;
-	return (0);
-}
-
-int				unset_shell(t_cmdl *cmdl)
-{
-	if (mode_off(cmdl))
-		return (1);
-	tputs(tgetstr("am", NULL), 1, ft_putchar);
-	hist_add(his_slg());
-	del_all(cmdl_slg(), his_slg(), local_slg(0));
-	write(1, "\nBye\n", 5);
-	return (0);
+	if (ioctl(0, TIOCGWINSZ, &w) != -1)
+	{
+		cmdl->line.co = w.ws_col;
+		cmdl->line.li = w.ws_row;
+		return (0);
+	}
+	return (1);
 }
 
 int				mode_off(t_cmdl *cmdl)
@@ -45,13 +36,12 @@ int				mode_off(t_cmdl *cmdl)
 
 int				mode_on(t_cmdl *cmdl)
 {
-
 	cmdl->term.c_lflag &= ~(ICANON);
 	cmdl->term.c_lflag &= ~(ECHO);
 	cmdl->term.c_cc[VMIN] = 0;
 	cmdl->term.c_cc[VTIME] = 1;
-	while (tcgetpgrp (g_shell_terminal) != (g_shell_pgid = getpgrp ()))
-		kill (- g_shell_pgid, SIGTTIN);
+	while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+		kill(-g_shell_pgid, SIGTTIN);
 	tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
@@ -81,31 +71,15 @@ int				set_shell(t_cmdl *cmdl)
 	{
 		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
 			kill(-g_shell_pgid, SIGTTIN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGWINCH, SIG_IGN);
-		signal(SIGCHLD, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGTSTP, SIG_IGN);
-		signal(SIGTTIN, SIG_IGN);
-		signal(SIGTTOU, SIG_IGN);
-		g_shell_pgid = getpid();
-		if (setpgid(g_shell_pgid, g_shell_pgid) < 0)
-		{
-			perror("Couldn't put the shell in its own process group");
-			exit(1);
-		}
-		tcsetpgrp(g_shell_terminal, g_shell_pgid);
-		tcgetattr(g_shell_terminal, &g_shell_tmodes);
-		tputs(tgetstr("nam", NULL), 1, ft_putchar);
+		shell_sig();
+		if ((shl_name = getenv("TERM")) == NULL)
+			shl_name = "xterm-256color";
+		if ((tgetent(0, shl_name)) == ERR)
+			return (fd_printf(2, "tgetent: ERROR\n"));
+		if (tcgetattr(1, &cmdl->term) == -1)
+			return (fd_printf(2, "tcgetattr: ERROR\n"));
+		if (mode_on(cmdl))
+			return (1);
 	}
-	if ((shl_name = getenv("TERM")) == NULL)
-		shl_name = "xterm-256color";
-	if ((tgetent(0, shl_name)) == ERR)
-		return (fd_printf(2, "tgetent: ERROR\n"));
-	if (tcgetattr(1, &cmdl->term) == -1)
-		return (fd_printf(2, "tcgetattr: ERROR\n"));
-	if (mode_on(cmdl))
-		return (1);
 	return (0);
 }

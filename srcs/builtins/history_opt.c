@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   history_opt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/08 12:26:29 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/12 10:30:01 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 21:14:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void no_options(t_his **his, int offset, int his_len)
+static void	no_options(t_his **his, int offset, int his_len)
 {
 	t_his	*tmp;
 	int		nbr;
@@ -28,7 +28,7 @@ static void no_options(t_his **his, int offset, int his_len)
 	if (offset < 0 || offset > his_len)
 		return ;
 	if (!offset)
-	offset = his_len - 1;
+		offset = his_len - 1;
 	nbr = his_len - offset - (offset == his_len - 1 ? 0 : 1);
 	while (tmp->n && --offset)
 		tmp = tmp->n;
@@ -39,7 +39,7 @@ static void no_options(t_his **his, int offset, int his_len)
 	}
 }
 
-void 		hist_read(t_his **his, int offset, int his_len, char *arg)
+void		hist_read(t_his **his, int offset, int his_len, char *arg)
 {
 	char	*line;
 	int		fd;
@@ -61,7 +61,7 @@ void 		hist_read(t_his **his, int offset, int his_len, char *arg)
 	}
 }
 
-void hist_append(t_his **his, int offset, int his_len, char *arg)
+void		hist_append(t_his **his, int offset, int his_len, char *arg)
 {
 	t_his	*tmp;
 	int		fd;
@@ -87,7 +87,7 @@ void hist_append(t_his **his, int offset, int his_len, char *arg)
 	close(fd);
 }
 
-static void hist_del(t_his **his, int offset, int his_len, char *arg)
+static void	hist_del(t_his **his, int offset, int his_len, char *arg)
 {
 	t_his	*tmp;
 
@@ -108,18 +108,10 @@ static void hist_del(t_his **his, int offset, int his_len, char *arg)
 	free(tmp);
 }
 
-static void hist_clear(t_his **his, int offset, int his_len, char *arg)
+void		run_his(char *arg, int opt, int offset, int his_len)
 {
-	(void)offset;
-	(void)his_len;
-	(void)arg;
-	his_del(his, 1);
-}
-
-void 		run_his(char *arg, int opt, int offset, int his_len)
-{
-	int		i;
-	static const	t_hist	option[7] = {{1, &hist_clear}, {2 , &hist_del},
+	int					i;
+	static const t_hist	option[7] = {{1, &hist_clear}, {2, &hist_del},
 	{4, &hist_append}, {8, &hist_read}, {16, &hist_read}, {32, &hist_write},
 	{128, &hist_sarg}};
 

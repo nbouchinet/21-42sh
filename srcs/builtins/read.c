@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:26:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:01:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:00:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void   save_input(t_read *var)
+void		save_input(t_read *var)
 {
 	char	**aname;
 	char	*bs;
@@ -36,10 +36,10 @@ void   save_input(t_read *var)
 	local(var->stack);
 }
 
-static int   buf_save(char **stack, char buf[], int *i, int type)
+static int	buf_save(char **stack, char buf[], int *i, int type)
 {
-	char 		*tmp;
-	static int 	len = 512;
+	char		*tmp;
+	static int	len = 512;
 
 	if ((*i) == len)
 	{
@@ -58,7 +58,7 @@ static int   buf_save(char **stack, char buf[], int *i, int type)
 	return (1);
 }
 
-void handle_c(int sig)
+void		handle_c(int sig)
 {
 	t_cmdl	*cmdl;
 
@@ -67,10 +67,10 @@ void handle_c(int sig)
 	cmdl->opt |= RRET;
 }
 
-int   read_input(t_read *var, int i, int nchar, char buf[])
+int			read_input(t_read *var, int i, int nchar, char buf[])
 {
 	var->stack = ft_memalloc(512);
-	while (var->time ? var->time < var->endwait  : 1)
+	while (var->time ? var->time < var->endwait : 1)
 	{
 		if ((*cmdl_slg())->opt & RRET && (write(1, "\n", 1)))
 			return (1);
@@ -89,7 +89,7 @@ int   read_input(t_read *var, int i, int nchar, char buf[])
 			var->stack[i] == '\\' && !(var->opt & RR) ? write(var->fd, "$> ", 3)
 			: 0;
 			if (!(var->stack[i] == '\\' && !(var->opt & RR)))
-			 	return (buf_save(&var->stack, buf, &i, 1));
+				return (buf_save(&var->stack, buf, &i, 1));
 		}
 		var->time = var->time ? time(NULL) : 0;
 	}

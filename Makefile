@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 18:41:55 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/10 21:27:16 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ CFILES= 		main.c \
 				init_env/check_env.c \
 				builtins/cd.c \
 				builtins/unsetenv.c \
+				builtins/unsetenv_tools.c \
 				builtins/setenv.c \
 				builtins/env.c \
 				builtins/echo.c \
@@ -65,6 +66,7 @@ CFILES= 		main.c \
 				builtins/fg.c \
 				builtins/read_opt1.c \
 				builtins/hash_clean.c \
+				builtins/misc_builtins.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
 				command_line/bang.c \
@@ -96,6 +98,7 @@ CFILES= 		main.c \
 				command_line/search_history.c \
 				command_line/set_shell.c \
 				command_line/slg.c \
+				command_line/misc_cmdl.c \
 				job_control/ast_base.c \
 				job_control/ast_seq.c \
 				job_control/catch_error.c \

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/13 12:36:37 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/09/25 12:15:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:12:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ int				aname(t_read *var, char **arg, int *i, int j)
 
 int				delim(t_read *var, char **arg, int *i, int j)
 {
-
 	var->opt |= DR;
 	if (arg[(*i)][j])
 		var->delim = ft_strsub(arg[(*i)], j, 1);
 	else if (arg[(*i) + 1])
 		var->delim = ft_strsub(arg[++(*i)], 0, 1);
 	else
-	return (fd_printf(2, "42sh: read: -d: option requires an argument "
-				"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
-					" [-a array] [-n nchars] [-d delim] [name ...]\n"));
+		return (ft_errormsg("42sh: read: -d: option requires an argument ",
+		"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]",
+		" [-a array] [-n nchars] [-d delim] [name ...]"));
 	return (0);
 }
 
@@ -102,7 +101,7 @@ int				rtimeout(t_read *var, char **arg, int *i, int j)
 	{
 		if (!ft_strdigit(&arg[(*i)][j]))
 			return (fd_printf(2, "42sh: read: %s: invalid timeout specification\n",
-		&arg[(*i)][j]));
+			&arg[(*i)][j]));
 		seconds = ft_atoi(arg[(*i)] + j);
 	}
 	else if (arg[(*i) + 1])

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/27 15:01:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:18:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ static int	parse_opt(t_ast **ast, char **arg, int *opt, int *offset)
 	return (0);
 }
 
-int 		ft_history(t_ast **ast, t_env **env)
+int			ft_history(t_ast **ast, t_env **env)
 {
 	int		opt;
 	int		offset;

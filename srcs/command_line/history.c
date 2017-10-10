@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 15:56:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/28 15:02:16 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:31:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		his_del(t_his **his, int mode)
 {
-	t_his 	*tmp;
-	t_his 	*save;
+	t_his	*tmp;
+	t_his	*save;
 
 	tmp = *his;
 	if (!tmp)
@@ -49,7 +49,7 @@ int			his_len(t_his **his)
 	return (len);
 }
 
-static void head_smasher(t_his **head)
+static void	head_smasher(t_his **head)
 {
 	t_his	*tmp;
 
@@ -62,7 +62,7 @@ static void head_smasher(t_his **head)
 	tmp = NULL;
 }
 
-void 		cmd_save_history(char *str)
+void		cmd_save_history(char *str)
 {
 	t_his	*head;
 	t_his	*new;

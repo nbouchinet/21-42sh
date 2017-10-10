@@ -6,39 +6,39 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 16:39:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:17:38 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 21:21:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int            ctrlt(t_cmdl *cmdl)
+int			ctrlt(t_cmdl *cmdl)
 {
-    int		i;
-    char	stock;
-    int		min;
+	int		i;
+	char	stock;
+	int		min;
 
 	i = cmdl->line.cur - cmdl->line.pr;
-    if (cmdl->opt & (CCOMP | CCMODE | CHIS_S) || !i ||
+	if (cmdl->opt & (CCOMP | CCMODE | CHIS_S) || !i ||
 	ft_strlen(cmdl->line.str) < 2)
-        return (write(1, "\7", 1));
-    min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
-    stock = cmdl->line.str[i - min - 1];
-    cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
-    cmdl->line.str[i - min] = stock;
-    arrow_left(cmdl);
-    min == 1 ? arrow_left(cmdl) : 0;
-    if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
-    && cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
-        tputs(tgetstr("mr", NULL), 1, ft_putchar);
-    cmdl->line.cur += write(1, (cmdl->line.str + (i - min - 1)), 1);
-    if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
-    && cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
-        tputs(tgetstr("mr", NULL), 1, ft_putchar);
-    cmdl->line.cur += write(1, (cmdl->line.str + (i - min)), 1 + min) - min;
-    if (cmdl->line.cur % cmdl->line.co == 0)
-        tputs(tgetstr("do", NULL), 1, ft_putchar);
-    return ((tputs(tgetstr("me", NULL), 1, ft_putchar) ? 1 : 1));
+		return (write(1, "\7", 1));
+	min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
+	stock = cmdl->line.str[i - min - 1];
+	cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
+	cmdl->line.str[i - min] = stock;
+	arrow_left(cmdl);
+	min == 1 ? arrow_left(cmdl) : 0;
+	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
+	&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+		tputs(tgetstr("mr", NULL), 1, ft_putchar);
+	cmdl->line.cur += write(1, (cmdl->line.str + (i - min - 1)), 1);
+	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
+	&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+		tputs(tgetstr("mr", NULL), 1, ft_putchar);
+	cmdl->line.cur += write(1, (cmdl->line.str + (i - min)), 1 + min) - min;
+	if (cmdl->line.cur % cmdl->line.co == 0)
+		tputs(tgetstr("do", NULL), 1, ft_putchar);
+	return ((tputs(tgetstr("me", NULL), 1, ft_putchar) ? 1 : 1));
 }
 
 int			ctrl_u(t_cmdl *cmdl)
