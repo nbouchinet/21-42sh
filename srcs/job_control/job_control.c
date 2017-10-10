@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:47:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:03:34 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,67 +80,22 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 	return (1);
 }
 
-int		check_job(t_job **job, t_ast **ast, t_job **table)
-{
-	t_job		*j;
-	t_job		*prev;
-
-	(void)job;
-	(void)ast;
-	if ((j = *table))
-	{
-		prev = NULL;
-		while (j)
-			if (!check_j(table, &j, &prev))
-				break ;
-	}
-	return (1);
-}
-
 int		builtin_job(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
 	int			len;
 	int			status;
-	char		symb;
 	int			pos;
 
-	(void)job;
-	(void)ast;
+	j = NULL;
 	pos = 0;
 	len = 0;
 	status = 0;
 	update_status(job, ast, table);
 	if (*table)
 	{
-		j = *table;
-		while (j)
-		{
-			j = j->next;
-			len++;
-		}
-		j = *table;
-		while (j)
-		{
-			pos++;
-			if (len == pos)
-				symb = '+';
-			else if (len - 1 == pos)
-				symb = '-';
-			else
-				symb = ' ';
-			if (j->status == SIGSEGV)
-				fd_printf(2, "[%d]%c Segmentation fault: 11 \t%s\n", j->num, symb, j->command);
-			else if (j->status == SIGABRT)
-				fd_printf(2, "[%d]%c Abort trap: 6 \t\t%s\n", j->num, symb, j->command);
-			else if (j->status == SIGTSTP)
-				fd_printf(2, "[%d]%c Bus error: 10 \t\t%s\n", j->num, symb, j->command);
-			else if (j->status == 15)
-				fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n", j->num, symb, j->command);
-			else
-				fd_printf(2, "[%d]%c Stopped\t\t\t%s\n", j->num, symb, j->command);
-			j = j->next;
-		}
+		job_len(&j, table, &len);
+		print_job_message(&j, &len, &pos);
 	}
 	else
 		ft_errormsg("42sh:", NULL, " No jobs.");

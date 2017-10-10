@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/10 14:04:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:05:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,4 +166,7 @@ int			delete_process(t_process **head, t_process **prev, t_process **process);
 int			nbr_process(t_job **job);
 int			check_j(t_job **table, t_job **job, t_job **prev);
 int			bgre(t_ast **ast);
+int			check_job(t_job **job, t_ast **ast, t_job **table);
+void		job_len(t_job **j, t_job **table, int *len);
+void		print_job_message(t_job **j, int *len, int *pos);
 #endif
