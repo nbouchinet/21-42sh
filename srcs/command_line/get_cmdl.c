@@ -31,7 +31,7 @@ static void	exit_cmdl(t_cmdl *cmdl)
 	write(1, "\n", 1);
 }
 
-static void	get_op(t_cmdl *cmdl, int *ret, int *i)
+void		get_op(t_cmdl *cmdl, int *ret, int *i)
 {
 	static const	t_op		op[23] = {{{-61, -89, 0, 0}, &ccp},
 	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
@@ -45,7 +45,7 @@ static void	get_op(t_cmdl *cmdl, int *ret, int *i)
 	{{9, 0, 0, 0}, &completion}, {{1, 0, 0, 0}, &home}, {{5, 0, 0, 0}, &end},
 	{{21, 0, 0, 0}, &ctrl_u}, {{20, 0, 0, 0}, &ctrlt}, {{27, 0, 0, 0}, &esc}};
 
-	*ret = 0;
+	*ret = -1;
 	*i = -1;
 	ft_memset(cmdl->line.buf, '\0', 6);
 	read(0, cmdl->line.buf, 6);
@@ -82,8 +82,6 @@ void		get_cmdl(t_cmdl *cmdl)
 		}
 		else if (i == 23)
 			print(cmdl, cmdl->line.buf);
-		// ft_printf("buf: %d %d %d %d\n", cmdl->line.buf[0], cmdl->line.buf[1],
-  		// cmdl->line.buf[2], cmdl->line.buf[3]);
 	}
 	exit_cmdl(cmdl);
 }

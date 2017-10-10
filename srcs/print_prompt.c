@@ -104,12 +104,11 @@ void		print_prompt(void)
 		get_git(&buff);
 		if (buff)
 			print_and_del(&buff, 1);
-		if (!(cmdl->opt & (CSQ | CDQ)))
-			write(1, "\n$> ", 4);
+		write(1, "\n$> ", 4);
 	}
 	else if ((cmdl->opt & (CSQ | CDQ)))
 		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
 	else if ((cmdl->opt & (CHD)))
-		cmdl->line.pr = write(1, "\nheredoc> ", 10) - 1;
+		cmdl->line.pr = write(1, "heredoc> ", 9);
 	cmdl->line.cur = cmdl->line.pr;
 }

@@ -101,6 +101,5 @@ void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
 void				expanse(t_tok **lst, t_env **env);
-t_tok				*heredoc(t_tok **lst);
 
 #endif

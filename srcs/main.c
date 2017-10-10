@@ -45,26 +45,16 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	// t_tok	*t;
 
 	i = 0;
 	ast = NULL;
 	if (*line)
 	{
 		init_token(&cmd);
-		// ft_putendl("-1");
 		new_parser(&cmd, *line);
 		restruct_lst(&cmd);
-		// // ft_putendl("1");
-		// t = cmd;
-		// while (t)
-		// {
-		// 	ft_printf("[%s]-|-[%d]\n", t->str, t->type);
-		// 	t = t->n;
-		// }
 		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
 		{
-			// ft_putendl("HELLO");
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
@@ -73,7 +63,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				init_ast(&ast, NULL, 0);
 				primary_sequence(&ast, &cmd);
 				ft_putast(ast);
-				// sleep(30);
 				mode_off(cmdl);
 				stock_restore(1);
 				if ((i = job_ast(&ast, env, 1)))
@@ -105,8 +94,6 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-		// ft_putendl("C EST PLUS MON PROBLEME");
-		// ft_putendl(cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
