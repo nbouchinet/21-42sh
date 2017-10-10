@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:26:44 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 20:07:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ int		job_qm_seq(t_ast **ast, t_env **env, int foreground)
 	tmp = *ast;
 	if (tmp->left->type == QM)
 	{
-		if (job_qm_seq(&tmp->left, env, foreground) == 1)
-			return (job_ast(&tmp->left->right, env, foreground));
+		job_qm_seq(&tmp->left, env, foreground);
+		return (job_ast(&tmp->left->right, env, foreground));
 	}
+	else if (tmp->left->type == PIPE_SEQ)
+		return (job_pipe(&tmp->left, env, foreground));
 	else if (tmp->left->type == CMD_SEQ)
 		return (job_ast(&tmp->left, env, foreground));
 	return (1);
