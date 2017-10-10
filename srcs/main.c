@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 15:11:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 17:40:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	{
 		init_token(&cmd);
 		// ft_putendl("-1");
-		new_parser(&cmd, *line, 0);
+		new_parser(&cmd, *line);
 		restruct_lst(&cmd);
 		// ft_putendl("1");
 		t = cmd;
@@ -64,7 +64,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		}
 		if (new_lexercheck(&cmd)) // revoir valeur binaire
 		{
-			// ft_putendl("HELLO");
 			specified_dir(&cmd);
 			heredoc(&cmd);
 			expanse(&cmd, env);
@@ -73,7 +72,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				init_ast(&ast, NULL, 0);
 				primary_sequence(&ast, &cmd);
 				ft_putast(ast);
-				// sleep(30);
 				mode_off(cmdl);
 				stock_restore(1);
 				if ((i = job_ast(&ast, env, 1)))
@@ -105,8 +103,6 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-		// ft_putendl("C EST PLUS MON PROBLEME");
-		// ft_putendl(cmdl->line.str);
 		if (cmdl->opt & CCTRLD)
 			break ;
 		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&

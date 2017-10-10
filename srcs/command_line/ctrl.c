@@ -18,10 +18,9 @@ int            ctrlt(t_cmdl *cmdl)
     char	stock;
     int		min;
 
-    if (cmdl->opt & (CCOMP | CCMODE | CHIS_S))
-        return (write(1, "\7", 1));
-    i = cmdl->line.cur - cmdl->line.pr;
-    if (i == 0 || ft_strlen(cmdl->line.str) < 2)
+	i = cmdl->line.cur - cmdl->line.pr;
+    if (cmdl->opt & (CCOMP | CCMODE | CHIS_S) || !i ||
+	ft_strlen(cmdl->line.str) < 2)
         return (write(1, "\7", 1));
     min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
     stock = cmdl->line.str[i - min - 1];
@@ -60,32 +59,33 @@ int			ctrl_u(t_cmdl *cmdl)
 	return (1);
 }
 
-static void	register_cmdl(t_cmdl *cmdl)
+static int	register_cmdl(t_cmdl *cmdl, int w)
 {
 	char	*tmp;
 
 	tmp = cmdl->line.str;
+	if (!w)
+		fd_printf(2, "\n42sh: syntax error: unexpected end of file\n");
+	else
+		fd_printf(2, "\n42sh: unexpected EOF while looking for a "
+		"matching `%c'\n42sh: syntax error: unexpected end of file\n",
+		cmdl->opt & CSQ ? '\'' : '"');
 	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	ft_strdel(&tmp);
 	cmd_save_history(cmdl->line.str);
 	init_cmdl();
+	return (1);
 }
 
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
 	((cmdl->opt & (CPIPE | CAND | COR))))
-	{
-		register_cmdl(cmdl);
-		return (fd_printf(2, "\n42sh: syntax error: unexpected end of file\n"));
-	}
+		return (register_cmdl(cmdl, 0));
 	else if (cmdl->line.str && !cmdl->line.str[0] && (cmdl->opt & (CSQ | CDQ)))
-	{
-		register_cmdl(cmdl);
-		return (fd_printf(2, "\n42sh: unexpected EOF while looking for a "
-		"matching `%c'\n42sh: syntax error: unexpected end of file\n",
-		cmdl->opt & CSQ ? '\'' : '"'));
-	}
+		return (register_cmdl(cmdl, 1));
+	else if (cmdl->opt & CHD)
+		return (cmdl->line.str && cmdl->line.str[0] ? 0 : 1);
 	else if (cmdl->line.str && cmdl->line.str[0])
 		return (0);
 	if (cmdl->line.save && !cmdl->line.str[0])
@@ -97,38 +97,4 @@ int			ctrl_d(t_cmdl *cmdl)
 		return (set_exiting_value(&cmdl, 1));
 	}
 	return (0);
-}
-
-int			ctrl_l(t_cmdl *cmdl)
-{
-	int		save;
-
-	tputs(tgetstr("cl", NULL), 1, ft_putchar);
-	save = cmdl->line.cur;
-	print_prompt();
-	if (cmdl->opt & CHIS_S && (cmdl->opt &= ~(CHIS_S)) && cmdl->line.str[0])
-	{
-		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
-		ft_strcpy(cmdl->line.str,
-		findcmdl(cmdl->line.str, cmdl->line.buf, 2)->cmdl);
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-	}
-	else if (cmdl->opt & CCOMP)
-	{
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-		while (cmdl->line.cur > save)
-			arrow_left(cmdl);
-		display_comp(cmdl, &cmdl->comp, cmdl->offset);
-	}
-	else if (cmdl->line.str[0])
-	{
-		cmdl->ccp.start = -1;
-		cmdl->ccp.end = -1;
-		cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-	}
-	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:59:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 16:05:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		error_lexer(t_tok **p, t_tok **tmp, t_tok **n)
 	else if (!(*n) && !((*tmp)->type & BGE))
 		return (print_error_lexer(tmp, n, 3));
 	else if ((*n) && (*n)->type & (AND | OR | BGE | CHEVRON | PIPE | QM | IO_N))
-		return (print_error_lexer(NULL, n, 3));
+		return (print_error_lexer(NULL, n, 4));
 	return (0);
 }
 

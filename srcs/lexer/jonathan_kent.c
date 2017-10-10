@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:28:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:28:52 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, AND);
 	}
 	else
-		tok_save(lst, stack, BGE);
+		tok_save(lst, stack, BG);
 	if (check_end(line + (*i) + 1) == 1)
 	{
 		(*lst)->n = init_tok(lst, NE);

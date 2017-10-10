@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 14:20:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:28:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,20 @@ void	delete_lst(t_tok **cmd)
 	*cmd = NULL;
 }
 
+void	backslash(t_tok **lst, char **stack, char *line, int *i)
+{
+	(void)lst;
+	if (line[(*i) + 1])
+		st_tok(stack, line[++(*i)], 0);
+}
+
 void	st_tok(char **stack, char c, int reset)
 {
+	static int		len = 100;
 	int				i;
 	char			*tmp;
-	static int		len = 100;
 
+	i = 0;
 	if (reset)
 	{
 		len = 100;
@@ -41,7 +49,7 @@ void	st_tok(char **stack, char c, int reset)
 	{
 		i = -1;
 		if (!(tmp = (char *)malloc(sizeof(char) * (len + 100))))
-			exit(EXIT_FAILURE);
+			exit(0);
 		ft_memset(tmp, 0, (len + 100));
 		while ((*stack)[++i])
 			tmp[i] = (*stack)[i];

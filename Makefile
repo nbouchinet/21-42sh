@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 15:39:29 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/10 16:02:58 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ CFILES= 		main.c \
 				command_line/bang.c \
 				command_line/bang_parse.c \
 				command_line/bang_sub.c \
+				command_line/clear.c \
 				command_line/ccp.c \
 				command_line/ccp_paste.c \
 				command_line/check_env.c \
@@ -107,6 +108,7 @@ CFILES= 		main.c \
 				job_control/fork.c \
 				job_control/fork_utils.c \
 				job_control/heredoc.c \
+				job_control/heredoc_func.c \
 				job_control/job_control.c \
 				job_control/job_control_tools.c \
 				job_control/job_tools.c \
@@ -118,6 +120,7 @@ CFILES= 		main.c \
 				job_control/find_bin.c \
 				job_control/env_pipe.c \
 				job_control/find_bin_tools.c \
+				job_control/job_message.c \
 
 
 OFILES=			$(CFILES:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/10 14:04:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:05:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,9 @@ int			exec_pipe_job(t_process **lst, char **env, int r, t_job **job);
 int			exec_pipe_bg(t_process **pro, char **env, int r, t_job **job);
 int			exec_pro_bg(t_process **pro, t_env **env, t_job **job);
 void		creat_file(t_tok **lst);
-t_tok		*heredoc(t_tok **lst);
+int			heredoc(t_tok **lst);
+int			next_hd(t_tok **tok);
+int			hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int i);
 int			inter_job(t_ast **ast, t_env **env);
 void		relink(t_process **tmp, t_process **del);
 void		delete_tnode(t_job **node, t_job **prev, t_job **table);
@@ -166,4 +168,7 @@ int			delete_process(t_process **head, t_process **prev, t_process **process);
 int			nbr_process(t_job **job);
 int			check_j(t_job **table, t_job **job, t_job **prev);
 int			bgre(t_ast **ast);
+int			check_job(t_job **job, t_ast **ast, t_job **table);
+void		job_len(t_job **j, t_job **table, int *len);
+void		print_job_message(t_job **j, int *len, int *pos);
 #endif

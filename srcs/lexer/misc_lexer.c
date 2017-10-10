@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:30:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:58:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 16:03:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		print_error_lexer(t_tok **lst, t_tok **next, int mod)
+int		print_error_lexer(t_tok **lst, t_tok **n, int mod)
 {
 	if (mod == 1)
 		fd_printf(2, "parse error near unexpected token `%s'\n", (*lst)->str);

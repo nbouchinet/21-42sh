@@ -54,8 +54,7 @@ void 	check_built_in(t_cmdl *cmdl, char *tmp)
 
 void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 {
-	tmp = ft_strdup(line->str + (line->cur - line->pr));
-	if (!tmp)
+	if (!(tmp = ft_strdup(line->str + (line->cur - line->pr))))
 	{
 		line->str = ft_strcat(line->str, (*comp)->str + offset);
 		write(1, line->str + (line->cur - line->pr),
@@ -77,7 +76,7 @@ void 	completion_edit(t_line *line, t_comp **comp, char *tmp, int offset)
 		ft_strlen(line->str + (line->cur - line->pr)));
 		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
-		tmp ? free(tmp) : 0;
+		ft_strdel(&tmp);
 	}
 }
 

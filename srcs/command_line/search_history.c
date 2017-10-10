@@ -85,7 +85,7 @@ int				cmd_search_history(t_cmdl *cmdl)
 {
 	int		len;
 
-	if (cmdl->opt & (CCMODE | CCOMP | CCP))
+	if (cmdl->opt & (CCMODE | CCOMP | CCP | CHD))
 		return (write(1, "\7", 1));
 	if (cmdl->opt & (CHIS_S))
 		return (search_history_print(cmdl, cmdl->line.buf));

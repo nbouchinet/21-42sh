@@ -204,6 +204,7 @@ int					get_win_data(t_cmdl *cmdl);
 */
 
 void				get_cmdl(t_cmdl *cmdl);
+void				get_op(t_cmdl *cmdl, int *ret, int *i);
 void				init_cmdl(void);
 void				remalloc_cmdl(t_line *line);
 
