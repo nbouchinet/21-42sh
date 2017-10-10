@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 18:34:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 10:42:54 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 19:39:09 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	exit_cmdl(t_cmdl *cmdl)
 	{
 		s1 = cmdl->line.str;
 		cmdl->line.str = ft_strtrimf(ft_strjoin(cmdl->line.save,
-		cmdl->line.str));
+					cmdl->line.str));
 		free(s1);
 		ft_strdel(&cmdl->line.save);
 	}
@@ -50,11 +50,11 @@ void		get_op(t_cmdl *cmdl, int *ret, int *i)
 	ft_memset(cmdl->line.buf, '\0', 6);
 	read(0, cmdl->line.buf, 6);
 	while (++(*i) < 23)
-	if (cmdl->line.buf[0] == op[(*i)].key[0] &&
-		cmdl->line.buf[1] == op[(*i)].key[1]
-		&& cmdl->line.buf[2] == op[(*i)].key[2] &&
-		cmdl->line.buf[3] == op[(*i)].key[3]
-		&& cmdl->line.buf[4] == op[(*i)].key[4])
+		if (cmdl->line.buf[0] == op[(*i)].key[0] &&
+				cmdl->line.buf[1] == op[(*i)].key[1]
+				&& cmdl->line.buf[2] == op[(*i)].key[2] &&
+				cmdl->line.buf[3] == op[(*i)].key[3]
+				&& cmdl->line.buf[4] == op[(*i)].key[4])
 			if (((*ret) = op[(*i)].f(cmdl)))
 				break ;
 }

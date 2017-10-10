@@ -6,13 +6,13 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 12:56:49 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:17:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:37:05 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	del_loc(t_local **loc_head)
+static void		del_loc(t_local **loc_head)
 {
 	t_local		*loc;
 	t_local		*save;
@@ -29,8 +29,7 @@ static void 	del_loc(t_local **loc_head)
 	loc = NULL;
 }
 
-
-static void 	del_his(t_his **his_head)
+static void		del_his(t_his **his_head)
 {
 	t_his		*his;
 	t_his		*save;
@@ -47,7 +46,7 @@ static void 	del_his(t_his **his_head)
 	his = NULL;
 }
 
-void 			del_all(t_cmdl **cmdl_head, t_his **his_head,
+void			del_all(t_cmdl **cmdl_head, t_his **his_head,
 	t_local **loc_head)
 {
 	t_cmdl		*cmdl;

@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 14:44:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:42:19 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 19:37:48 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static int		delete_sh(t_cmdl *cmdl)
 	tputs(tgetstr("dc", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	(cmdl->line.cur - cmdl->line.pr) == 0 ?
-	write(1, "':", 2) : ft_printf("': %@", match->cmdl);
+		write(1, "':", 2) : ft_printf("': %@", match->cmdl);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	return (1);
 }
 
-static int 		delete_comp_lst(t_cmdl *cmdl)
+static int		delete_comp_lst(t_cmdl *cmdl)
 {
 	if (cmdl->comp)
 		comp_del(&cmdl->comp);
@@ -42,6 +42,7 @@ static int 		delete_comp_lst(t_cmdl *cmdl)
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	return (1);
 }
+
 int				del(t_cmdl *cmdl)
 {
 	int		i;
@@ -61,7 +62,7 @@ int				del(t_cmdl *cmdl)
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
 	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
 	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
-	ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
+			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	return (1);
