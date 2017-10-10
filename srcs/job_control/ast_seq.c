@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/01 22:12:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:43:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,28 @@ int		job_oa_seq(t_ast **ast, t_env **env, int foreground)
 int		job_andor(t_ast **ast, t_env **env, int foreground)
 {
 	return (job_oa_seq(&(*ast)->left, env, foreground));
+}
+
+int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
+{
+	t_ast	*tmp;
+
+	foreground = 0;
+	tmp = (*ast)->type == BG_SEQ ? (*ast)->right : *ast;
+	if (tmp->type == BG)
+	{
+		job_ast(&tmp->left, env, foreground);
+		if (tmp->right)
+			job_bg_seq(&tmp->right, env, foreground);
+	}
+	else
+		job_ast(&tmp, env, 1);
+	return (1);
+}
+
+void	job_cont_bg(t_process **lst, char **env, t_job **job, int *p)
+{
+	close(p[1]);
+	(*lst)->next ? exec_pipe_bg(&(*lst)->next, env, p[0], job) : 0;
+	close(p[0]);
 }

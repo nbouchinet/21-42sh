@@ -6,24 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 20:26:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 11:49:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		print_error(int err, char *str)
-{
-	if (err == -1)
-		ft_errormsg("42sh: ", NULL, "Path not set.");
-	else if (err == -2)
-		ft_errormsg("42sh: ", NULL, "Path's value not set.");
-	else if (err == -3)
-		ft_errormsg("42sh: ", str, ": Command not found.");
-	else if (err == 1)
-		return (1);
-	return (0);
-}
 
 int		check_type_bin(t_ast **ast, t_env **env)
 {
@@ -34,37 +21,22 @@ int		check_type_bin(t_ast **ast, t_env **env)
 	return (0);
 }
 
-int		check_abs_bin(char *str)
-{
-	struct stat buf;
-
-	if (!lstat(str, &buf))
-	{
-		if (S_ISREG(buf.st_mode))
-			if (S_IXUSR & buf.st_mode)
-				return (1);
-		return (-3);
-	}
-	else
-		perror("lstat ");
-	return (0);
-}
-
 int		check_file(DIR *dir, char *directory, char **str)
 {
 	struct dirent	*file;
 
 	while ((file = readdir(dir)))
-	{
-		if (!ft_strcmp(file->d_name, *str))
+		if (isnt_dot(file->d_name, *str))
 		{
 			ft_strdel(str);
 			*str = ft_strjoin(directory, "/");
 			*str = ft_strjoinf(*str, file->d_name, 1);
-			closedir(dir);
-			return (1);
+			if (check_abs_bin(*str) == 1)
+			{
+				closedir(dir);
+				return (1);
+			}
 		}
-	}
 	closedir(dir);
 	return (0);
 }
@@ -99,23 +71,6 @@ int		check_rlt_bin(char **str, t_env **env)
 	return (-1);
 }
 
-int		nbr_arg(t_ast **ast)
-{
-	t_ast	*tmp;
-	int		i;
-
-	i = 0;
-	if (*ast)
-	{
-		tmp = *ast;
-		while (tmp)
-		{
-			tmp = tmp->right;
-			i++;
-		}
-	}
-	return (i);
-}
 char	**creat_argv(t_ast **ast)
 {
 	int		i;

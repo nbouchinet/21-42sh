@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 10:33:07 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/08 11:41:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:04:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int			exec_pro_pipe(t_process **p, t_env **env, t_job **job)
+int		exec_pro_pipe(t_process **p, t_env **env, t_job **job)
 {
 	char	**n_env;
 
@@ -31,7 +31,7 @@ int			exec_pro_pipe(t_process **p, t_env **env, t_job **job)
 	return ((*p)->status);
 }
 
-int			exec_job_pipe(t_job **job, t_env **env, int foreground)
+int		exec_job_pipe(t_job **job, t_env **env, int foreground)
 {
 	int		status;
 
@@ -53,7 +53,6 @@ int		exec_env_pipe(t_ast **ast, t_env **env, t_env **r_env)
 
 	i = 0;
 	tmp = *ast;
-	tok = NULL;
 	if ((cmd = recreat_cmd(&tmp)))
 	{
 		tok = init_tok(&tok, C);
@@ -62,25 +61,15 @@ int		exec_env_pipe(t_ast **ast, t_env **env, t_env **r_env)
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);
 		delete_lst(&tok);
-		if ((new_ast->left->left->type == CMD_NAME_ABS ?
-			find_bin(&new_ast->left->left) :
-				find_rlt(&new_ast->left->left, r_env)) == 1)
-			i = pipe_builtin(&new_ast, env, 1);
+		if ((i = check_type_bin(&(new_ast)->left, r_env)) == 1)
+		{
+			new_ast->left->left->type = CMD_NAME_ABS;
+			i = job_ast(&new_ast, env, 1);
+		}
+		print_error(i, new_ast->left->left->str);
 		destroy_ast(&new_ast);
 	}
 	return (i);
-}
-
-int		env_builtin_pipe(t_ast **ast, t_env **env, t_env **r_env)
-{
-	t_ast	*tmp;
-
-	tmp = *ast;
-	if (tmp)
-		return (exec_env_pipe(&tmp, env, r_env));
-	if (env)
-		print_env(*env);
-	return (1);
 }
 
 int		env_pipe(t_ast **ast, t_env **env)
@@ -107,7 +96,7 @@ int		env_pipe(t_ast **ast, t_env **env)
 	return (0);
 }
 
-int			pipe_builtin(t_ast **ast, t_env **env, int foreground)
+int		pipe_builtin(t_ast **ast, t_env **env, int foreground)
 {
 	int					i;
 	t_job				*job;

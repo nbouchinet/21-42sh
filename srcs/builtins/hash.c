@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 15:44:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 11:46:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		search(t_ast **ast, t_hash **table, int i)
 				{
 					tmp_a->str = ft_strdups(tmp->path, &tmp_a->str);
 					tmp->hits++;
-					if (isexec(tmp_a->str) == 1)
+					if (check_abs_bin(tmp_a->str) == 1)
 						return (1);
 					return (0);
 				}
