@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:12:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:15:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:31:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,48 @@ void	delete_tnode(t_job **node, t_job **prev, t_job **table)
 		(*node)->pgid = 0;
 		free(*node);
 	}
+}
+
+int		delete_process(t_process **head, t_process **prev, t_process **process)
+{
+	t_process	*p;
+
+	p = *process;
+	if (*prev)
+		(*prev)->next = p->next;
+	else
+		*head = p->next;
+	if (p->argv)
+		ft_freetab(p->argv);
+	p->builtin ? p->builtin = NULL : 0;
+	p->rdir ? p->rdir = NULL : 0;
+	p->env ? p->env = NULL : 0;
+	p->completed = 0;
+	p->stopped = 0;
+	p->status = 0;
+	p->next = NULL;
+	free(p);
+	return (1);
+}
+
+int		check_kill(t_job **job)
+{
+	t_process	*p;
+	t_process	*prev;
+
+	prev = NULL;
+	p = (*job)->first_process;
+	while (p)
+	{
+		if (kill(p->pid, 0) < 0)
+		{
+			delete_process(&(*job)->first_process, &prev, &p);
+			p = (*job)->first_process;
+		}
+		else
+			p = p->next;
+	}
+	if ((*job)->first_process == NULL)
+		return (1);
+	return (0);
 }

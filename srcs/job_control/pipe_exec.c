@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:23:48 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 17:15:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:09:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		job_pipe(t_ast **ast, t_env **env, int foreground)
+int		job_pipe(t_ast **ast, t_env **env, int fg)
 {
 	t_job	*job;
 	t_job	*tmp;
@@ -22,15 +22,13 @@ int		job_pipe(t_ast **ast, t_env **env, int foreground)
 		tmp = job;
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
-		{
-			return (pipe_job(&job, env, foreground));
-		}
+			return (pipe_job(&job, env, fg));
 		delete_job(&job);
 	}
 	return (0);
 }
 
-int		pipe_job(t_job **lst, t_env **env, int foreground)
+int		pipe_job(t_job **lst, t_env **env, int fg)
 {
 	int		status;
 	char	**n_env;
@@ -38,8 +36,9 @@ int		pipe_job(t_job **lst, t_env **env, int foreground)
 
 	tmp = *lst;
 	job_control(lst, NULL, ADD);
-	n_env = get_env(env, tmp->first_process->argv ? tmp->first_process->argv[0] : NULL);
-	if (foreground)
+	n_env = get_env(env, tmp->first_process->argv ?
+						tmp->first_process->argv[0] : NULL);
+	if (fg)
 	{
 		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
 		mark_process_status(lst);

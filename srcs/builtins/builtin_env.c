@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/31 15:00:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/13 14:32:15 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/09 19:07:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		find_rlt(t_ast **cmd, t_env **env)
 	path = NULL;
 	if (env && !(path = find_node(env, "PATH", NULL)))
 		return (ft_errormsg("21sh: ", NULL, "PATH not set"));
-	if (find_cmd_bin(cmd, (value = ft_strsplit(path->value, ':'))) == 0)
+	if ((cmd, (value = ft_strsplit(path->value, ':'))) == 0)
 	{
 		ft_freetab(value);
 		return (ft_errormsg("21sh: ", (*cmd)->str, ": Command not found."));
@@ -129,13 +129,15 @@ int		exec_env(t_ast **ast, t_env **env, int flag)
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);
 		delete_lst(&tok);
-		if ((new_ast->left->left->type == CMD_NAME_ABS ?
-		find_bin(&new_ast->left->left) :
-		find_rlt(&new_ast->left->left, env)) == 1)
+		if (check_type_bin(&(new_ast)->left, env) == 1)
 		{
+			ft_putendl("HEHEHEHEH");
 			job_ast(&new_ast, (flag & LOW_I_FLAG) ? NULL : env, 1);
 			destroy_ast(&new_ast);
 		}
+		// (new_ast->left->left->type == CMD_NAME_ABS ?
+		// 	find_bin(&new_ast->left->left) :
+		// 	find_rlt(&new_ast->left->left, env)) == 1)
 	}
 	return (0);
 }

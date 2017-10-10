@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/04 16:23:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:53:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,7 +223,7 @@ t_ast				*complete_env(t_env **env, t_ast **ast);
 t_ast				*env_without(t_env **env, t_ast **ast);
 t_ast				*env_w(t_env **env, t_ast **ast);
 void				change_env(t_env **env, char **var);
-void				complete_node(t_env **node, char **env);
+void				complete_node(t_env **node, char **env, int mod);
 int					exec_env(t_ast **ast, t_env **env, t_env **r_env);
 t_env				*next_node(t_env **env);
 int					find_rlt(t_ast **cmd, t_env **env);

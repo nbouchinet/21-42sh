@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 21:32:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:04:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_job	*find_pgid(t_job **table, t_ast **ast)
 
 int		background(t_job **job, t_ast **ast, t_job **table)
 {
-	t_job		*j;
+	t_job	*j;
 
 	(void)job;
 	if (*table)
@@ -73,7 +73,7 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 			if ((j = find_pgid(table, ast)))
 			{
 				mark_job_as_running(&j);
-				if (kill(- j->pgid, SIGCONT) < 0)
+				if (kill(-j->pgid, SIGCONT) < 0)
 					perror("kill (SIGCONT)");
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 			}
@@ -88,27 +88,22 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 	return (0);
 }
 
-
-int			foreground(t_job **job, t_ast **ast, t_job **table)
+int		foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
 
 	(void)job;
-	if (*table)
+	if ((j = *table))
 	{
-		j = *table;
 		if (j)
 		{
 			if ((j = find_pgid(table, ast)))
 			{
 				mark_job_as_running(&j);
-				ft_putnbrl(j->pgid);
-				if (j->first_process->argv)
-					ft_putendl(j->first_process->argv[0]);
 				if (kill(-j->pgid, SIGCONT) < 0)
-					perror("kill (SIGCONT)");
+					ft_errormsg("42sh: ", NULL, "No such process");
 				tcsetpgrp(g_shell_terminal, j->pgid);
-				wait_for_job(&j); // find alternative
+				wait_for_job(&j);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 				return (return_exec(j->first_process->status));
 			}

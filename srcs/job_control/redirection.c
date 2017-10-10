@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 14:11:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:48:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,6 @@ int		agre(t_ast **ast)
 	}
 	else
 		return (wtf_rdir(&tmp));
-	return (0);
-}
-
-int		bgre(t_ast **ast)
-{
-	int		fd;
-	int		std;
-	t_ast	*tmp;
-
-	tmp = *ast;
-	std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
-	if (ft_strcmp(tmp->left->str, "-") == 0)
-	{
-		if (close(std) == 0)
-			return (1);
-	}
-	else if (io_number(tmp->left->str) == 1)
-	{
-		fd = ft_atoi(tmp->left->str);
-		if (dup2(std, fd) != -1)
-			return (1);
-	}
-	else
-		ft_errormsg("42sh: ", tmp->left->str, ": ambiguous redirect.");
 	return (0);
 }
 

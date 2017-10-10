@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/09 17:29:02 by nbouchin         ###   ########.fr        #
+#    Updated: 2017/10/10 15:03:54 by nbouchin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,6 @@ CFILES= 		main.c \
 				command_line/set_shell.c \
 				command_line/slg.c \
 				job_control/ast_base.c \
-				job_control/ast_bg.c \
 				job_control/ast_seq.c \
 				job_control/catch_error.c \
 				job_control/creat_job.c \
@@ -105,7 +104,6 @@ CFILES= 		main.c \
 				job_control/exec_env.c \
 				job_control/exec_env_tools.c \
 				job_control/fg_bg.c \
-				job_control/fill_argv_job.c \
 				job_control/fork.c \
 				job_control/fork_utils.c \
 				job_control/heredoc.c \
@@ -114,15 +112,14 @@ CFILES= 		main.c \
 				job_control/job_control_tools.c \
 				job_control/job_tools.c \
 				job_control/misc.c \
+				job_control/misc_2.c \
 				job_control/pipe_exec.c \
-				job_control/bin_fin.c \
-				job_control/bin_fin2.c \
-				job_control/bin_fin3.c \
-				job_control/bin_fin4.c \
-				job_control/bin_fin5.c \
+				job_control/shlvl.c \
 				job_control/redirection.c \
 				job_control/find_bin.c \
 				job_control/env_pipe.c \
+				job_control/find_bin_tools.c \
+				job_control/job_message.c \
 
 
 OFILES=			$(CFILES:.c=.o)

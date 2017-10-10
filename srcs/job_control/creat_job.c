@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/07 20:36:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:46:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,34 +62,6 @@ int		check_builtin(t_ast **ast, t_process **p, t_env **env)
 	return (0);
 }
 
-// int		init_process(t_ast **ast, t_process **proc, t_env **env)
-// {
-// 	t_process	*tmp;
-// 	if ((*proc))
-// 	{
-// 		tmp = *proc;
-// 		while (tmp->next)
-// 			tmp = tmp->next;
-// 		if (init_proc(&tmp->next) == -1)
-// 			return (-1);
-// 	}
-// 	else
-// 	{
-// 		if (init_proc(proc) == -1)
-// 			return (-1);
-// 		tmp = (*proc);
-// 	}
-// 	if (check_builtin(ast, &tmp, env))
-// 		return (1);
-// 	if ((tmp->argv = creat_arg_process(&(*ast)->left, env)) != NULL)
-// 	{
-// 		tmp->builtin = NULL;
-// 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
 int		init_process(t_ast **ast, t_process **p, t_env **env)
 {
 	int			i;
@@ -118,7 +90,7 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
 {
-	t_ast			*tmp;
+	t_ast	*tmp;
 
 	tmp = *ast;
 	if (tmp->type == PIPE)
