@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/28 15:02:58 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/10 14:20:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@ void	delete_lst(t_tok **cmd)
 
 void	st_tok(char **stack, char c, int reset)
 {
-	static int		len = 100;
 	int				i;
 	char			*tmp;
+	static int		len = 100;
 
-
-	i = 0;
 	if (reset)
 	{
 		len = 100;
@@ -43,7 +41,7 @@ void	st_tok(char **stack, char c, int reset)
 	{
 		i = -1;
 		if (!(tmp = (char *)malloc(sizeof(char) * (len + 100))))
-			exit (0);
+			exit(EXIT_FAILURE);
 		ft_memset(tmp, 0, (len + 100));
 		while ((*stack)[++i])
 			tmp[i] = (*stack)[i];

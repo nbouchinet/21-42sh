@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:33:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 18:09:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:22:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void			tertiary_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	tmp_ast = *ast;
 	while (tmp && tmp != *sep)
 	{
-		if (tmp->type == BG)
+		if (tmp->type == BGE)
 		{
 			tmp_ast->type = BG_SEQ;
 			bg_sequence(&tmp_ast, lst, sep);

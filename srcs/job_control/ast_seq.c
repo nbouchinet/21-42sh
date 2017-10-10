@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 12:43:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:26:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 
 	foreground = 0;
 	tmp = (*ast)->type == BG_SEQ ? (*ast)->right : *ast;
-	if (tmp->type == BG)
+	if (tmp->type == BGE)
 	{
 		job_ast(&tmp->left, env, foreground);
 		if (tmp->right)

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 10:33:07 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:04:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 14:46:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		exec_env_pipe(t_ast **ast, t_env **env, t_env **r_env)
 	if ((cmd = recreat_cmd(&tmp)))
 	{
 		tok = init_tok(&tok, C);
-		new_parser(&tok, cmd);
+		new_parser(&tok, cmd, 0);
 		ft_strdel(&cmd);
 		init_ast(&new_ast, NULL, 0);
 		primary_sequence(&new_ast, &tok);

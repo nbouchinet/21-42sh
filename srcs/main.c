@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/09 17:30:49 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/10 15:11:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	// t_tok	*t;
+	t_tok	*t;
 
 	i = 0;
 	ast = NULL;
@@ -53,16 +53,16 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	{
 		init_token(&cmd);
 		// ft_putendl("-1");
-		new_parser(&cmd, *line);
+		new_parser(&cmd, *line, 0);
 		restruct_lst(&cmd);
-		// // ft_putendl("1");
-		// t = cmd;
-		// while (t)
-		// {
-		// 	ft_printf("[%s]-|-[%d]\n", t->str, t->type);
-		// 	t = t->n;
-		// }
-		if (new_lexercheck(&cmd) == 1) // revoir valeur binaire
+		// ft_putendl("1");
+		t = cmd;
+		while (t)
+		{
+			ft_printf("[%s]-|-[%d]\n", t->str, t->type);
+			t = t->n;
+		}
+		if (new_lexercheck(&cmd)) // revoir valeur binaire
 		{
 			// ft_putendl("HELLO");
 			specified_dir(&cmd);

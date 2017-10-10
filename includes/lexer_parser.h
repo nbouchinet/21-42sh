@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 13:39:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 15:54:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ enum				e_token
 	FIL = 512,
 	DQUOTE = 1024,
 	LOCAL = 2048,
-	BG = 4096
+	BGE = 4096
 };
 
 enum				e_dir
@@ -82,7 +82,7 @@ void				input(t_tok **cmd);
 void				init_token(t_tok **lst);
 void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
-void				new_parser(t_tok **cmd, char *line);
+void				new_parser(t_tok **cmd, char *line, int i);
 void				quote(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
 void				question_mark(t_tok **lst, char **stack,
@@ -102,5 +102,7 @@ void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
 void				expanse(t_tok **lst, t_env **env);
 t_tok				*heredoc(t_tok **lst);
-
+void				swap_tok(t_tok **lst, t_tok **start, t_tok **next, t_tok **w);
+void				replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end);
+int					print_error_lexer(t_tok **lst, t_tok **next, int mod);
 #endif

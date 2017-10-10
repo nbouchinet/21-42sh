@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 13:15:59 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/10 15:39:29 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ CFILES= 		main.c \
 				lexer/expanse.c \
 				lexer/jonathan_kent.c \
 				lexer/the_dog.c \
+				lexer/misc_lexer.c \
 				AST/ast_tools.c \
 				AST/creat_ast.c \
 				AST/creat_io_seq.c \
