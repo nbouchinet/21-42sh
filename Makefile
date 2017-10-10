@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 16:02:58 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/10 18:41:55 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ CFILES= 		main.c \
 				AST/creat_qm_oa.c \
 				AST/destroy_ast.c \
 				AST/creat_bg_seq.c \
+				AST/misc_ast.c \
 				init_env/check_env.c \
 				builtins/cd.c \
 				builtins/unsetenv.c \

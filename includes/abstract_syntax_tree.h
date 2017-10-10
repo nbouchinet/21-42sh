@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/25 17:20:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 18:42:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ t_tok				*multi_qm(t_tok **lst);
 void				ft_putast(t_ast *root);
 void				destroy_ast(t_ast **head);
 void				destroy_tok(t_tok **head);
+t_tok				*valid_arg(t_tok **lst, t_ast **ast, t_tok **sep);
+t_tok				*stock_local(t_tok **lst, t_tok **sep, int i);
 
 #endif
