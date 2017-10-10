@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 17:40:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:42:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,12 @@ int		return_exec(int status)
 	return (0);
 }
 
-int		exec_job(t_job **job, t_env **env, int foreground)
+int		exec_job(t_job **job, t_env **env, int fg)
 {
 	int		status;
 
 	job_control(job, NULL, ADD);
-	if (foreground)
+	if (fg)
 	{
 		status = exec_pro(&(*job)->first_process, env, job);
 		mark_process_status(job);

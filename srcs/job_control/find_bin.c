@@ -6,24 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/09 19:14:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 11:49:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		print_error(int err, char *str)
-{
-	if (err == -1)
-		ft_errormsg("42sh: ", NULL, "Path not set.");
-	else if (err == -2)
-		ft_errormsg("42sh: ", NULL, "Path's value not set.");
-	else if (err == -3)
-		ft_errormsg("42sh: ", str ? str : NULL, ": Command not found.");
-	else if (err == 1)
-		return (1);
-	return (0);
-} // 1
 
 int		check_type_bin(t_ast **ast, t_env **env)
 {
@@ -33,29 +20,6 @@ int		check_type_bin(t_ast **ast, t_env **env)
 		return (check_rlt_bin(&(*ast)->left->str, env));
 	return (0);
 }
-
-int		check_abs_bin(char *str)
-{
-	struct stat buf;
-
-	if (!lstat(str, &buf))
-	{
-		if (S_ISREG(buf.st_mode))
-			if (S_IXUSR & buf.st_mode)
-				return (1);
-		return (-3);
-	}
-	return (0);
-} // 1
-
-int			isnt_dot(char *file, char *str)
-{
-	if (!ft_strcmp(str, ".") || !ft_strcmp(str, ".."))
-		return (0);
-	else if (!ft_strcmp(file, str))
-		return (1);
-	return (0);
-} // 1
 
 int		check_file(DIR *dir, char *directory, char **str)
 {
@@ -106,24 +70,6 @@ int		check_rlt_bin(char **str, t_env **env)
 		return (tmp->value ? exist_bin(str, tmp->value) : -2);
 	return (-1);
 }
-
-int		nbr_arg(t_ast **ast)
-{
-	t_ast	*tmp;
-	int		i;
-
-	i = 0;
-	if (*ast)
-	{
-		tmp = *ast;
-		while (tmp)
-		{
-			tmp = tmp->right;
-			i++;
-		}
-	}
-	return (i);
-} // 1
 
 char	**creat_argv(t_ast **ast)
 {

@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/08 11:23:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:10:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void		env_opt(char *str, int *flags);
 t_ast		*env_without(t_env **env, t_ast **ast);
 t_ast		*env_w(t_env **env, t_ast **ast);
 void		change_env(t_env **env, char **var);
-void		complete_node(t_env **node, char **env);
+// void		complete_node(t_env **node, char **env);
 int			exec_env(t_ast **ast, t_env **env, t_env **r_env);
 void		wait_for_job(t_job **job);
 void		mark_job_as_running(t_job **job);
@@ -154,5 +154,12 @@ int			check_rlt_bin(char **str, t_env **env);
 int			nbr_arg(t_ast **ast);
 char		**creat_argv(t_ast **ast);
 int			pipe_builtin(t_ast **ast, t_env **env, int foreground);
+int			check_abs_bin(char *str);
+int			isnt_dot(char *file, char *str);
+int			nbr_arg(t_ast **ast);
+int			print_error(int err, char *str);
+void		exec_fork(t_process **process, char **env, pid_t pgid, int r, int fg);
+int			exec_env_pipe(t_ast **ast, t_env **env, t_env **r_env);
+int			env_builtin_pipe(t_ast **ast, t_env **env, t_env **r_env);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:45:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:15:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:01:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int			delete_job(t_job **job)
+int		delete_job(t_job **job)
 {
 	t_job		*j;
 	t_process	*p;
@@ -37,4 +37,16 @@ int			delete_job(t_job **job)
 		free(j);
 	}
 	return (0);
+}
+
+int		env_builtin_pipe(t_ast **ast, t_env **env, t_env **r_env)
+{
+	t_ast	*tmp;
+
+	tmp = *ast;
+	if (tmp)
+		return (exec_env_pipe(&tmp, env, r_env));
+	if (env)
+		print_env(*env);
+	return (1);
 }

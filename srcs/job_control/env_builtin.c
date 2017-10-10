@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:30:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:30:57 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:48:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,9 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag)
 			tmp_n = *n_env;
 			while (tmp)
 			{
-				if ((flag & LOW_U_FLAG))
-					if ((*ast))
-						if (!ft_strcmp((*ast)->str, tmp->var))
-							tmp = tmp->next;
+				if ((flag & LOW_U_FLAG) && *ast)
+					if (!ft_strcmp((*ast)->str, tmp->var))
+						tmp = tmp->next;
 				tmp_n->var = ft_strdup(tmp->var);
 				tmp_n->value = ft_strdup(tmp->value);
 				if (tmp->next)

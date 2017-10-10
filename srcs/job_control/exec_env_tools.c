@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:31:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/06 13:28:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 12:49:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,6 @@ t_env	*next_node(t_env **env)
 	return ((*env)->next);
 }
 
-int		find_rlt(t_ast **cmd, t_env **env)
-{
-	t_env	*path;
-	char	**value;
-
-	path = NULL;
-	if (env && !(path = find_node(env, "PATH", NULL)))
-		return (ft_errormsg("42sh: ", NULL, "PATH not set"));
-	if (find_cmd_bin(cmd, (value = ft_strsplit(path->value, ':'))) == 0)
-	{
-		ft_freetab(value);
-		return (ft_errormsg("42sh: ", (*cmd)->str, ": Command not found."));
-	}
-	ft_freetab(value);
-	(*cmd)->type = CMD_NAME_ABS;
-	return (1);
-}
-
 char	*recreat_cmd(t_ast **ast)
 {
 	t_ast	*tmp;
@@ -45,7 +27,8 @@ char	*recreat_cmd(t_ast **ast)
 
 	tmp = *ast;
 	new_cmd = ft_strdup(tmp->str);
-	(tmp = tmp->right) ? new_cmd = ft_strjoinf(new_cmd, " ", 1) : 0;
+	if ((tmp = tmp->right))
+		new_cmd = ft_strjoinf(new_cmd, " ", 1);
 	while (tmp)
 	{
 		new_cmd = ft_strjoinf(new_cmd, tmp->str, 1);

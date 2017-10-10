@@ -1,53 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bin_fin5.c                                         :+:      :+:    :+:   */
+/*   misc_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 02:43:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 02:44:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 13:05:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-char	*create_path(char *env, char *cmd)
+int		countnode(t_env *env)
 {
 	int		i;
-	char	*str;
 
-	i = ft_strlen(env) + ft_strlen(cmd);
+	i = 0;
+	if (!env)
+		return (i);
+	while (env)
+	{
+		i++;
+		env = env->next;
+	}
+	return (i);
+}
+
+char	*var_value(int i, char *var, char *value)
+{
+	char *str;
+
 	if (!(str = (char*)malloc(sizeof(char) * (i + 2))))
 		return (NULL);
 	ft_bzero(str, i + 2);
-	ft_strcat(str, env);
-	i = ft_strlen(env);
-	if (env[i - 1] != '/')
-		ft_strcat(str, "/");
-	ft_strcat(str, cmd);
+	ft_strcat(str, var);
+	ft_strcat(str, "=");
+	value ? ft_strcat(str, value) : 0;
 	return (str);
 }
 
-char	*get_dir(char *cmd)
-{
-	int		i;
-	int		index;
-	char	*ncmd;
-
-	i = -1;
-	while (cmd[++i])
-		if (cmd[i] == '/')
-			index = i;
-	i = -1;
-	if (!(ncmd = ft_strnew(index + 1)))
-		return (NULL);
-	while (++i <= index)
-		ncmd[i] = cmd[i];
-	return (ncmd);
-}
-
-void		stock_restore(int mod)
+void	stock_restore(int mod)
 {
 	static int		stdin = -1;
 	static int		stdout = -1;
