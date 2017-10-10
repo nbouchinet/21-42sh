@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 21:25:17 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 21:25:55 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 22:30:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,19 @@ int		unset_shell(t_cmdl *cmdl)
 	del_all(cmdl_slg(), his_slg(), local_slg(0));
 	write(1, "\nBye\n", 5);
 	return (0);
+}
+
+int			his_len(t_his **his)
+{
+	t_his	*tmp;
+	int		len;
+
+	tmp = (*his);
+	len = 1;
+	while (tmp)
+	{
+		len++;
+		tmp = tmp->n;
+	}
+	return (len);
 }
