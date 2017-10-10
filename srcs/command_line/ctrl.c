@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 16:39:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:21:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 22:26:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			ctrlt(t_cmdl *cmdl)
 
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->opt & (CCOMP | CCMODE | CHIS_S) || !i ||
-	ft_strlen(cmdl->line.str) < 2)
+			ft_strlen(cmdl->line.str) < 2)
 		return (write(1, "\7", 1));
 	min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
 	stock = cmdl->line.str[i - min - 1];
@@ -29,11 +29,11 @@ int			ctrlt(t_cmdl *cmdl)
 	arrow_left(cmdl);
 	min == 1 ? arrow_left(cmdl) : 0;
 	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
-	&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+			&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
 		tputs(tgetstr("mr", NULL), 1, ft_putchar);
 	cmdl->line.cur += write(1, (cmdl->line.str + (i - min - 1)), 1);
 	if (cmdl->ccp.start != -1 && cmdl->ccp.end == -1
-	&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
+			&& cmdl->line.cur - cmdl->line.pr >= cmdl->ccp.start)
 		tputs(tgetstr("mr", NULL), 1, ft_putchar);
 	cmdl->line.cur += write(1, (cmdl->line.str + (i - min)), 1 + min) - min;
 	if (cmdl->line.cur % cmdl->line.co == 0)
@@ -68,8 +68,8 @@ static int	register_cmdl(t_cmdl *cmdl, int w)
 		fd_printf(2, "\n42sh: syntax error: unexpected end of file\n");
 	else
 		fd_printf(2, "\n42sh: unexpected EOF while looking for a "
-		"matching `%c'\n42sh: syntax error: unexpected end of file\n",
-		cmdl->opt & CSQ ? '\'' : '"');
+				"matching `%c'\n42sh: syntax error: unexpected end of file\n",
+				cmdl->opt & CSQ ? '\'' : '"');
 	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	ft_strdel(&tmp);
 	cmd_save_history(cmdl->line.str);
@@ -80,7 +80,7 @@ static int	register_cmdl(t_cmdl *cmdl, int w)
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
-	((cmdl->opt & (CPIPE | CAND | COR))))
+			((cmdl->opt & (CPIPE | CAND | COR))))
 		return (register_cmdl(cmdl, 0));
 	else if (cmdl->line.str && !cmdl->line.str[0] && (cmdl->opt & (CSQ | CDQ)))
 		return (register_cmdl(cmdl, 1));

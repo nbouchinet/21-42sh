@@ -54,8 +54,9 @@ static char	*construct_path(t_env **env, char *save, char *path)
 				*ptr = 0;
 			else
 			{
+				np ? ft_strdel(&np) : 0;
 				ft_free(save_array, NULL, 1);
-				return ("/");
+				return (ft_strdup("/"));
 			}
 		}
 		else if (ft_strcmp(*array, ".") && ft_strcmp(*array, "-"))
@@ -89,7 +90,7 @@ static void	mod_env(t_env **env, char *path, char *save)
 		malloc_env_lnk(env, &tmp);
 		tmp->var = ft_strdup("PWD");
 	}
-	tmp->value = ft_strdup(construct_path(env, save, path));
+	tmp->value = construct_path(env, save, path);
 }
 
 static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
@@ -103,7 +104,7 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 	tmp = *ast;
 	i = 0;
 	ft_memset(buff, 0, MAXPATHLEN);
-	while (tmp && tmp->str && tmp->str[0] == '-' && tmp->str[1])
+	while (tmp && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
 	if (lstat((*path), &st) == -1)
 			return (fd_printf(2, "cd: %s: no such file or directory\n",
@@ -129,15 +130,11 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 
 static int	get_arg(t_ast **ast, t_env **env, char **path)
 {
-	char	*match;
-	int		len;
 	t_ast	*tmp;
 
-	match = NULL;
 	tmp = *ast;
 	while (tmp && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
-	len = ft_strlen(tmp->str);
 	if (!tmp && lst_at(env, "HOME"))
 		*path = ft_strdup(lst_at(env, "HOME")->value);
 	else if (tmp && tmp->str[0] == '-' && !tmp->str[1])

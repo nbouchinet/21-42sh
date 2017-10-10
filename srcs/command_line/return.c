@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 17:35:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:28:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 22:21:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ int			return_cmdl(t_cmdl *cmdl)
 		comp_del(&cmdl->comp);
 		return (1);
 	}
-	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str) - 1
-)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
+	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)
+	- 1)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
 		return (2);
 	return (1);
 }
