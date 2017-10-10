@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 14:06:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:44:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int		exec_pipe_job(t_process **lst, char **env, int r, t_job **job)
 		if ((tmp->pid = fork()) == 0)
 		{
 			close(p[0]);
-			active_sig(tmp->pid, (*job)->pgid, 1);
 			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
+			active_sig(tmp->pid, (*job)->pgid, 1);
 			exec_fork(&tmp, env, r);
 		}
 		else

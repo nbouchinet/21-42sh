@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 16:38:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 19:22:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:44:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,8 @@ int		new_lexercheck(t_tok **lst)
 		{
 			if (tmp->type & (PIPE | QM | AND | OR | CHEVRON | BGE))
 				if (error_lexer(&prev, &tmp, &tmp->n))
-				{
 					return (0);
-				}
-			prev = tmp;
+ 			prev = tmp;
 			tmp = tmp->n;
 		}
 	}

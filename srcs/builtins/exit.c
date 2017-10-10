@@ -6,7 +6,7 @@
 /*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 16:11:48 by hpelat            #+#    #+#             */
-/*   Updated: 2017/10/04 19:16:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/10 19:43:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@ int		set_exiting_value(t_cmdl **cmdl, int r_value)
 		(*cmdl)->ret += 128;
 	else if ((*cmdl)->ret == 256)
 		(*cmdl)->ret -= 255;
-	// else
-	// {
-	// 	while ((*cmdl)->exit > 255 || (*cmdl)->exit < 0)
-	// 		(*cmdl)->exit = ((*cmdl)->exit > 255 ? (*cmdl)->exit - 256 :
-	// 		(*cmdl)->exit + 256);
-	// }
 	(*cmdl)->exit = (*cmdl)->ret;
 	return (r_value);
 }
