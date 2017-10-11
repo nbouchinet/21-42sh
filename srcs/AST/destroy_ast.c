@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 13:45:25 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 19:18:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:21:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	destroy_tok(t_tok **head)
 	{
 		save = tmp->n;
 		ft_strdel(&tmp->str);
+		tmp->hd != 0 ? ft_putnbrl(tmp->hd) : 0;
+		tmp->hd != 0 ? close(tmp->hd) : 0;
 		free(tmp);
 		tmp = save;
 	}

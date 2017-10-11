@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 15:56:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:30:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 09:40:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,10 @@ int			cmd_history(t_cmdl *cmdl)
 	if (cmdl->opt & (CCMODE | CCP))
 		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
-		return (UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
-				c_arrow_down(&cmdl->comp));
+	{
+		return ((UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
+		c_arrow_down(&cmdl->comp)));
+	}
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (cmdl->opt & CRESET)
