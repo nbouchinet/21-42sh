@@ -41,7 +41,6 @@ int			put_into_lst(char *str, char *sub)
 	{
 		loc->var = ft_strdup(str);
 		loc->val = ft_strdup(sub);
-		ft_strdel(&sub);
 		return (1);
 	}
 	while (loc->n && (match = ft_strcmp(loc->var, str)))
@@ -49,7 +48,6 @@ int			put_into_lst(char *str, char *sub)
 	if (!loc->n)
 		(match = ft_strcmp(loc->var, str));
 	stock_loc(&loc, str, sub, match);
-	ft_strdel(&sub);
 	return (1);
 }
 
@@ -66,10 +64,11 @@ int			local(char *str)
 	*sep = 0;
 	if ((match = lst_at(env, str)))
 	{
-		ft_strdel(&match->value);
-		match->value = ft_strdup(sub);
+		ft_strdel(&(match)->value);
+		match->value = sub[0] ? ft_strdup(sub) : NULL;
 	}
 	else
 		put_into_lst(str, sub);
+	ft_strdel(&sub);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/25 12:25:10 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 12:03:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 13:36:00 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	boucle(char *s1, unsigned int *i, unsigned int *len)
 {
-	while (s1[*i] != '\0' && (s1[*i] == ' ' || s1[*i] == '\n' || s1[*i] == '\t'))
+	while (s1[*i] != '\0' && (s1[*i] == ' ' ||
+		s1[*i] == '\n' || s1[*i] == '\t'))
 		(*i)++;
 	while (*len && (s1[*len] == ' ' || s1[*len] == '\n' || s1[*len] == '\t'))
 		(*len)--;

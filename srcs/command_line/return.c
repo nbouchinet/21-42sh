@@ -62,7 +62,7 @@ int			return_cmdl(t_cmdl *cmdl)
 {
 	t_comp	*tmp;
 
-	if (cmdl->opt & CCMODE)
+	if (cmdl->opt & (CCMODE | CCP))
 		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 	{
@@ -78,7 +78,7 @@ int			return_cmdl(t_cmdl *cmdl)
 		return (1);
 	}
 	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)
-	- 1)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
+	- 1)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1) || cmdl->opt & CHD)
 		return (2);
 	return (1);
 }
