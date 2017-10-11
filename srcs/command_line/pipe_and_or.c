@@ -103,7 +103,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 
 	if ((cmdl->opt & (CPIPE | CAND | COR)) && iris_west(cmdl->line.str))
 		return (pipe_and_or(cmdl));
-	i = ft_strlen(cmdl->line.str);
+	i = ft_strlen(cmdl->line.str) - ft_strlen(cmdl->line.str) > 0 ? 1 : 0;
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 	{
 		if (cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
@@ -111,9 +111,9 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 			k = 1;
 		i--;
 	}
-	if (cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
+	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
+	ppa_err(cmdl, &i))
 		return (0);
-	i -= (i > 0 && cmdl->line.str[i - 1] == cmdl->line.str[i]) ? 1 : 0;
 	if (only_space(cmdl, i, 1))
 	{
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));

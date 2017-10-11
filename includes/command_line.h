@@ -276,6 +276,7 @@ int					return_cmdl(t_cmdl *cmdl);
 int					exit_search_mode(t_cmdl *cmdl);
 int					check_quote(t_cmdl *cmdl);
 int					handle_pipe_and_or(t_cmdl *cmdl, int k);
+int					ppa_err(t_cmdl *cmdl, int *i);
 int					inhibiteur(t_cmdl *cmdl, int len);
 int					ctrl_d(t_cmdl *cmdl);
 int					iris_west(char *str);

@@ -82,9 +82,9 @@ static int	regular_print(t_line *line, char buf[], int i, int j)
 	if ((*cmdl_slg())->ccp.start != -1 && (*cmdl_slg())->ccp.end == -1 &&
 	(*cmdl_slg())->ccp.start <= line->cur - line->pr)
 		tputs(tgetstr("mr", NULL), 1, ft_putchar);
-	write(1, line->str + i, 1);
+	buf[0] != 10 ? write(1, line->str + i, 1) : 0;
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
-	write(1, line->str + i + 1, ft_strlen(line->str + i + 1));
+	buf[0] != 10 ? write(1, line->str + i + 1, ft_strlen(line->str + i + 1)) : 0;
 	line->cur += ft_strlen(line->str + i);
 	!(line->cur % line->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 	return ((i += (len = (int)ft_strlen(line->str) - len) > 1 ? len : 0));

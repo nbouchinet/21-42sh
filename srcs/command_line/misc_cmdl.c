@@ -12,6 +12,24 @@
 
 #include "header.h"
 
+int		ppa_err(t_cmdl *cmdl, int *i)
+{
+	*i -= (*i > 0 && cmdl->line.str[*i - 1] == cmdl->line.str[*i]) ? 1 : 0;
+	if (cmdl->line.str[*i - 1] == '|' || cmdl->line.str[*i - 1] == '&')
+	{
+		cmd_save_history(cmdl->line.str);
+		fd_printf(2, "\n42sh: syntax error near unexpected token `");
+		write(2, cmdl->line.str + *i,
+			cmdl->line.str[*i + 1] == cmdl->line.str[*i] ? 2 : 1);
+		write(2, "\'", 1);
+		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
+		cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
+		init_cmdl();
+		return (1);
+	}
+	return (0);
+}
+
 void	shell_sig(void)
 {
 	signal(SIGTSTP, SIG_IGN);
