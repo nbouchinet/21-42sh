@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:45:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:48:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:37:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,13 @@ int		env_builtin_pipe(t_ast **ast, t_env **env, t_env **r_env)
 	return (1);
 }
 
-int		bgre(t_ast **ast)
+int		bgre(t_ast **ast, int mod)
 {
 	int		fd;
 	int		std;
 	t_ast	*tmp;
 
+	(void)mod;
 	tmp = *ast;
 	std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
 	if (ft_strcmp(tmp->left->str, "-") == 0)

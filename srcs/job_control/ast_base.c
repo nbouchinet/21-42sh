@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:17:50 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:44:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	while (++i < 14)
 		if (tmp->left->left && !ft_strcmp(cmd[i].cmd, tmp->left->left->str))
 			return (cmd[i].f(&tmp, env));
-	if (init_job(&job) && (job->command = init_job_name(ast)))
+	if (tmp->left->left && init_job(&job) &&
+		(job->command = init_job_name(ast)))
 	{
 		if (!init_process(ast, &(job)->first_process, env))
 			return (delete_job(&job));

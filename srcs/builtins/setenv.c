@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 12:42:25 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 20:17:57 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:44:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		ft_setenv(t_ast **ast, t_env **env)
 	char	**arg;
 
 	arg = NULL;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	arg = creat_arg_env(&(*ast)->left->right);
 	if ((i = countab(arg)) == 1 || i == 2)
 	{

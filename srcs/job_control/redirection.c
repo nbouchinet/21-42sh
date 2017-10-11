@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 10:13:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:38:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		wtf_rdir(t_ast **ast)
+int		wtf_rdir(t_ast **ast, int mod)
 {
 	int		fd;
 	int		std;
@@ -22,7 +22,7 @@ int		wtf_rdir(t_ast **ast)
 	if ((fd = open(tmp->left->str, (tmp->type == RRDIR ? O_APPEND : O_TRUNC) |
 		O_CREAT | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)) != -1)
 	{
-		close_rdir(fd, 1);
+		mod == 1 ? close_rdir(fd, 1) : 0;
 		std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
 		if (dup2(fd, std) != -1)
 			return (1);
@@ -31,7 +31,7 @@ int		wtf_rdir(t_ast **ast)
 	return (0);
 }
 
-int		bdir(t_ast **ast)
+int		bdir(t_ast **ast, int mod)
 {
 	int		fd;
 	int		std;
@@ -40,7 +40,7 @@ int		bdir(t_ast **ast)
 	tmp = *ast;
 	if ((fd = open(tmp->left->str, O_RDONLY)) != -1)
 	{
-		close_rdir(fd, 1);
+		mod == 1 ? close_rdir(fd, 1) : 0;
 		std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
 		if (dup2(fd, std) != -1)
 			return (1);
@@ -50,12 +50,13 @@ int		bdir(t_ast **ast)
 	return (0);
 }
 
-int		agre(t_ast **ast)
+int		agre(t_ast **ast, int mod)
 {
 	int		fd;
 	int		std;
 	t_ast	*tmp;
 
+	(void)mod;
 	tmp = *ast;
 	std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
 	if (ft_strcmp(tmp->left->str, "-") == 0)
@@ -70,14 +71,15 @@ int		agre(t_ast **ast)
 			return (1);
 	}
 	else
-		return (wtf_rdir(&tmp));
+		return (wtf_rdir(&tmp, mod));
 	return (0);
 }
 
-int		bbdir(t_ast **ast)
+int		bbdir(t_ast **ast, int mod)
 {
 	int		std;
 
+	(void)mod;
 	if ((*ast)->left->type != -1 && (*ast)->left->type != FIL)
 	{
 		std = (*ast)->str ? ft_atoi((*ast)->str) : STDIN_FILENO;
@@ -90,7 +92,7 @@ int		bbdir(t_ast **ast)
 	return (0);
 }
 
-int		io_seq(t_ast **ast)
+int		io_seq(t_ast **ast, int mod)
 {
 	int						i;
 	t_ast					*tmp;
@@ -101,12 +103,12 @@ int		io_seq(t_ast **ast)
 	if (tmp && (tmp->type >= RDIR && tmp->type <= BGRE))
 	{
 		if (tmp->right)
-			if (io_seq(&tmp->right) == 0)
+			if (io_seq(&tmp->right, mod) == 0)
 				return (0);
 		i = -1;
 		while (++i < 6)
 			if (tmp->type == rdir[i].t)
-				if (rdir[i].f(&tmp) == 1)
+				if (rdir[i].f(&tmp, mod) == 1)
 					return (1);
 	}
 	return (0);

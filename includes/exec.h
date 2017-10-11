@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 11:51:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:34:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 typedef struct		s_rdir
 {
 	int				t;
-	int				(*f)(t_ast**);
+	int				(*f)(t_ast**, int);
 }					t_rdir;
 
 typedef struct		s_cmd
@@ -47,10 +47,10 @@ void				pipe_seq(t_ast **ast, t_env **env, int i);
 void				rlt_cmd(t_ast **ast, t_env **env);
 void				abs_cmd(t_ast **ast, t_env **env);
 void				execution(char **arg, char **env, t_ast **rdir);
-int					io_seq(t_ast **ast);
-int					wtf_rdir(t_ast **ast);
-int					bdir(t_ast **ast);
-int					agre(t_ast **ast);
+int					io_seq(t_ast **ast, int mod);
+int					wtf_rdir(t_ast **ast, int mod);
+int					bdir(t_ast **ast, int mod);
+int					agre(t_ast **ast, int mod);
 char				**creat_arg(t_ast **ast, char *cmd);
 int					find_cmd_bin(t_ast **ast, char **path);
 char				*binary_find(char *cmd, char **path);

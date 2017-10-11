@@ -62,7 +62,7 @@ int			return_cmdl(t_cmdl *cmdl)
 {
 	t_comp	*tmp;
 
-	if (cmdl->opt & CCMODE)
+	if (cmdl->opt & (CCMODE | CCP))
 		return (write(1, "\7", 1));
 	if (cmdl->opt & CCOMP)
 	{
