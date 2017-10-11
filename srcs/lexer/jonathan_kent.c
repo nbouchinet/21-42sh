@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 10:43:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 12:08:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 	while (line[(*i)] && line[(*i)] != quote)
 	{
 		if (quote == '"' && line[(*i)] == '\\')
+		{
 			st_tok(stack, line[++(*i)], 0);
+			(*i)++;
+		}
 		else
 			st_tok(stack, line[(*i)++], 0);
 	}
@@ -99,8 +102,11 @@ void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
 	}
 	else
 		tok_save(lst, stack, PIPE);
-	(*lst)->n = init_tok(lst, NE);
-	*lst = (*lst)->n;
+	if (check_end(line + (*i) + 1))
+	{
+		(*lst)->n = init_tok(lst, NE);
+		*lst = (*lst)->n;
+	}
 }
 
 void	and_pars(t_tok **lst, char **stack, char *line, int *i)

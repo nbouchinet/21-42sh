@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 18:34:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:23:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 11:59:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	exit_cmdl(t_cmdl *cmdl)
 		s1 = cmdl->line.str;
 		cmdl->line.str = ft_strtrimf(ft_strjoin(cmdl->line.save,
 					cmdl->line.str));
-		free(s1);
+		ft_strdel(&s1);
 		ft_strdel(&cmdl->line.save);
 	}
 	cmd_save_history(cmdl->line.str);

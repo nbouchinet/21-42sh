@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 11:05:46 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 11:51:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@
 /*
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
+
+typedef struct		s_env
+{
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
 typedef struct		s_comp
 {

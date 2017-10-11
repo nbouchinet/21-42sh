@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 11:17:57 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 11:51:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int					countab(char **tob);
 void				deletefirstnode(t_env **lst);
 void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
-t_en				*lst_at(t_env **env, char *cmp);
+t_env				*lst_at(t_env **env, char *cmp);
 int					ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);

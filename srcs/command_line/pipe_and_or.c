@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 12:52:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:23:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 12:13:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 
 	if ((cmdl->opt & (CPIPE | CAND | COR)) && iris_west(cmdl->line.str))
 		return (pipe_and_or(cmdl));
-	i = ft_strlen(cmdl->line.str) - ft_strlen(cmdl->line.str) > 0 ? 1 : 0;
+	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 	{
 		if (cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
