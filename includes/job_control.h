@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/11 11:17:18 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 12:46:23 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ pid_t					g_shell_pgid;
 struct termios			g_shell_tmodes;
 int						g_shell_terminal;
 int						g_shell_is_interactive;
-typedef void			t_sigfunc(int data);
 void					signal_handler(void);
 
 typedef struct			s_process
