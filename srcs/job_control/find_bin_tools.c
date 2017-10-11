@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 18:09:00 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 10:04:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 16:36:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,14 @@ int		check_abs_bin(char *str)
 
 	if (!lstat(str, &buf))
 	{
-		if (S_ISREG(buf.st_mode))
+		ft_putendl("HEllo");
+		if (!S_ISDIR(buf.st_mode))
 			if (S_IXUSR & buf.st_mode)
 				return (1);
 		return (-3);
 	}
+	else
+		perror("lstat ");
 	return (-3);
 }
 
