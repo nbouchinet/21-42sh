@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/22 14:41:12 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/09 17:29:32 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 10:49:26 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-static char *ft_str_save_chr(const char *s, int c, int reset)
+static char		*ft_str_save_chr(const char *s, int c, int reset)
 {
 	static char		*save = NULL;
 
@@ -37,7 +37,7 @@ static char *ft_str_save_chr(const char *s, int c, int reset)
 	return (NULL);
 }
 
-void		ft_strleft(char **str, int c)
+void			ft_strleft(char **str, int c)
 {
 	char	*match;
 

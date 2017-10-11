@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/25 12:03:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:45:35 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct		s_list
 
 size_t				ft_strlen(const char *str);
 size_t				ft_strlcat(char *dst, char *src, size_t size);
-
 void				ft_streplace(char **str, char c, char r);
 int					ft_free(char *tab[], char **line, int w);
 void				ft_strleft(char **str, int c);
@@ -117,6 +116,6 @@ char				*ft_strat(char **env, int i);
 char				*ft_strtrimf(char *s);
 char				*ft_strenv(char *s1, char *s2);
 char				*ft_strndup(const char *s1, int len);
-int					ft_errormsg(char *env, char *cmd, char *str); // Maybe to delete
+int					ft_errormsg(char *env, char *cmd, char *str);
 void				ft_putendn(int i);
 #endif

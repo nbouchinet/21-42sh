@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 09:32:04 by khabbar           #+#    #+#             */
-/*   Updated: 2017/04/05 20:50:40 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:47:39 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-static int check_str(t_gnl *current_fd, char **line)
+static int		check_str(t_gnl *current_fd, char **line)
 {
 	char *endl;
 	char *tmp;
@@ -36,7 +36,7 @@ static int check_str(t_gnl *current_fd, char **line)
 	return (1);
 }
 
-static int check_read(t_gnl *current_fd, char *buff, char **line)
+static int		check_read(t_gnl *current_fd, char *buff, char **line)
 {
 	char *endl;
 
@@ -63,7 +63,7 @@ static int check_read(t_gnl *current_fd, char *buff, char **line)
 	return (1);
 }
 
-static t_gnl *find_fd(t_gnl *current_fd, int fd)
+static t_gnl	*find_fd(t_gnl *current_fd, int fd)
 {
 	t_gnl*tmp;
 
@@ -90,7 +90,7 @@ static t_gnl *find_fd(t_gnl *current_fd, int fd)
 	return (tmp);
 }
 
-static int loop(int rd, t_gnl *current_fd, char *buff, char **line)
+static int		loop(int rd, t_gnl *current_fd, char *buff, char **line)
 {
 	char *tmp;
 
@@ -109,12 +109,12 @@ static int loop(int rd, t_gnl *current_fd, char *buff, char **line)
 	return (0);
 }
 
-int get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
-	static t_gnl *head = NULL;
-	t_gnl *current_fd;
-	char buff[BUFF_SIZE + 1];
-	int rd;
+	static t_gnl	*head = NULL;
+	t_gnl			*current_fd;
+	char			buff[BUFF_SIZE + 1];
+	int				rd;
 
 	current_fd = find_fd(head, fd);
 	if (!head)

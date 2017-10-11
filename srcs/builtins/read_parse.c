@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 15:08:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:10:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 11:19:34 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static int	inner_loop(t_read *var, char **arg, int *i, const t_opt opt[])
 		}
 	}
 	if (k == 8)
-		return (fd_printf(2, "42sh: read: -%c: invalid option\n%s\n",
-		arg[(*i)][j], RU));
+		return (fd_printf(2, "42sh: read: -%c: invalid option\n%s%s\n",
+		arg[(*i)][j], RU1, RU2));
 		return (-1);
 }
 

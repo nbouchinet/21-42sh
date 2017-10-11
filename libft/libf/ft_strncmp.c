@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 13:43:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/05/31 18:16:37 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:50:16 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-int     ft_strncmp(const char *s1, const char *s2, size_t n)
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t		i;
 
