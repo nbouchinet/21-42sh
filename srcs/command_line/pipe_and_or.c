@@ -113,7 +113,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 	}
 	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
 	ppa_err(cmdl, &i))
-		return (0);
+		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 	if (only_space(cmdl, i, 1))
 	{
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
@@ -123,5 +123,5 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 		check_inhib(cmdl->line.str, &i);
 	if (!k && check(cmdl, i))
 		return (1);
-	return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
+	return (0);
 }
