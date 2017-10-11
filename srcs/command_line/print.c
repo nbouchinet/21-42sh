@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:23:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 13:31:08 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		remalloc_cmdl(t_line *line)
 	line->len += line->len;
 }
 
-static int	regular_print(t_line *line, char buf[], int i, int j)
+int		regular_print(t_line *line, char buf[], int i, int j)
 {
 	int		len;
 
@@ -82,9 +82,9 @@ static int	regular_print(t_line *line, char buf[], int i, int j)
 	if ((*cmdl_slg())->ccp.start != -1 && (*cmdl_slg())->ccp.end == -1 &&
 	(*cmdl_slg())->ccp.start <= line->cur - line->pr)
 		tputs(tgetstr("mr", NULL), 1, ft_putchar);
-	buf[0] != 10 ? write(1, line->str + i, 1) : 0;
+	PRINT(buf) ? write(1, line->str + i, 1) : 0;
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
-	buf[0] != 10 ? write(1, line->str + i + 1, ft_strlen(line->str + i + 1)) : 0;
+	PRINT(buf) ? write(1, line->str + i + 1, ft_strlen(line->str + i + 1)) : 0;
 	line->cur += ft_strlen(line->str + i);
 	!(line->cur % line->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
 	return ((i += (len = (int)ft_strlen(line->str) - len) > 1 ? len : 0));
@@ -96,7 +96,7 @@ int			print(t_cmdl *cmdl, char buf[])
 
 	if (!(PRINT(buf)) && !(SH(buf)))
 		return (1);
-	if (PRINT(buf) && cmdl->opt & CCOMP && !(cmdl->opt & CCMODE))
+	if (PRINT(buf) && (cmdl->opt & CCOMP) && !(cmdl->opt & CCMODE))
 		clear_comp(cmdl);
 	else if (cmdl->opt & (CCOMP | CCMODE) && cmode(cmdl))
 		return (1);
@@ -104,7 +104,7 @@ int			print(t_cmdl *cmdl, char buf[])
 	{
 		cmdl->ccp.start += cmdl->ccp.start != -1 &&
 		(cmdl->line.cur - cmdl->line.pr) <= cmdl->ccp.start ? 1 : 0;
-		i = regular_print(&cmdl->line, buf, cmdl->line.cur - cmdl->line.pr, 0);
+		i = regular_print(&cmdl->line, buf, (cmdl->line.cur - cmdl->line.pr), 0);
 		if (i >= 0)
 		{
 			cmdl->opt &= ~(CCOMP);

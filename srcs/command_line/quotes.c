@@ -21,25 +21,23 @@ static int	bs(char *str, int i)
 		return (0);
 	while (str[--i] == '\\')
 		count++;
-	if ((count % 2))
+	if (!count || (count % 2))
 		return (1);
 	return (0);
 }
 
 static void	count_quote(t_cmdl *cmdl)
 {
-	char	*str;
 	int		i;
 
 	i = -1;
-	str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	while (cmdl->line.str[++i])
 	{
 		if (cmdl->line.str[i] == '\'' && (!(cmdl->opt & (CSQ | CDQ))) &&
-				!bs(cmdl->line.str, i))
+				bs(cmdl->line.str, i))
 			cmdl->opt |= CSQ;
 		else if (cmdl->line.str[i] == '"' && (!(cmdl->opt & (CSQ | CDQ))) &&
-				!(bs(cmdl->line.str, i)))
+				bs(cmdl->line.str, i))
 			cmdl->opt |= CDQ;
 		else if (cmdl->line.str[i] == '\'' && (cmdl->opt & CSQ) &&
 				!bs(cmdl->line.str, i))
@@ -48,7 +46,6 @@ static void	count_quote(t_cmdl *cmdl)
 				!bs(cmdl->line.str, i))
 			cmdl->opt &= ~(CDQ);
 	}
-	ft_strdel(&str);
 }
 
 int			check_quote(t_cmdl *cmdl)
@@ -56,7 +53,7 @@ int			check_quote(t_cmdl *cmdl)
 	count_quote(cmdl);
 	if ((cmdl->opt & (CSQ | CDQ)))
 	{
-		print(cmdl, "\n");
+		regular_print(&cmdl->line, cmdl->line.buf, cmdl->line.cur - cmdl->line.pr, 0);
 		if (!(cmdl->opt & (CPIPE | COR | CAND)))
 			cmdl->line.pr = (cmdl->opt & CSQ ?
 				write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);

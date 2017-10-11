@@ -57,12 +57,12 @@ static int	check_save(t_cmdl *cmdl)
 
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
-	if (!(cmdl->opt & (CHIS_S | CPIPE | CAND | COR)) && check_quote(cmdl))
+	if (/*!(cmdl->opt & (CHIS_S | CPIPE | CAND | COR)) && */check_quote(cmdl))
 		save_cmdl(&cmdl);
-	else if (!(cmdl->opt & (CSQ | CDQ | CHIS_S)) && handle_pipe_and_or(cmdl, 0))
+	else if (/*!(cmdl->opt & (CSQ | CDQ | CHIS_S)) && */handle_pipe_and_or(cmdl, 0))
 		save_cmdl(&cmdl);
-	else if (cmdl->line.str && !(cmdl->opt & (CSQ | CDQ | CHIS_S | CPIPE | CAND
-	| COR)) && cmdl->line.str[len > 0 ? len : 0] == '\\' &&
+	else if (cmdl->line.str /*&& !(cmdl->opt & (CSQ | CDQ | CHIS_S | CPIPE | CAND
+	| COR)) && cmdl->line.str[len > 0 ? len : 0] == '\\' */&&
 	inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
 	else if (check_save(cmdl))

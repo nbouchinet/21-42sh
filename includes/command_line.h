@@ -39,7 +39,7 @@
 # define OPT_N(buf)	buf[0] == -62 && buf[1] == -82 && !buf[2] && !buf[3]
 # define UP(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && !buf[3]
 # define DOWN(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && !buf[3]
-# define PRINT(buf)	(buf[0] > 31 && buf[0] < 127) || buf[0] == 10
+# define PRINT(buf)	(buf[0] > 31 && buf[0] < 127)
 
 /*
 **	Couper/Coller
@@ -218,6 +218,7 @@ void				remalloc_cmdl(t_line *line);
 */
 
 int					print(t_cmdl *cmdl, char buf[]);
+int					regular_print(t_line *line, char buf[], int i, int j);
 int					search_history_print(t_cmdl *cmdl, char buf[]);
 
 /*

@@ -58,6 +58,7 @@ void		cmd_save_history(char *str)
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
 		exit(0);
 	new->cmdl = ft_strdup(str);
+	ft_streplace(&new->cmdl, '\n', ' ');
 	if (!head->n)
 	{
 		head->n = new;
