@@ -45,27 +45,15 @@ static void	save_cmdl(t_cmdl **cmdl)
 	ft_memset((*cmdl)->line.str, 0, ft_strlen((*cmdl)->line.str));
 }
 
-static int	check_save(t_cmdl *cmdl)
-{
-	if (!cmdl->opt)
-		return (1);
-	if ((!cmdl->line.save) || !(check_quote(cmdl)))
-		return (1);
-	save_cmdl(&cmdl);
-	return (0);
-}
-
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
-	if (/*!(cmdl->opt & (CHIS_S | CPIPE | CAND | COR)) && */check_quote(cmdl))
+	if (check_quote(cmdl))
 		save_cmdl(&cmdl);
-	else if (/*!(cmdl->opt & (CSQ | CDQ | CHIS_S)) && */handle_pipe_and_or(cmdl, 0))
+	if (handle_pipe_and_or(cmdl, 0))
 		save_cmdl(&cmdl);
-	else if (cmdl->line.str /*&& !(cmdl->opt & (CSQ | CDQ | CHIS_S | CPIPE | CAND
-	| COR)) && cmdl->line.str[len > 0 ? len : 0] == '\\' */&&
-	inhibiteur(cmdl, len))
+	if (cmdl->line.str && inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
-	else if (check_save(cmdl))
+	if (cmdl->opt == 0)
 		return (1);
 	return (0);
 }
