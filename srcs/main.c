@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 14:30:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:49:57 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 					ft_putast(ast);
 					mode_off(cmdl);
 					stock_restore(1);
-					sleep(10);
 					i = job_ast(&ast, env, 1);
 					close_rdir(0, 0);
 					stock_restore(0);

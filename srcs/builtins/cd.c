@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 10:40:38 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 14:58:06 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 		if ((access((*path), R_OK)) == -1)
 			return (fd_printf(2, "cd: permission denied: %@\n", tmp->str));
 		if (chdir((*path)) == -1)
-			return (fd_printf(2, "cd: %@:not a directoryn", tmp->str));
+			return (fd_printf(2, "cd: %@:not a directory\n", tmp->str));
 		if (i && opt == 1)
 		{
 			readlink((*path), buff, 1024);
