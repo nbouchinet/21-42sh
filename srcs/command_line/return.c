@@ -57,7 +57,6 @@ static int	check_save(t_cmdl *cmdl)
 
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
-	(void)len;
 	if (!(cmdl->opt & (CHIS_S | CPIPE | CAND | COR)) && check_quote(cmdl))
 		save_cmdl(&cmdl);
 	else if (!(cmdl->opt & (CSQ | CDQ | CHIS_S)) && handle_pipe_and_or(cmdl, 0))

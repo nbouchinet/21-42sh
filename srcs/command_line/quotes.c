@@ -56,7 +56,7 @@ int			check_quote(t_cmdl *cmdl)
 	count_quote(cmdl);
 	if ((cmdl->opt & (CSQ | CDQ)))
 	{
-		print(cmdl, " ");
+		// print(cmdl, "\10");
 		if (!(cmdl->opt & (CPIPE | COR | CAND)))
 			cmdl->line.pr = (cmdl->opt & CSQ ?
 				write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);

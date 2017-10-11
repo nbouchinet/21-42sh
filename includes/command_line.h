@@ -39,7 +39,7 @@
 # define OPT_N(buf)	buf[0] == -62 && buf[1] == -82 && !buf[2] && !buf[3]
 # define UP(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && !buf[3]
 # define DOWN(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && !buf[3]
-# define PRINT(buf)	buf[0] > 31 && buf[0] < 127
+# define PRINT(buf)	(buf[0] > 31 && buf[0] < 127) || buf[0] == 10
 
 /*
 **	Couper/Coller
@@ -59,8 +59,6 @@
 # define CTRL_U(buf) buf[0] == 21 && !buf[1] && !buf[2] && !buf[3]
 # define CTRL_T(buf) buf[0] == 20 && !buf[1] && !buf[2] && !buf[3]
 # define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
-
-# define PRINT(buf) buf[0] > 31 && buf[0] < 127
 
 /*
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
