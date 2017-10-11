@@ -52,11 +52,11 @@ int			check_quote(t_cmdl *cmdl)
 	count_quote(cmdl);
 	if ((cmdl->opt & (CSQ | CDQ)))
 	{
+		cmdl->opt &= ~(CPIPE | COR | CAND);
 		regular_print(&cmdl->line, cmdl->line.buf,
 			cmdl->line.cur - cmdl->line.pr, 0);
-		if (!(cmdl->opt & (CPIPE | COR | CAND)))
-			cmdl->line.pr = (cmdl->opt & CSQ ?
-				write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);
+		cmdl->line.pr = (cmdl->opt & CSQ ?
+		write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);
 		return ((cmdl->line.cur = cmdl->line.pr) ? 1 : 1);
 	}
 	return (0);

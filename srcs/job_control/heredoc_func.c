@@ -23,7 +23,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 		cmdl->opt = -1;
 }
 
-void			hd_signal(t_cmdl *cmdl)
+int			hd_signal(t_cmdl *cmdl)
 {
 	struct sigaction	sig;
 
@@ -35,6 +35,7 @@ void			hd_signal(t_cmdl *cmdl)
 		unset_shell(cmdl);
 		exit(fd_printf(2, "cmdl_signals: sigaction error\n"));
 	}
+	return (1);
 }
 
 int				next_hd(t_tok **tok)
@@ -45,8 +46,7 @@ int				next_hd(t_tok **tok)
 	if (tmp)
 		while (tmp && tmp->type != BBDIR)
 			tmp = tmp->n;
-	// if (tmp)
-		write(2, "\n", 1);
+	write(2, "\n", 1);
 	return (0);
 }
 
@@ -54,10 +54,10 @@ int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 {
 	int		i;
 
+	init_cmdl();
 	while (1)
 	{
-		hd_signal(cmdl);
-		if (cmdl->opt == -1)
+		if (hd_signal(cmdl) && cmdl->opt == -1)
 			return (-1);
 		get_op(cmdl, &ret, &i);
 		if (ret == 2 && !(ft_strcmp(cmdl->line.str, (*stop)->str)))

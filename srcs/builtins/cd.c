@@ -37,7 +37,7 @@ static int	construct_path_utils(char **array, char **np, char **save_array)
 
 	if (!ft_strcmp(*array, ".."))
 	{
-		if ((ptr = ft_strrchr(*np, '/')))
+		if ((ptr = ft_strrchr(*np, '/')) && *(ptr + 1))
 			*ptr = 0;
 		else
 		{
@@ -75,7 +75,7 @@ static char	*construct_path(t_env **env, char *save, char *path)
 		array++;
 	}
 	ft_free(save_array, NULL, 1);
-	return (np);
+	return ((np ? np : ft_strdup("/")));
 }
 
 static void	mod_env(t_env **env, char *path, char *save)
@@ -121,10 +121,10 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 	}
 	if (S_ISDIR(st.st_mode) || (i = S_ISLNK(st.st_mode)))
 	{
-		if ((access((*path), R_OK)) == -1)
+		if (!(S_IXUSR & st.st_mode))
 			return (fd_printf(2, "cd: permission denied: %@\n", tmp->str));
 		if (chdir((*path)) == -1)
-			return (fd_printf(2, "cd: %@:not a directoryn", tmp->str));
+			return (fd_printf(2, "cd: %@: not a directory\n", tmp->str));
 		if (i && opt == 1)
 		{
 			readlink((*path), buff, 1024);
@@ -134,19 +134,23 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 		}
 	}
 	else
-		return (fd_printf(2, "cd: %@: not a directory\n", tmp->str));
+		return (fd_printf(2, "0cd: %@: not a directory\n", tmp->str));
 	return (0);
 }
 
 static int	get_arg(t_ast **ast, t_env **env, char **path)
 {
 	t_ast	*tmp;
+	t_env	*home;
 
 	tmp = *ast;
+	home = lst_at(env, "HOME");
 	while (tmp && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
-	if (!tmp && lst_at(env, "HOME"))
-		*path = ft_strdup(lst_at(env, "HOME")->value);
+	if (!tmp && home && !home->value)
+		return (1);
+	else if (!tmp && home)
+		*path = ft_strdup(home->value);
 	else if (tmp && tmp->str[0] == '-' && !tmp->str[1])
 		*path = ft_strdup(lst_at(env, "OLDPWD")->value);
 	else
@@ -211,7 +215,7 @@ int			ft_cd(t_ast **ast, t_env **env)
 	opt = 2;
 	if ((check_arg(&(*ast)->left->right, env)) ||
 	((*ast)->left->right && get_opt(&(*ast)->left->right, &opt)) ||
-	((*ast)->left->right && get_arg(&(*ast)->left->right, env, &path)))
+	(get_arg(&(*ast)->left->right, env, &path)))
 		return (0);
 	current_dir = getcwd(current_dir, MAXPATHLEN);
 	if (!path)

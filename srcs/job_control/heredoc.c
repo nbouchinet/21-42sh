@@ -12,10 +12,14 @@
 
 #include "header.h"
 
-static int		engage_heredoc(t_tok **stop, t_cmdl *cmdl)
+static int		engage_heredoc(t_tok **stop)
 {
 	int		p[2];
+	t_cmdl	*cmdl;
 
+	cmdl = *cmdl_slg();
+	init_cmdl();
+	cmdl->opt |= CHD;
 	if (pipe(p) == -1)
 		return (fd_printf(2, "heredoc: pipe error\n"));
 	cmdl->line.pr = write(1, "heredoc> ", 9);
@@ -40,7 +44,6 @@ void			creat_file(t_tok **lst)
 int				heredoc(t_tok **lst)
 {
 	t_tok	*tmp;
-	t_cmdl	*cmdl;
 
 	tmp = *lst;
 	while (tmp)
@@ -49,10 +52,7 @@ int				heredoc(t_tok **lst)
 		{
 			if (tmp->n && tmp->n->type == WORD)
 			{
-				cmdl = *cmdl_slg();
-				init_cmdl();
-				cmdl->opt |= CHD;
-				if ((tmp->n->hd = engage_heredoc(&tmp->n, cmdl)) == -1)
+				if ((tmp->n->hd = engage_heredoc(&tmp->n)) == -1)
 					return (ft_errormsg(NULL, NULL, ""));
 				next_hd(&tmp->n);
 			}
