@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 18:09:00 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:17:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:04:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		check_abs_bin(char *str)
 				return (1);
 		return (-3);
 	}
-	return (0);
+	return (-3);
 }
 
 int		isnt_dot(char *file, char *str)

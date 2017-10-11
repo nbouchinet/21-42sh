@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:33:04 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 22:17:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 09:55:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,10 @@ int		find_fd(int fd, t_fd **lst)
 		tmp = *lst;
 		while (tmp && tmp->fd != fd)
 			tmp = tmp->next;
-		if (!tmp)
+		if (tmp)
 			return (0);
 	}
 	return (1);
-
 }
 
 void	close_fd(t_fd **lst)
@@ -65,6 +64,7 @@ void	close_fd(t_fd **lst)
 		*lst = NULL;
 	}
 }
+
 void	close_rdir(int fd, int mod)
 {
 	t_fd		*tmp;
@@ -73,11 +73,12 @@ void	close_rdir(int fd, int mod)
 
 	if (mod)
 	{
-		if (!find_fd(fd, &lst))
+		if (find_fd(fd, &lst))
 		{
 			if (!(node = (t_fd*)malloc(sizeof(t_fd))))
 				return ;
-			node->next= NULL;
+			node->fd = fd;
+			node->next = NULL;
 			if (lst)
 			{
 				tmp = lst;

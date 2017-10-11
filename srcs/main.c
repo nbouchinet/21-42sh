@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:07:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:01:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,22 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		if (new_lexercheck(&cmd)) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
-			heredoc(&cmd);
-			expanse(&cmd, env);
-			if (cmd)
+			if (heredoc(&cmd) != -1)
 			{
-				init_ast(&ast, NULL, 0);
-				primary_sequence(&ast, &cmd);
-				// ft_putast(ast);
-				mode_off(cmdl);
-				stock_restore(1);
-				i = job_ast(&ast, env, 1);
-				close_rdir(0, 0);
-				stock_restore(0);
-				destroy_ast(&ast);
-				mode_on(cmdl);
+				expanse(&cmd, env);
+				if (cmd)
+				{
+					init_ast(&ast, NULL, 0);
+					primary_sequence(&ast, &cmd);
+					// ft_putast(ast);
+					mode_off(cmdl);
+					stock_restore(1);
+					i = job_ast(&ast, env, 1);
+					close_rdir(0, 0);
+					stock_restore(0);
+					destroy_ast(&ast);
+					mode_on(cmdl);
+				}
 			}
 		}
 		destroy_tok(&cmd);

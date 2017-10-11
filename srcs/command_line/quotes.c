@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 18:06:32 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 22:27:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:38:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int			check_quote(t_cmdl *cmdl)
 	count_quote(cmdl);
 	if ((cmdl->opt & (CSQ | CDQ)))
 	{
-		// print(cmdl, "\10");
+		print(cmdl, "\n");
 		if (!(cmdl->opt & (CPIPE | COR | CAND)))
 			cmdl->line.pr = (cmdl->opt & CSQ ?
 				write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);
