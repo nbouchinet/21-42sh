@@ -43,6 +43,7 @@ static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int i)
 
 int			paste(t_cmdl *cmdl, int len_cpy)
 {
+	cmdl->opt &= ~CCP;
 	if ((int)ft_strlen(cmdl->line.str) + cmdl->line.pr + len_cpy >=
 	cmdl->line.co * cmdl->line.li - (cmdl->line.co - 1))
 		return (write(1, "\7", 1));
@@ -53,6 +54,5 @@ int			paste(t_cmdl *cmdl, int len_cpy)
 	cmdl->ccp.start = -1;
 	cmdl->ccp.end = -1;
 	cmdl->ccp.ccp = 0;
-	cmdl->opt &= ~CCP;
 	return (1);
 }

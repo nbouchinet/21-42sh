@@ -51,9 +51,14 @@ void		del_all(t_cmdl **cmdl_head, t_his **his_head, t_local **loc_head)
 	t_cmdl		*cmdl;
 
 	cmdl = *cmdl_head;
-	cmdl->line.str ? ft_strdel(&cmdl->line.str) : 0;
-	cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
-	cmdl->ccp.cpy ? ft_strdel(&cmdl->ccp.cpy) : 0;
+	if (cmdl->line.str)
+		ft_strdel(&cmdl->line.str);
+	if (cmdl->line.save)
+		ft_strdel(&cmdl->line.save);
+	if (cmdl->ccp.cpy)
+		ft_strdel(&cmdl->ccp.cpy);
+	if (cmdl->pwd)
+		ft_strdel(&cmdl->pwd);
 	if (his_head)
 		del_his(his_head);
 	if (loc_head)

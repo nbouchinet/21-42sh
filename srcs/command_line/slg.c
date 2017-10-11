@@ -59,6 +59,8 @@ t_cmdl		**cmdl_slg(void)
 	{
 		if (!(cmdl = (t_cmdl *)malloc(sizeof(t_cmdl))))
 			exit(0);
+		cmdl->pwd = NULL;
+		cmdl->pwd = getcwd(cmdl->pwd, MAXPATHLEN);
 		cmdl->line.str = NULL;
 		cmdl->line.save = NULL;
 		cmdl->ccp.cpy = NULL;

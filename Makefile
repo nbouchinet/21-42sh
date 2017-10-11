@@ -46,6 +46,7 @@ CFILES= 		main.c \
 				AST/misc_ast.c \
 				init_env/check_env.c \
 				builtins/cd.c \
+				builtins/cd_func.c \
 				builtins/unsetenv.c \
 				builtins/unsetenv_tools.c \
 				builtins/setenv.c \

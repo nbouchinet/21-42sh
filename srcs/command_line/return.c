@@ -78,7 +78,8 @@ int			return_cmdl(t_cmdl *cmdl)
 		return (1);
 	}
 	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)
-	- 1)) || ((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1) || cmdl->opt & CHD)
+	- ft_strlen(cmdl->line.str) > 0 ? 1 : 0)) ||
+	((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1) || cmdl->opt & CHD)
 		return (2);
 	return (1);
 }

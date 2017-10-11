@@ -135,6 +135,10 @@ void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
 t_env				*lst_at(t_env **env, char *cmp);
 int					ft_cd(t_ast **ast, t_env **env);
+int 				just_norme(struct stat *st, t_ast *tmp, char **path,
+	int opt);
+void				mod_env(t_env **env, char *path, char *save);
+char				*construct_path(t_env **env, char *save, char *path);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
 int					ft_history(t_ast **ast, t_env **env);

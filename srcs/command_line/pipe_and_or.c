@@ -58,29 +58,26 @@ static int	check(t_cmdl *cmdl, int i)
 int			only_space(t_cmdl *cmdl, int i, int w)
 {
 	int		tmp;
-	char	*str;
+	char	*s;
 
-	str = cmdl->line.str;
-	if (!w)
+	s = cmdl->line.str;
+	if (!w && (i = -1))
 	{
-		i = -1;
-		while (str[++i])
-			if (str[i] != ' ')
+		while (s[++i])
+			if (s[i] != ' ')
 				return (0);
 	}
 	else
 	{
-		tmp = i - (i > 0 && str[i] == str[i - 1] ? 1 : 0);
-		while (tmp && str[--tmp])
-			if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&'
-			&& str[tmp] != ';' && str[tmp] != '<' && str[tmp] != '>')
+		tmp = i - (i > 0 && s[i] == s[i - 1] ? 1 : 0);
+		while (tmp && s[--tmp])
+			if (s[tmp] != ' ' && s[tmp] != '|' && s[tmp] != '&'
+			&& s[tmp] != ';' && s[tmp] != '<' && s[tmp] != '>')
 				return (0);
-			else if (str[tmp] != ' ' && (str[tmp] == '|' || str[tmp] == '&'
-			|| str[tmp] == ';' || str[tmp] == '<' || str[tmp] == '>'))
+			else if (s[tmp] != ' ' && (s[tmp] == '|' || s[tmp] == '&'
+			|| s[tmp] == ';' || s[tmp] == '<' || s[tmp] == '>'))
 				break ;
-		fd_printf(2, "\n42sh: syntax error near unexpected token `");
-		write(2, str + i, str[i + 1] == str[i] ? 2 : 1);
-		write(2, "\'", 1);
+		fd_printf(2, "\n42sh: syntax error near unexpected token `%s'", s + i);
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 		cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
 	}
@@ -119,7 +116,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl, int k)
 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 	if (only_space(cmdl, i, 1))
 	{
-		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
+		init_cmdl();
 		return (0);
 	}
 	if (i > 0 && cmdl->line.str[i - 1] == '\\')

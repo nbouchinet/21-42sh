@@ -95,7 +95,7 @@ static int		only_space_comp(char *str)
 	while (*str)
 		if (*(++str) != ' ')
 			return (0);
-	write(1, "\033[1mRTFM\n", 9);
+	write(2, "\033[1mRTFM\033[0m\n", 13);
 	print_prompt();
 	return (write(1, "\7", 1));
 }

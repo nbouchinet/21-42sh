@@ -136,6 +136,7 @@ typedef struct		s_local
 
 typedef struct		s_cmdl
 {
+	char			*pwd;
 	int				exit;
 	int				ret;
 	int				opt;
