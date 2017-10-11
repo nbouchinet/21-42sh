@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 21:15:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 11:17:57 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,19 @@ t_env				*find_node(t_env **env, char *var, char *value);
 *************************************BUILT-IN***********************************
 */
 
-#define C	1
-#define D	2
-#define A	4
-#define N	8
-#define R	16
-#define W	32
-#define P	64
-#define S	128
-#define HU1	"history: usage: history [-c] [-d offset] [n] or "
-#define HU2	"history -awrn [filename] or history -ps arg [arg...]\n"
-#define HO	"invalid option"
+# define C	1
+# define D	2
+# define A	4
+# define N	8
+# define R	16
+# define W	32
+# define P	64
+# define S	128
+# define HU1	"history: usage: history [-c] [-d offset] [n] or "
+# define HU2	"history -awrn [filename] or history -ps arg [arg...]\n"
+# define HO	"invalid option"
 
-typedef struct 		s_hist
+typedef struct		s_hist
 {
 	int				op;
 	void			(*f)(t_his **his, int offset, int len, char *arg);
@@ -101,8 +101,8 @@ typedef struct 		s_hist
 # define SR	32
 # define TR	64
 # define UR	128
-# define RU	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]" \
-	"[-a array] [-n nchars] [-d delim] [name ...]"
+# define RU1	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
+# define RU2	"[-a array] [-n nchars] [-d delim] [name ...]"
 
 typedef struct		s_read
 {
@@ -117,7 +117,7 @@ typedef struct		s_read
 	int				eot;
 }					t_read;
 
-typedef struct					s_opt
+typedef struct		s_opt
 {
 	char			c[2];
 	int				(*f)(t_read *var, char **arg, int *i, int j);
@@ -133,27 +133,25 @@ int					countab(char **tob);
 void				deletefirstnode(t_env **lst);
 void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
-t_env				*lst_at(t_env **env, char *cmp);
+t_en				*lst_at(t_env **env, char *cmp);
 int					ft_cd(t_ast **ast, t_env **env);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
-
 int					ft_history(t_ast **ast, t_env **env);
-void 				run_his(char *arg, int opt, int offset, int his_len);
-void 				hist_write(t_his **his, int offset, int his_len, char *arg);
-void 				hist_sarg(t_his **his, int offset, int his_len, char *arg);
-void 				hist_read(t_his **his, int offset, int his_len, char *arg);
-void 				hist_append(t_his **his, int offset, int his_len, char *arg);
-
-int   				local(char *str);
-int 				check_local(t_ast *tmp, int type);
-int   				ft_unset(t_ast **ast, t_env **env);
-int   				ft_export(t_ast **ast, t_env **env);
-int   				ft_read(t_ast **ast, t_env **env);
-void   				save_input(t_read *var);
-int   				read_input(t_read *var, int i, int nchar, char buf[]);
-void 				handle_c(int sig);
-
+void				run_his(char *arg, int opt, int offset, int his_len);
+void				hist_write(t_his **his, int offset, int his_len, char *arg);
+void				hist_sarg(t_his **his, int offset, int his_len, char *arg);
+void				hist_read(t_his **his, int offset, int his_len, char *arg);
+void				hist_append(t_his **his, int offset,
+					int his_len, char *arg);
+int					local(char *str);
+int					check_local(t_ast *tmp, int type);
+int					ft_unset(t_ast **ast, t_env **env);
+int					ft_export(t_ast **ast, t_env **env);
+int					ft_read(t_ast **ast, t_env **env);
+void				save_input(t_read *var);
+int					read_input(t_read *var, int i, int nchar, char buf[]);
+void				handle_c(int sig);
 int					aname(t_read *var, char **arg, int *i, int j);
 int					delim(t_read *var, char **arg, int *i, int j);
 int					nchars(t_read *var, char **arg, int *i, int j);
@@ -200,7 +198,6 @@ int					count_opt(t_ast **ast);
 int					check_opt(char *opt);
 int					clean_hash(t_ast *ast, t_job **job, t_hash **table);
 int					clear_table(t_hash **table);
-
 
 /*
 ********************************************************************************

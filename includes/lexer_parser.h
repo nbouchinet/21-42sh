@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:31:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:59:37 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct		s_key
 	void			(*f)(t_tok**, char**, char*, int*);
 }					t_key;
 
-#define NE 1
-#define CURR 2
+# define NE 1
+# define CURR 2
 
 enum				e_token
 {
@@ -102,8 +102,10 @@ void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
 void				expanse(t_tok **lst, t_env **env);
 int					heredoc(t_tok **lst);
-void				swap_tok(t_tok **lst, t_tok **start, t_tok **next, t_tok **w);
-void				replace_tok(t_tok **start, t_tok **next, t_tok **sub, t_tok **sub_end);
+void				swap_tok(t_tok **lst, t_tok **start, t_tok **next,
+					t_tok **w);
+void				replace_tok(t_tok **start, t_tok **next,
+					t_tok **sub, t_tok **sub_end);
 int					print_error_lexer(t_tok **lst, t_tok **n, int mod);
 void				backslash(t_tok **lst, char **stack, char *line, int *i);
 #endif

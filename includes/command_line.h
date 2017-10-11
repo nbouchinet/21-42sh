@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:26:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 11:05:46 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,13 @@ typedef	struct		s_ccp
 
 }					t_ccp;
 
-typedef struct					s_local
+typedef struct		s_local
 {
-	char						*var;
-	char						*val;
-	struct s_local				*n;
-	struct s_local				*p;
-}								t_local;
+	char			*var;
+	char			*val;
+	struct s_local	*n;
+	struct s_local	*p;
+}					t_local;
 
 /*
 **	Mode
@@ -161,9 +161,8 @@ typedef struct		s_op
 **	Affichage du promt
 */
 
-void 				print_prompt(void);
+void				print_prompt(void);
 int					only_space(t_cmdl *cmdl, int limit, int w);
-
 
 /*
 **	Renvoi les tete de listes
@@ -177,8 +176,8 @@ t_local				**local_slg(int mode);
 **	Suppression des listes
 */
 
-void 			del_all(t_cmdl **cmdl_head, t_his **his_head,
-	t_local **loc_head);
+void				del_all(t_cmdl **cmdl_head, t_his **his_head,
+					t_local **loc_head);
 
 /*
 **	Check l env
@@ -240,10 +239,10 @@ int					set_exiting_value(t_cmdl **cmdl, int r_value);
 **	Deplacement
 */
 
-int	 				arrow_left(t_cmdl *cmdl);
+int					arrow_left(t_cmdl *cmdl);
 int					arrow_right(t_cmdl *cmdl);
-int	 				home(t_cmdl *cmdl);
-int	 				end(t_cmdl *cmdl);
+int					home(t_cmdl *cmdl);
+int					end(t_cmdl *cmdl);
 int					up_dwn(t_cmdl *cmdl);
 int					opt_right(t_cmdl *cmdl);
 int					opt_left(t_cmdl *cmdl);
@@ -260,11 +259,11 @@ int					paste(t_cmdl *cmdl, int len_cpy);
 */
 
 t_his				*findcmdl(char *str, char buf[], int reset);
-void 				hist_session();
-void 				hist_add(t_his **his);
+void				hist_session();
+void				hist_add(t_his **his);
 void				his_del(t_his **his, int mode);
-void 				cmd_save_history(char *str);
-int 				cmd_history(t_cmdl *cmdl);
+void				cmd_save_history(char *str);
+int					cmd_history(t_cmdl *cmdl);
 int					cmd_search_history(t_cmdl *cmdl);
 int					his_len(t_his **his);
 
@@ -285,43 +284,43 @@ int					iris_west(char *str);
 **	Completion
 */
 
-t_comp 				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
-	int i);
+t_comp				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
+					int i);
 char				*get_path(char **tmp);
-int 				display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);
 int					sep(t_cmdl *cmdl, int w);
 int					is_exec(t_cmdl *cmdl);
 int					check_comp(t_comp **head, char *name);
-void 				completion_edit(t_line *line, t_comp **comp,
-	char *tmp, int offset);
-void 				comp_del(t_comp **head);
+void				completion_edit(t_line *line, t_comp **comp,
+					char *tmp, int offset);
+void				comp_del(t_comp **head);
 int					c_move(t_comp **comp);
-void 				print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize,
-	int *up);
-void 				call_print_lst(t_cmdl *cmdl, t_comp **comp);
-void 				call_completion_edit(t_cmdl *cmdl, t_comp **comp,
-	int offset);
+void				print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize,
+					int *up);
+void				call_print_lst(t_cmdl *cmdl, t_comp **comp);
+void				call_completion_edit(t_cmdl *cmdl, t_comp **comp,
+					int offset);
 int					c_arrow_down(t_comp **comp);
 int					c_arrow_up(t_comp **comp);
 int					c_arrow_right(t_comp **comp);
 int					c_arrow_left(t_comp **comp);
-void 				restor_cursor_position(t_cmdl *cmdl, int up);
-void 				print_comp(t_comp **comp);
-void 				check_built_in(t_cmdl *cmdl, char *tmp);
+void				restor_cursor_position(t_cmdl *cmdl, int up);
+void				print_comp(t_comp **comp);
+void				check_built_in(t_cmdl *cmdl, char *tmp);
 void				insert(t_comp **comp, t_comp *lnk, int i);
 
 /*
 **	Bang
 */
 
-#define 	HB		1
-#define 	TB 		2
-#define 	RB 		4
-#define 	EB 		8
-#define 	PB 		16
-#define 	QB 		32
-#define 	XB 		64
+# define HB		1
+# define TB		2
+# define RB		4
+# define EB		8
+# define PB		16
+# define QB		32
+# define XB		64
 
 typedef struct		s_bang
 {
@@ -339,14 +338,15 @@ typedef struct		s_bang
 	char			*tmp;
 }					t_bang;
 
-void 				fill_buf(t_bang *bang, char **cmd, int *i);
+void				fill_buf(t_bang *bang, char **cmd, int *i);
 int					bang(char *str);
 int					bang_parse(char *sub, t_bang *bang);
 int					bang_error(char *sub, char **opt);
-int 				bang_range(t_bang *bang, char *edit, char *ptr, int max_arg);
+int					bang_range(t_bang *bang, char *edit, char *ptr,
+					int max_arg);
 int					bang_sub(t_bang *bang);
 int					check_ed(t_bang *bang, int his_len,
-	 int match_len, int w);
+					int match_len, int w);
 int					get_line(t_his *his, t_bang *bang);
 int					get_match(t_his *his, t_bang *bang);
 

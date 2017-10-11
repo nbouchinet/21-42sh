@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:29:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:42:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:58:09 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ enum				e_ast
 typedef struct		s_ast
 {
 	char			*str;
-	int			type;
+	int				type;
 	struct s_ast	*left;
 	struct s_ast	*right;
 }					t_ast;
