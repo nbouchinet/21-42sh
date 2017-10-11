@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:30:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 12:48:43 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:45:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		builtin_env(t_ast **ast, t_env **env)
 	n_env = NULL;
 	tmp = *ast;
 	flag = 0;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	tmp = env_option(&tmp->left->right, &flag);
 	if (flag != -1)
 	{

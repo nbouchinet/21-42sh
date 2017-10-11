@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 12:05:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:30:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	{
 		init_token(&cmd);
 		new_parser(&cmd, *line, 0);
+		// sleep(10);
 		restruct_lst(&cmd);
 		t = cmd;
 		while (t)
@@ -71,9 +72,10 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 				{
 					init_ast(&ast, NULL, 0);
 					primary_sequence(&ast, &cmd);
-					// ft_putast(ast);
+					ft_putast(ast);
 					mode_off(cmdl);
 					stock_restore(1);
+					sleep(10);
 					i = job_ast(&ast, env, 1);
 					close_rdir(0, 0);
 					stock_restore(0);

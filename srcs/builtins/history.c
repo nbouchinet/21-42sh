@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:18:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:43:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int			ft_history(t_ast **ast, t_env **env)
 	offset = 0;
 	arg = NULL;
 	if ((*ast)->right)
-		io_seq(&(*ast)->right->right);
+		io_seq(&(*ast)->right->right, 1);
 	if ((*ast)->left->right && parse_opt(&(*ast)->left->right,
 	&arg, &opt, &offset))
 		return (0);

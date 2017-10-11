@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 20:23:49 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:43:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int			ft_export(t_ast **ast, t_env **env)
 	t_ast		*tmp;
 
 	if ((*ast)->right)
-		io_seq(&(*ast)->right->right);
+		io_seq(&(*ast)->right->right, 1);
 	tmp = (*ast)->left->right;
 	while (tmp)
 	{

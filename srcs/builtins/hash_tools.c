@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/09 14:52:17 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/27 14:58:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:43:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		hashing(t_ast **ast, t_env **env)
 {
 	(void)(*env);
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	return (hash(ast, NULL, BUILTIN));
 }
 

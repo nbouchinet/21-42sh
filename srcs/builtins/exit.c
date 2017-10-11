@@ -6,7 +6,7 @@
 /*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 16:11:48 by hpelat            #+#    #+#             */
-/*   Updated: 2017/10/10 19:43:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:42:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_exit(t_ast **ast, t_env **env)
 	t_cmdl	**cmdl;
 
 	(void)env;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	cmdl = cmdl_slg();
 	if (!(arg = creat_arg_env(&(*ast)->left->right)))
 		return (set_exiting_value(cmdl, 1));

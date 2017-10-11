@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 15:08:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 11:19:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/11 14:44:07 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			ft_read(t_ast **ast, t_env **env)
 	int		i;
 
 	(void)env;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	cmdl = *cmdl_slg();
 	ft_memset(&var, 0, sizeof(t_read));
 	targ = creat_arg_env(&(*ast)->left->right);

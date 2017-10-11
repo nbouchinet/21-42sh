@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 10:33:07 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 14:46:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:46:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		env_pipe(t_ast **ast, t_env **env)
 	n_env = NULL;
 	tmp = *ast;
 	flag = 0;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 0) : 0;
 	tmp = env_option(&tmp->left->right, &flag);
 	if (flag != -1)
 	{

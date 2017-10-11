@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:12:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:31:03 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 14:46:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		inter_job(t_ast **ast, t_env **env)
 {
 	(void)env;
-	(*ast)->right ? io_seq(&(*ast)->right->right) : 0;
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	return (job_control(NULL, ast, BUILTIN));
 }
 
