@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 13:58:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 15:21:44 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:19:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ int				next_hd(t_tok **tok)
 	if (tmp)
 		while (tmp && tmp->type != BBDIR)
 			tmp = tmp->n;
-	if (tmp)
-		return (1);
+	// if (tmp)
+		write(2, "\n", 1);
 	return (0);
 }
 

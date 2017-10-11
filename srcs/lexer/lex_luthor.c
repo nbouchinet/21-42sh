@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:27:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:39:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	new_parser(t_tok **cmd, char *line, int i)
 {'&', &and_pars}, {'\\', &backslash}};
 
 	tmp = *cmd;
+	ft_putendl(line);
 	stack = ft_memalloc(100);
 	while (line[i])
 	{
