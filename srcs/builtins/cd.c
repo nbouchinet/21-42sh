@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 21:13:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 10:25:50 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,32 @@ static void	malloc_env_lnk(t_env **env, t_env **tmp)
 	}
 }
 
+static int	construct_path_utils(char **array, char **np, char **save_array)
+{
+	char	*ptr;
+
+	if (!ft_strcmp(*array, ".."))
+	{
+		if ((ptr = ft_strrchr(*np, '/')))
+			*ptr = 0;
+		else
+		{
+			*np ? ft_strdel(np) : 0;
+			ft_free(save_array, NULL, 1);
+			return (1);
+		}
+	}
+	else if (ft_strcmp(*array, ".") && ft_strcmp(*array, "-"))
+	{
+		*np = *np ? ft_strjoinf(*np, "/", 1) : ft_strjoin(*np, "/");
+		*np = ft_strjoinf(*np, *array, 1);
+	}
+	return (0);
+}
+
 static char	*construct_path(t_env **env, char *save, char *path)
 {
 	char		*np;
-	char		*ptr;
 	char		**array;
 	char		**save_array;
 
@@ -48,22 +70,8 @@ static char	*construct_path(t_env **env, char *save, char *path)
 	save_array = array;
 	while (*array)
 	{
-		if (!ft_strcmp(*array, ".."))
-		{
-			if ((ptr = ft_strrchr(np, '/')))
-				*ptr = 0;
-			else
-			{
-				np ? ft_strdel(&np) : 0;
-				ft_free(save_array, NULL, 1);
-				return (ft_strdup("/"));
-			}
-		}
-		else if (ft_strcmp(*array, ".") && ft_strcmp(*array, "-"))
-		{
-			np = np ? ft_strjoinf(np, "/", 1) : ft_strjoin(np, "/");
-			np = ft_strjoinf(np, *array, 1);
-		}
+		if (construct_path_utils(array, &np, save_array))
+			return (ft_strdup("/"));
 		array++;
 	}
 	ft_free(save_array, NULL, 1);
@@ -107,8 +115,10 @@ static int	change_dir(t_env **env, t_ast **ast, int opt, char **path)
 	while (tmp && tmp->str[0] == '-' && tmp->str[1])
 		tmp = tmp->right;
 	if (lstat((*path), &st) == -1)
-			return (fd_printf(2, "cd: %s: no such file or directory\n",
-			tmp && tmp->str ? tmp->str : lst_at(env, "HOME")->value));
+	{
+		return (fd_printf(2, "cd: %s: no such file or directory\n",
+		tmp && tmp->str ? tmp->str : lst_at(env, "HOME")->value));
+	}
 	if (S_ISDIR(st.st_mode) || (i = S_ISLNK(st.st_mode)))
 	{
 		if ((access((*path), R_OK)) == -1)
@@ -162,8 +172,10 @@ static int	get_opt(t_ast **ast, int *opt)
 			else if (tmp->str[i] == 'L')
 				(*opt) = 2;
 			else
+			{
 				return (fd_printf(2, "cd: -%c: invalid option\n",
 				tmp->str[i]));
+			}
 		tmp = tmp->right;
 	}
 	return (0);
@@ -203,7 +215,8 @@ int			ft_cd(t_ast **ast, t_env **env)
 		return (0);
 	current_dir = getcwd(current_dir, MAXPATHLEN);
 	if (!path)
-		path = lst_at(env, "HOME") ? ft_strdup(lst_at(env, "HOME")->value) : NULL;
+		path = lst_at(env, "HOME") ?
+		ft_strdup(lst_at(env, "HOME")->value) : NULL;
 	if (change_dir(env, &(*ast)->left->right, opt, &path))
 	{
 		ft_strdel(&path);
