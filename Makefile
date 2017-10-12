@@ -91,7 +91,6 @@ CFILES= 		main.c \
 				command_line/get_cmdl.c \
 				command_line/history.c \
 				command_line/inhibiteur.c \
-				command_line/iris_west.c \
 				command_line/pipe_and_or.c \
 				command_line/print.c \
 				command_line/quotes.c \
