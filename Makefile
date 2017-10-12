@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/12 23:52:56 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/12 23:59:30 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ CFILES= 		main.c \
 				AST/misc_ast.c \
 				init_env/check_env.c \
 				builtins/cd.c \
+				builtins/cd_func.c \
 				builtins/unsetenv.c \
 				builtins/unsetenv_tools.c \
 				builtins/setenv.c \
@@ -90,12 +91,13 @@ CFILES= 		main.c \
 				command_line/esc.c \
 				command_line/get_cmdl.c \
 				command_line/history.c \
+				command_line/handle_ctrlc.c \
 				command_line/inhibiteur.c \
-				command_line/iris_west.c \
 				command_line/pipe_and_or.c \
 				command_line/print.c \
 				command_line/quotes.c \
 				command_line/return.c \
+				command_line/resize_win.c \
 				command_line/search_history.c \
 				command_line/set_shell.c \
 				command_line/slg.c \

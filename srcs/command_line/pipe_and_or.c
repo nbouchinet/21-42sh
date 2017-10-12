@@ -39,52 +39,23 @@ static int	check(t_cmdl *cmdl, int i)
 {
 	if (ft_strstr(cmdl->line.str + i, "||"))
 	{
+		cmdl->opt &= ~(CPIPE | CAND);
 		cmdl->opt |= COR;
 		return (pipe_and_or(cmdl));
 	}
 	else if (ft_strstr(cmdl->line.str + i, "|"))
 	{
+		cmdl->opt &= ~(COR | CAND);
 		cmdl->opt |= CPIPE;
 		return (pipe_and_or(cmdl));
 	}
 	else if (ft_strstr(cmdl->line.str + i, "&&"))
 	{
+		cmdl->opt &= ~(CPIPE | COR);
 		cmdl->opt |= CAND;
 		return (pipe_and_or(cmdl));
 	}
 	return (0);
-}
-
-int			only_space(t_cmdl *cmdl, int i, int w)
-{
-	int		tmp;
-	char	*str;
-
-	str = cmdl->line.str;
-	if (!w)
-	{
-		i = -1;
-		while (str[++i])
-			if (str[i] != ' ')
-				return (0);
-	}
-	else
-	{
-		tmp = i - (i > 0 && str[i] == str[i - 1] ? 1 : 0);
-		while (tmp && str[--tmp])
-			if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&'
-			&& str[tmp] != ';' && str[tmp] != '<' && str[tmp] != '>')
-				return (0);
-			else if (str[tmp] != ' ' && (str[tmp] == '|' || str[tmp] == '&'
-			|| str[tmp] == ';' || str[tmp] == '<' || str[tmp] == '>'))
-				break ;
-		fd_printf(2, "\n42sh: syntax error near unexpected token `");
-		write(2, str + i, str[i + 1] == str[i] ? 2 : 1);
-		write(2, "\'", 1);
-		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
-		cmdl->line.save ? ft_strdel(&cmdl->line.save) : 0;
-	}
-	return (1);
 }
 
 static void	check_inhib(char *str, int *i)
@@ -100,31 +71,50 @@ static void	check_inhib(char *str, int *i)
 		(*i)++;
 }
 
-int			handle_pipe_and_or(t_cmdl *cmdl, int k)
+static int	check_spacing(char *str, int i, int mode)
+{
+	int		tmp;
+
+	tmp = i - (i ? 1 : 0);
+	if (!mode)
+	{
+		while (tmp--)
+			if (str[tmp] != ' ')
+				return (0);
+		fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
+		str[i], str[i] == str[i + 1] ?
+		str[i + 1] : 0);
+		init_cmdl();
+	}
+	else
+	{
+		i = -1;
+		while (str[++i])
+			if (str[i] != ' ')
+				return (1);
+		return (0);
+	}
+	return (1);
+}
+
+int			handle_pipe_and_or(t_cmdl *cmdl)
 {
 	int		i;
 
-	if ((cmdl->opt & (CPIPE | CAND | COR)) && iris_west(cmdl->line.str))
+	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, 0, 1))
 		return (pipe_and_or(cmdl));
 	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
-	{
-		if (cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
-		cmdl->line.str[i] != '&' && cmdl->line.str[i] != 0)
-			k = 1;
 		i--;
-	}
-	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
-	ppa_err(cmdl, &i))
+	if (!i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
-	if (only_space(cmdl, i, 1))
-	{
-		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
+	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
+	if (check_spacing(cmdl->line.str, i, 0))
 		return (0);
-	}
-	if (i > 0 && cmdl->line.str[i - 1] == '\\')
+	if (check_spacing(cmdl->line.str + (i +
+		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i, 1))
+		return(0);
+	if (i && cmdl->line.str[i - 1] == '\\')
 		check_inhib(cmdl->line.str, &i);
-	if (!k && check(cmdl, i))
-		return (1);
-	return (0);
+	return (check(cmdl, i));
 }

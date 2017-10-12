@@ -12,50 +12,17 @@
 
 #include "header.h"
 
-static void		handle_ctrlc(t_cmdl *cmdl)
-{
-	char	*tmp;
-
-	cmdl->ccp.start = -1;
-	tputs(tgetstr("me", NULL), 1, ft_putchar);
-	!(cmdl->opt & CHIS_S) ? end(cmdl) :
-	tputs(tgetstr("cr", NULL), 1, ft_putchar);
-	tputs(tgetstr("cd", NULL), 1, ft_putchar);
-	!(cmdl->opt & CHIS_S) ? write(1, "\n", 1) : 0;
-	cmdl->opt = 0;
-	!(cmdl->opt & CHIS_S) ? print_prompt() : write(1, "$> ", 3);
-	cmdl->opt |= CRESET;
-	if (cmdl->line.save)
-	{
-		tmp = ft_strdup(cmdl->line.str);
-		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
-		while ((int)ft_strlen(cmdl->line.save) > cmdl->line.len)
-			remalloc_cmdl(&cmdl->line);
-		cmdl->line.str = ft_strcpy(cmdl->line.str, cmdl->line.save);
-		cmdl->line.str = ft_strcat(cmdl->line.str, tmp);
-		ft_strdel(&tmp);
-	}
-	if (cmdl->opt & (CSQ | CDQ | CPIPE | CAND | COR))
-		cmd_save_history(cmdl->line.str);
-	cmd_history(cmdl);
-	init_cmdl();
-}
-
 static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	t_cmdl		*cmdl;
+	int			save;
 
 	(void)siginfo;
 	(void)context;
 	cmdl = *cmdl_slg();
+	save = cmdl->line.cur;
 	if (sig == SIGWINCH)
-	{
-		tputs(tgetstr("cl", NULL), 1, ft_putchar);
-		get_win_data(cmdl);
-		print_prompt();
-		ft_putstr(cmdl->line.str);
-		cmdl->opt & CCOMP ? display_comp(cmdl, &cmdl->comp, 0) : 0;
-	}
+		resize_win(cmdl, save);
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)

@@ -55,7 +55,7 @@ int		unset_shell(t_cmdl *cmdl)
 	tputs(tgetstr("am", NULL), 1, ft_putchar);
 	hist_add(his_slg());
 	del_all(cmdl_slg(), his_slg(), local_slg(0));
-	write(1, "Bye\n", 5);
+	write(2, "\033[1mBye\033[0m\n", 12);
 	return (0);
 }
 

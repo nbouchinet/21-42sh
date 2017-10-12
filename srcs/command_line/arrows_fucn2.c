@@ -14,10 +14,8 @@
 
 int			opt_left(t_cmdl *cmdl)
 {
-	if (cmdl->opt & (CCMODE | CCOMP))
+	if (cmdl->opt & (CCMODE | CCOMP | CHIS_S))
 		return (write(1, "\7", 1));
-	if (cmdl->opt & CHIS_S)
-		return (1);
 	if (cmdl->line.str[0])
 	{
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&
@@ -32,10 +30,8 @@ int			opt_left(t_cmdl *cmdl)
 
 int			opt_right(t_cmdl *cmdl)
 {
-	if (cmdl->opt & (CCMODE | CCOMP))
+	if (cmdl->opt & (CCMODE | CCOMP | CHIS_S))
 		return (write(1, "\7", 1));
-	if (cmdl->opt & CHIS_S)
-		return (1);
 	if (cmdl->line.str[0])
 	{
 		while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] != ' ' &&

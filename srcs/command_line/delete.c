@@ -22,6 +22,8 @@ static int		delete_sh(t_cmdl *cmdl)
 	match = findcmdl(cmdl->line.str, cmdl->line.buf, 2);
 	len = ft_strlen(match->cmdl) + 4;
 	cmdl->line.cur -= 1;
+	if (cmdl->line.cur == 19)
+		findcmdl(cmdl->line.str, 0, 1);
 	cmdl->line.str[cmdl->line.cur - cmdl->line.pr] = 0;
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	tputs(tgetstr("le", NULL), 1, ft_putchar);
@@ -35,11 +37,15 @@ static int		delete_sh(t_cmdl *cmdl)
 
 static int		delete_comp_lst(t_cmdl *cmdl)
 {
-	if (cmdl->comp)
-		comp_del(&cmdl->comp);
-	cmdl->comp = NULL;
+	int		save_cmdl;
+
+	save_cmdl = cmdl->line.cur - cmdl->line.pr;
+	comp_del(&cmdl->comp);
 	cmdl->opt &= ~CCOMP;
+	end(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.cur - cmdl->line.pr > save_cmdl)
+		arrow_left(cmdl);
 	return (1);
 }
 
