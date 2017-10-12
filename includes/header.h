@@ -6,13 +6,12 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/29 17:52:39 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 11:51:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/12 12:01:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
-
 # include "../libft/inc/libftprintf.h"
 # include <sys/types.h>
 # include <sys/stat.h>

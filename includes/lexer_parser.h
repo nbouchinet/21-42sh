@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 10:59:37 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/12 22:41:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void				init_token(t_tok **lst);
 void				tok_save(t_tok **lst, char **stack, int type);
 void				flush(t_tok **lst, char **stack, char *line, int *i);
 void				new_parser(t_tok **cmd, char *line, int i);
-void				quote(t_tok **lst, char **stack, char *line, int *i);
+void				ft_quote(t_tok **lst, char **stack, char *line, int *i);
 void				chevron(t_tok **lst, char **stack, char *line, int *i);
 void				question_mark(t_tok **lst, char **stack,
 					char *line, int *i);
@@ -100,7 +100,6 @@ void				input(t_tok **cmd);
 void				parser_line(char *line);
 void				lexer_check(t_tok **lst);
 int					fill_tmp(char tmp[], char c);
-void				expanse(t_tok **lst, t_env **env);
 int					heredoc(t_tok **lst);
 void				swap_tok(t_tok **lst, t_tok **start, t_tok **next,
 					t_tok **w);
@@ -108,4 +107,13 @@ void				replace_tok(t_tok **start, t_tok **next,
 					t_tok **sub, t_tok **sub_end);
 int					print_error_lexer(t_tok **lst, t_tok **n, int mod);
 void				backslash(t_tok **lst, char **stack, char *line, int *i);
+void				complete_quote(char **stack, char *line, int *i,
+					char quote);
+int					stack_expanse(char **str);
+int					find_stack_env(char **str, int i, t_env **env);
+int					find_stack_loc(char **str, int i, t_local **loc);
+int					change_stack(char **str, int j, char *var, char *value);
+void				complete(char **stack, char *line, int *i);
+void				stuck_quote(char **stack, char *line, int *i);
+void				stuck_quote(char **stack, char *line, int *i);
 #endif

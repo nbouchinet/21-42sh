@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 14:15:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/11 20:19:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,14 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	t_local	*tmp;
 	t_env	*var_env;
 
+	ft_putendl("=========");
 	beg = ft_strndup(str, s);
+	ft_putendl(beg);
 	end = ft_strdup(str + (s + len));
+	ft_putendl(end);
 	var = ft_strsub(str, s + 1, len - 1);
+	ft_putendl(var);
+	ft_putendl("=========");
 	if (var && (var_env = find_node(env, var, NULL)))
 		beg = ft_strjoinf(beg, var_env->value, 1);
 	else if ((tmp = find_local(local_slg(0), var)))
@@ -51,7 +56,7 @@ static char		*replace_env(char *str, int s, int len, t_env **env)
 	beg = ft_strjoinf(beg, end, 3);
 	free(var);
 	return (beg);
-}
+} // a refaire
 
 static int		check_expanse(char **str, t_env **env, int i)
 {

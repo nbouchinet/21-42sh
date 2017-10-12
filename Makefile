@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/10 21:27:16 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/12 23:52:56 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC=				gcc
 
 NAME=			42sh
 
-CFLAGS=			-g3 -Wall -Werror -Wextra#-fsanitize=address
+CFLAGS=			-g3 -Wall -Werror -Wextra #-fsanitize=address
 
 CPATH=			srcs/
 
@@ -36,6 +36,7 @@ CFILES= 		main.c \
 				lexer/jonathan_kent.c \
 				lexer/the_dog.c \
 				lexer/misc_lexer.c \
+				lexer/expanse2.c \
 				AST/ast_tools.c \
 				AST/creat_ast.c \
 				AST/creat_io_seq.c \

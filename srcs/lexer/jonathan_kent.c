@@ -6,23 +6,22 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 12:08:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/12 23:22:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	quote(t_tok **lst, char **stack, char *line, int *i)
+void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 {
 	int		type;
 	char	quote;
 
 	quote = line[(*i)++];
-	if (ft_strlen(*stack) > 0)
-		type = WORD;
-	else
-		type = (quote == '\'' ? QUOTE : DQUOTE);
-	while (line[(*i)] && line[(*i)] != quote)
+	type = (quote == '\'' ? QUOTE : DQUOTE);
+	complete_quote(stack, line, i, quote);
+	while (line[(*i)] && !is_space(line[(*i)]) &&
+			line[(*i)] != '"' && line[(*i)] != '\'')
 	{
 		if (quote == '"' && line[(*i)] == '\\')
 		{
@@ -32,12 +31,16 @@ void	quote(t_tok **lst, char **stack, char *line, int *i)
 		else
 			st_tok(stack, line[(*i)++], 0);
 	}
+	if (line[(*i)] && (line[(*i)] == '\'' || line[(*i)] == '"'))
+		stuck_quote(stack, line, i);
 	tok_save(lst, stack, type);
-	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
+	if (line[(*i)] && check_end(line + ((*i) + 1)))
 	{
+		ft_putendl("TROLOLOOOLOL");
 		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
+	// ft_putendl("????");
 }
 
 void	chevron(t_tok **lst, char **stack, char *line, int *i)
@@ -124,7 +127,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, AND);
 	}
 	else
-		tok_save(lst, stack, BG);
+		tok_save(lst, stack, BGE);
 	if (check_end(line + (*i) + 1) == 1)
 	{
 		(*lst)->n = init_tok(lst, NE);
