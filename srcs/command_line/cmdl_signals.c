@@ -49,16 +49,18 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 	(void)siginfo;
 	(void)context;
 	cmdl = *cmdl_slg();
-	if (sig == SIGWINCH)
+	if (sig == SIGWINCH && (save = cmdl->line.cur))
 	{
-		save = cmdl->line.cur;
 		tputs(tgetstr("cl", NULL), 1, ft_putchar);
 		get_win_data(cmdl);
 		print_prompt();
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-		while (cmdl->line.cur-- > save)
+		cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str))
+		+ cmdl->line.pr;
+		while (cmdl->line.cur > save)
+		{
 			tputs(tgetstr("le", NULL), 1, ft_putchar);
+			cmdl->line.cur--;
+		}
 		if (cmdl->opt & CCOMP)
 			display_comp(cmdl, &cmdl->comp, 0);
 	}

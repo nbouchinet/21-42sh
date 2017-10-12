@@ -14,11 +14,13 @@
 
 static void	comp_mode(t_cmdl *cmdl, int save)
 {
-	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-	cmdl->line.cur = ft_strlen(cmdl->line.str);
-	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-	while (cmdl->line.cur-- > save)
+	cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str)) +
+	cmdl->line.pr;
+	while (cmdl->line.cur > save)
+	{
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
+		--cmdl->line.cur;
+	}
 	display_comp(cmdl, &cmdl->comp, cmdl->offset);
 }
 
@@ -50,7 +52,7 @@ int			ctrl_l(t_cmdl *cmdl)
 {
 	int		save;
 
-	save = cmdl->line.cur + 1;
+	save = cmdl->line.cur;
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	print_prompt();
 	if (cmdl->opt & CHIS_S)
