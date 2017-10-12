@@ -22,6 +22,8 @@ static int		delete_sh(t_cmdl *cmdl)
 	match = findcmdl(cmdl->line.str, cmdl->line.buf, 2);
 	len = ft_strlen(match->cmdl) + 4;
 	cmdl->line.cur -= 1;
+	if (cmdl->line.cur == 19)
+		findcmdl(cmdl->line.str, 0, 1);
 	cmdl->line.str[cmdl->line.cur - cmdl->line.pr] = 0;
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	tputs(tgetstr("le", NULL), 1, ft_putchar);

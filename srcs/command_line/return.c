@@ -49,7 +49,7 @@ static int	check_cmdl(t_cmdl *cmdl, int len)
 {
 	if (check_quote(cmdl))
 		save_cmdl(&cmdl);
-	if (handle_pipe_and_or(cmdl, 0))
+	if (handle_pipe_and_or(cmdl))
 		save_cmdl(&cmdl);
 	if (cmdl->line.str && inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
