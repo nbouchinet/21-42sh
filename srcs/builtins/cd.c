@@ -118,7 +118,6 @@ int			ft_cd(t_ast **ast, t_env **env)
 	if (change_dir(env, &(*ast)->left->right, opt, &path))
 	{
 		ft_strdel(&path);
-		ft_strdel(&current_dir);
 		return (0);
 	}
 
