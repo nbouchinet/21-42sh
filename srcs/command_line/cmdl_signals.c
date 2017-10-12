@@ -44,17 +44,23 @@ static void		handle_ctrlc(t_cmdl *cmdl)
 static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	t_cmdl		*cmdl;
+	int			save;
 
 	(void)siginfo;
 	(void)context;
 	cmdl = *cmdl_slg();
 	if (sig == SIGWINCH)
 	{
+		save = cmdl->line.cur;
 		tputs(tgetstr("cl", NULL), 1, ft_putchar);
 		get_win_data(cmdl);
 		print_prompt();
-		ft_putstr(cmdl->line.str);
-		cmdl->opt & CCOMP ? display_comp(cmdl, &cmdl->comp, 0) : 0;
+		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+		while (cmdl->line.cur-- > save)
+			tputs(tgetstr("le", NULL), 1, ft_putchar);
+		if (cmdl->opt & CCOMP)
+			display_comp(cmdl, &cmdl->comp, 0);
 	}
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);

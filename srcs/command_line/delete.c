@@ -35,11 +35,15 @@ static int		delete_sh(t_cmdl *cmdl)
 
 static int		delete_comp_lst(t_cmdl *cmdl)
 {
-	if (cmdl->comp)
-		comp_del(&cmdl->comp);
-	cmdl->comp = NULL;
+	int		save_cmdl;
+
+	save_cmdl = cmdl->line.cur - cmdl->line.pr;
+	comp_del(&cmdl->comp);
 	cmdl->opt &= ~CCOMP;
+	end(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.cur - cmdl->line.pr > save_cmdl)
+		arrow_left(cmdl);
 	return (1);
 }
 

@@ -33,10 +33,10 @@ static int	cmode(t_cmdl *cmdl)
 		print_comp(&cmdl->comp);
 	else
 		write(1, "\n", 1);
+	cur_save = cmdl->line.cur - cmdl->line.pr;
 	cmdl->opt &= ~(CCMODE | CCOMP);
 	print_prompt();
 	cmdl->line.pr = 3;
-	cur_save = cmdl->line.cur - cmdl->line.pr;
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
 	while ((cmdl->line.cur - cmdl->line.pr) > cur_save)
