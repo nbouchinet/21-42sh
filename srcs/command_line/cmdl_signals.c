@@ -41,6 +41,25 @@ static void		handle_ctrlc(t_cmdl *cmdl)
 	init_cmdl();
 }
 
+static void 	resize_win(t_cmdl *cmdl, int save)
+{
+	tputs(tgetstr("cl", NULL), 1, ft_putchar);
+	get_win_data(cmdl);
+	print_prompt();
+	cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str))
+	+ cmdl->line.pr;
+	while (cmdl->line.cur > save)
+	{
+		tputs(tgetstr("le", NULL), 1, ft_putchar);
+		cmdl->line.cur--;
+	}
+	if (cmdl->opt & CCOMP)
+	{
+		cmdl->opt &= ~CCMODE;
+		display_comp(cmdl, &cmdl->comp, 0);
+	}
+}
+
 static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 {
 	t_cmdl		*cmdl;
@@ -50,20 +69,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 	(void)context;
 	cmdl = *cmdl_slg();
 	if (sig == SIGWINCH && (save = cmdl->line.cur))
-	{
-		tputs(tgetstr("cl", NULL), 1, ft_putchar);
-		get_win_data(cmdl);
-		print_prompt();
-		cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str))
-		+ cmdl->line.pr;
-		while (cmdl->line.cur > save)
-		{
-			tputs(tgetstr("le", NULL), 1, ft_putchar);
-			cmdl->line.cur--;
-		}
-		if (cmdl->opt & CCOMP)
-			display_comp(cmdl, &cmdl->comp, 0);
-	}
+		resize_win(cmdl, save);
 	else if (sig == SIGINT)
 		handle_ctrlc(cmdl);
 	else if (sig == SIGQUIT)
