@@ -6,101 +6,119 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 13:56:57 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 23:46:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/13 22:30:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int		change_stack(char **str, int j, char *var, char *value)
+static int		replace_var(char **str, int *i, int var, char *val)
 {
-	int		i;
-	char	*tmp;
+	char	*beg;
+	char	*end;
 
-	if (*str + j)
+	end = NULL;
+	if (*str + (*i) + var + 1)
+		end = ft_strdup(*str + (*i) + var + 1);
+	if ((*i) != 0)
+		beg = ft_strndup(*str, (*i));
+	else
+		beg = ft_strdup("");
+	ft_strdel(str);
+	if (val)
 	{
-		tmp = ft_strdup(*str + ft_strlen(var) + 1);
-		ft_putendl("After var");
-		ft_putendl(tmp);
+		beg = ft_strjoinf(beg, val, 1);
+		*i = *i + ft_strlen(val);
 	}
-	if (value)
-	{
-		i = -1;
-		ft_bzero(*str + j, ft_strlen(*str + j));
-		ft_putendl(*str);
-		while (value[++i])
-			st_tok(str, value[i], 0);
-	}
-	if (tmp)
-	{
-		i = -1;
-		while (tmp[++i])
-			st_tok(str, tmp[i], 0);
-		ft_strdel(&tmp);
-	}
+	if (end)
+		beg = ft_strjoinf(beg, end, 2);
+	*str = ft_strdupf(&beg);
 	return (0);
 }
 
-int		find_stack_loc(char **str, int i, t_local **loc)
+static int		find_loc(char **str, int *i, t_local **env)
 {
-	char	*new;
+	int		var;
 	t_local	*tmp;
 
-	if ((tmp = *loc))
+	if (*env)
+	{
+		tmp = *env;
 		while (tmp)
 		{
-			if (ft_strstr(*str + (i + 1), tmp->var))
-			{
-				new = *str + (i + 1 + ft_strlen(tmp->var));
-				if (is_space(new[0]) || new[0] == '\0')
-					return (change_stack(str, i, tmp->var, tmp->val));
-			}
-			tmp = tmp->n;
+			var = ft_strlen(tmp->var);
+			if (!ft_strncmp(*str + (*i + 1), tmp->var, var))
+				return (replace_var(str, i, ft_strlen(tmp->var), tmp->var));
+			else
+				tmp = tmp->n;
 		}
+	}
 	return (1);
 }
 
-int		find_stack_env(char **str, int i, t_env **env)
+static int		find_env(char **str, int *i, t_env **env)
 {
-	char	*new;
+	int		var;
 	t_env	*tmp;
 
-	if ((tmp = *env))
+	if (*env)
+	{
+		tmp = *env;
 		while (tmp)
 		{
-			if (ft_strstr(*str + (i + 1), tmp->var))
-			{
-				new = *str + (i + 1 + ft_strlen(tmp->var));
-				if (is_space(new[0]) || new[0] == '\0')
-					return (change_stack(str, i, tmp->var, tmp->value));
-			}
-			tmp = tmp->next;
+			var = ft_strlen(tmp->var);
+			if (!ft_strncmp(*str + (*i + 1), tmp->var, var))
+				return (replace_var(str, i, var, tmp->value));
+			else
+				tmp = tmp->next;
 		}
+	}
 	return (1);
 }
 
-int		stack_expanse(char **str)
+static void		remove_vari(char **str, int i)
+{
+	int		j;
+	char	*beg;
+	char	*end;
+
+	j = 0;
+	end = NULL;
+	while ((*str)[i + j] && !is_space((*str)[i + j]))
+		j++;
+	if (*str + i + j)
+		end = ft_strdup(*str + i + j);
+	beg = (i != 0 ? ft_strndup(*str, i) : ft_strdup(""));
+	ft_strdel(str);
+	end ? beg = ft_strjoinf(beg, end, 3) : 0;
+	*str = ft_strdupf(&beg);
+}
+
+int				stack_expanse(char **str)
 {
 	int		i;
-	char	*new;
+	char	*tmp;
 	t_local	*loc;
 	t_env	*env;
 
-	i = 0;
 	loc = *local_slg(0);
 	env = (*cmdl_slg())->lstenv;
-	if (*str)
-		while ((*str)[i])
-		{
-			if ((*str)[i] == '$' && (*str)[i + 1])
-				if (str[i + 1] != '\0' && !is_space((*str)[i + 1]))
-					if (find_stack_env(str, i, &env) && find_stack_loc(str, i, &loc))
-					{
-						new = ft_strndup(*str, i);
-						ft_strdel(str);
-						*str = ft_strdupf(&new);
-					}
-			i++;
-		}
+	if (!(*str))
+		return (1);
+	i = 0;
+	tmp = ft_strdup(*str);
+	ft_memset(*str, 0, ft_strlen(*str));
+	while (tmp[i])
+	{
+		if (tmp[i] == '$' && tmp[i + 1])
+			if (tmp[i + 1] && !is_space(tmp[i + 1]))
+				if (find_env(&tmp, &i, &env) && find_loc(&tmp, &i, &loc))
+					remove_vari(&tmp, i);
+		i++;
+	}
+	i = -1;
+	while (tmp[++i])
+		st_tok(str, tmp[i], 0);
+	ft_strdel(&tmp);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 23:22:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/13 22:29:50 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 			st_tok(stack, line[(*i)++], 0);
 	}
 	if (line[(*i)] && (line[(*i)] == '\'' || line[(*i)] == '"'))
-		stuck_quote(stack, line, i);
-	tok_save(lst, stack, type);
-	if (line[(*i)] && check_end(line + ((*i) + 1)))
 	{
-		ft_putendl("TROLOLOOOLOL");
+		// ft_putendl("0");
+		stuck_quote(stack, line, i);
+		// ft_putendl("1");
+	}
+	tok_save(lst, stack, QUOTE);
+	if (line[(*i)] && line[(*i) + 1] && check_end(line + ((*i) + 1)))
+	{
+		// ft_putendl("INIT_NEW TOKEN");
 		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
+	if (line[(*i)] == '\0')
+		(*i)--;
 	// ft_putendl("????");
 }
 

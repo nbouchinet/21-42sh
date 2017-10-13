@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 23:50:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/13 22:30:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	complete_quote(char **stack, char *line, int *i, char quote)
 {
-	// if (ft_strlen(*stack) > 0 && quote == '"')
-	// 	stack_expanse(stack);
-
+	if (ft_strlen(*stack) > 0 && quote == '"')
+	{
+		// ft_printf("[%c] First expanse complete_quote\n", quote);
+		stack_expanse(stack);
+	}
 	while (line[(*i)] && line[(*i)] != quote)
 	{
 		if (quote == '"' && line[(*i)] == '\\')
@@ -27,22 +29,20 @@ void	complete_quote(char **stack, char *line, int *i, char quote)
 		else
 			st_tok(stack, line[(*i)++], 0);
 	}
-	ft_putendl(*stack);
-	(*i)++;
+	// ft_printf("%@complete_quote: %s%@\n", BLUE, *stack, I);
+	// if (line[(*i) + 1])
+	// 	(*i)++; I"M IN THE QUOTE
 	if (quote == '"')
 	{
-		ft_putendl("WUT");
-		ft_putendl(*stack);
+		// ft_putendl("complete_quote: DQUOTE");
 		stack_expanse(stack);
+		// ft_printf("%@complete_quote: %s%@\n", RED, *stack, I);
 	}
-	else
-	{
-		ft_printf("quote == %c\n", quote);
-		ft_putendl("========");
-		ft_putstr("[");ft_putstr(*stack);ft_putendl("]");
-		ft_putendl("========");
-	}
+	// else
+		// ft_putendl("complete_quote: QUOTE");
+	(*i)++;
 }
+
 void	delete_lst(t_tok **cmd)
 {
 	t_tok *tmp;
@@ -73,9 +73,11 @@ void	st_tok(char **stack, char c, int reset)
 	i = 0;
 	if (reset)
 	{
+		// ft_putendl("st_tok: RESET");
 		len = 100;
 		return ;
 	}
+	// ft_printf("st_tok: len = %d\n", len);
 	if ((i = (int)ft_strlen(*stack)) == (len - 1))
 	{
 		i = -1;
@@ -84,11 +86,15 @@ void	st_tok(char **stack, char c, int reset)
 		ft_memset(tmp, 0, (len + 100));
 		while ((*stack)[++i])
 			tmp[i] = (*stack)[i];
-		tmp[i + 1] = c;
+		tmp[i] = c;
+		// ft_printf("[remaloc]char: %c\n", c);
 		ft_strdel(stack);
 		*stack = tmp;
 		len += 100;
 	}
 	else
+	{
 		(*stack)[i] = c;
+		// ft_printf("char: %c\n", c);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 22:41:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/13 22:27:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ void				backslash(t_tok **lst, char **stack, char *line, int *i);
 void				complete_quote(char **stack, char *line, int *i,
 					char quote);
 int					stack_expanse(char **str);
-int					find_stack_env(char **str, int i, t_env **env);
-int					find_stack_loc(char **str, int i, t_local **loc);
-int					change_stack(char **str, int j, char *var, char *value);
 void				complete(char **stack, char *line, int *i);
 void				stuck_quote(char **stack, char *line, int *i);
-void				stuck_quote(char **stack, char *line, int *i);
+// void				stuck_quote(char **stack, char *line, int *i);
 #endif
