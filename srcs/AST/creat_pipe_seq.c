@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:45:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/12 21:38:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 			return ;
 	while (tmp != *sep)
 	{
+		// ft_putendl("???????");
+		// ft_putendl(tmp->str);
 		init_ast(&tmp_ast->right, &tmp, CMD_ARG);
 		if (tmp->n && tmp->n != *sep)
 			tmp_ast = tmp_ast->right;

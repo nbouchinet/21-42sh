@@ -6,12 +6,43 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 16:39:32 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/12 23:50:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+void	complete_quote(char **stack, char *line, int *i, char quote)
+{
+	// if (ft_strlen(*stack) > 0 && quote == '"')
+	// 	stack_expanse(stack);
+
+	while (line[(*i)] && line[(*i)] != quote)
+	{
+		if (quote == '"' && line[(*i)] == '\\')
+		{
+			st_tok(stack, line[++(*i)], 0);
+			(*i)++;
+		}
+		else
+			st_tok(stack, line[(*i)++], 0);
+	}
+	ft_putendl(*stack);
+	(*i)++;
+	if (quote == '"')
+	{
+		ft_putendl("WUT");
+		ft_putendl(*stack);
+		stack_expanse(stack);
+	}
+	else
+	{
+		ft_printf("quote == %c\n", quote);
+		ft_putendl("========");
+		ft_putstr("[");ft_putstr(*stack);ft_putendl("]");
+		ft_putendl("========");
+	}
+}
 void	delete_lst(t_tok **cmd)
 {
 	t_tok *tmp;

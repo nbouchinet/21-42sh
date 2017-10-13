@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 16:41:26 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/12 22:32:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,31 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 
 	i = 0;
 	ast = NULL;
-	ft_putendl(*line);
+	// ft_putendl(*line);
 	if (*line)
 	{
 		init_token(&cmd);
 		new_parser(&cmd, *line, 0);
-		// sleep(10);
-		restruct_lst(&cmd);
 		t = cmd;
 		while (t)
 		{
 			ft_printf("[%s]-|-[%d]\n", t->str, t->type);
 			t = t->n;
 		}
+		// sleep(10);
+		restruct_lst(&cmd);
 		if (new_lexercheck(&cmd)) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
 			if (heredoc(&cmd) != -1)
 			{
-				expanse(&cmd, env);
+				// new_expanse(&cmd);
+				t = cmd;
+				while (t)
+				{
+					ft_printf("[%s]-|-[%d]\n", t->str, t->type);
+					t = t->n;
+				}
 				if (cmd)
 				{
 					init_ast(&ast, NULL, 0);

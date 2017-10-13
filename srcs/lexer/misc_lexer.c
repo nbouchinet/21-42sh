@@ -6,11 +6,72 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:30:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 19:22:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/12 23:20:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void	stuck_quote(char **stack, char *line, int *i)
+{
+	int		j;
+	char	*str;
+
+	j = 0;
+	str = NULL;
+	if (*stack)
+	{
+		str = ft_memalloc(100);
+		st_tok(NULL, 0, 1);
+		if (line[(*i)] == '\'' || line[(*i)] == '"')
+		{
+			complete(&str, line, i);
+			if (str)
+			{
+				ft_putendl("HELLO");
+				while (str[j])
+				{
+					ft_printf("^^^^^^[%c]^^^^^^", str[j]);
+					st_tok(stack, str[j], 0);
+					j++;
+				}
+			}
+			else
+				ft_putendl("NULL");
+		}
+		ft_strdel(&str);
+	}
+	// if (line[(*i) + 1])
+		(*i)++;
+}
+
+void	complete(char **stack, char *line, int *i)
+{
+	int		type;
+	char	quote;
+
+	quote = '\0';
+	if (line[(*i)])
+		quote = line[(*i)++];
+	type = (quote == '\'' ? QUOTE : DQUOTE);
+	complete_quote(stack, line, i, quote);
+	while (line[(*i)] && !is_space(line[(*i)]) && line[(*i)] != '"' && line[(*i)] != '\'')
+	{
+		if (quote == '"' && line[(*i)] == '\\')
+		{
+			st_tok(stack, line[++(*i)], 0);
+			line[(*i) + 1] ? (*i)++ : 0;
+		}
+		else
+			st_tok(stack, line[(*i)++], 0);
+	}
+	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
+	{
+		if (line[(*i)] == '\'' || line[(*i)] == '"')
+			stuck_quote(stack, line, i);
+		(*i)--;
+	}
+}
 
 int		print_error_lexer(t_tok **lst, t_tok **n, int mod)
 {
