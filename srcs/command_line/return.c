@@ -47,6 +47,7 @@ static void	save_cmdl(t_cmdl **cmdl)
 
 static int	check_cmdl(t_cmdl *cmdl, int len)
 {
+	end(cmdl);
 	if (check_quote(cmdl))
 		save_cmdl(&cmdl);
 	if (handle_pipe_and_or(cmdl))

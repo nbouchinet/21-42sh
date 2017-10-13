@@ -81,17 +81,20 @@ static int		get_nbr_col(t_cmdl *cmdl, t_comp **comp, size_t *winsize)
 void			call_print_lst(t_cmdl *cmdl, t_comp **comp)
 {
 	size_t		winsize;
-	int			nbr_col;
 	int			cur_save;
 	int			up;
 
 	up = 0;
 	cur_save = cmdl->line.cur;
 	while (cmdl->line.str[cmdl->line.cur++ - cmdl->line.pr])
+	{
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
+		if (cmdl->line.cur % cmdl->line.co == 0 && ++up)
+			tputs(tgetstr("do", NULL), 1, ft_putchar);
+	}
 	cmdl->line.cur = cur_save;
 	write(1, "\n", 1);
-	if ((nbr_col = get_nbr_col(cmdl, comp, &winsize)) < cmdl->line.li)
+	if ((get_nbr_col(cmdl, comp, &winsize)) < cmdl->line.li)
 	{
 		print_lst(comp, cmdl, &winsize, &up);
 		restor_cursor_position(cmdl, up);

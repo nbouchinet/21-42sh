@@ -56,6 +56,8 @@ static void 	search_hist_case(t_cmdl *cmdl, int save)
 
 void 			resize_win(t_cmdl *cmdl, int save)
 {
+	if (cmdl->opt & (CAND | COR | CPIPE | CSQ | CSQ))
+		return ;
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	get_win_data(cmdl);
 	print_prompt();
