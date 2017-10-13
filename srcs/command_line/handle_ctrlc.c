@@ -53,8 +53,9 @@ void 		handle_ctrlc(t_cmdl *cmdl)
 		ccp_case(cmdl);
 	else if (cmdl->opt & CHIS_S)
 		search_hist_case(cmdl);
-	else if (!cmdl->opt)
+	else if (!cmdl->opt || (cmdl->opt & (CAND | COR | CPIPE | CDQ | CSQ)))
 	{
+		cmdl->opt = 0;
 		end(cmdl);
 		write(1, "\n", 1);
 		print_prompt();

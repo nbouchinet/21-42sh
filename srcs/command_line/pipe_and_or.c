@@ -75,15 +75,33 @@ static int	check_spacing(char *str, int i, int mode)
 {
 	int		tmp;
 
-	tmp = i - (i ? 1 : 0);
+	// ft_printf("\nBEGINING: [%c]-[%c]\n", str[i], str[i + 1]);
+	tmp = i;
 	if (!mode)
 	{
 		while (tmp--)
-			if (str[tmp] != ' ')
+		{
+			// ft_printf("\n[%c]-[%c]\n", str[tmp], str[tmp + 1]);
+			if ((str[tmp] == '<' || str[tmp] == '>') &&
+			(str[tmp + 1] == '|' || str[tmp + 1] == '&'))
+			{
+				// ft_putendl("HELLO");
+				continue ;
+			}
+			if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&' && str[tmp] != '<' && str[tmp] != '>')
+			{
+				// ft_putendl("EXITING");
 				return (0);
+			}
+			if (str[tmp] == '|' || str[tmp] == '&' || ((str[tmp] == '<' ||
+			str[tmp] == '>')))
+			{
+				// ft_putendl("WORLD");
+				break ;
+			}
+		}
 		fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
-		str[i], str[i] == str[i + 1] ?
-		str[i + 1] : 0);
+		str[i], str[i] == str[i + 1] ? str[i + 1] : 0);
 		init_cmdl();
 	}
 	else
