@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 15:54:27 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 23:20:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,4 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 		job_ast(&tmp, env, 1);
 	ft_putendl("WTF");
 	return (1);
-}
-
-void	job_cont_bg(t_process **lst, char **env, t_job **job, int *p)
-{
-	close(p[1]);
-	(*lst)->next ? exec_pipe_bg(&(*lst)->next, env, p[0], job) : 0;
-	close(p[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 15:03:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/15 00:30:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,40 @@ int		ft_joblstadd(t_job **new, t_ast **ast, t_job **table)
 	return (1);
 }
 
+int		check_job(t_job **job, t_ast **ast, t_job **table)
+{
+	t_job		*j;
+	t_job		*prev;
+
+	(void)job;
+	(void)ast;
+	if ((j = *table))
+	{
+		prev = NULL;
+		while (j)
+		{
+			if (kill(j->pgid, 0) < 0)
+			{
+				if (j->bg)
+					fd_printf(2, "[%d] Done     %s\n", j->num, j->command);
+				delete_tnode(&j, &prev, table);
+				if (*table)
+				{
+					j = *table;
+					prev = NULL;
+				}
+			}
+			else
+				prev = j;
+			j = j->next;
+		}
+	}
+	return (1);
+} // Condition kill a revoir....
+
 int		update_status(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
-	t_process	*p;
 
 	(void)job;
 	(void)ast;
@@ -64,17 +94,21 @@ int		update_status(t_job **job, t_ast **ast, t_job **table)
 		j = *table;
 		while (j)
 		{
-			p = j->first_process;
-			while (p)
-			{
-				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
-				j->status = WTERMSIG(p->status);
-				if (!j->next && j->notified != 1)
-					catch_error(&j, p->status);
-				p = p->next;
-			}
-			mark_process_status(&j);
+			waitpid(j->pgid, &j->status, WUNTRACED | WCONTINUED | WNOHANG);
+			j->status = WTERMSIG(j->status);
+			catch_error(&j, j->status);
 			j = j->next;
+		// 	// p = j->first_process;
+		// 	// while (p)
+		// 	// {
+		// 	// 	waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
+		// 	// 	j->status = WTERMSIG(p->status);
+		// 	// 	if (!j->next && j->notified != 1)
+		// 	// 		catch_error(&j, p->status);
+		// 	// 	p = p->next;
+		// 	// }
+		// 	// mark_process_status(&j);
+		// 	j = j->next;
 		}
 	}
 	return (1);

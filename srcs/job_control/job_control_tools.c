@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:12:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:46:14 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 23:52:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int		check_kill(t_job **job)
 	{
 		if (kill(p->pid, 0) < 0)
 		{
+			// sleep(30);
+			// ft_putendl("DELETE");
 			delete_process(&(*job)->first_process, &prev, &p);
 			p = (*job)->first_process;
 		}

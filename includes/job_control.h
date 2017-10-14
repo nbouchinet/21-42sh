@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/11 14:37:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 23:38:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct			s_job
 {
 	int					status;
 	int					num;
+	int					bg;
 	char				*command;
 	struct s_process	*first_process;
 	pid_t				pgid;
@@ -125,10 +126,6 @@ void					set_pgid(pid_t pid, pid_t *pgid, int foreground);
 void					set_pid(pid_t pid, pid_t *pgid, int foreground);
 void					active_sig(pid_t pid, pid_t pgid, int foreground);
 int						exec_pro(t_process **lst, t_env **env, t_job **j);
-int						exec_pipe_job(t_process **lst, char **env,
-						int r, t_job **job);
-int						exec_pipe_bg(t_process **pro, char **env,
-						int r, t_job **job);
 int						exec_pro_bg(t_process **pro, t_env **env, t_job **job);
 void					creat_file(t_tok **lst);
 int						heredoc(t_tok **lst);
@@ -151,8 +148,6 @@ int						check_equal(char *s);
 int						test(char *s);
 int						job_pipe(t_ast **ast, t_env **env, int foreground);
 int						pipe_job(t_job **lst, t_env **env, int foreground);
-int						job_cont_pipe(t_process **lst, char **env,
-						t_job **job, int *p);
 void					stock_restore(int mod);
 int						ft_fg(t_ast **ast, t_env **env);
 int						ft_bg(t_ast **ast, t_env **env);
@@ -184,4 +179,14 @@ int						check_job(t_job **job, t_ast **ast, t_job **table);
 void					job_len(t_job **j, t_job **table, int *len);
 void					print_job_message(t_job **j, int *len, int *pos);
 void					close_rdir(int fd, int mod);
+int						cont_pipe_fg(t_process **lst, char **env, pid_t main,
+						int *p);
+int						pipe_job_fg(t_process **lst, char **env, int r,
+						pid_t main);
+int						main_fork_fg(t_job **lst, char **env);
+int						cont_pipe_bg(t_process **lst, char **env, pid_t main,
+						int *p);
+int						pipe_job_bg(t_process **lst, char **env, int r,
+						pid_t main);
+int						main_fork_bg(t_job **lst, char **env);
 #endif

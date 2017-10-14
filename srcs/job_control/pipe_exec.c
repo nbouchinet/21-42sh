@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:23:48 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 13:09:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 23:17:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ int		job_pipe(t_ast **ast, t_env **env, int fg)
 		tmp = job;
 		tmp->command = init_pipe_job(ast);
 		if (complete_process(&(*ast)->right, &tmp->first_process, env) == 1)
+		{
+			job_control(&job, NULL, ADD);
 			return (pipe_job(&job, env, fg));
+		}
 		delete_job(&job);
 	}
 	return (0);
@@ -35,30 +38,14 @@ int		pipe_job(t_job **lst, t_env **env, int fg)
 	t_job	*tmp;
 
 	tmp = *lst;
-	job_control(lst, NULL, ADD);
 	n_env = get_env(env, tmp->first_process->argv ?
 						tmp->first_process->argv[0] : NULL);
 	if (fg)
-	{
-		status = exec_pipe_job(&tmp->first_process, n_env, -1, lst);
-		mark_process_status(lst);
-	}
+		status = main_fork_fg(lst, n_env);
 	else
-		status = exec_pipe_bg(&tmp->first_process, n_env, -1, lst);
+		status = main_fork_bg(lst, n_env);
 	ft_freetab(n_env);
 	if (return_exec(status))
 		return (1);
 	return (0);
-}
-
-int		job_cont_pipe(t_process **lst, char **env, t_job **job, int *p)
-{
-	int		status;
-
-	status = 0;
-	close(p[1]);
-	if ((*lst)->next)
-		status = exec_pipe_job(&(*lst)->next, env, p[0], job);
-	close(p[0]);
-	return (status);
 }

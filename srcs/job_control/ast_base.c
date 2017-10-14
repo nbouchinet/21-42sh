@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 15:56:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 23:42:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		exec_job(t_job **job, t_env **env, int fg)
 	int		status;
 
 	job_control(job, NULL, ADD);
+	(*job)->bg = fg ? 0 : 1;
 	if (fg)
 	{
 		status = exec_pro(&(*job)->first_process, env, job);

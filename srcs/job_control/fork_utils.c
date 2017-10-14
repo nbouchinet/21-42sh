@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:06:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:46:02 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/14 16:59:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	set_pgid(pid_t pid, pid_t *pgid, int foreground)
 {
-	*pgid == 0 ? (*pgid = pid) : 0;
-	*pgid == pid ? setpgid(pid, *pgid) : 0;
+	setpgid(pid, *pgid);
 	if (foreground)
-		tcsetpgrp(g_shell_terminal, *pgid);
+		tcsetpgrp(g_shell_terminal, pid);
+		// ;
 }
 
 void	set_pid(pid_t pid, pid_t *pgid, int foreground)
@@ -30,9 +30,10 @@ void	set_pid(pid_t pid, pid_t *pgid, int foreground)
 
 void	active_sig(pid_t pid, pid_t pgid, int foreground)
 {
-	setpgid(getpid(), pgid == 0 ? getpid() : pgid);
+
+	setpgid((pid = getpid()), pgid);
 	if (foreground)
-		tcsetpgrp(g_shell_terminal, pgid == 0 ? pid : pgid);
+		tcsetpgrp(g_shell_terminal, pid);
 	signal(SIGTSTP, SIG_DFL);
 	signal(SIGCHLD, SIG_DFL);
 	signal(SIGINT, SIG_DFL);

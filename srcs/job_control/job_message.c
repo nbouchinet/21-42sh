@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   job_message.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:06:31 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/10 15:06:43 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/15 00:12:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		check_job(t_job **job, t_ast **ast, t_job **table)
-{
-	t_job		*j;
-	t_job		*prev;
-
-	(void)job;
-	(void)ast;
-	if ((j = *table))
-	{
-		prev = NULL;
-		while (j)
-			if (!check_j(table, &j, &prev))
-				break ;
-	}
-	return (1);
-}
 
 void	job_len(t_job **j, t_job **table, int *len)
 {

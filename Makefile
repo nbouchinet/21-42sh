@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/13 18:50:27 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/14 23:11:40 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,8 @@ CFILES= 		main.c \
 				job_control/exec_env.c \
 				job_control/exec_env_tools.c \
 				job_control/fg_bg.c \
-				job_control/fork.c \
+				job_control/fork_fg.c \
+				job_control/fork_bg.c \
 				job_control/fork_utils.c \
 				job_control/heredoc.c \
 				job_control/heredoc_func.c \
