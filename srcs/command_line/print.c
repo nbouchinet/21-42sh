@@ -28,7 +28,7 @@ static int	cmode(t_cmdl *cmdl)
 	int		cur_save;
 
 	if (cmdl->line.buf[0] != 'y' && cmdl->line.buf[0] != 'n')
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	else if (cmdl->line.buf[0] == 'y')
 		print_comp(&cmdl->comp);
 	else
@@ -67,7 +67,7 @@ int		regular_print(t_line *line, char buf[], int i, int j)
 
 	len = ft_strlen(line->str);
 	if (len + line->pr >= line->co * line->li - (line->co + 1) &&
-	write(1, "\7", 1))
+	write(2, "\7", 1))
 		return (-1);
 	len == (line->len - 1) ? remalloc_cmdl(line) : 0;
 	if (line->str[i] == 0)

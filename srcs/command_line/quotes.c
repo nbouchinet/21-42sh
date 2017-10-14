@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static int	bs(char *str, int i)
+int			bs(char *str, int i)
 {
 	int		count;
 
@@ -56,7 +56,7 @@ int			check_quote(t_cmdl *cmdl)
 		regular_print(&cmdl->line, cmdl->line.buf,
 			cmdl->line.cur - cmdl->line.pr, 0);
 		cmdl->line.pr = (cmdl->opt & CSQ ?
-		write(1, "\nquote> ", 8) - 1 : write(1, "\ndquote> ", 9) - 1);
+		write(2, "\nquote> ", 8) - 1 : write(2, "\ndquote> ", 9) - 1);
 		return ((cmdl->line.cur = cmdl->line.pr) ? 1 : 1);
 	}
 	return (0);

@@ -74,19 +74,20 @@ void		cmd_save_history(char *str)
 		head_smasher(his_slg());
 }
 
-static void	print_cmdl(t_cmdl *cmdl, t_his *his)
+static int	print_cmdl(t_cmdl *cmdl, t_his *his)
 {
-	int		pos;
+	int		his_len;
 
-	pos = cmdl->line.cur - cmdl->line.pr;
-	while (pos--)
-		tputs(tgetstr("le", NULL), 1, ft_putchar);
+	his_len = ft_strlen(his->cmdl);
+	home(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
-	while ((int)ft_strlen(his->cmdl) >= (cmdl->line.len - 1))
+	while (his_len >= (cmdl->line.len - 1))
 		remalloc_cmdl(&cmdl->line);
+	ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
 	cmdl->line.str = ft_strcpy(cmdl->line.str, his->cmdl);
-	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-	cmdl->line.cur = ft_strlen(his->cmdl) + cmdl->line.pr;
+	cmdl->line.cur = write(1, cmdl->line.str, his_len)
+	+ cmdl->line.pr;
+	return (1);
 }
 
 int			cmd_history(t_cmdl *cmdl)
@@ -95,7 +96,7 @@ int			cmd_history(t_cmdl *cmdl)
 	static t_his	*match = NULL;
 
 	if (cmdl->opt & (CCMODE | CCP))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	if (cmdl->opt & CCOMP)
 	{
 		return ((UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
@@ -103,19 +104,15 @@ int			cmd_history(t_cmdl *cmdl)
 	}
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
-	if (cmdl->opt & CRESET)
-	{
-		match = NULL;
+	if (cmdl->opt & CRESET && !(match = NULL))
 		return (1);
-	}
 	his = !match ? *his_slg() : match;
 	if (UP(cmdl->line.buf) && his->n)
 		his = his->n;
 	else if (DOWN(cmdl->line.buf) && his->p)
 		his = his->p;
 	else
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	match = his;
-	print_cmdl(cmdl, his);
-	return (1);
+	return (print_cmdl(cmdl, his));
 }

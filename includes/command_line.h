@@ -289,7 +289,7 @@ int					handle_pipe_and_or(t_cmdl *cmdl);
 int					ppa_err(t_cmdl *cmdl, int *i);
 int					inhibiteur(t_cmdl *cmdl, int len);
 int					ctrl_d(t_cmdl *cmdl);
-int					iris_west(char *str);
+int					bs(char *str, int i);
 
 /*
 **	Completion
@@ -320,6 +320,7 @@ void				restor_cursor_position(t_cmdl *cmdl, int up);
 void				print_comp(t_comp **comp);
 void				check_built_in(t_cmdl *cmdl, char *tmp);
 void				insert(t_comp **comp, t_comp *lnk, int i);
+void 				escape_metha(char **str);
 
 /*
 **	Bang

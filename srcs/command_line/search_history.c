@@ -54,8 +54,10 @@ static void		print_match(t_cmdl *cmdl, t_his *his, char buf[])
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	if (!(SH(buf)) && !(NEXT(buf)))
 	{
-		(cmdl->line.cur) += 1;
-		tputs(tgetstr("nd", NULL), 1, ft_putchar);
+		cmdl->line.cur++;
+		!((cmdl->line.cur + 3) % cmdl->line.co) ?
+		(tputs(tgetstr("do", NULL), 1, ft_putchar)) :
+		(tputs(tgetstr("nd", NULL), 1, ft_putchar));
 	}
 }
 
@@ -66,7 +68,7 @@ int				search_history_print(t_cmdl *cmdl, char buf[])
 	int				len;
 
 	if (cmdl->opt & (CCMODE | CCOMP))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	pos = cmdl->line.cur - cmdl->line.pr;
 	len = ft_strlen(cmdl->line.str);
 	if (!(SH(buf)) && !(NEXT(buf)))
@@ -86,7 +88,7 @@ int				cmd_search_history(t_cmdl *cmdl)
 	int		len;
 
 	if (cmdl->opt & (CCMODE | CCOMP | CCP | CHD))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	if (cmdl->opt & (CHIS_S))
 		return (search_history_print(cmdl, cmdl->line.buf));
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);

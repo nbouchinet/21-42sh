@@ -58,7 +58,7 @@ int				del(t_cmdl *cmdl)
 	if (cmdl->opt & CCOMP)
 		return (delete_comp_lst(cmdl));
 	if (cmdl->opt & CCMODE || cmdl->line.cur == cmdl->line.pr)
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	arrow_left(cmdl);
 	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	i = cmdl->line.cur - cmdl->line.pr - 1;

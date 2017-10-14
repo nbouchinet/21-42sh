@@ -12,50 +12,33 @@
 
 #include "header.h"
 
-static int	pipe_and_or(t_cmdl *cmdl)
-{
-	if (cmdl->opt & CPIPE)
-	{
-		write(1, "\npipe> ", 7);
-		cmdl->line.pr = 6;
-		cmdl->line.cur = 6;
-	}
-	else if (cmdl->opt & CAND)
-	{
-		write(1, "\ncmdand> ", 9);
-		cmdl->line.pr = 8;
-		cmdl->line.cur = 8;
-	}
-	else
-	{
-		write(1, "\ncmdor> ", 8);
-		cmdl->line.pr = 7;
-		cmdl->line.cur = 7;
-	}
-	return (1);
-}
-
 static int	check(t_cmdl *cmdl, int i)
 {
-	if (ft_strstr(cmdl->line.str + i, "||"))
+	if ((i >= 0 && ft_strstr(cmdl->line.str + i, "||")) || (i == -1 && cmdl->opt
+	& COR))
 	{
 		cmdl->opt &= ~(CPIPE | CAND);
 		cmdl->opt |= COR;
-		return (pipe_and_or(cmdl));
+		cmdl->line.cur = write(2, "\ncmdor> ", 8) - 1;
+		cmdl->line.pr = 7;
 	}
-	else if (ft_strstr(cmdl->line.str + i, "|"))
+	else if ((i >= 0 && ft_strstr(cmdl->line.str + i, "|")) || (i == -1 &&
+	cmdl->opt & CPIPE))
 	{
 		cmdl->opt &= ~(COR | CAND);
 		cmdl->opt |= CPIPE;
-		return (pipe_and_or(cmdl));
+		cmdl->line.cur = write(2, "\npipe> ", 7) - 1;
+		cmdl->line.pr = 6;
 	}
-	else if (ft_strstr(cmdl->line.str + i, "&&"))
+	else if ((i >= 0 && ft_strstr(cmdl->line.str + i, "&&")) || (i == -1 &&
+	cmdl->opt & CAND))
 	{
 		cmdl->opt &= ~(CPIPE | COR);
 		cmdl->opt |= CAND;
-		return (pipe_and_or(cmdl));
+		cmdl->line.cur = write(2, "\ncmdand> ", 9) - 1;
+		cmdl->line.pr = 8;
 	}
-	return (0);
+	return (1);
 }
 
 static void	check_inhib(char *str, int *i)
@@ -71,66 +54,62 @@ static void	check_inhib(char *str, int *i)
 		(*i)++;
 }
 
-static int	check_spacing(char *str, int i, int mode)
+static int	look_for_rd(char *str, int i)
 {
 	int		tmp;
 
-	// ft_printf("\nBEGINING: [%c]-[%c]\n", str[i], str[i + 1]);
 	tmp = i;
-	if (!mode)
+	while (tmp--)
 	{
-		while (tmp--)
+		if (((str[tmp] == '<' || str[tmp] == '>') &&
+		(str[tmp - (tmp ? 1 : 0)] >= '0' && str[tmp - (tmp ? 1 : 0)] <= '9')
+		) && (str[tmp + 1] == '&'))
 		{
-			// ft_printf("\n[%c]-[%c]\n", str[tmp], str[tmp + 1]);
-			if ((str[tmp] == '<' || str[tmp] == '>') &&
-			(str[tmp + 1] == '|' || str[tmp + 1] == '&'))
-			{
-				// ft_putendl("HELLO");
-				continue ;
-			}
-			if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&' && str[tmp] != '<' && str[tmp] != '>')
-			{
-				// ft_putendl("EXITING");
-				return (0);
-			}
-			if (str[tmp] == '|' || str[tmp] == '&' || ((str[tmp] == '<' ||
-			str[tmp] == '>')))
-			{
-				// ft_putendl("WORLD");
-				break ;
-			}
+			tmp--;
+			continue ;
 		}
-		fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
-		str[i], str[i] == str[i + 1] ? str[i + 1] : 0);
-		init_cmdl();
+		if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&'
+		&& str[tmp] != '<' && str[tmp] != '>')
+			return (0);
+		if (str[tmp] == '|' || str[tmp] == '&' || str[tmp] == '<' ||
+		str[tmp] == '>')
+			break ;
 	}
-	else
-	{
-		i = -1;
-		while (str[++i])
-			if (str[i] != ' ')
-				return (1);
-		return (0);
-	}
+	fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
+	str[i], str[i] == str[i + 1] ? str[i + 1] : 0);
+	init_cmdl();
 	return (1);
+}
+
+static int	check_spacing(char *str, int i)
+{
+	while (str[++i])
+		if (str[i] != ' ')
+			return (1);
+	return (0);
 }
 
 int			handle_pipe_and_or(t_cmdl *cmdl)
 {
 	int		i;
 
-	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, 0, 1))
-		return (pipe_and_or(cmdl));
+	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, 0))
+		return (check(cmdl, - 1));
 	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
+	{
+		if ((cmdl->line.str[i] == '\'' || cmdl->line.str[i] == '\"') &&
+		bs(cmdl->line.str, i))
+			break ;
 		i--;
-	if (!i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
+	}
+	if (cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
-	if (check_spacing(cmdl->line.str, i, 0))
+	if (look_for_rd(cmdl->line.str, i))
 		return (0);
 	if (check_spacing(cmdl->line.str + (i +
-		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i, 1))
+		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i))
 		return(0);
 	if (i && cmdl->line.str[i - 1] == '\\')
 		check_inhib(cmdl->line.str, &i);

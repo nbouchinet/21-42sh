@@ -37,21 +37,6 @@ void		insert(t_comp **comp, t_comp *lnk, int i)
 	}
 }
 
-static void escape_string(char **str)
-{
-	char	*tmp;
-
-	if (!(tmp = ft_strchr((*str), ' ')))
-		return ;
-	*tmp = 0;
-	(*str) = ft_strjoinf((*str), ft_strjoin("\\ ", tmp + 1), 3);
-	while ((tmp = ft_strchr(tmp, ' ')))
-	{
-		*tmp = 0;
-		(*str) = ft_strjoinf((*str), ft_strjoin("\\ ", tmp), 3);
-	}
-}
-
 t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 {
 	t_comp	*tmp;
@@ -64,7 +49,7 @@ t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
 	}
 	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
 	ft_strdup(rdd->d_name));
-	escape_string(&tmp->str);
+	escape_metha(&tmp->str);
 	ft_memset(tmp->pad, 0, 512);
 	tmp->bol = 0;
 	tmp->n = NULL;

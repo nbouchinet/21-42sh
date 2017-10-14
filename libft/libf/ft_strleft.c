@@ -12,42 +12,36 @@
 
 #include "../inc/libftprintf.h"
 
-static char		*ft_str_save_chr(const char *s, int c, int reset)
+static char	*find_c(const char *s, char **save, int c)
 {
-	static char		*save = NULL;
-
-	if (reset)
-		return ((save = NULL));
-	if (!s || *s == '\0')
+	if (!s || !(*s))
 		return (NULL);
-	if (save)
-		while (s != save)
+	if (*save)
+		while (s != *save)
 			s++;
 	while (*s && *s != (char)c)
-	{
-		ft_putchar(*s);
 		s++;
-	}
 	if (*s)
 	{
-		save = (char*)(&(*s) + 1);
-		return ((char*)(&(*s)));
+		*save = (char *)(&(s) + 1);
+		return ((char *)(&(*s)));
 	}
-	save = NULL;
 	return (NULL);
 }
 
-void			ft_strleft(char **str, int c)
+void 			ft_strleft(char **str, int c)
 {
+	char	*save;
 	char	*match;
 
-	while ((match = ft_str_save_chr((*str), c, 0)))
+	save = NULL;
+	match = NULL;
+	while ((match = find_c(*str, &save, c)))
 	{
-		while (*match)
+		while ((*match))
 		{
-			(*match) = *(match + 1);
+			(*match) = *(match) + 1;
 			match++;
 		}
 	}
-	ft_str_save_chr(NULL, 0, 1);
 }

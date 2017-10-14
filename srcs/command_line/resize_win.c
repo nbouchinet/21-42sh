@@ -45,7 +45,7 @@ static void 	search_hist_case(t_cmdl *cmdl, int save)
 	his = findcmdl(cmdl->line.str, 0, 2);
 	cmdl->line.cur = 22 + ft_strlen(cmdl->line.str) +
 	(his ? ft_strlen(his->cmdl) : 0);
-	ft_printf("(reverse-i-search)`%s': %s", cmdl->line.str,
+	fd_printf(2, "(reverse-i-search)`%s': %s", cmdl->line.str,
 	his ? his->cmdl : "");
 	while (cmdl->line.cur > save)
 	{

@@ -21,7 +21,7 @@ int			ctrlt(t_cmdl *cmdl)
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->opt & (CCOMP | CCMODE | CHIS_S) || !i ||
 			ft_strlen(cmdl->line.str) < 2)
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	min = ((i == (int)ft_strlen(cmdl->line.str)) ? 1 : 0);
 	stock = cmdl->line.str[i - min - 1];
 	cmdl->line.str[i - min - 1] = cmdl->line.str[i - min];
@@ -46,7 +46,7 @@ int			ctrl_u(t_cmdl *cmdl)
 	char	*sub;
 
 	if (cmdl->opt & (CCOMP | CCMODE | CCP | CHIS_S))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	sub = ft_strdup(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr));
 	home(cmdl);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);

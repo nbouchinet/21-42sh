@@ -21,7 +21,7 @@ void			comp_del(t_comp **head)
 	while (tmp)
 	{
 		save = tmp->n;
-		free(tmp->str);
+		ft_strdel(&tmp->str);
 		free(tmp);
 		tmp = save;
 	}

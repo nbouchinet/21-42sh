@@ -22,6 +22,7 @@ int			exit_search_mode(t_cmdl *cmdl)
 	while (cmdl->line.cur--)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	cmdl->opt &= ~(CHIS_S);
 	if (!his)
 	{
 		init_cmdl();
@@ -33,7 +34,6 @@ int			exit_search_mode(t_cmdl *cmdl)
 	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
 	cmdl->line.cur = ft_strlen(cmdl->line.str) + 3;
 	cmdl->line.pr = 3;
-	cmdl->opt &= ~(CHIS_S);
 	return (RETURN(cmdl->line.buf) ? 1 : 2);
 }
 
@@ -64,7 +64,7 @@ int			return_cmdl(t_cmdl *cmdl)
 	t_comp	*tmp;
 
 	if (cmdl->opt & (CCMODE | CCP))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	if (cmdl->opt & CCOMP)
 	{
 		cmdl->opt &= ~(CCOMP);
