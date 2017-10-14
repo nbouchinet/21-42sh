@@ -48,6 +48,8 @@ static void	his_mode(t_cmdl *cmdl)
 	}
 }
 
+//CCP mode ?
+
 int			ctrl_l(t_cmdl *cmdl)
 {
 	int		save;

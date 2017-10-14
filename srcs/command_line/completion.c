@@ -32,7 +32,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 	cmdl->comp ? cmdl->comp->bol = 1 : 0;
 	if (cmdl->comp)
 		return (display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)));
-	write(1, "\7", 1);
+	write(2, "\7", 1);
 	return (0);
 }
 
@@ -59,7 +59,7 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 	if (cmdl->comp && (cmdl->comp->bol = 1))
 		display_comp(cmdl, &cmdl->comp, ft_strlen(*tmp));
 	else
-		write(1, "\7", 1);
+		write(2, "\7", 1);
 }
 
 static void		get_comp(t_cmdl *cmdl, int i)
@@ -97,7 +97,7 @@ static int		only_space_comp(char *str)
 			return (0);
 	write(2, "\033[1mRTFM\033[0m\n", 13);
 	print_prompt();
-	return (write(1, "\7", 1));
+	return (write(2, "\7", 1));
 }
 
 int				completion(t_cmdl *cmdl)
@@ -105,7 +105,7 @@ int				completion(t_cmdl *cmdl)
 	int		i;
 
 	if (cmdl->opt & CCP)
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->comp && (cmdl->opt & CCOMP))
 		return (c_move(&cmdl->comp));

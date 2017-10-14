@@ -46,7 +46,7 @@ int			paste(t_cmdl *cmdl, int len_cpy)
 	cmdl->opt &= ~CCP;
 	if ((int)ft_strlen(cmdl->line.str) + cmdl->line.pr + len_cpy >=
 	cmdl->line.co * cmdl->line.li - (cmdl->line.co - 1))
-		return (write(1, "\7", 1));
+		return (write(2, "\7", 1));
 	write(1, cmdl->ccp.cpy, len_cpy);
 	edit_cmdl(cmdl, len_cpy, -1);
 	if (cmdl->line.cur % cmdl->line.co == 0)

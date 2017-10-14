@@ -75,12 +75,12 @@ static void	print_and_del(char **str, int w)
 {
 	if (!w)
 	{
-		ft_printf("%@42sh: %s%@", H_BLUE, *str, I);
+		fd_printf(2, "%@42sh: %s%@", H_BLUE, *str, I);
 		ft_strdel(str);
 	}
 	else
 	{
-		ft_printf(": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
+		fd_printf(2, ": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
 		ft_strdel(str);
 	}
 }
@@ -97,18 +97,18 @@ void		print_prompt(void)
 		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
 		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
 		if (buff)
-			ft_printf("%@42sh: %s%@", H_BLUE, buff, I);
+			fd_printf(2, "%@42sh: %s%@", H_BLUE, buff, I);
 		else if ((buff = getcwd(buff, MAXPATHLEN)))
 			print_and_del(&buff, 0);
 		buff = NULL;
 		get_git(&buff);
 		if (buff)
 			print_and_del(&buff, 1);
-		write(1, "\n$> ", 4);
+		write(2, "\n$> ", 4);
 	}
 	else if ((cmdl->opt & (CSQ | CDQ)))
-		cmdl->opt & CSQ ? write(1, "\nquote> ", 8) : write(1, "\ndquote> ", 9);
+		cmdl->opt & CSQ ? write(2, "\nquote> ", 8) : write(2, "\ndquote> ", 9);
 	else if ((cmdl->opt & (CHD)))
-		cmdl->line.pr = write(1, "heredoc> ", 9);
+		cmdl->line.pr = write(2, "heredoc> ", 9);
 	cmdl->line.cur = cmdl->line.pr;
 }

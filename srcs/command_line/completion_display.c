@@ -82,7 +82,7 @@ int				display_comp(t_cmdl *cmdl, t_comp **comp, int offset)
 	else if ((*comp))
 		call_completion_edit(cmdl, comp, offset);
 	else
-		write(1, "\7", 1);
+		write(2, "\7", 1);
 	return (1);
 }
 

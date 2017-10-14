@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/13 18:50:27 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/14 15:01:36 by khabbar          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ CFILES= 		main.c \
 				command_line/completion_display2.c \
 				command_line/completion_edit.c \
 				command_line/completion_func.c \
+				command_line/completion_func2.c \
 				command_line/completion_move.c \
 				command_line/ctrl.c \
 				command_line/del_all.c \
@@ -168,7 +169,6 @@ fclean: clean
 	make -C libft fclean
 	rm -rf $(NAME)
 	rm -rf $(OPATH)
-	rm .42sh_history
 
 re: fclean all
 
