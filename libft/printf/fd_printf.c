@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 09:35:04 by khabbar           #+#    #+#             */
-/*   Updated: 2017/03/15 18:45:57 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 18:50:35 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int				fd_printf(int fd, const char *restrict format, ...)
 	while (b.buff[++i])
 		if (b.buff[i] == -1)
 			b.buff[i] = '\0';
-	write(1, b.buff, len);
+	write(fd, b.buff, len);
 	va_end(ap);
 	return (b.len);
 }

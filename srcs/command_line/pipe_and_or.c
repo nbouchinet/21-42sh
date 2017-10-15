@@ -41,7 +41,7 @@ static int	check(t_cmdl *cmdl, int i)
 	return (1);
 }
 
-static void	check_inhib(char *str, int *i)
+static int	check_inhib(char *str, int *i, int mode)
 {
 	int		j;
 	int		count;
@@ -50,8 +50,11 @@ static void	check_inhib(char *str, int *i)
 	count = 0;
 	while (str[--j] == '\\')
 		count++;
-	if (count % 2)
+	if (!mode && count % 2)
 		(*i)++;
+	else if (mode && count % 2)
+		return (0);
+	return (1);
 }
 
 static int	look_for_rd(char *str, int i)
@@ -69,10 +72,10 @@ static int	look_for_rd(char *str, int i)
 			continue ;
 		}
 		if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&'
-		&& str[tmp] != '<' && str[tmp] != '>')
+		&& str[tmp] != '<' && str[tmp] != '>' && str[tmp] != ';')
 			return (0);
-		if (str[tmp] == '|' || str[tmp] == '&' || str[tmp] == '<' ||
-		str[tmp] == '>')
+		if ((str[tmp] == '|' || str[tmp] == '&' || str[tmp] == '<' ||
+		str[tmp] == '>' || str[tmp] == ';') && check_inhib(str, &tmp, 1))
 			break ;
 	}
 	fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
@@ -104,7 +107,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 		i--;
 	}
 	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
-	check_spacing(cmdl->line.str + i, -1))
+	check_spacing(cmdl->line.str, i))
 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
 	if (look_for_rd(cmdl->line.str, i))
@@ -113,6 +116,6 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i))
 		return (0);
 	if (i && cmdl->line.str[i - 1] == '\\')
-		check_inhib(cmdl->line.str, &i);
+		check_inhib(cmdl->line.str, &i, 0);
 	return (check(cmdl, i));
 }

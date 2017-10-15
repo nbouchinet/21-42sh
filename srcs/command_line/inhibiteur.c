@@ -17,7 +17,7 @@ int		inhibiteur(t_cmdl *cmdl, int len)
 	int		count;
 
 	count = 0;
-	while (cmdl->line.str[len] == '\\' && len >= 0)
+	while (len >= 0 && cmdl->line.str[len] == '\\')
 	{
 		count++;
 		len--;

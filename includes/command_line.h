@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 11:51:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 16:25:25 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,9 +227,9 @@ int					search_history_print(t_cmdl *cmdl, char buf[]);
 */
 
 void				cmdl_signals(t_cmdl *cmdl);
-void 				resize_win(t_cmdl *cmdl, int save);
-void 				ccp_case(t_cmdl *cmdl, int save);
-void 				handle_ctrlc(t_cmdl *cmdl);
+void				resize_win(t_cmdl *cmdl, int save);
+void				ccp_case(t_cmdl *cmdl, int save);
+void				handle_ctrlc(t_cmdl *cmdl);
 
 /*
 **	Suppression
@@ -296,8 +296,8 @@ int					bs(char *str, int i);
 **	Completion
 */
 
-t_comp				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
-					int i);
+int					only_space_comp(char *str);
+void 				fill_comp(t_comp **comp, char *name, int dir, int i);
 char				*get_path(char **tmp);
 int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);
@@ -321,7 +321,7 @@ void				restor_cursor_position(t_cmdl *cmdl, int up);
 void				print_comp(t_comp **comp);
 void				check_built_in(t_cmdl *cmdl, char *tmp);
 void				insert(t_comp **comp, t_comp *lnk, int i);
-void 				escape_metha(char **str);
+void				escape_metha(char **str);
 
 /*
 **	Bang

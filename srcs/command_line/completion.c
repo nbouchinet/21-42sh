@@ -24,8 +24,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 		while ((rdd = readdir(dir)) != 0)
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
 			!check_comp(&cmdl->comp, rdd->d_name))
-				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
-				fill_comp(&cmdl->comp, rdd, 2, 0);
+				fill_comp(&cmdl->comp, rdd->d_name, 0, 0);
 		closedir(dir);
 	}
 	check_built_in(cmdl, tmp);
@@ -52,12 +51,36 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
 			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
-				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
-				fill_comp(&cmdl->comp, rdd, 2, 0);
+				fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type, 0);
 	closedir(dir);
 	ft_strdel(&path);
 	if (cmdl->comp && (cmdl->comp->bol = 1))
 		display_comp(cmdl, &cmdl->comp, ft_strlen(*tmp));
+	else
+		write(2, "\7", 1);
+}
+
+static void		list_locale(t_cmdl *cmdl, char **tmp)
+{
+	t_local		*loc;
+	t_env		*env;
+
+	loc = *local_slg(0);
+	env = cmdl->lstenv;
+	while (loc)
+	{
+		if (!ft_strncmp(loc->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
+			fill_comp(&cmdl->comp, loc->var, 0, 0);
+		loc = loc->n;
+	}
+	while (env)
+	{
+		if (!ft_strncmp(env->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
+			fill_comp(&cmdl->comp, env->var, 0, 0);
+		env = env->next;
+	}
+	if (cmdl->comp && (cmdl->comp->bol = 1))
+		display_comp(cmdl, &cmdl->comp, ft_strlen((*tmp) + 1));
 	else
 		write(2, "\7", 1);
 }
@@ -83,21 +106,13 @@ static void		get_comp(t_cmdl *cmdl, int i)
 	if (tmp && tmp[0] == '~' && tmp[1] == '/' && lst_at(&cmdl->lstenv, "HOME"))
 		tmp = ft_strjoinf(lst_at(&cmdl->lstenv, "HOME")->value,
 		ft_strdups(tmp + 1, &tmp), 2);
-	if (tmp && is_exec(cmdl))
+	if (tmp && tmp[0] == '$')
+		list_locale(cmdl, &tmp);
+	else if (tmp && is_exec(cmdl))
 		list_exec(cmdl, tmp, path) ? 0 : list_files(cmdl, &tmp);
 	else
 		list_files(cmdl, &tmp);
 	ft_free(path, tmp ? &tmp : NULL, tmp ? 3 : 1);
-}
-
-static int		only_space_comp(char *str)
-{
-	while (*str)
-		if (*(++str) != ' ')
-			return (0);
-	write(2, "\033[1mRTFM\033[0m\n", 13);
-	print_prompt();
-	return (write(2, "\7", 1));
 }
 
 int				completion(t_cmdl *cmdl)
