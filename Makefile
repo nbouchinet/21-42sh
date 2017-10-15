@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/15 00:33:21 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/15 18:04:29 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,11 @@ CFILES= 		main.c \
 				lexer/lex_luthor.c \
 				lexer/lexer_check.c \
 				lexer/martha_kent.c \
-				lexer/expanse.c \
 				lexer/jonathan_kent.c \
 				lexer/the_dog.c \
 				lexer/misc_lexer.c \
-				lexer/expanse2.c \
+				lexer/expanse.c \
+				lexer/misc_exp.c \
 				AST/ast_tools.c \
 				AST/creat_ast.c \
 				AST/creat_io_seq.c \
@@ -65,8 +65,9 @@ CFILES= 		main.c \
 				builtins/history_opt2.c \
 				builtins/read.c \
 				builtins/read_parse.c \
-				builtins/fg.c \
 				builtins/read_opt1.c \
+				builtins/read_opt2.c \
+				builtins/fg.c \
 				builtins/hash_clean.c \
 				builtins/misc_builtins.c \
 				command_line/arrows_fucn1.c \

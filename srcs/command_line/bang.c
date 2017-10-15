@@ -27,6 +27,8 @@ static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 	int				j;
 
 	qsub = ft_strsplit(bang->tmp, ' ');
+	if ((!bang->s1 || !bang->s2) && qsub_error(bang, qsub))
+		return ;
 	j = -1;
 	ft_memset((*cmd), 0, len_cmd);
 	while (qsub[++j] && ft_strcmp(bang->s1, qsub[j]))

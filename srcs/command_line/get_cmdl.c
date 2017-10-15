@@ -51,10 +51,10 @@ void		get_op(t_cmdl *cmdl, int *ret, int *i)
 	read(0, cmdl->line.buf, 6);
 	while (++(*i) < 23)
 		if (cmdl->line.buf[0] == op[(*i)].key[0] &&
-				cmdl->line.buf[1] == op[(*i)].key[1]
-				&& cmdl->line.buf[2] == op[(*i)].key[2] &&
-				cmdl->line.buf[3] == op[(*i)].key[3]
-				&& cmdl->line.buf[4] == op[(*i)].key[4])
+		cmdl->line.buf[1] == op[(*i)].key[1]
+		&& cmdl->line.buf[2] == op[(*i)].key[2] &&
+		cmdl->line.buf[3] == op[(*i)].key[3]
+		&& cmdl->line.buf[4] == op[(*i)].key[4])
 			if (((*ret) = op[(*i)].f(cmdl)))
 				break ;
 }

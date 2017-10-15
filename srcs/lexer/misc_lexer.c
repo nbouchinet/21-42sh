@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:30:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/13 22:33:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 18:30:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,13 @@ void	stuck_quote(char **stack, char *line, int *i)
 	str = NULL;
 	if (*stack)
 	{
-		// ft_putendl("IN stuck_quote");
 		str = ft_memalloc(100);
 		st_tok(NULL, 0, 1);
-		if (line[(*i)] == '\'' || line[(*i)] == '"')
-		{ // USELESS
-			complete(&str, line, i);
-			st_tok(NULL, 0, 1);
-			new = ft_strdup(*stack);
-			ft_strdel(stack);
-			// ft_printf("NEW: %@%s%@\n", GREEN, new, I);
-			if (!(*stack = (char *)malloc(sizeof(char) * 100)))
-				perror("malloc:"); // TO REMOVE
-			ft_memset(*stack, 0, 100);
-			// ft_putnbrl(j);
-			while (new[++j])
-			{
-				// ft_putchar(new[j]);ft_putchar('\n');
-				st_tok(stack, new[j], 0);
-			}
-			// ft_putendl("BONJOUR");
-			ft_strdel(&new);
-			// }
-			// else perror("malloc stack");
-			j = -1;
-			if (str)
-			{
-				// ft_putendl("HELLO");
-				while (str[++j])
-				{
-					// ft_printf("^^^^^^[%c]^^^^^^", str[j]);
-					st_tok(stack, str[j], 0);
-				}
-				ft_strdel(&str);
-			}
-			// else
-				// ft_putendl("NULL");
-			// ft_putendl("WORLD");
-		}
+		complete(&str, line, i);
+		st_tok(NULL, 0, 1);
+		new = ft_strdup(*stack);
+		ft_strdel(stack);
+		complete_st_quote(stack, &new, &str);
 	}
 }
 
@@ -72,25 +41,13 @@ void	complete(char **stack, char *line, int *i)
 	if (line[(*i)])
 		quote = line[(*i)++];
 	type = (quote == '\'' ? QUOTE : DQUOTE);
-	complete_quote(stack, line, i, quote);
-	// ft_putendl("INNER_QUOTE");
-	while (line[(*i)] && !is_space(line[(*i)]) && line[(*i)] != '"' && line[(*i)] != '\'')
-	{
-		if (quote == '"' && line[(*i)] == '\\')
-		{
-			st_tok(stack, line[++(*i)], 0);
-			line[(*i) + 1] ? (*i)++ : 0;
-		}
-		else
-			st_tok(stack, line[(*i)++], 0);
-	}
+	in_quote(stack, line, i, type);
+	if (line[(*i)] && !is_space(line[(*i)]) &&
+				line[(*i)] != '"' && line[(*i)] != '\'')
+		expanse_stack(stack, line, i);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
-	{
 		if (line[(*i)] == '\'' || line[(*i)] == '"')
 			stuck_quote(stack, line, i);
-		// ft_printf("END INNER_QUOTE: %s\n", *stack);
-		// (*i)--;
-	}
 }
 
 int		print_error_lexer(t_tok **lst, t_tok **n, int mod)

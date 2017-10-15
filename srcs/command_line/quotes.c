@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/02 18:06:32 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 10:38:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:05:13 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static void	count_quote(t_cmdl *cmdl)
 	int		i;
 
 	i = -1;
-
 	while (cmdl->line.str[++i])
 	{
 		if (cmdl->line.str[i] == '\'' && (!(cmdl->opt & (CSQ | CDQ))) &&

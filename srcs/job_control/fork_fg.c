@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 14:46:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 19:55:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int		cont_pipe_fg(t_process **lst, char **env, pid_t main, int *p)
 	return (status);
 }
 
+void	kill_pid(int sig)
+{
+	while(1)
+		ft_putnbrl(sig);
+}
 int		pipe_job_fg(t_process **lst, char **env, int r, pid_t main)
 {
 	int			p[2];
@@ -75,7 +80,19 @@ int		pipe_job_fg(t_process **lst, char **env, int r, pid_t main)
 	return (status != 0 ? status : tmp->status);
 }
 
+void	sig_ign(pid_t pid, int fg)
+{
+	if (fg)
+		tcsetpgrp(g_shell_terminal, pid);
+	signal(SIGTSTP, &kill_pid);
+	signal(SIGCHLD, &kill_pid);
+	signal(SIGINT, &kill_pid);
+	signal(SIGQUIT, &kill_pid);
+	signal(SIGTTIN, &kill_pid);
+	signal(SIGTTOU, &kill_pid);
+}
 
+void	sig_ign(pid_t pid, int fg);
 int		main_fork_fg(t_job **lst, char **env)
 {
 	int		status;
@@ -84,7 +101,9 @@ int		main_fork_fg(t_job **lst, char **env)
 	status = 0;
 	if (!((*lst)->pgid = fork()))
 	{
-		active_sig(getpid(), getpid(), 1);
+		// active_sig(getpid(), getpid(), 1);
+		sig_ign(getpid(), 1);
+		// signal(SIGINT, SIG_IGN);
 		ret = pipe_job_fg(&(*lst)->first_process, env, -1, (*lst)->pgid);
 		if (!return_exec(ret))
 			exit(EXIT_FAILURE);
@@ -93,10 +112,10 @@ int		main_fork_fg(t_job **lst, char **env)
 	else
 	{
 		set_pgid((*lst)->pgid, &(*lst)->pgid, 1);
-		waitpid((*lst)->pgid, &status, WCONTINUED | WUNTRACED);
+		waitpid((*lst)->pgid, &status, WCONTINUED);// | WUNTRACED);
 		(*lst)->status = status;
 		catch_error(lst, (*lst)->status);
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	}
 	return (status);
-}
+} // GO i

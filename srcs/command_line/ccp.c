@@ -87,7 +87,7 @@ int			ccp(t_cmdl *cmdl)
 {
 	int		st;
 
-	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP))
+	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP) || !cmdl->line.str[0])
 		return (write(2, "\7", 1));
 	cmdl->opt |= CCP;
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)

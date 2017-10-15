@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 20:49:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/12 20:49:28 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:05:59 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void 	ccp_case(t_cmdl *cmdl, int save)
+void			ccp_case(t_cmdl *cmdl, int save)
 {
 	cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str))
 	+ cmdl->line.pr;
@@ -22,7 +22,7 @@ static void 	ccp_case(t_cmdl *cmdl, int save)
 		arrow_left(cmdl);
 }
 
-static void 	comp_case(t_cmdl *cmdl, int save)
+static void		comp_case(t_cmdl *cmdl, int save)
 {
 	cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str))
 	+ cmdl->line.pr;
@@ -38,7 +38,7 @@ static void 	comp_case(t_cmdl *cmdl, int save)
 	}
 }
 
-static void 	search_hist_case(t_cmdl *cmdl, int save)
+static void		search_hist_case(t_cmdl *cmdl, int save)
 {
 	t_his	*his;
 
@@ -54,7 +54,7 @@ static void 	search_hist_case(t_cmdl *cmdl, int save)
 	}
 }
 
-void 			resize_win(t_cmdl *cmdl, int save)
+void			resize_win(t_cmdl *cmdl, int save)
 {
 	if (cmdl->opt & (CAND | COR | CPIPE | CSQ | CSQ))
 		return ;

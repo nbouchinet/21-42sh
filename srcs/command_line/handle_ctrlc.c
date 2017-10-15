@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 20:52:55 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/12 20:53:03 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:01:01 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void search_hist_case(t_cmdl *cmdl)
+static void	search_hist_case(t_cmdl *cmdl)
 {
 	cmdl->opt = 0;
 	tputs(tgetstr("cr", NULL), 1, ft_putchar);
@@ -22,7 +22,7 @@ static void search_hist_case(t_cmdl *cmdl)
 	init_cmdl();
 }
 
-static void ccp_case(t_cmdl *cmdl)
+static void	ccp_case_c(t_cmdl *cmdl)
 {
 	cmdl->opt = 0;
 	cmdl->ccp.start = -1;
@@ -35,7 +35,7 @@ static void ccp_case(t_cmdl *cmdl)
 	init_cmdl();
 }
 
-static void comp_case(t_cmdl *cmdl)
+static void	comp_case(t_cmdl *cmdl)
 {
 	cmdl->opt = 0;
 	end(cmdl);
@@ -45,12 +45,12 @@ static void comp_case(t_cmdl *cmdl)
 	init_cmdl();
 }
 
-void 		handle_ctrlc(t_cmdl *cmdl)
+void		handle_ctrlc(t_cmdl *cmdl)
 {
 	if (cmdl->opt & CCOMP)
 		comp_case(cmdl);
 	else if (cmdl->opt & CCP)
-		ccp_case(cmdl);
+		ccp_case_c(cmdl);
 	else if (cmdl->opt & CHIS_S)
 		search_hist_case(cmdl);
 	else if (!cmdl->opt || (cmdl->opt & (CAND | COR | CPIPE | CDQ | CSQ)))

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 22:32:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 18:20:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ t_tok	*init_tok(t_tok **lst, int mod)
 
 void	tok_save(t_tok **lst, char **stack, int type)
 {
-	if (type & (WORD | DQUOTE))
-		stack_expanse(stack);
 	(*lst)->str = ft_strdup(*stack);
 	if (type == WORD && ft_isalpha((*lst)->str[0]) &&
 			ft_strchr((*lst)->str, '='))
@@ -54,7 +52,6 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 {
 	if (ft_strlen(*stack) > 0)
 	{
-		// find_env_loc(stack, 1);
 		tok_save(lst, stack, WORD);
 		if (check_end(line + (*i)))
 		{
@@ -72,25 +69,23 @@ void	new_parser(t_tok **cmd, char *line, int i)
 	int					j;
 	char				*stack;
 	t_tok				*tmp;
-	static const t_key	key[9] = {{'"', &ft_quote}, {'\'', &ft_quote},
+	static const t_key	key[11] = {{'"', &ft_quote}, {'\'', &ft_quote},
 {' ', &flush}, {'>', &chevron}, {'<', &chevron}, {';', &question_mark},
-{'|', &pipe_pars}, {'&', &and_pars}, {'\\', &backslash}};
+{'|', &pipe_pars}, {'&', &and_pars}, {'\\', &backslash}, {'$', &lexer_exp},
+{'~', &tild}};
 
 	tmp = *cmd;
-	// ft_putendl(line);
 	stack = ft_memalloc(100);
 	while (line[i])
 	{
 		j = -1;
-		while (++j < 9)
+		while (++j < 11)
 			if (line[i] == key[j].i)
 			{
-				// ft_putendl("Salute");
 				key[j].f(&tmp, &stack, line, &i);
 				break ;
 			}
-		// ft_putchar(line[i]);
-		j == 9 ? st_tok(&stack, line[i], 0) : 0;
+		j == 11 ? st_tok(&stack, line[i], 0) : 0;
 		i++;
 	}
 	stack && ft_strlen(stack) > 0 ? tok_save(&tmp, &stack, WORD) : 0;

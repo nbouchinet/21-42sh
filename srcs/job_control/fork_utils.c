@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:06:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 16:59:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 19:55:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	set_pgid(pid_t pid, pid_t *pgid, int foreground)
 {
 	setpgid(pid, *pgid);
 	if (foreground)
-		tcsetpgrp(g_shell_terminal, pid);
-		// ;
+	tcsetpgrp(g_shell_terminal, pid);
 }
 
 void	set_pid(pid_t pid, pid_t *pgid, int foreground)
@@ -56,3 +55,15 @@ void	exec_fork(t_process **process, char **env, int r)
 		execve(p->argv[0], p->argv, env);
 	exit(EXIT_SUCCESS);
 }
+
+// void	sig_ign(pid_t pid, int fg)
+// {
+// 	if (fg)
+// 		tcsetpgrp(g_shell_terminal, pid);
+// 	signal(SIGTSTP, SIG_DFL);
+// 	signal(SIGCHLD, SIG_IGN);
+// 	signal(SIGINT, SIG_IGN);
+// 	signal(SIGQUIT, SIG_IGN);
+// 	signal(SIGTTIN, SIG_IGN);
+// 	signal(SIGTTOU, SIG_IGN);
+// }

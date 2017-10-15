@@ -6,13 +6,13 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/19 10:56:20 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/19 10:58:01 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:00:17 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void comp_case(t_cmdl *cmdl, int save)
+static void	comp_case(t_cmdl *cmdl, int save)
 {
 	comp_del(&cmdl->comp);
 	cmdl->opt &= ~CCOMP;
@@ -22,7 +22,7 @@ static void comp_case(t_cmdl *cmdl, int save)
 		arrow_left(cmdl);
 }
 
-static void ccp_case(t_cmdl *cmdl, int save)
+static void	ccp_case_esc(t_cmdl *cmdl, int save)
 {
 	cmdl->ccp.ccp = 0;
 	cmdl->ccp.start = -1;
@@ -35,7 +35,7 @@ static void ccp_case(t_cmdl *cmdl, int save)
 	cmdl->opt &= ~CCP;
 }
 
-static void shis_case(t_cmdl *cmdl)
+static void	shis_case(t_cmdl *cmdl)
 {
 	t_his	*his;
 	char	*str;
@@ -69,6 +69,6 @@ int			esc(t_cmdl *cmdl)
 	else if (cmdl->opt & CHIS_S)
 		shis_case(cmdl);
 	else if (cmdl->ccp.ccp)
-		ccp_case(cmdl, save);
+		ccp_case_esc(cmdl, save);
 	return (1);
 }
