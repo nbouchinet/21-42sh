@@ -236,6 +236,7 @@ void				handle_ctrlc(t_cmdl *cmdl);
 */
 
 int					del(t_cmdl *cmdl);
+int					back_del(t_cmdl *cmdl);
 
 /*
 **	Ctrl, esc
