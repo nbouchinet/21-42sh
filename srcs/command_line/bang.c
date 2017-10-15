@@ -14,7 +14,8 @@
 
 static int		qsub_error(t_bang *bang, char **qsub)
 {
-	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2);
+	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2 ?
+	bang->s2 : "");
 	ft_free(qsub, &bang->tmp, 3);
 	ft_strdel(&bang->s1);
 	ft_strdel(&bang->s2);
@@ -27,8 +28,6 @@ static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 	int				j;
 
 	qsub = ft_strsplit(bang->tmp, ' ');
-	if ((!bang->s1 || !bang->s2) && qsub_error(bang, qsub))
-		return ;
 	j = -1;
 	ft_memset((*cmd), 0, len_cmd);
 	while (qsub[++j] && ft_strcmp(bang->s1, qsub[j]))
@@ -38,7 +37,7 @@ static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
 	ft_strdel(&qsub[j]);
 	qsub[j] = bang->s2;
 	j = -1;
-	while (qsub[j])
+	while (qsub[++j])
 		len_sub += ft_strlen(qsub[j]);
 	while (len_sub > (*cmdl_slg())->line.len)
 		remalloc_cmdl(&(*cmdl_slg())->line);
@@ -95,7 +94,7 @@ static char		*get_bang(int *i, char *cmd, t_bang *bang)
 	while (cmd[++(*i)] && cmd[(*i)] != '<' && cmd[(*i)] != '>' &&
 	cmd[(*i)] != '"' && cmd[(*i)] != '\'' && cmd[(*i)] != ';' &&
 	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!' && cmd[(*i)] != '*'
-	&& cmd[(*i)] != '^' && cmd[(*i)] != '$')
+	&& cmd[(*i)] != '$')
 		;
 	end = *i;
 	bang->end = *i;

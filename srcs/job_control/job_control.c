@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 14:44:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 19:59:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,16 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 			if (kill(j->pgid, 0) < 0)
 			{
 				delete_tnode(&j, &prev, table);
-				if (*table)
-				{
-					j = *table;
+				if ((j = *table))
 					prev = NULL;
-				}
+				else
+					j = NULL;
 			}
 			else
+			{
 				prev = j;
-			j = j->next;
+				j = j->next;
+			}
 		}
 	}
 	return (1);

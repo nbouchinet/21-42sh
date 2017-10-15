@@ -49,6 +49,31 @@ static int		delete_comp_lst(t_cmdl *cmdl)
 	return (1);
 }
 
+int				back_del(t_cmdl *cmdl)
+{
+	int		i;
+
+	i = cmdl->line.cur - cmdl->line.pr;
+	if (cmdl->opt & CCOMP)
+		return (delete_comp_lst(cmdl));
+	if (cmdl->opt & (CCMODE | CHIS_S) || i == (int)ft_strlen(cmdl->line.str))
+		return (write(2, "\7", 1));
+	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.str[i])
+	{
+		cmdl->line.str[i] = cmdl->line.str[i + 1];
+		i++;
+	}
+	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
+	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
+			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
+	tputs(tgetstr("me", NULL), 1, ft_putchar);
+	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	return (1);
+}
+
 int				del(t_cmdl *cmdl)
 {
 	int		i;

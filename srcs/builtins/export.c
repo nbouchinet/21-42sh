@@ -82,6 +82,11 @@ int			ft_export(t_ast **ast, t_env **env)
 	tmp = (*ast)->left->right;
 	while (tmp)
 	{
+		if (!ft_isalpha(tmp->str[0]))
+		{
+			return (fd_printf(2, "42sh: %s: not a valid identifier\n",
+			tmp->str));
+		}
 		if (ft_strchr(tmp->str, '='))
 		{
 			export_to_env(env, ft_strdup(tmp->str));

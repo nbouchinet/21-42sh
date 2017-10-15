@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:34:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 16:27:45 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void				deletevar(t_env **tmp, t_env *prev);
 void				freenode(t_env *node);
 t_env				*lst_at(t_env **env, char *cmp);
 int					ft_cd(t_ast **ast, t_env **env);
-int 				just_norme(struct stat *st, t_ast *tmp, char **path,
+int					just_norme(struct stat *st, t_ast *tmp, char **path,
 	int opt);
 void				mod_env(t_env **env, char *path, char *save);
 char				*construct_path(t_env **env, char *save, char *path);
