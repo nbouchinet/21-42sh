@@ -76,29 +76,30 @@ static int	ft_nbr_words(char const *s, char c)
 	return (nbr);
 }
 
-static int	get_event(char *event, t_bang *bang)
+static int	get_event(char *cmdl, t_bang *bang)
 {
 	char	**qsub;
 
-	if (event[0] >= '0' && event[0] <= '9')
-		bang->n = ft_atoi(event);
-	else if (event[0] == '-' && event[1] && event[1] >= '0' && event[1] <= '9')
-		bang->n = -(ft_atoi(event + 1));
-	else if (event[0] == '!')
+	if (cmdl[0] >= '0' && cmdl[0] <= '9')
+		bang->n = ft_atoi(cmdl);
+	else if (cmdl[0] == '-' && cmdl[1] && cmdl[1] >= '0' && cmdl[1] <= '9')
+		bang->n = -(ft_atoi(cmdl + 1));
+	else if (cmdl[0] == '!')
 		bang->n = -1;
-	else if (event[0] == '?' && (bang->qm = 1))
-		bang->string = event + 1;
-	else if (event[0] == '^')
+	else if (cmdl[0] == '?' && (bang->qm = 1))
+		bang->string = cmdl + 1;
+	else if (cmdl[0] == '^')
 	{
-		qsub = ft_strsplit(event, '^');
-		bang->s1 = qsub[0] ? ft_strdups(qsub[0], &bang->s1) : NULL;
+		if ((qsub = ft_strsplit(cmdl, '^')) && !qsub[0])
+			return (fd_printf(2, "\n42sh: %s: no previous substitution", cmdl));
+		bang->s1 = ft_strdups(qsub[0], &bang->s1);
 		bang->s2 = qsub[1] ? ft_strdups(qsub[1], &bang->s2) : NULL;
 		ft_free(qsub, NULL, 1);
 	}
-	else if (ft_isalpha(event[0]))
-		bang->string = event;
+	else if (ft_isalpha(cmdl[0]))
+		bang->string = cmdl;
 	else
-		return (fd_printf(2, "\n42sh: !%s: event not found", event));
+		return (fd_printf(2, "\n42sh: !%s: event not found", cmdl));
 	return (0);
 }
 
@@ -107,7 +108,6 @@ int			bang_parse(char *sub, t_bang *bang)
 	t_his		*his;
 	char		**opt;
 
-	ft_putendl(sub);
 	opt = ft_strsplit(sub, ':');
 	if (!(his = (*his_slg())->n))
 		return (bang_error(sub, opt));
@@ -126,7 +126,7 @@ int			bang_parse(char *sub, t_bang *bang)
 	(opt[1][0] != '$' && opt[1][0] != '*' && opt[1][0] != '-' && opt[1][0] !=
 	'^' && get_modifiers(opt[1], bang))))
 		return (ft_free(opt, &bang->tmp, 3));
-	if (bang_sub(bang))
+	if (sub[0] != '^' && bang_sub(bang))
 		return (ft_free(opt, &sub, 2));
 	ft_free(opt, &sub, 3);
 	return (0);

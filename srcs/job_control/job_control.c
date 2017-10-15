@@ -67,17 +67,18 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 			if (kill(j->pgid, 0) < 0)
 			{
 				if (j->bg)
-					fd_printf(2, "[%d] Done     %s\n", j->num, j->command);
+ 					fd_printf(2, "[%d] Done     %s\n", j->num, j->command);
 				delete_tnode(&j, &prev, table);
-				if (*table)
-				{
-					j = *table;
+				if ((j = *table))
 					prev = NULL;
-				}
+				else
+					j = NULL;
 			}
 			else
+			{
 				prev = j;
-			j = j->next;
+				j = j->next;
+			}
 		}
 	}
 	return (1);
