@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/14 23:01:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 00:32:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 14:47:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 		fd_printf(2, "[%d] %d\n", (*job)->num, p->pid);
 		(*job)->pgid = p->pid;
 		if (kill (- p->pid, SIGCONT) < 0)
-			fd_printf(2, "[%d] Done     \n", 0);
-		// fd_printf(2, "[%d] Done     %s\n", (*job)->num, (*job)->command);
+			fd_printf(2, "[%d] Done     %s\n", (*job)->num, (*job)->command);
+			// fd_printf(2, "[%d] Done     \n", 0);
 		set_pid(p->pid, &(*job)->pgid, 0);
 	}
 	ft_freetab(n_env);
@@ -83,7 +83,6 @@ int		main_fork_bg(t_job **lst, char **env)
 	int		ret;
 
 	status = 0;
-	(*lst)->bg = 1;
 	if (!((*lst)->pgid = fork()))
 	{
 		active_sig(getpid(), getpid(), 0);
@@ -97,6 +96,8 @@ int		main_fork_bg(t_job **lst, char **env)
 	{
 		fd_printf(2, "[%d] %d\n", (*lst)->num, (*lst)->pgid);
 		set_pgid((*lst)->pgid, &(*lst)->pgid, 0);
+		if (kill (-(*lst)->pgid, SIGCONT) < 0)
+			fd_printf(2, "[%d] Done     %s\n", (*lst)->num, (*lst)->command);
 	}
 	return (status);
 }

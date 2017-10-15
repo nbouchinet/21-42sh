@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:38:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 14:46:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int		main_fork_fg(t_job **lst, char **env)
 	int		ret;
 
 	status = 0;
-	(*lst)->bg = 0;
 	if (!((*lst)->pgid = fork()))
 	{
 		active_sig(getpid(), getpid(), 1);

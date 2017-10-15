@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:42:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 14:45:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		init_job(t_job **job)
 		return (-1);
 	(*job)->status = 0;
 	(*job)->num = 0;
-	(*job)->bg = 0;
 	(*job)->command = NULL;
 	(*job)->pgid = 0;
 	(*job)->first_process = NULL;

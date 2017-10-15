@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 13:56:57 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/13 22:30:11 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:39:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int		find_loc(char **str, int *i, t_local **env)
 		{
 			var = ft_strlen(tmp->var);
 			if (!ft_strncmp(*str + (*i + 1), tmp->var, var))
-				return (replace_var(str, i, ft_strlen(tmp->var), tmp->var));
+				return (replace_var(str, i, ft_strlen(tmp->var), tmp->val));
 			else
 				tmp = tmp->n;
 		}
