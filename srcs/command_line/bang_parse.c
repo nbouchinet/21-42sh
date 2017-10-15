@@ -107,6 +107,7 @@ int			bang_parse(char *sub, t_bang *bang)
 	t_his		*his;
 	char		**opt;
 
+	ft_putendl(sub);
 	opt = ft_strsplit(sub, ':');
 	if (!(his = (*his_slg())->n))
 		return (bang_error(sub, opt));

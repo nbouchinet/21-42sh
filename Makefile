@@ -65,8 +65,9 @@ CFILES= 		main.c \
 				builtins/history_opt2.c \
 				builtins/read.c \
 				builtins/read_parse.c \
-				builtins/fg.c \
 				builtins/read_opt1.c \
+				builtins/read_opt2.c \
+				builtins/fg.c \
 				builtins/hash_clean.c \
 				builtins/misc_builtins.c \
 				command_line/arrows_fucn1.c \

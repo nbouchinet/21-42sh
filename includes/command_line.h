@@ -228,6 +228,7 @@ int					search_history_print(t_cmdl *cmdl, char buf[]);
 
 void				cmdl_signals(t_cmdl *cmdl);
 void 				resize_win(t_cmdl *cmdl, int save);
+void 				ccp_case(t_cmdl *cmdl, int save);
 void 				handle_ctrlc(t_cmdl *cmdl);
 
 /*

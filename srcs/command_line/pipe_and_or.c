@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 12:52:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 12:13:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:02:52 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static int	look_for_rd(char *str, int i)
 	while (tmp--)
 	{
 		if (((str[tmp] == '<' || str[tmp] == '>') &&
-		(str[tmp - (tmp ? 1 : 0)] >= '0' && str[tmp - (tmp ? 1 : 0)] <= '9')
-		) && (str[tmp + 1] == '&'))
+		(str[tmp - (tmp ? 1 : 0)] >= '0' && str[tmp -
+		(tmp ? 1 : 0)] <= '9')) && (str[tmp + 1] == '&'))
 		{
 			tmp--;
 			continue ;
@@ -94,7 +94,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 	int		i;
 
 	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, 0))
-		return (check(cmdl, - 1));
+		return (check(cmdl, -1));
 	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 	{
@@ -103,14 +103,15 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 			break ;
 		i--;
 	}
-	if (cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
+	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
+	check_spacing(cmdl->line.str + i, -1))
 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
 	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
 	if (look_for_rd(cmdl->line.str, i))
 		return (0);
 	if (check_spacing(cmdl->line.str + (i +
 		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i))
-		return(0);
+		return (0);
 	if (i && cmdl->line.str[i - 1] == '\\')
 		check_inhib(cmdl->line.str, &i);
 	return (check(cmdl, i));

@@ -153,6 +153,7 @@ int					check_local(t_ast *tmp, int type);
 int					ft_unset(t_ast **ast, t_env **env);
 int					ft_export(t_ast **ast, t_env **env);
 int					ft_read(t_ast **ast, t_env **env);
+int					error_msg(char c);
 void				save_input(t_read *var);
 int					read_input(t_read *var, int i, int nchar, char buf[]);
 void				handle_c(int sig);

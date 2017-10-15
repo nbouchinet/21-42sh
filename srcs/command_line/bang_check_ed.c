@@ -21,10 +21,10 @@ int		check_ed(t_bang *bang, int his_len, int match_len, int w)
 	}
 	else
 	{
-		if (bang->des != -1 > match_len)
+		if (bang->des != -1 && bang->des > match_len)
 			return (fd_printf(2, "\n42sh: !%d: bad word specifier", bang->des));
 		else if ((bang->x > match_len || bang->y > match_len) && bang->y > 0)
-			return (fd_printf(2, "\n42sh: !%d-%d: bad word specifier", bang->x,
+			return (fd_printf(2, "\n42sh: %d-%d: bad word specifier", bang->x,
 			bang->y));
 		else if ((bang->x > match_len) && bang->y < 0)
 			return (fd_printf(2, "\n42sh: !%d-: bad word specifier", bang->x));

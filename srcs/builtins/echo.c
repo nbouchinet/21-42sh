@@ -6,13 +6,12 @@
 /*   By: hpelat <hpelat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/05 15:35:31 by hpelat            #+#    #+#             */
-/*   Updated: 2017/10/12 22:04:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:33:32 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-// int		ft_echo()
 int				ft_echo(t_ast **ast, t_env **env)
 {
 	int		i;

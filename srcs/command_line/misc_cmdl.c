@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 21:25:17 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 18:13:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:01:32 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		unset_shell(t_cmdl *cmdl)
 	return (0);
 }
 
-int			his_len(t_his **his)
+int		his_len(t_his **his)
 {
 	t_his	*tmp;
 	int		len;

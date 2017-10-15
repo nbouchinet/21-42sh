@@ -6,7 +6,7 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/11 19:04:21 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 19:04:28 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:34:06 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void		mod_env(t_env **env, char *path, char *save)
 	tmp->value = ft_strdup(path);
 }
 
-int 	just_norme(struct stat *st, t_ast *tmp, char **path, int opt)
+int			just_norme(struct stat *st, t_ast *tmp, char **path, int opt)
 {
 	char			*bs;
 	char			buff[MAXPATHLEN];

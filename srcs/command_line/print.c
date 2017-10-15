@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/01 14:59:44 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 13:31:08 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/15 13:04:09 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		remalloc_cmdl(t_line *line)
 	line->len += line->len;
 }
 
-int		regular_print(t_line *line, char buf[], int i, int j)
+int			regular_print(t_line *line, char buf[], int i, int j)
 {
 	int		len;
 
@@ -104,8 +104,8 @@ int			print(t_cmdl *cmdl, char buf[])
 	{
 		cmdl->ccp.start += cmdl->ccp.start != -1 &&
 		(cmdl->line.cur - cmdl->line.pr) <= cmdl->ccp.start ? 1 : 0;
-		i = regular_print(&cmdl->line, buf, (cmdl->line.cur - cmdl->line.pr), 0);
-		if (i >= 0)
+		if ((i = regular_print(&cmdl->line, buf,
+		(cmdl->line.cur - cmdl->line.pr), 0)) >= 0)
 		{
 			cmdl->opt &= ~(CCOMP);
 			if (cmdl->ccp.start >= cmdl->line.cur - cmdl->line.pr)

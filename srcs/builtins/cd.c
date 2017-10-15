@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 14:58:06 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/15 13:34:24 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int			ft_cd(t_ast **ast, t_env **env)
 		ft_strdel(&path);
 		return (0);
 	}
-
 	mod_env(env, path, current_dir);
 	ft_strdel(&(*cmdl_slg())->pwd);
 	(*cmdl_slg())->pwd = ft_strdup(path);

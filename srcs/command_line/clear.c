@@ -12,7 +12,7 @@
 
 #include "header.h"
 
-static void	comp_mode(t_cmdl *cmdl, int save)
+static void	comp_case(t_cmdl *cmdl, int save)
 {
 	cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str)) +
 	cmdl->line.pr;
@@ -21,15 +21,20 @@ static void	comp_mode(t_cmdl *cmdl, int save)
 		tputs(tgetstr("le", NULL), 1, ft_putchar);
 		--cmdl->line.cur;
 	}
-	display_comp(cmdl, &cmdl->comp, cmdl->offset);
+	if (cmdl->opt & CCOMP)
+	{
+		cmdl->opt &= ~CCMODE;
+		display_comp(cmdl, &cmdl->comp, 0);
+	}
 }
 
-static void	his_mode(t_cmdl *cmdl)
+static void	his_case(t_cmdl *cmdl)
 {
 	char	*match;
 
 	match = NULL;
 	cmdl->opt &= ~(CHIS_S);
+	cmdl->line.pr = 3;
 	if (cmdl->line.str[0])
 	{
 		ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
@@ -37,18 +42,13 @@ static void	his_mode(t_cmdl *cmdl)
 		while ((int)ft_strlen(match) > cmdl->line.len)
 			remalloc_cmdl(&cmdl->line);
 		ft_strcpy(cmdl->line.str, match);
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+		cmdl->line.cur = write(1, cmdl->line.str, ft_strlen(cmdl->line.str)) +
+		cmdl->line.pr;
 		findcmdl(NULL, NULL, 1);
 	}
 	else
-	{
-		cmdl->line.pr = 3;
 		cmdl->line.cur = 3;
-	}
 }
-
-//CCP mode ?
 
 int			ctrl_l(t_cmdl *cmdl)
 {
@@ -58,9 +58,11 @@ int			ctrl_l(t_cmdl *cmdl)
 	tputs(tgetstr("cl", NULL), 1, ft_putchar);
 	print_prompt();
 	if (cmdl->opt & CHIS_S)
-		his_mode(cmdl);
+		his_case(cmdl);
 	else if (cmdl->opt & CCOMP)
-		comp_mode(cmdl, save);
+		comp_case(cmdl, save);
+	else if (cmdl->opt & CCP)
+		ccp_case(cmdl, save);
 	else if (cmdl->line.str[0])
 	{
 		cmdl->ccp.start = -1;
