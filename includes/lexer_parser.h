@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:32:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 18:28:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 13:33:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void				stuck_quote(char **stack, char *line, int *i);
 void				expanse_stack(char **stack, char *line, int *i);
 void				after_quote(char **stack, char *line, int *i);
 void				lexer_exp(t_tok **lst, char **stack, char *line, int *i);
-void				in_quote(char **stack, char *line, int *i, int type);
+void				in_quote(char **stack, char *line, int *i, char type);
 t_local				*find_local(t_local **local, char *var);
 void				tild(t_tok **lst, char **stack, char *line, int *i);
 void				complete_st_quote(char **stack, char **ins, char **str);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:30:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 13:11:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 13:34:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ void	complete(char **stack, char *line, int *i)
 	if (line[(*i)])
 		quote = line[(*i)++];
 	type = (quote == '\'' ? QUOTE : DQUOTE);
-	in_quote(stack, line, i, type);
+	in_quote(stack, line, i, quote);
 	if (line[(*i)] && !is_space(line[(*i)]) &&
 			line[(*i)] != '"' && line[(*i)] != '\'')
 		after_quote(stack, line, i);
-	if (line[(*i)] && !is_space(line[(*i)]) &&
+	ft_putendl(*stack);
+	if (quote == '"' && line[(*i)] && !is_space(line[(*i)]) &&
 				line[(*i)] != '"' && line[(*i)] != '\'')
 		expanse_stack(stack, line, i);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
