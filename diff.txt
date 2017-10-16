@@ -1,0 +1,768 @@
+diff --git a/.42sh_history b/.42sh_history
+index e6b53a9..62f94a6 100755
+--- a/.42sh_history
++++ b/.42sh_history
+@@ -1,5 +1,4 @@
+ ls 1
+-<<<<<<< HEAD
+ ls-l | cat -e
+ ls-l | cat -e
+ ls -l | cat -e
+@@ -87,73 +86,3 @@ jobs
+ jobs
+ fg
+ jobs
+-=======
+-ls 2
+-cat .42sh_history
+-ls
+-ls 1
+-ls srcs
+-leaks 42sh
+-ls srcs
+-ls 1
+-ls
+-ls 1
+-ls
+-ls 1
+-ls
+-^ ^
+-^ ^
+-^ ^
+-ls srcs/ ; ^libft^srcs
+-ls 
+-ls
+-echo lol
+-make
+-ls 1
+-ls 1
+-ls libft
+-^ ^
+-ls 1
+-ls libft
+-export \\PO=42
+-env
+-export =42
+-env
+-export =42
+-export \42=42
+-env
+-export \\42=42
+-env
+-export \\42=42
+-export 42=42
+-export =42
+-vi libft
+-vi libft/libf/ft_isdigit.c
+-vi libft/libf/ft_isalpha.c
+-export =45
+-vi libft/libf/ft_isalpha.c
+-export =42
+-export \=42
+-export \\=42
+-ls \|
+-ls \\|
+-ls |
+-ls |
+-ls |
+-ls | 
+-ls |
+-ls | cat -e ; ls ||cat -e
+-ls
+-make
+-asdasdzxcsd
+-zxczxcasdasd
+-ls $PATH
+-ETC=123
+-ls $__CF_USER_TEXT_ENCODING
+-ls 1456
+-s
+-ls 12456
+-make
+-ls 12346
+-ls 12345
+->>>>>>> 0cc8d7019c36f864949f9b5bbc597ab85c119647
+diff --git a/Makefile b/Makefile
+index 43211ee..801eeb0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -6,7 +6,7 @@
+ #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
+ #                                                 +#+#+#+#+#+   +#+            #
+ #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
+-#    Updated: 2017/10/16 08:13:32 by nbouchin         ###   ########.fr        #
++#    Updated: 2017/10/15 18:04:29 by zadrien          ###   ########.fr        #
+ #                                                                              #
+ # **************************************************************************** #
+ 
+diff --git a/includes/command_line.h b/includes/command_line.h
+index 23cd374..a21f5d2 100644
+--- a/includes/command_line.h
++++ b/includes/command_line.h
+@@ -6,7 +6,7 @@
+ /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
+-/*   Updated: 2017/10/15 16:25:25 by khabbar          ###   ########.fr       */
++/*   Updated: 2017/10/11 11:51:11 by zadrien          ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -227,16 +227,15 @@ int					search_history_print(t_cmdl *cmdl, char buf[]);
+ */
+ 
+ void				cmdl_signals(t_cmdl *cmdl);
+-void				resize_win(t_cmdl *cmdl, int save);
+-void				ccp_case(t_cmdl *cmdl, int save);
+-void				handle_ctrlc(t_cmdl *cmdl);
++void 				resize_win(t_cmdl *cmdl, int save);
++void 				ccp_case(t_cmdl *cmdl, int save);
++void 				handle_ctrlc(t_cmdl *cmdl);
+ 
+ /*
+ **	Suppression
+ */
+ 
+ int					del(t_cmdl *cmdl);
+-int					back_del(t_cmdl *cmdl);
+ 
+ /*
+ **	Ctrl, esc
+@@ -297,8 +296,8 @@ int					bs(char *str, int i);
+ **	Completion
+ */
+ 
+-int					only_space_comp(char *str);
+-void 				fill_comp(t_comp **comp, char *name, int dir, int i);
++t_comp				*fill_comp(t_comp **comp, struct dirent *rdd, int param,
++					int i);
+ char				*get_path(char **tmp);
+ int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+ int					completion(t_cmdl *cmdl);
+@@ -322,7 +321,7 @@ void				restor_cursor_position(t_cmdl *cmdl, int up);
+ void				print_comp(t_comp **comp);
+ void				check_built_in(t_cmdl *cmdl, char *tmp);
+ void				insert(t_comp **comp, t_comp *lnk, int i);
+-void				escape_metha(char **str);
++void 				escape_metha(char **str);
+ 
+ /*
+ **	Bang
+diff --git a/includes/exec.h b/includes/exec.h
+index 0f298ba..268a349 100644
+--- a/includes/exec.h
++++ b/includes/exec.h
+@@ -6,7 +6,7 @@
+ /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
+-/*   Updated: 2017/10/15 16:27:45 by khabbar          ###   ########.fr       */
++/*   Updated: 2017/10/11 14:34:21 by zadrien          ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -135,7 +135,7 @@ void				deletevar(t_env **tmp, t_env *prev);
+ void				freenode(t_env *node);
+ t_env				*lst_at(t_env **env, char *cmp);
+ int					ft_cd(t_ast **ast, t_env **env);
+-int					just_norme(struct stat *st, t_ast *tmp, char **path,
++int 				just_norme(struct stat *st, t_ast *tmp, char **path,
+ 	int opt);
+ void				mod_env(t_env **env, char *path, char *save);
+ char				*construct_path(t_env **env, char *save, char *path);
+diff --git a/libft/printf/fd_printf.c b/libft/printf/fd_printf.c
+index e90d7be..15a8d2a 100644
+--- a/libft/printf/fd_printf.c
++++ b/libft/printf/fd_printf.c
+@@ -6,7 +6,7 @@
+ /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2017/03/10 09:35:04 by khabbar           #+#    #+#             */
+-/*   Updated: 2017/10/15 18:50:35 by khabbar          ###   ########.fr       */
++/*   Updated: 2017/03/15 18:45:57 by khabbar          ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -44,7 +44,7 @@ int				fd_printf(int fd, const char *restrict format, ...)
+ 	while (b.buff[++i])
+ 		if (b.buff[i] == -1)
+ 			b.buff[i] = '\0';
+-	write(fd, b.buff, len);
++	write(1, b.buff, len);
+ 	va_end(ap);
+ 	return (b.len);
+ }
+diff --git a/srcs/builtins/export.c b/srcs/builtins/export.c
+index ea52772..4a57f88 100644
+--- a/srcs/builtins/export.c
++++ b/srcs/builtins/export.c
+@@ -82,11 +82,6 @@ int			ft_export(t_ast **ast, t_env **env)
+ 	tmp = (*ast)->left->right;
+ 	while (tmp)
+ 	{
+-		if (!ft_isalpha(tmp->str[0]))
+-		{
+-			return (fd_printf(2, "42sh: %s: not a valid identifier\n",
+-			tmp->str));
+-		}
+ 		if (ft_strchr(tmp->str, '='))
+ 		{
+ 			export_to_env(env, ft_strdup(tmp->str));
+diff --git a/srcs/command_line/bang.c b/srcs/command_line/bang.c
+index e7c987d..6a917aa 100644
+--- a/srcs/command_line/bang.c
++++ b/srcs/command_line/bang.c
+@@ -14,8 +14,7 @@
+ 
+ static int		qsub_error(t_bang *bang, char **qsub)
+ {
+-	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2 ?
+-	bang->s2 : "");
++	fd_printf(2, "\n42sh: ^%s^%s: substitution failed", bang->s1, bang->s2);
+ 	ft_free(qsub, &bang->tmp, 3);
+ 	ft_strdel(&bang->s1);
+ 	ft_strdel(&bang->s2);
+@@ -28,6 +27,8 @@ static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
+ 	int				j;
+ 
+ 	qsub = ft_strsplit(bang->tmp, ' ');
++	if ((!bang->s1 || !bang->s2) && qsub_error(bang, qsub))
++		return ;
+ 	j = -1;
+ 	ft_memset((*cmd), 0, len_cmd);
+ 	while (qsub[++j] && ft_strcmp(bang->s1, qsub[j]))
+@@ -37,7 +38,7 @@ static void		quick_sub(t_bang *bang, char **cmd, int len_cmd, int len_sub)
+ 	ft_strdel(&qsub[j]);
+ 	qsub[j] = bang->s2;
+ 	j = -1;
+-	while (qsub[++j])
++	while (qsub[j])
+ 		len_sub += ft_strlen(qsub[j]);
+ 	while (len_sub > (*cmdl_slg())->line.len)
+ 		remalloc_cmdl(&(*cmdl_slg())->line);
+@@ -94,7 +95,7 @@ static char		*get_bang(int *i, char *cmd, t_bang *bang)
+ 	while (cmd[++(*i)] && cmd[(*i)] != '<' && cmd[(*i)] != '>' &&
+ 	cmd[(*i)] != '"' && cmd[(*i)] != '\'' && cmd[(*i)] != ';' &&
+ 	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!' && cmd[(*i)] != '*'
+-	&& cmd[(*i)] != '$')
++	&& cmd[(*i)] != '^' && cmd[(*i)] != '$')
+ 		;
+ 	end = *i;
+ 	bang->end = *i;
+diff --git a/srcs/command_line/bang_parse.c b/srcs/command_line/bang_parse.c
+index 573dd4b..5c43ab5 100644
+--- a/srcs/command_line/bang_parse.c
++++ b/srcs/command_line/bang_parse.c
+@@ -76,30 +76,29 @@ static int	ft_nbr_words(char const *s, char c)
+ 	return (nbr);
+ }
+ 
+-static int	get_event(char *cmdl, t_bang *bang)
++static int	get_event(char *event, t_bang *bang)
+ {
+ 	char	**qsub;
+ 
+-	if (cmdl[0] >= '0' && cmdl[0] <= '9')
+-		bang->n = ft_atoi(cmdl);
+-	else if (cmdl[0] == '-' && cmdl[1] && cmdl[1] >= '0' && cmdl[1] <= '9')
+-		bang->n = -(ft_atoi(cmdl + 1));
+-	else if (cmdl[0] == '!')
++	if (event[0] >= '0' && event[0] <= '9')
++		bang->n = ft_atoi(event);
++	else if (event[0] == '-' && event[1] && event[1] >= '0' && event[1] <= '9')
++		bang->n = -(ft_atoi(event + 1));
++	else if (event[0] == '!')
+ 		bang->n = -1;
+-	else if (cmdl[0] == '?' && (bang->qm = 1))
+-		bang->string = cmdl + 1;
+-	else if (cmdl[0] == '^')
++	else if (event[0] == '?' && (bang->qm = 1))
++		bang->string = event + 1;
++	else if (event[0] == '^')
+ 	{
+-		if ((qsub = ft_strsplit(cmdl, '^')) && !qsub[0])
+-			return (fd_printf(2, "\n42sh: %s: no previous substitution", cmdl));
+-		bang->s1 = ft_strdups(qsub[0], &bang->s1);
++		qsub = ft_strsplit(event, '^');
++		bang->s1 = qsub[0] ? ft_strdups(qsub[0], &bang->s1) : NULL;
+ 		bang->s2 = qsub[1] ? ft_strdups(qsub[1], &bang->s2) : NULL;
+ 		ft_free(qsub, NULL, 1);
+ 	}
+-	else if (ft_isalpha(cmdl[0]))
+-		bang->string = cmdl;
++	else if (ft_isalpha(event[0]))
++		bang->string = event;
+ 	else
+-		return (fd_printf(2, "\n42sh: !%s: event not found", cmdl));
++		return (fd_printf(2, "\n42sh: !%s: event not found", event));
+ 	return (0);
+ }
+ 
+@@ -108,6 +107,7 @@ int			bang_parse(char *sub, t_bang *bang)
+ 	t_his		*his;
+ 	char		**opt;
+ 
++	ft_putendl(sub);
+ 	opt = ft_strsplit(sub, ':');
+ 	if (!(his = (*his_slg())->n))
+ 		return (bang_error(sub, opt));
+@@ -126,7 +126,7 @@ int			bang_parse(char *sub, t_bang *bang)
+ 	(opt[1][0] != '$' && opt[1][0] != '*' && opt[1][0] != '-' && opt[1][0] !=
+ 	'^' && get_modifiers(opt[1], bang))))
+ 		return (ft_free(opt, &bang->tmp, 3));
+-	if (sub[0] != '^' && bang_sub(bang))
++	if (bang_sub(bang))
+ 		return (ft_free(opt, &sub, 2));
+ 	ft_free(opt, &sub, 3);
+ 	return (0);
+diff --git a/srcs/command_line/completion.c b/srcs/command_line/completion.c
+index 9e7e072..886183c 100644
+--- a/srcs/command_line/completion.c
++++ b/srcs/command_line/completion.c
+@@ -24,7 +24,8 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
+ 		while ((rdd = readdir(dir)) != 0)
+ 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
+ 			!check_comp(&cmdl->comp, rdd->d_name))
+-				fill_comp(&cmdl->comp, rdd->d_name, 0, 0);
++				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
++				fill_comp(&cmdl->comp, rdd, 2, 0);
+ 		closedir(dir);
+ 	}
+ 	check_built_in(cmdl, tmp);
+@@ -51,7 +52,8 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
+ 		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
+ 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
+ 			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
+-				fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type, 0);
++				!cmdl->comp ? cmdl->comp = fill_comp(&cmdl->comp, rdd, 2, 0) :
++				fill_comp(&cmdl->comp, rdd, 2, 0);
+ 	closedir(dir);
+ 	ft_strdel(&path);
+ 	if (cmdl->comp && (cmdl->comp->bol = 1))
+@@ -60,31 +62,6 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
+ 		write(2, "\7", 1);
+ }
+ 
+-static void		list_locale(t_cmdl *cmdl, char **tmp)
+-{
+-	t_local		*loc;
+-	t_env		*env;
+-
+-	loc = *local_slg(0);
+-	env = cmdl->lstenv;
+-	while (loc)
+-	{
+-		if (!ft_strncmp(loc->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
+-			fill_comp(&cmdl->comp, loc->var, 0, 0);
+-		loc = loc->n;
+-	}
+-	while (env)
+-	{
+-		if (!ft_strncmp(env->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
+-			fill_comp(&cmdl->comp, env->var, 0, 0);
+-		env = env->next;
+-	}
+-	if (cmdl->comp && (cmdl->comp->bol = 1))
+-		display_comp(cmdl, &cmdl->comp, ft_strlen((*tmp) + 1));
+-	else
+-		write(2, "\7", 1);
+-}
+-
+ static void		get_comp(t_cmdl *cmdl, int i)
+ {
+ 	char	*tmp;
+@@ -106,15 +83,23 @@ static void		get_comp(t_cmdl *cmdl, int i)
+ 	if (tmp && tmp[0] == '~' && tmp[1] == '/' && lst_at(&cmdl->lstenv, "HOME"))
+ 		tmp = ft_strjoinf(lst_at(&cmdl->lstenv, "HOME")->value,
+ 		ft_strdups(tmp + 1, &tmp), 2);
+-	if (tmp && tmp[0] == '$')
+-		list_locale(cmdl, &tmp);
+-	else if (tmp && is_exec(cmdl))
++	if (tmp && is_exec(cmdl))
+ 		list_exec(cmdl, tmp, path) ? 0 : list_files(cmdl, &tmp);
+ 	else
+ 		list_files(cmdl, &tmp);
+ 	ft_free(path, tmp ? &tmp : NULL, tmp ? 3 : 1);
+ }
+ 
++static int		only_space_comp(char *str)
++{
++	while (*str)
++		if (*(++str) != ' ')
++			return (0);
++	write(2, "\033[1mRTFM\033[0m\n", 13);
++	print_prompt();
++	return (write(2, "\7", 1));
++}
++
+ int				completion(t_cmdl *cmdl)
+ {
+ 	int		i;
+diff --git a/srcs/command_line/completion_edit.c b/srcs/command_line/completion_edit.c
+index 1f54b26..0021a86 100644
+--- a/srcs/command_line/completion_edit.c
++++ b/srcs/command_line/completion_edit.c
+@@ -12,16 +12,6 @@
+ 
+ #include "header.h"
+ 
+-int				only_space_comp(char *str)
+-{
+-	while (*str)
+-		if (*(++str) != ' ')
+-			return (0);
+-	write(2, "\033[1mRTFM\033[0m\n", 13);
+-	print_prompt();
+-	return (write(2, "\7", 1));
+-}
+-
+ void			comp_del(t_comp **head)
+ {
+ 	t_comp		*tmp;
+@@ -38,6 +28,32 @@ void			comp_del(t_comp **head)
+ 	*head = NULL;
+ }
+ 
++static t_comp	*fill_builtin(t_comp **comp, const char *builin)
++{
++	t_comp	*tmp;
++	t_comp	*stock;
++	int		i;
++
++	i = 0;
++	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
++		exit(EXIT_FAILURE);
++	tmp->str = ft_strdup(builin);
++	ft_memset(tmp->pad, 0, 512);
++	tmp->bol = 0;
++	tmp->n = NULL;
++	tmp->p = NULL;
++	if (!(*comp))
++		return (tmp);
++	stock = *comp;
++	while (stock && ft_strcmp(stock->str, builin) < 0)
++	{
++		i++;
++		stock = stock->n;
++	}
++	insert(comp, tmp, i);
++	return (tmp);
++}
++
+ void			check_built_in(t_cmdl *cmdl, char *tmp)
+ {
+ 	const char	*builtin[5] = {"setenv", "unsetenv", "history", "hash", "env"};
+@@ -45,8 +61,11 @@ void			check_built_in(t_cmdl *cmdl, char *tmp)
+ 
+ 	i = -1;
+ 	while (++i < 5)
++	{
+ 		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0)
+-			fill_comp(&cmdl->comp, (char *)builtin[i], 0, 0);
++			!cmdl->comp ? cmdl->comp = fill_builtin(&cmdl->comp, builtin[i]) :
++			fill_builtin(&cmdl->comp, builtin[i]);
++	}
+ }
+ 
+ void			completion_edit(t_line *line, t_comp **comp, char *tmp,
+diff --git a/srcs/command_line/completion_func.c b/srcs/command_line/completion_func.c
+index 2763f90..d792fc8 100644
+--- a/srcs/command_line/completion_func.c
++++ b/srcs/command_line/completion_func.c
+@@ -12,7 +12,7 @@
+ 
+ #include "header.h"
+ 
+-void		insert(t_comp **comp, t_comp *new, int i)
++void		insert(t_comp **comp, t_comp *lnk, int i)
+ {
+ 	t_comp	*tmp;
+ 	t_comp	*save;
+@@ -20,81 +20,52 @@ void		insert(t_comp **comp, t_comp *new, int i)
+ 	tmp = *comp;
+ 	if (!i)
+ 	{
+-		new->n = tmp;
+-		new->p = NULL;
+-		tmp->p = new;
+-		*comp = new;
++		lnk->n = tmp;
++		lnk->p = NULL;
++		tmp->p = lnk;
++		*comp = lnk;
+ 	}
+ 	else
+ 	{
+ 		while (i-- > 1)
+ 			tmp = tmp->n;
+ 		save = tmp->n;
+-		tmp->n = new;
+-		new->n = save;
+-		new->p = tmp;
+-		save ? save->p = new : 0;
++		tmp->n = lnk;
++		lnk->n = save;
++		lnk->p = tmp;
++		save ? save->p = lnk : 0;
+ 	}
+ }
+ 
+-void 		fill_comp(t_comp **comp, char *name, int dir, int i)
++t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
+ {
+ 	t_comp	*tmp;
+-	t_comp	*save;
++	t_comp	*stock;
+ 
+-	if (!(tmp = *comp))
++	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+ 	{
+-		if (!((*comp) = (t_comp *)malloc(sizeof(t_comp))))
+-			exit(EXIT_FAILURE);
+-		ft_memset(*comp, 0, sizeof(t_comp));
+-		(*comp)->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
+-		escape_metha(&(*comp)->str);
+-		return ;
++		del_all(cmdl_slg(), his_slg(), local_slg(0));
++		exit(EXIT_FAILURE);
+ 	}
+-	else
+-		if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+-			exit(EXIT_FAILURE);
+-	ft_memset(tmp, 0, sizeof(t_comp));
+-	tmp->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
++	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
++	ft_strdup(rdd->d_name));
+ 	escape_metha(&tmp->str);
+-	save = *comp;
+-	while (save && ft_strcmp(save->str, name) < 0)
++	ft_memset(tmp->pad, 0, 512);
++	tmp->bol = 0;
++	tmp->n = NULL;
++	tmp->p = NULL;
++	if (!(*comp))
++		return (tmp);
++	stock = *comp;
++	while (stock && ft_strcmp(stock->str, rdd->d_name) < 0)
+ 	{
+ 		i++;
+-		save = save->n;
++		stock = stock->n;
+ 	}
+ 	insert(comp, tmp, i);
++	return (tmp);
+ }
+ 
+-// t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
+-// {
+-// 	t_comp	*tmp;
+-// 	t_comp	*stock;
+-//
+-// 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+-// 	{
+-// 		del_all(cmdl_slg(), his_slg(), local_slg(0));
+-// 		exit(EXIT_FAILURE);
+-// 	}
+-// 	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
+-// 	ft_strdup(rdd->d_name));
+-// 	escape_metha(&tmp->str);
+-// 	ft_memset(tmp->pad, 0, 512);
+-// 	tmp->bol = 0;
+-// 	tmp->n = NULL;
+-// 	tmp->p = NULL;
+-// 	if (!(*comp))
+-// 		return (tmp);
+-// 	stock = *comp;
+-// 	while (stock && ft_strcmp(stock->str, rdd->d_name) < 0)
+-// 	{
+-// 		i++;
+-// 		stock = stock->n;
+-// 	}
+-// 	insert(comp, tmp, i);
+-// 	return (tmp);
+-// }
+-
+ int			is_exec(t_cmdl *cmdl)
+ {
+ 	int		pos;
+diff --git a/srcs/command_line/delete.c b/srcs/command_line/delete.c
+index 2c734fe..dfc9ce9 100644
+--- a/srcs/command_line/delete.c
++++ b/srcs/command_line/delete.c
+@@ -49,31 +49,6 @@ static int		delete_comp_lst(t_cmdl *cmdl)
+ 	return (1);
+ }
+ 
+-int				back_del(t_cmdl *cmdl)
+-{
+-	int		i;
+-
+-	i = cmdl->line.cur - cmdl->line.pr;
+-	if (cmdl->opt & CCOMP)
+-		return (delete_comp_lst(cmdl));
+-	if (cmdl->opt & (CCMODE | CHIS_S) || i == (int)ft_strlen(cmdl->line.str))
+-		return (write(2, "\7", 1));
+-	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
+-	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+-	while (cmdl->line.str[i])
+-	{
+-		cmdl->line.str[i] = cmdl->line.str[i + 1];
+-		i++;
+-	}
+-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+-	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
+-	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
+-			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
+-	tputs(tgetstr("me", NULL), 1, ft_putchar);
+-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+-	return (1);
+-}
+-
+ int				del(t_cmdl *cmdl)
+ {
+ 	int		i;
+diff --git a/srcs/command_line/get_cmdl.c b/srcs/command_line/get_cmdl.c
+index c5e3779..f9fabbc 100644
+--- a/srcs/command_line/get_cmdl.c
++++ b/srcs/command_line/get_cmdl.c
+@@ -33,7 +33,7 @@ static void	exit_cmdl(t_cmdl *cmdl)
+ 
+ void		get_op(t_cmdl *cmdl, int *ret, int *i)
+ {
+-	static const	t_op		op[24] = {{{-61, -89, 0, 0}, &ccp},
++	static const	t_op		op[23] = {{{-61, -89, 0, 0}, &ccp},
+ 	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
+ 	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_right},
+ 	{{27, 91, 72, 0}, &home}, {{27, 91, 70, 0}, &end},
+@@ -43,15 +43,13 @@ void		get_op(t_cmdl *cmdl, int *ret, int *i)
+ 	{{10, 0, 0, 0}, &return_cmdl}, {{127, 0, 0, 0}, &del},
+ 	{{18, 0, 0, 0}, &cmd_search_history}, {{14, 0, 0, 0}, &cmd_search_history},
+ 	{{9, 0, 0, 0}, &completion}, {{1, 0, 0, 0}, &home}, {{5, 0, 0, 0}, &end},
+-	{{21, 0, 0, 0}, &ctrl_u}, {{20, 0, 0, 0}, &ctrlt}, {{27, 0, 0, 0}, &esc},
+-	{{27, 91, 51, 126}, &back_del}};
++	{{21, 0, 0, 0}, &ctrl_u}, {{20, 0, 0, 0}, &ctrlt}, {{27, 0, 0, 0}, &esc}};
+ 
+ 	*ret = -1;
+ 	*i = -1;
+ 	ft_memset(cmdl->line.buf, '\0', 6);
+ 	read(0, cmdl->line.buf, 6);
+-	// ft_printf("%d %d %d %d\n", cmdl->line.buf[0], cmdl->line.buf[1], cmdl->line.buf[2], cmdl->line.buf[3]);
+-	while (++(*i) < 24)
++	while (++(*i) < 23)
+ 		if (cmdl->line.buf[0] == op[(*i)].key[0] &&
+ 		cmdl->line.buf[1] == op[(*i)].key[1]
+ 		&& cmdl->line.buf[2] == op[(*i)].key[2] &&
+@@ -82,7 +80,7 @@ void		get_cmdl(t_cmdl *cmdl)
+ 			if (ctrl_d(cmdl))
+ 				return ;
+ 		}
+-		else if (i == 24)
++		else if (i == 23)
+ 			print(cmdl, cmdl->line.buf);
+ 	}
+ 	exit_cmdl(cmdl);
+diff --git a/srcs/command_line/inhibiteur.c b/srcs/command_line/inhibiteur.c
+index 92f8cc2..2212021 100644
+--- a/srcs/command_line/inhibiteur.c
++++ b/srcs/command_line/inhibiteur.c
+@@ -17,7 +17,7 @@ int		inhibiteur(t_cmdl *cmdl, int len)
+ 	int		count;
+ 
+ 	count = 0;
+-	while (len >= 0 && cmdl->line.str[len] == '\\')
++	while (cmdl->line.str[len] == '\\' && len >= 0)
+ 	{
+ 		count++;
+ 		len--;
+diff --git a/srcs/command_line/pipe_and_or.c b/srcs/command_line/pipe_and_or.c
+index 12c9ffd..6c56f13 100644
+--- a/srcs/command_line/pipe_and_or.c
++++ b/srcs/command_line/pipe_and_or.c
+@@ -41,7 +41,7 @@ static int	check(t_cmdl *cmdl, int i)
+ 	return (1);
+ }
+ 
+-static int	check_inhib(char *str, int *i, int mode)
++static void	check_inhib(char *str, int *i)
+ {
+ 	int		j;
+ 	int		count;
+@@ -50,11 +50,8 @@ static int	check_inhib(char *str, int *i, int mode)
+ 	count = 0;
+ 	while (str[--j] == '\\')
+ 		count++;
+-	if (!mode && count % 2)
++	if (count % 2)
+ 		(*i)++;
+-	else if (mode && count % 2)
+-		return (0);
+-	return (1);
+ }
+ 
+ static int	look_for_rd(char *str, int i)
+@@ -72,10 +69,10 @@ static int	look_for_rd(char *str, int i)
+ 			continue ;
+ 		}
+ 		if (str[tmp] != ' ' && str[tmp] != '|' && str[tmp] != '&'
+-		&& str[tmp] != '<' && str[tmp] != '>' && str[tmp] != ';')
++		&& str[tmp] != '<' && str[tmp] != '>')
+ 			return (0);
+-		if ((str[tmp] == '|' || str[tmp] == '&' || str[tmp] == '<' ||
+-		str[tmp] == '>' || str[tmp] == ';') && check_inhib(str, &tmp, 1))
++		if (str[tmp] == '|' || str[tmp] == '&' || str[tmp] == '<' ||
++		str[tmp] == '>')
+ 			break ;
+ 	}
+ 	fd_printf(2, "\n42sh: syntax error near unexpected token `%c%c'",
+@@ -107,7 +104,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
+ 		i--;
+ 	}
+ 	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
+-	check_spacing(cmdl->line.str, i))
++	check_spacing(cmdl->line.str + i, -1))
+ 		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
+ 	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
+ 	if (look_for_rd(cmdl->line.str, i))
+@@ -116,6 +113,6 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
+ 		(i && cmdl->line.str[i] == cmdl->line.str[i + 1] ? 2 : 1)), i))
+ 		return (0);
+ 	if (i && cmdl->line.str[i - 1] == '\\')
+-		check_inhib(cmdl->line.str, &i, 0);
++		check_inhib(cmdl->line.str, &i);
+ 	return (check(cmdl, i));
+ }
+diff --git a/srcs/job_control/job_control.c b/srcs/job_control/job_control.c
+index b8edf55..4a727a2 100644
+--- a/srcs/job_control/job_control.c
++++ b/srcs/job_control/job_control.c
+@@ -6,7 +6,7 @@
+ /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
+-/*   Updated: 2017/10/15 19:59:13 by zadrien          ###   ########.fr       */
++/*   Updated: 2017/10/15 14:44:21 by zadrien          ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -67,16 +67,15 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
+ 			if (kill(j->pgid, 0) < 0)
+ 			{
+ 				delete_tnode(&j, &prev, table);
+-				if ((j = *table))
++				if (*table)
++				{
++					j = *table;
+ 					prev = NULL;
+-				else
+-					j = NULL;
++				}
+ 			}
+ 			else
+-			{
+ 				prev = j;
+-				j = j->next;
+-			}
++			j = j->next;
+ 		}
+ 	}
+ 	return (1);
