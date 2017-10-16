@@ -30,12 +30,14 @@ static int	count_metha_char(char **src)
 	return (metha_char);
 }
 
-void		escape_metha(char **src)
+void		escape_metha(char **src, int meta)
 {
 	char	*head;
 	char	*str;
 	char	*ptr;
 
+	if (!(meta = count_metha_char(src)))
+		return ;
 	if (!(str = ft_memalloc(ft_strlen(*src) + count_metha_char(src) + 1)))
 		exit(EXIT_FAILURE);
 	head = str;

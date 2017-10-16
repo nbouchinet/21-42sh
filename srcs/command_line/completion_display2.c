@@ -93,7 +93,7 @@ void			call_print_lst(t_cmdl *cmdl, t_comp **comp)
 			tputs(tgetstr("do", NULL), 1, ft_putchar);
 	}
 	cmdl->line.cur = cur_save;
-	write(1, "\n", 1);
+	write(2, "\n", 1);
 	if ((get_nbr_col(cmdl, comp, &winsize)) < cmdl->line.li)
 	{
 		print_lst(comp, cmdl, &winsize, &up);

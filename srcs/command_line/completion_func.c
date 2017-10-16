@@ -42,13 +42,13 @@ void 		fill_comp(t_comp **comp, char *name, int dir, int i)
 	t_comp	*tmp;
 	t_comp	*save;
 
-	if (!(tmp = *comp))
+	if (!(*comp))
 	{
 		if (!((*comp) = (t_comp *)malloc(sizeof(t_comp))))
 			exit(EXIT_FAILURE);
 		ft_memset(*comp, 0, sizeof(t_comp));
 		(*comp)->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
-		escape_metha(&(*comp)->str);
+		escape_metha(&(*comp)->str, 0);
 		return ;
 	}
 	else
@@ -56,7 +56,7 @@ void 		fill_comp(t_comp **comp, char *name, int dir, int i)
 			exit(EXIT_FAILURE);
 	ft_memset(tmp, 0, sizeof(t_comp));
 	tmp->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
-	escape_metha(&tmp->str);
+	escape_metha(&tmp->str, 0);
 	save = *comp;
 	while (save && ft_strcmp(save->str, name) < 0)
 	{
@@ -65,35 +65,6 @@ void 		fill_comp(t_comp **comp, char *name, int dir, int i)
 	}
 	insert(comp, tmp, i);
 }
-
-// t_comp		*fill_comp(t_comp **comp, struct dirent *rdd, int param, int i)
-// {
-// 	t_comp	*tmp;
-// 	t_comp	*stock;
-//
-// 	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
-// 	{
-// 		del_all(cmdl_slg(), his_slg(), local_slg(0));
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	tmp->str = (param == 2 && rdd->d_type == 4 ? ft_strjoin(rdd->d_name, "/") :
-// 	ft_strdup(rdd->d_name));
-// 	escape_metha(&tmp->str);
-// 	ft_memset(tmp->pad, 0, 512);
-// 	tmp->bol = 0;
-// 	tmp->n = NULL;
-// 	tmp->p = NULL;
-// 	if (!(*comp))
-// 		return (tmp);
-// 	stock = *comp;
-// 	while (stock && ft_strcmp(stock->str, rdd->d_name) < 0)
-// 	{
-// 		i++;
-// 		stock = stock->n;
-// 	}
-// 	insert(comp, tmp, i);
-// 	return (tmp);
-// }
 
 int			is_exec(t_cmdl *cmdl)
 {

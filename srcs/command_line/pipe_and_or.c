@@ -102,7 +102,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 	{
 		if ((cmdl->line.str[i] == '\'' || cmdl->line.str[i] == '\"') &&
-		bs(cmdl->line.str, i))
+		bs(cmdl->line.str, i, cmdl->opt))
 			break ;
 		i--;
 	}
