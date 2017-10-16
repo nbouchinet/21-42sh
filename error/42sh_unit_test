@@ -1,3 +1,5 @@
+BUG STARTS AT COMMIT N 71d8d0e
+
 ls
 ls -l -a
 ls -la
@@ -16,7 +18,7 @@ ls;ls;ls;ls
 |
 |l
 ls |
-ls | cat
+ls | cat ---------------------X -> DO NOT WORK AND CRASH
 ls | wc -l
 base64 /dev/urandom | head -c 1000 | grep 'AUCUNECHANCEQUECETTESTRINGSOITTROUVEELOOOL'
 >
@@ -33,7 +35,7 @@ cat < /tmp/merlin.log > /tmp/elias.log; cat /tmp/elias.log
 "ls -a"
 ls''
 ls ''
-/bin/echo ' 'i" "lik'e ' "trains"
+/bin/echo ' 'i" "lik'e ' "trains" -----------------X DON'T WORK
 /bin/echo '"'
 /bin/echo "'"
 echo
