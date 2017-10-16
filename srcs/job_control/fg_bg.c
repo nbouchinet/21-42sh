@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 20:31:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:56:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@ void	wait_for_job(t_job **job)
 {
 	pid_t		pid;
 	int			status;
+	t_process	*p;
 
-	while (!job_is_stopped(*job) && !job_is_complete(*job) && mark_job_status(job, status, pid))
+	p = (*job)->first_process;
+	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
-		ft_putendl("dwqdqdqdqwd");
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED);// | WCONTINUED | WNOHANG);
-		// if (!mark_job_status(job, status, pid))
-			// break ;
+		while (p)
+		{
+			if ((pid = waitpid(p->pid, &status, WUNTRACED)) != -1)
+				mark_process_status(job);
+			p = p->next;
+		}
+		p = (*job)->first_process;
 	}
 }
 

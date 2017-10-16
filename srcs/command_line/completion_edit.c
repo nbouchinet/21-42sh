@@ -99,7 +99,7 @@ void			restor_cursor_position(t_cmdl *cmdl, int up)
 	cmdl->line.cur = cmdl->line.pr;
 	while ((cmdl->line.cur - cmdl->line.pr) < save)
 	{
-		cmdl->line.cur += 1;
+		cmdl->line.cur++;
 		if (cmdl->line.cur % cmdl->line.co == 0)
 			tputs(tgetstr("do", NULL), 1, ft_putchar);
 		else

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/16 20:32:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:38:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,31 @@ void		get_git(char **git)
 	set_buff(git, fd[0]);
 }
 
-static void	print_and_del(char **str, int w)
+static void	print_and_del(char **str, int w, int ret)
 {
 	if (!w)
 	{
-		// fd_printf(2, "%@42sh: %s%@", H_BLUE, *str, I);
+		ret ? write(2, "\e[32m42sh: ", ft_strlen("\e[32m42sh: ")) :
+		write(2, "\e[31m42sh: ", ft_strlen("\e[31m42sh: "));
+		ft_putstr_fd(*str, 2);
+		write(2, "\033[0m", 1);
+		ft_strdel(str);
+	}
+	else if (w == 1)
+	{
+		write(2, " (", 2);
+		write(2, "\e[94m", ft_strlen("\e[94m"));
+		ft_putstr_fd(*str, 2);
+		write(2, "\033[0m", ft_strlen("\033[0m"));
+		write(2, ")", 1);
 		ft_strdel(str);
 	}
 	else
 	{
-		// fd_printf(2, ": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
-		ft_strdel(str);
+		ret ? write(2, "\e[32m42sh: ", ft_strlen("\e[32m42sh: ")) :
+		write(2, "\e[31m42sh: ", ft_strlen("\e[31m42sh: "));
+		ft_putstr_fd(*str, 2);
+		write(2, "\033[0m", ft_strlen("\033[0m"));
 	}
 }
 
@@ -97,13 +111,13 @@ void		print_prompt(void)
 		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
 		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
 		if (buff)
-			;// fd_printf(2, "%@42sh: %s%@", H_BLUE, buff, I);
+			print_and_del(&buff, 2, cmdl->ret);
 		else if ((buff = getcwd(buff, MAXPATHLEN)))
-			print_and_del(&buff, 0);
+			print_and_del(&buff, 0, cmdl->ret);
 		buff = NULL;
 		get_git(&buff);
 		if (buff)
-			print_and_del(&buff, 1);
+			print_and_del(&buff, 1, cmdl->ret);
 		write(2, "\n$> ", 4);
 	}
 	else if ((cmdl->opt & (CSQ | CDQ)))

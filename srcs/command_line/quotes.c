@@ -12,11 +12,13 @@
 
 #include "header.h"
 
-int			bs(char *str, int i)
+int			bs(char *str, int i, int opt)
 {
 	int		count;
 
 	count = 0;
+	if (opt & (CSQ | CDQ))
+		return (0);
 	while (i && str[--i] == '\\')
 		count++;
 	if ((count % 2))
@@ -32,16 +34,16 @@ static void	count_quote(t_cmdl *cmdl)
 	while (cmdl->line.str[++i])
 	{
 		if (cmdl->line.str[i] == '\'' && (!(cmdl->opt & (CSQ | CDQ))) &&
-				!bs(cmdl->line.str, i))
+				!bs(cmdl->line.str, i, cmdl->opt))
 			cmdl->opt |= CSQ;
 		else if (cmdl->line.str[i] == '"' && (!(cmdl->opt & (CSQ | CDQ))) &&
-				!bs(cmdl->line.str, i))
+				!bs(cmdl->line.str, i, cmdl->opt))
 			cmdl->opt |= CDQ;
 		else if (cmdl->line.str[i] == '\'' && (cmdl->opt & CSQ) &&
-				!bs(cmdl->line.str, i))
+				!bs(cmdl->line.str, i, cmdl->opt))
 			cmdl->opt &= ~(CSQ);
 		else if (cmdl->line.str[i] == '"' && (cmdl->opt & CDQ) &&
-				!bs(cmdl->line.str, i))
+				!bs(cmdl->line.str, i, cmdl->opt))
 			cmdl->opt &= ~(CDQ);
 	}
 }

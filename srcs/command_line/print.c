@@ -79,11 +79,7 @@ int			regular_print(t_line *line, char buf[], int i, int j)
 			line->str[j + 1] = line->str[j];
 		line->str[i] = buf[0];
 	}
-	if ((*cmdl_slg())->ccp.start != -1 && (*cmdl_slg())->ccp.end == -1 &&
-	(*cmdl_slg())->ccp.start <= line->cur - line->pr)
-		tputs(tgetstr("mr", NULL), 1, ft_putchar);
 	PRINT(buf) ? write(1, line->str + i, 1) : 0;
-	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	PRINT(buf) ? write(1, line->str + i + 1, ft_strlen(line->str + i + 1)) : 0;
 	line->cur += ft_strlen(line->str + i);
 	!(line->cur % line->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
@@ -96,20 +92,18 @@ int			print(t_cmdl *cmdl, char buf[])
 
 	if (!(PRINT(buf)) && !(SH(buf)))
 		return (1);
+	if (cmdl->opt & CCP)
+		return (write(2, "\7", 1));
 	if (PRINT(buf) && (cmdl->opt & CCOMP) && !(cmdl->opt & CCMODE))
 		clear_comp(cmdl);
 	else if (cmdl->opt & (CCOMP | CCMODE) && cmode(cmdl))
 		return (1);
 	if (PRINT(buf) && !(cmdl->opt & CHIS_S))
 	{
-		cmdl->ccp.start += cmdl->ccp.start != -1 &&
-		(cmdl->line.cur - cmdl->line.pr) <= cmdl->ccp.start ? 1 : 0;
 		if ((i = regular_print(&cmdl->line, buf,
 		(cmdl->line.cur - cmdl->line.pr), 0)) >= 0)
 		{
 			cmdl->opt &= ~(CCOMP);
-			if (cmdl->ccp.start >= cmdl->line.cur - cmdl->line.pr)
-				cmdl->ccp.start += cmdl->ccp.start == -1 ? 0 : 1;
 			while (cmdl->line.cur - cmdl->line.pr - 1 > i)
 				arrow_left(cmdl);
 		}

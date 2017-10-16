@@ -62,6 +62,7 @@ t_cmdl		**cmdl_slg(void)
 		cmdl->ccp.cpy = NULL;
 		cmdl->comp = NULL;
 		cmdl->pwd = NULL;
+		cmdl->ret = 1;
 		cmdl->pwd = getcwd(cmdl->pwd, MAXPATHLEN);
 	}
 	return (&cmdl);
