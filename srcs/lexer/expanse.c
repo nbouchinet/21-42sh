@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/15 16:11:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 18:55:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 13:32:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ void	expanse_stack(char **stack, char *line, int *i)
 	}
 }
 
-void	in_quote(char **stack, char *line, int *i, int type)
+void	in_quote(char **stack, char *line, int *i, char type)
 {
-	while (line[(*i)] && line[(*i)] != '\'' && line[(*i)] != '"')
+	while (line[(*i)] && line[(*i)] != type)
 	{
-		if ((type & DQUOTE) && line[(*i)] == '\\')
+		if (type == '"' && line[(*i)] == '\\')
 		{
 			st_tok(stack, line[++(*i)], 0);
 			(*i)++;
 		}
-		else if ((type & DQUOTE) && line[(*i)] == '$')
+		else if (type == '"' && line[(*i)] == '$')
 			expanse_stack(stack, line, i);
 		else
 			st_tok(stack, line[(*i)++], 0);

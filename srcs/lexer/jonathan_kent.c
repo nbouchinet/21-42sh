@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 13:11:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 13:29:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 
 	quote = line[(*i)++];
 	type = (quote == '\'' ? QUOTE : DQUOTE);
-	in_quote(stack, line, i, type);
+	in_quote(stack, line, i, quote);
 	if (line[(*i)] && !is_space(line[(*i)]) &&
 			line[(*i)] != '"' && line[(*i)] != '\'')
 		after_quote(stack, line, i);
