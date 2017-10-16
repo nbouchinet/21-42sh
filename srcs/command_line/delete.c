@@ -56,9 +56,9 @@ int				back_del(t_cmdl *cmdl)
 	i = cmdl->line.cur - cmdl->line.pr;
 	if (cmdl->opt & CCOMP)
 		return (delete_comp_lst(cmdl));
-	if (cmdl->opt & (CCMODE | CHIS_S) || i == (int)ft_strlen(cmdl->line.str))
+	if (cmdl->opt & (CCMODE | CHIS_S | CCP) ||
+	i == (int)ft_strlen(cmdl->line.str))
 		return (write(2, "\7", 1));
-	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	while (cmdl->line.str[i])
 	{
@@ -66,7 +66,6 @@ int				back_del(t_cmdl *cmdl)
 		i++;
 	}
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
 	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
 			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
 	tputs(tgetstr("me", NULL), 1, ft_putchar);
@@ -82,19 +81,16 @@ int				del(t_cmdl *cmdl)
 		return (delete_sh(cmdl));
 	if (cmdl->opt & CCOMP)
 		return (delete_comp_lst(cmdl));
-	if (cmdl->opt & CCMODE || cmdl->line.cur == cmdl->line.pr)
+	if (cmdl->opt & (CCMODE | CCP) || cmdl->line.cur == cmdl->line.pr)
 		return (write(2, "\7", 1));
 	arrow_left(cmdl);
-	cmdl->ccp.start -= cmdl->ccp.start == -1 ? 0 : 1;
 	i = cmdl->line.cur - cmdl->line.pr - 1;
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	while (cmdl->line.str[++i])
 		cmdl->line.str[i] = cmdl->line.str[i + 1];
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	cmdl->ccp.start != -1 ? tputs(tgetstr("mr", NULL), 1, ft_putchar) : 0;
 	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
 			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
-	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	return (1);
 }

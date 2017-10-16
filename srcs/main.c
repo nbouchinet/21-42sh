@@ -81,7 +81,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 					ft_putast(ast);
 					mode_off(cmdl);
 					stock_restore(1);
-					i = job_ast(&ast, env, 1);
+					cmdl->ret = job_ast(&ast, env, 1);
 					close_rdir(0, 0);
 					stock_restore(0);
 					destroy_ast(&ast);
