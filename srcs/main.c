@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/15 00:29:38 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 18:18:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ static void		loop(t_cmdl *cmdl)
 
 	while (42)
 	{
+		ft_putendl("JUST HERE");
 		job_control(NULL, NULL, UPT);
 		job_control(NULL, NULL, CHK);
 		init_cmdl();

@@ -6,11 +6,32 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:06:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 19:55:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 19:47:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void	init_fork(pid_t *pgid, int fg)
+{
+	signal (SIGINT, SIG_DFL);
+	signal (SIGQUIT, SIG_DFL);
+	signal (SIGTSTP, SIG_DFL);
+	signal (SIGTTIN, SIG_DFL);
+	signal (SIGTTOU, SIG_DFL);
+	signal (SIGCHLD, SIG_DFL);
+	setpgid(getpid(), *pgid == 0 ? getpid() : *pgid);
+	if (fg)
+		tcsetpgrp(g_shell_terminal, getpid());
+}
+
+void	init_father(pid_t *pid, pid_t *pgid, int fg)
+{
+	*pgid == 0 ? (*pgid = *pid) : 0;
+	setpgid(*pid, *pgid);
+	if (fg)
+		tcsetpgrp(g_shell_terminal, *pgid);
+}
 
 void	set_pgid(pid_t pid, pid_t *pgid, int foreground)
 {

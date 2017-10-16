@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 10:25:42 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:32:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void		get_git(char **git)
 		return ;
 	if ((pid = fork()))
 	{
-		waitpid(pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED | WCONTINUED);
 		if (WEXITSTATUS(status))
 			return ;
 		close(fd[1]);
@@ -75,12 +75,12 @@ static void	print_and_del(char **str, int w)
 {
 	if (!w)
 	{
-		fd_printf(2, "%@42sh: %s%@", H_BLUE, *str, I);
+		// fd_printf(2, "%@42sh: %s%@", H_BLUE, *str, I);
 		ft_strdel(str);
 	}
 	else
 	{
-		fd_printf(2, ": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
+		// fd_printf(2, ": %@git(%@%s%@)%@", RED, YELLOW, *str, RED, I);
 		ft_strdel(str);
 	}
 }
@@ -97,7 +97,7 @@ void		print_prompt(void)
 		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
 		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
 		if (buff)
-			fd_printf(2, "%@42sh: %s%@", H_BLUE, buff, I);
+			;// fd_printf(2, "%@42sh: %s%@", H_BLUE, buff, I);
 		else if ((buff = getcwd(buff, MAXPATHLEN)))
 			print_and_del(&buff, 0);
 		buff = NULL;

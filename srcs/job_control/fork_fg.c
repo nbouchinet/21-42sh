@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 23:46:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 19:31:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,107 +34,34 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 	return (tmp->status);
 }
 
-int		cont_pipe_fg(t_process **lst, char **env, pid_t main, int *p)
+int		pipe_fg(t_process **process, pid_t *pgid, char **env, int r)
 {
-	int		status;
-
-	status = 0;
-	close(p[1]);
-	if ((*lst)->next)
-		status = pipe_job_fg(&(*lst)->next, env, p[0], main);
-	close(p[0]);
-	return (status);
-}
-
-void	kill_pid(int sig)
-{
-	char	stp[2];
-
-	stp[0] = 26;
-	stp[1] = 0;
-	if (sig == SIGTSTP)
+	t_process *p;
+	int			fd[2];
+	p = *process;
+	if (!pipe(fd))
 	{
-		// sleep`(30)
-		kill(0, SIGTSTP);
-		ioctl(0, TIOCSTI, stp);
-	}
-	else if (sig == SIGCONT)
-	{
-		kill(0, SIGCONT);
-	}
-	else
-	{
-		kill(0, sig);
-		exit(EXIT_FAILURE);
-	}
-	// while(1)
-	// 	ft_putnbrl(sig);
-}
-int		pipe_job_fg(t_process **lst, char **env, int r, pid_t main)
-{
-	int			p[2];
-	int			status;
-	t_process	*tmp;
-
-	status = 0;
-	tmp = *lst;
-	main == 0 ? main = getpid() : 0;
-	if (pipe(p) == 0)
-	{
-		if ((tmp->pid = fork()) == 0)
+		if (!(p->pid = fork()))
 		{
-			close(p[0]);
-			active_sig(tmp->pid, main, 1);
-			tmp->next != NULL ? dup2(p[1], STDOUT_FILENO) : 0;
-			exec_fork(&tmp, env, r);
+			close(fd[0]);
+			init_fork(pgid, 1);
+			p->next ? dup2(fd[1], STDOUT_FILENO) : 0;
+			exec_fork(&p, env, r);
 		}
 		else
 		{
-			set_pgid(tmp->pid, &main, 1);
-			tcsetpgrp(g_shell_terminal, tmp->pid);
-			status = cont_pipe_bg(&tmp, env, main, p);
-			waitpid(tmp->pid, &tmp->status, WUNTRACED | WCONTINUED);
+			init_father(&p->pid, pgid, 1);
+			cont_pipe_fg(&p, pgid, env, fd);
+			waitpid(p->pid, &p->status, WCONTINUED | WUNTRACED);
 		}
 	}
-	return (status != 0 ? status : tmp->status);
+	return (p->status);
 }
 
-void	sig_ign(pid_t pid, int fg)
+int		cont_pipe_fg(t_process **pro, pid_t *pgid, char **env, int *fd)
 {
-	if (fg)
-		tcsetpgrp(g_shell_terminal, pid);
-	signal(SIGTSTP, &kill_pid);
-	signal(SIGCHLD, SIG_IGN);
-	signal(SIGINT, &kill_pid);
-	signal(SIGQUIT, &kill_pid);
-	signal(SIGTTIN, &kill_pid);
-	signal(SIGTTOU, &kill_pid);
+	close(fd[1]);
+	(*pro)->next ? pipe_fg(&(*pro)->next, pgid, env, fd[0]) : 0;
+	close(fd[0]);
+	return (1);
 }
-
-void	sig_ign(pid_t pid, int fg);
-int		main_fork_fg(t_job **lst, char **env)
-{
-	int		status;
-	int		ret;
-
-	status = 0;
-	if (!((*lst)->pgid = fork()))
-	{
-		active_sig(getpid(), getpid(), 1);
-		// sig_ign(getpid(), 1);
-		// signal(SIGINT, SIG_IGN);
-		ret = pipe_job_fg(&(*lst)->first_process, env, -1, (*lst)->pgid);
-		if (!return_exec(ret))
-			exit(EXIT_FAILURE);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		set_pgid((*lst)->pgid, &(*lst)->pgid, 1);
-		waitpid((*lst)->pgid, &status, WCONTINUED | WUNTRACED);
-		(*lst)->status = status;
-		catch_error(lst, (*lst)->status);
-		tcsetpgrp(g_shell_terminal, g_shell_pgid);
-	}
-	return (status);
-} // GO i

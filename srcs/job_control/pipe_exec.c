@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:23:48 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:17:56 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:13:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,23 @@ int		pipe_job(t_job **lst, t_env **env, int fg)
 	t_job	*tmp;
 
 	tmp = *lst;
+	status = 0;
 	n_env = get_env(env, tmp->first_process->argv ?
 						tmp->first_process->argv[0] : NULL);
 	if (fg)
-		status = main_fork_fg(lst, n_env);
+	{
+		// ft_putendl("BONJOUR");
+		status = pipe_fg(&tmp->first_process, &tmp->pgid, n_env, -1);
+		tcsetpgrp(g_shell_terminal, g_shell_pgid);
+		mark_process_status(lst);
+	}
 	else
-		status = main_fork_bg(lst, n_env);
+		status = pipe_bg(&tmp->first_process, &tmp->pgid, n_env, -1);
+	// ft_putendl("end");
+	// if (fg)
+	// 	status = main_fork_fg(lst, n_env);
+	// else
+	// 	status = main_fork_bg(lst, n_env);
 	ft_freetab(n_env);
 	if (return_exec(status))
 		return (1);

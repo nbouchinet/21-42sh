@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/15 14:43:12 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 19:47:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ typedef struct			s_job
 	struct s_process	*first_process;
 	pid_t				pgid;
 	char				notified;
-	struct termios		tmodes;
 	struct s_job		*next;
+	struct termios		tmodes;
 }						t_job;
 
 typedef struct			s_jseq
@@ -178,14 +178,12 @@ int						check_job(t_job **job, t_ast **ast, t_job **table);
 void					job_len(t_job **j, t_job **table, int *len);
 void					print_job_message(t_job **j, int *len, int *pos);
 void					close_rdir(int fd, int mod);
-int						cont_pipe_fg(t_process **lst, char **env, pid_t main,
-						int *p);
-int						pipe_job_fg(t_process **lst, char **env, int r,
-						pid_t main);
-int						main_fork_fg(t_job **lst, char **env);
-int						cont_pipe_bg(t_process **lst, char **env, pid_t main,
-						int *p);
-int						pipe_job_bg(t_process **lst, char **env, int r,
-						pid_t main);
-int						main_fork_bg(t_job **lst, char **env);
+void					init_fork(pid_t *pgid, int fg);
+void					init_father(pid_t *pid, pid_t *pgid, int fg);
+int						pipe_bg(t_process **process, pid_t *pgid, char **env, int r);
+int						cont_pipe_bg(t_process **pro, pid_t *pgid, char **env, int *fd);
+int						pipe_fg(t_process **process, pid_t *pgid, char **env,
+						int r);
+int						cont_pipe_fg(t_process **pro, pid_t *pgid, char **env,
+						int *fd);
 #endif

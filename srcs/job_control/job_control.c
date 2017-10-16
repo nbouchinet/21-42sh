@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 19:59:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:19:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		prev = NULL;
 		while (j)
 		{
-			if (kill(j->pgid, 0) < 0)
+			if (check_kill(&j))
 			{
 				delete_tnode(&j, &prev, table);
 				if ((j = *table))
@@ -85,31 +85,25 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 int		update_status(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
+	t_process	*p;
 
 	(void)job;
 	(void)ast;
-	if (*table)
-	{
-		j = *table;
+	if ((j = *table))
 		while (j)
 		{
-			waitpid(j->pgid, &j->status, WUNTRACED | WCONTINUED | WNOHANG);
-			j->status = WTERMSIG(j->status);
-			catch_error(&j, j->status);
+			p = j->first_process;
+			while (p)
+			{
+				waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
+				j->status = WTERMSIG(p->status);
+				if (!j->next && j->notified != 1)
+					catch_error(&j, p->status);
+				p = p->next;
+			}
+			mark_process_status(&j);
 			j = j->next;
-		// 	// p = j->first_process;
-		// 	// while (p)
-		// 	// {
-		// 	// 	waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED | WNOHANG);
-		// 	// 	j->status = WTERMSIG(p->status);
-		// 	// 	if (!j->next && j->notified != 1)
-		// 	// 		catch_error(&j, p->status);
-		// 	// 	p = p->next;
-		// 	// }
-		// 	// mark_process_status(&j);
-		// 	j = j->next;
 		}
-	}
 	return (1);
 }
 

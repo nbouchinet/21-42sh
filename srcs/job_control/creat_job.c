@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 14:45:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 18:17:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int		init_proc(t_process **process)
 	(*process)->stopped = 0;
 	(*process)->completed = 0;
 	(*process)->pid = 0;
+	// (*process)->tmodes = (*cmdl_slg())->term;
 	(*process)->next = NULL;
 	return (1);
 }
