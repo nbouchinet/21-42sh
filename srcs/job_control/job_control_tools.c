@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:12:55 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:52:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 19:54:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,23 +79,13 @@ int		delete_process(t_process **head, t_process **prev, t_process **process)
 int		check_kill(t_job **job)
 {
 	t_process	*p;
-	t_process	*prev;
 
-	prev = NULL;
 	p = (*job)->first_process;
 	while (p)
 	{
-		if (kill(p->pid, 0) < 0)
-		{
-			// sleep(30);
-			// ft_putendl("DELETE");
-			delete_process(&(*job)->first_process, &prev, &p);
-			p = (*job)->first_process;
-		}
-		else
-			p = p->next;
+		if (!(kill(p->pid, 0) < 0))
+			return (0);
+		p = p->next;
 	}
-	if ((*job)->first_process == NULL)
-		return (1);
-	return (0);
+	return (1);
 }

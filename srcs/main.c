@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/15 00:29:38 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:57:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,23 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	int		i;
 	t_ast	*ast;
 	t_tok	*cmd;
-	// t_tok	*t;
 
 	i = 0;
 	ast = NULL;
-	// ft_putendl(*line);
 	if (*line)
 	{
 		init_token(&cmd);
 		new_parser(&cmd, *line, 0);
-		// t = cmd;
-		// while (t)
-		// {
-		// 	ft_printf("[%s]-|-[%d]\n", t->str, t->type);
-		// 	t = t->n;
-		// }
-		// sleep(10);
 		restruct_lst(&cmd);
 		if (new_lexercheck(&cmd)) // revoir valeur binaire
 		{
 			specified_dir(&cmd);
 			if (heredoc(&cmd) != -1)
 			{
-				// new_expanse(&cmd);
-				// t = cmd;
-				// while (t)
-				// {
-				// 	ft_printf("[%s]-|-[%d]\n", t->str, t->type);
-				// 	t = t->n;
-				// }
 				if (cmd)
 				{
 					init_ast(&ast, NULL, 0);
 					primary_sequence(&ast, &cmd);
-					ft_putast(ast);
 					mode_off(cmdl);
 					stock_restore(1);
 					cmdl->ret = job_ast(&ast, env, 1);

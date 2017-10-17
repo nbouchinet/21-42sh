@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:37:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/16 20:56:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,20 @@
 void	wait_for_job(t_job **job)
 {
 	pid_t		pid;
+	int			status;
 	t_process	*p;
 
 	p = (*job)->first_process;
-	pid = waitpid(p->pid, &p->status, WUNTRACED);
-	catch_error(job, p->status);
-	mark_job_status(job, p->status, pid);
+	while (!job_is_stopped(*job) && !job_is_complete(*job))
+	{
+		while (p)
+		{
+			if ((pid = waitpid(p->pid, &status, WUNTRACED)) != -1)
+				mark_process_status(job);
+			p = p->next;
+		}
+		p = (*job)->first_process;
+	}
 }
 
 void	mark_job_as_running(t_job **job)
@@ -91,7 +99,7 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 int		foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
-	// t_process	*p;
+	t_process	*p;
 
 	(void)job;
 	if ((j = *table))
@@ -103,9 +111,13 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 				mark_job_as_running(&j);
 				if (kill(-j->pgid, SIGCONT) < 0)
 					ft_errormsg("42sh: ", NULL, "No such process");
-				tcsetpgrp(g_shell_terminal, j->pgid);
-				waitpid(j->pgid, &j->status, WUNTRACED);
-				// wait_f_job(&j);
+				p = j->first_process;
+				while (p)
+				{
+					tcsetpgrp(g_shell_terminal, p->pid);
+					p = p->next;
+				}
+				wait_for_job(&j);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 				return (return_exec(j->first_process->status));
 			}
