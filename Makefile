@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/16 12:47:19 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/17 18:26:17 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,6 +127,7 @@ CFILES= 		main.c \
 				job_control/pipe_exec.c \
 				job_control/shlvl.c \
 				job_control/redirection.c \
+				job_control/misc_rdir.c \
 				job_control/find_bin.c \
 				job_control/env_pipe.c \
 				job_control/find_bin_tools.c \
