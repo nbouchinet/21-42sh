@@ -53,7 +53,7 @@ void		get_git(char **git)
 		return ;
 	if ((pid = fork()))
 	{
-		waitpid(pid, &status, WUNTRACED);
+		waitpid(pid, &status, WUNTRACED | WCONTINUED);
 		if (WEXITSTATUS(status))
 			return ;
 		close(fd[1]);
