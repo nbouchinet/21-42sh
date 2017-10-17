@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:31:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 12:49:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 15:31:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void	env_opt(char *str, int *flags)
 	{
 		if (str[i] == 'i')
 			(*flags) |= LOW_I_FLAG;
-		else if (str[i] == 'u')
-			(*flags) |= LOW_U_FLAG;
 		else
 		{
 			ft_putstr_fd("env : illegal option -- ", 2);
@@ -78,4 +76,17 @@ void	env_opt(char *str, int *flags)
 			return ;
 		}
 	}
+}
+
+int		print_error_env(int err, char *str)
+{
+	if (err == -1)
+		ft_errormsg("env: ", NULL, "Path not set.");
+	else if (err == -2)
+		ft_errormsg("env: ", NULL, "Path's value not set.");
+	else if (err == -3)
+		ft_errormsg("env: ", str, ": Command not found.");
+	else if (err == 1)
+		return (1);
+	return (0);
 }

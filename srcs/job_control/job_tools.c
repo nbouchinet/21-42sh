@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:27:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/02 00:27:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 15:27:31 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,12 @@ int		mark_process_status(t_job **job)
 		p = (*job)->first_process;
 		while (p)
 		{
-			if (WIFSTOPPED(p->status))
-				p->stopped = 1;
-			else if (WIFEXITED(p->status) && !WEXITSTATUS(p->status))
-				p->completed = 1;
-			else if (WIFSIGNALED(p->status))
+			if (kill(p->pid, 0) < 0)
 			{
 				p->completed = 1;
-				break ;
 			}
+			else if (WIFSTOPPED(p->status))
+				p->stopped = 1;
 			p = p->next;
 		}
 		return (0);
