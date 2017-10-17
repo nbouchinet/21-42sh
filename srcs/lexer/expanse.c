@@ -42,7 +42,7 @@ void	expanse_stack(char **stack, char *line, int *i)
 	else
 	{
 		while (line[(*i)] && !is_space(line[(*i)]) &&
-				line[(*i)] != '"' && line[(*i)] != '\'')
+				line[(*i)] != '"' && line[(*i)] != '\'' && line[(*i)] != '\\')
 			(*i)++;
 		str = ft_strsub(line, j, (*i) - j);
 		find_var(str, stack);
@@ -61,8 +61,10 @@ void	in_quote(char **stack, char *line, int *i, char type)
 		}
 		else if (type == '"' && line[(*i)] == '$')
 			expanse_stack(stack, line, i);
-		else
+		else if (line[(*i)] != type)
 			st_tok(stack, line[(*i)++], 0);
+		else
+			(*i)++;
 	}
 	(*i)++;
 }
