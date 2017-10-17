@@ -46,7 +46,7 @@ void			check_built_in(t_cmdl *cmdl, char *tmp)
 	i = -1;
 	while (++i < 5)
 		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0)
-			fill_comp(&cmdl->comp, (char *)builtin[i], 0, 0);
+			fill_comp(&cmdl->comp, (char *)builtin[i], 0);
 }
 
 void			completion_edit(t_line *line, t_comp **comp, char *tmp,
