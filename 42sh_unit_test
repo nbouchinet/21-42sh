@@ -115,18 +115,13 @@ cat /etc/passwd | tr : # | tr -s abcdefghijklmnopqrstuvwxyz| cut -c 2 | grep -e 
 cat << EOF\ncoucou\nsalut\nEOF
 << ca << ca << ca << ca << ca | cat -e
 < ls | cat -e
-
+ls -lR / &
+env -i SWAGG_VAR==
 
 <& ls ----------------_X NEED ANBIGUOUS REDIRECT
 ls -la >&0  -------------------_X DO NOT WORK
 ls -la >&10 ------------------_X NEED TO PRINT BAD FILE DESCRIPTOR
 env -q  --------------------X ADD USAGE
-
 <custom>setenv SWAGG_VAR SWAGG_VAL ----------------X
-
-env -i SWAGG_VAR== -------------------------X ENV TO DO
-
-ls -lR / & ---------------X DO NOT WORK
-echo \'''""\""\''\"""$PATH""""''"$HOME\""\"'""' ---------------X DO NOT PRINT HOME
-
 ls >> cat | env -i ls -la >& 2 | << ls -----------_X SYN ERROR
+echo \'''""\""\''\"""$PATH""""''"$HOME\""\"'""' ---------------X DO NOT PRINT HOME
