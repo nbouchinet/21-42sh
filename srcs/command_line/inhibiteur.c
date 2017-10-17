@@ -25,9 +25,11 @@ int		inhibiteur(t_cmdl *cmdl, int len)
 	if ((count % 2))
 	{
 		write(1, "\n$> ", 4);
+		cmdl->opt |= CBS;
 		cmdl->line.cur = 3;
 		cmdl->line.pr = 3;
 		return (1);
 	}
+	cmdl->opt &= ~CBS;
 	return (0);
 }

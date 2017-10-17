@@ -92,13 +92,11 @@ static int	check_spacing(char *str, int i)
 	return (0);
 }
 
-int			handle_pipe_and_or(t_cmdl *cmdl)
+int			handle_pipe_and_or(t_cmdl *cmdl, int i)
 {
-	int		i;
 
 	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, -1))
 		return (check(cmdl, -1));
-	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
 	{
 		if ((cmdl->line.str[i] == '\'' || cmdl->line.str[i] == '\"') &&
@@ -108,7 +106,10 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 	}
 	if ((cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&') ||
 	check_spacing(cmdl->line.str, i))
-		return ((cmdl->opt &= ~(CPIPE | CAND | COR)));
+	{
+		cmdl->opt &= ~(CPIPE | CAND | COR);
+		return (0);
+	}
 	i -= i && cmdl->line.str[i] == cmdl->line.str[i - 1] ? 1 : 0;
 	if (look_for_rd(cmdl->line.str, i))
 		return (0);

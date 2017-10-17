@@ -94,9 +94,7 @@ static void		loop(t_cmdl *cmdl)
 		get_cmdl(cmdl);
 		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-			cmdl->line.str[1] == 0))
-			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
+		exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
 		if (cmdl->exit != 256)
 			break ;
 	}

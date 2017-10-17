@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/06 11:43:42 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/17 15:24:27 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 		while ((rdd = readdir(dir)) != 0)
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
 			!check_comp(&cmdl->comp, rdd->d_name))
-				fill_comp(&cmdl->comp, rdd->d_name, 0, 0);
+				fill_comp(&cmdl->comp, rdd->d_name, 0);
 		closedir(dir);
 	}
 	check_built_in(cmdl, tmp);
@@ -48,10 +48,11 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 		return ;
 	}
 	while ((rdd = readdir(dir)) != 0)
-		if (!(*tmp) || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
+		if (!*tmp || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
 		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
-			if (rdd->d_name[0] != '.' || ft_strlen((*tmp)))
-				fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type, 0);
+			if ((!*tmp && ft_strcmp(rdd->d_name, ".") &&
+			ft_strcmp(rdd->d_name, "..")) || (*tmp && rdd->d_name[0] != '.'))
+				fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type);
 	closedir(dir);
 	ft_strdel(&path);
 	if (cmdl->comp && (cmdl->comp->bol = 1))
@@ -70,13 +71,13 @@ static void		list_locale(t_cmdl *cmdl, char **tmp)
 	while (loc)
 	{
 		if (!ft_strncmp(loc->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
-			fill_comp(&cmdl->comp, loc->var, 0, 0);
+			fill_comp(&cmdl->comp, loc->var, 0);
 		loc = loc->n;
 	}
 	while (env)
 	{
 		if (!ft_strncmp(env->var, (*tmp) + 1, ft_strlen((*tmp) + 1)))
-			fill_comp(&cmdl->comp, env->var, 0, 0);
+			fill_comp(&cmdl->comp, env->var, 0);
 		env = env->next;
 	}
 	if (cmdl->comp && (cmdl->comp->bol = 1))
@@ -85,24 +86,21 @@ static void		list_locale(t_cmdl *cmdl, char **tmp)
 		write(2, "\7", 1);
 }
 
-static void		get_comp(t_cmdl *cmdl, int i)
+static void		get_comp(t_cmdl *cmdl, int i, char *tmp)
 {
-	char	*tmp;
 	char	**path;
 
 	path = ft_strsplit(lst_at(&cmdl->lstenv, "PATH")->value, ':');
 	while (--i > 0 && cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
 			cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
 			cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
-		;
+				;
 	i += (i < 0 ? 1 : 0);
 	while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] && sep(cmdl, 0))
 		arrow_right(cmdl);
 	if (cmdl->line.str[cmdl->line.cur - cmdl->line.pr - 1] != ' ')
 		tmp = ft_strsub(cmdl->line.str, (i ? i + 1 : i),
 		cmdl->line.cur - cmdl->line.pr - i - (i ? 1 : 0));
-	else
-		tmp = NULL;
 	if (tmp && tmp[0] == '~' && tmp[1] == '/' && lst_at(&cmdl->lstenv, "HOME"))
 		tmp = ft_strjoinf(lst_at(&cmdl->lstenv, "HOME")->value,
 		ft_strdups(tmp + 1, &tmp), 2);
@@ -134,6 +132,6 @@ int				completion(t_cmdl *cmdl)
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
 	cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||
 	cmdl->line.str[i - 1] != '<' || cmdl->line.str[i - 1] != '>')
-		get_comp(cmdl, cmdl->line.cur - cmdl->line.pr);
+		get_comp(cmdl, cmdl->line.cur - cmdl->line.pr, NULL);
 	return (1);
 }

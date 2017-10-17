@@ -19,7 +19,6 @@ static int		engage_heredoc(t_tok **stop)
 
 	cmdl = *cmdl_slg();
 	init_cmdl();
-	cmdl->opt |= CHD;
 	if (pipe(p) == -1)
 		return (fd_printf(2, "heredoc: pipe error\n"));
 	cmdl->line.pr = write(1, "heredoc> ", 9);

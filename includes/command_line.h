@@ -61,6 +61,12 @@
 # define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
 
 /*
+**	Shift+Tab
+*/
+
+# define S_TAB(buf) buf[0] == 27 && buf[1] == 91 && buf[2] == 90 && !buf[3]
+
+/*
 **	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
 */
 
@@ -133,6 +139,7 @@ typedef struct		s_local
 # define CCMODE		1024
 # define CCP		2048
 # define RRET		4096
+# define CBS		8192
 
 typedef struct		s_cmdl
 {
@@ -287,7 +294,7 @@ int					his_len(t_his **his);
 int					return_cmdl(t_cmdl *cmdl);
 int					exit_search_mode(t_cmdl *cmdl);
 int					check_quote(t_cmdl *cmdl);
-int					handle_pipe_and_or(t_cmdl *cmdl);
+int					handle_pipe_and_or(t_cmdl *cmdl, int len);
 int					ppa_err(t_cmdl *cmdl, int *i);
 int					inhibiteur(t_cmdl *cmdl, int len);
 int					ctrl_d(t_cmdl *cmdl);
@@ -298,7 +305,7 @@ int					bs(char *str, int i, int opt);
 */
 
 int					only_space_comp(char *str);
-void 				fill_comp(t_comp **comp, char *name, int dir, int i);
+void 				fill_comp(t_comp **comp, char *name, int dir);
 char				*get_path(char **tmp);
 int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);
