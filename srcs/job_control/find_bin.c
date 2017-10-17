@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 11:49:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 13:38:23 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int		check_type_bin(t_ast **ast, t_env **env)
 {
-	if ((*ast)->left->type == CMD_NAME_ABS)
+	if ((*ast)->left && (*ast)->left->type == CMD_NAME_ABS)
 		return (check_abs_bin((*ast)->left->str));
-	else if ((*ast)->left->type == CMD_NAME_RLT)
+	else if ((*ast)->left && (*ast)->left->type == CMD_NAME_RLT)
 		return (check_rlt_bin(&(*ast)->left->str, env));
 	return (0);
 }

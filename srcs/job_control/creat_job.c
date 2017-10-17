@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 18:17:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 13:42:34 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		check_builtin(t_ast **ast, t_process **p, t_env **env)
 	i = -1;
 	tmp = *ast;
 	while (++i < 14)
-		if (!ft_strcmp(tmp->left->left->str, cmd[i].builtin))
+		if (tmp->left->left && !ft_strcmp(tmp->left->left->str, cmd[i].builtin))
 		{
 			(*p)->builtin = tmp;
 			(*p)->env = *env;
@@ -68,6 +68,7 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 	int			i;
 	t_process	*tmp;
 
+	i = 0;
 	tmp = NULL;
 	if (*p)
 	{
@@ -78,7 +79,8 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 	if (!init_proc(tmp ? &tmp->next : p))
 		return (0);
 	tmp = (tmp ? tmp->next : *p);
-	i = check_type_bin(&(*ast)->left, env);
+	if ((*ast)->left)
+		i = check_type_bin(&(*ast)->left, env);
 	if (i != 1 && check_builtin(ast, &tmp, env))
 		return (print_error(1, (*ast)->left->left->str));
 	if (i)
@@ -86,7 +88,10 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 		tmp->argv = creat_argv(&(*ast)->left);
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
 	}
-	return (print_error(i, (*ast)->left->left->str));
+	if ((*ast)->left->left)
+		return (print_error(i, (*ast)->left->left->str));
+	else
+		return (print_error(i, NULL));
 }
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
@@ -96,7 +101,7 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 	tmp = *ast;
 	if (tmp->type == PIPE)
 	{
-		if (init_process(&tmp->left, p, env))
+		if (tmp->left && init_process(&tmp->left, p, env))
 			return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
