@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 09:13:59 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/17 16:19:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,13 @@ int		exec_job(t_job **job, t_env **env, int fg)
 	{
 		status = exec_pro(&(*job)->first_process, env, job);
 		mark_process_status(job);
+		hash(NULL, job, PUT);
+		if (return_exec(status))
+			return (1);
 	}
 	else
-		status = exec_pro_bg(&(*job)->first_process, env, job);
-	if (return_exec(status))
 	{
-		hash(NULL, job, PUT);
+		status = exec_pro_bg(&(*job)->first_process, env, job);
 		return (1);
 	}
 	return (0);

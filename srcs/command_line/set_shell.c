@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:55:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/12 23:34:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 13:12:54 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int				set_shell(t_cmdl *cmdl)
 	char		*shl_name;
 
 	signal(SIGCHLD, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
 	g_shell_terminal = STDIN_FILENO;
 	if ((g_shell_is_interactive = isatty(g_shell_terminal)))
 	{

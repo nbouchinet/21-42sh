@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:30:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:45:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 15:32:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,13 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag)
 			}
 			tmp_n->next = NULL;
 		}
-	return (complete_env(n_env, (flag & LOW_U_FLAG) ? &(*ast)->right : ast));
+	return (complete_env(n_env, ast, flag));
 }
 
-t_ast	*complete_env(t_env **env, t_ast **ast)
+t_ast	*complete_env(t_env **env, t_ast **ast, int flag)
 {
-	if (!*env)
-		return (env_without(env, ast));
-	else
-		return (env_w(env, ast));
-	return (NULL);
+	if (flag & LOW_I_FLAG)
+		if ((*ast) && (*ast)->right)
+			return (env_without(env, ast));
+	return ((*ast));
 }

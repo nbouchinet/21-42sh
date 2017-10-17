@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 15:24:09 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/17 17:24:31 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,17 @@
 
 void	wait_for_job(t_job **job)
 {
-	pid_t		pid;
-	int			status;
 	t_process	*p;
 
-	p = (*job)->first_process;
 	while (!job_is_stopped(*job) && !job_is_complete(*job))
 	{
+		p = (*job)->first_process;
 		while (p)
 		{
-			if ((pid = waitpid(p->pid, &status, WUNTRACED)) != -1)
-				mark_process_status(job);
+			waitpid(p->pid, &p->status, WUNTRACED);
+			mark_process_status(job);
 			p = p->next;
 		}
-		p = (*job)->first_process;
 	}
 }
 
@@ -99,7 +96,7 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 int		foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
-	t_process	*p;
+	// t_process	*p;
 
 	(void)job;
 	if ((j = *table))
@@ -111,12 +108,12 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 				mark_job_as_running(&j);
 				if (kill(-j->pgid, SIGCONT) < 0)
 					ft_errormsg("42sh: ", NULL, "No such process");
-				p = j->first_process;
-				while (p)
-				{
-					tcsetpgrp(g_shell_terminal, p->pid);
-					p = p->next;
-				}
+				tcsetpgrp(g_shell_terminal, j->pgid);
+				// p = j->first_process;
+				// while (p)
+				// {
+				// 	p = p->next;
+				// }
 				wait_for_job(&j);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 				return (return_exec(j->first_process->status));

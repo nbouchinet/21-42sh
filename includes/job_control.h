@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/16 19:47:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 16:25:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int						builtin_env(t_ast **ast, t_env **env);
 int						env_builtin(t_ast **ast, t_env **env, t_env **r_env);
 t_ast					*new_env(t_env **n_env, t_ast **ast, t_env **env,
 						int flag);
-t_ast					*complete_env(t_env **env, t_ast **ast);
+t_ast					*complete_env(t_env **env, t_ast **ast, int flag);
 t_env					*next_node(t_env **env);
 int						find_rlt(t_ast **cmd, t_env **env);
 char					*recreat_cmd(t_ast **ast);
@@ -110,7 +110,7 @@ t_ast					*env_option(t_ast **ast, int *flags);
 void					env_opt(char *str, int *flags);
 t_ast					*env_without(t_env **env, t_ast **ast);
 t_ast					*env_w(t_env **env, t_ast **ast);
-void					change_env(t_env **env, char **var);
+void					change_env(t_env **env, char *var);
 int						exec_env(t_ast **ast, t_env **env, t_env **r_env);
 void					wait_for_job(t_job **job);
 void					mark_job_as_running(t_job **job);
@@ -186,4 +186,6 @@ int						pipe_fg(t_process **process, pid_t *pgid, char **env,
 						int r);
 int						cont_pipe_fg(t_process **pro, pid_t *pgid, char **env,
 						int *fd);
+						int		print_error_env(int err, char *str);
+						void 	recreat_ast(t_ast **n_ast, t_ast **ast);
 #endif
