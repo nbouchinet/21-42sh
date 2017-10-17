@@ -36,7 +36,6 @@ void	destroy_tok(t_tok **head)
 	{
 		save = tmp->n;
 		ft_strdel(&tmp->str);
-		tmp->hd != 0 ? ft_putnbrl(tmp->hd) : 0;
 		tmp->hd != 0 ? close(tmp->hd) : 0;
 		free(tmp);
 		tmp = save;
