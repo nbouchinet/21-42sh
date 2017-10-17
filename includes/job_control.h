@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/17 16:25:13 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 17:34:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int						builtin_env(t_ast **ast, t_env **env);
 int						env_builtin(t_ast **ast, t_env **env, t_env **r_env);
 t_ast					*new_env(t_env **n_env, t_ast **ast, t_env **env,
 						int flag);
-t_ast					*complete_env(t_env **env, t_ast **ast, int flag);
+t_ast					*complete_env(t_env **env, t_ast **ast);
 t_env					*next_node(t_env **env);
 int						find_rlt(t_ast **cmd, t_env **env);
 char					*recreat_cmd(t_ast **ast);
