@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/17 16:12:08 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 17:21:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ static void		loop(t_cmdl *cmdl)
 		get_cmdl(cmdl);
 		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmdl->line.str[0] && !(cmdl->line.str[0] == '\\' &&
-			cmdl->line.str[1] == 0))
-			exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
+		exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
 		if (cmdl->exit != 256)
 			break ;
 	}

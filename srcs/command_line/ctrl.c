@@ -77,6 +77,17 @@ static int	register_cmdl(t_cmdl *cmdl, int w)
 	return (1);
 }
 
+static int	cbs_case(t_cmdl *cmdl)
+{
+	if (cmdl->line.str[0])
+		return (0);
+	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
+	*(ft_strrchr(cmdl->line.str, '\\')) = 0;
+	ft_strdel(&cmdl->line.save);
+	cmdl->opt &= ~CBS;
+	return (1);
+}
+
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
@@ -86,8 +97,10 @@ int			ctrl_d(t_cmdl *cmdl)
 		return (register_cmdl(cmdl, 1));
 	else if (cmdl->opt & CHD)
 		return (cmdl->line.str && cmdl->line.str[0] ? 0 : 1);
-	else if (cmdl->line.str && cmdl->line.str[0])
-		return (0);
+	else if (cmdl->opt & CBS)
+		return (cbs_case(cmdl));
+	else if (cmdl->opt & CCOMP || (cmdl->line.str && cmdl->line.str[0]))
+		return (write(1, "\7", 1) - 1);
 	if (cmdl->line.save && !cmdl->line.str[0])
 		ft_strdel(&cmdl->line.save);
 	if (cmdl->line.str && !cmdl->line.str[0])

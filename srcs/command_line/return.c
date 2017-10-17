@@ -50,7 +50,7 @@ static int	check_cmdl(t_cmdl *cmdl, int len)
 	end(cmdl);
 	if (check_quote(cmdl))
 		save_cmdl(&cmdl);
-	if (handle_pipe_and_or(cmdl))
+	if (handle_pipe_and_or(cmdl, len))
 		save_cmdl(&cmdl);
 	if (cmdl->line.str && inhibiteur(cmdl, len))
 		save_cmdl(&cmdl);
@@ -62,7 +62,9 @@ static int	check_cmdl(t_cmdl *cmdl, int len)
 int			return_cmdl(t_cmdl *cmdl)
 {
 	t_comp	*tmp;
+	int		len;
 
+	len = ft_strlen(cmdl->line.str);
 	if (cmdl->opt & (CCMODE | CCP))
 		return (write(2, "\7", 1));
 	if (cmdl->opt & CCOMP)
@@ -78,8 +80,7 @@ int			return_cmdl(t_cmdl *cmdl)
 		comp_del(&cmdl->comp);
 		return (1);
 	}
-	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, ft_strlen(cmdl->line.str)
-	- ft_strlen(cmdl->line.str) > 0 ? 1 : 0)) ||
+	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, len - (len ? 1 : 0))) ||
 	((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1) || cmdl->opt & CHD)
 		return (2);
 	return (1);

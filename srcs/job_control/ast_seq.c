@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:08:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/14 23:20:36 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 12:53:32 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 	t_ast	*tmp;
 
 	foreground = 0;
-	ft_putendl("Hallo");
 	tmp = (*ast)->type == BG_SEQ ? (*ast)->right : *ast;
 	if (tmp->type == BGE)
 	{
@@ -72,6 +71,5 @@ int		job_bg_seq(t_ast **ast, t_env **env, int foreground)
 	}
 	else
 		job_ast(&tmp, env, 1);
-	ft_putendl("WTF");
 	return (1);
 }

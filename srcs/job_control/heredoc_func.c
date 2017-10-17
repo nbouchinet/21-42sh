@@ -55,6 +55,7 @@ int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 	int		i;
 
 	init_cmdl();
+	cmdl->opt |= CHD;
 	while (1)
 	{
 		if (hd_signal(cmdl) && cmdl->opt == -1)
@@ -66,14 +67,14 @@ int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 		{
 			ft_putendl_fd(cmdl->line.str, p[1]);
 			ft_memset(cmdl->line.str, 0, ft_strlen(cmdl->line.str));
-			cmdl->line.pr = write(2, "\nheredoc> ", 10) - 1;
-			cmdl->line.cur = 9;
+			cmdl->line.cur = write(2, "\nheredoc> ", 10) - 1;
+			cmdl->line.pr = 9;
 		}
 		else if (CTRL_L(cmdl->line.buf))
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
 			break ;
-		else if (i == 24)
+		else if (i == 25)
 			print(cmdl, cmdl->line.buf);
 	}
 	return (0);

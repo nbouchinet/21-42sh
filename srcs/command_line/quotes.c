@@ -17,7 +17,7 @@ int			bs(char *str, int i, int opt)
 	int		count;
 
 	count = 0;
-	if (opt & (CSQ | CDQ))
+	if (opt & (CSQ))
 		return (0);
 	while (i && str[--i] == '\\')
 		count++;

@@ -99,8 +99,10 @@ int			cmd_history(t_cmdl *cmdl)
 		return (write(2, "\7", 1));
 	if (cmdl->opt & CCOMP)
 	{
-		return ((UP(cmdl->line.buf) ? c_arrow_up(&cmdl->comp) :
-		c_arrow_down(&cmdl->comp)));
+		if (UP(cmdl->line.buf))
+			c_arrow_up(&cmdl->comp);
+		else if ((DOWN(cmdl->line.buf)) || (S_TAB(cmdl->line.buf)))
+			c_arrow_down(&cmdl->comp);
 	}
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));

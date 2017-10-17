@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 14:47:22 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 19:03:10 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/17 15:28:01 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,23 @@ void		insert(t_comp **comp, t_comp *new, int i)
 	}
 }
 
-void 		fill_comp(t_comp **comp, char *name, int dir, int i)
+void		fill_comp(t_comp **comp, char *name, int dir)
 {
 	t_comp	*tmp;
 	t_comp	*save;
+	int		i;
 
-	if (!(*comp))
-	{
-		if (!((*comp) = (t_comp *)malloc(sizeof(t_comp))))
-			exit(EXIT_FAILURE);
-		ft_memset(*comp, 0, sizeof(t_comp));
-		(*comp)->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
-		escape_metha(&(*comp)->str, 0);
-		return ;
-	}
-	else
-		if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
-			exit(EXIT_FAILURE);
+	i = 0;
+	if (!(tmp = (t_comp *)malloc(sizeof(t_comp))))
+		exit(EXIT_FAILURE);
 	ft_memset(tmp, 0, sizeof(t_comp));
 	tmp->str = (dir == 4 ? ft_strjoin(name, "/") : ft_strdup(name));
 	escape_metha(&tmp->str, 0);
+	if (!(*comp))
+	{
+		*comp = tmp;
+		return ;
+	}
 	save = *comp;
 	while (save && ft_strcmp(save->str, name) < 0)
 	{
