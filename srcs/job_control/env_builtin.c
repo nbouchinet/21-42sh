@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:30:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:45:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 17:41:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag)
 			tmp_n = *n_env;
 			while (tmp)
 			{
-				if ((flag & LOW_U_FLAG) && *ast)
-					if (!ft_strcmp((*ast)->str, tmp->var))
-						tmp = tmp->next;
 				tmp_n->var = ft_strdup(tmp->var);
 				tmp_n->value = ft_strdup(tmp->value);
 				if (tmp->next)
@@ -74,14 +71,17 @@ t_ast	*new_env(t_env **n_env, t_ast **ast, t_env **env, int flag)
 			}
 			tmp_n->next = NULL;
 		}
-	return (complete_env(n_env, (flag & LOW_U_FLAG) ? &(*ast)->right : ast));
+	return (complete_env(n_env, ast));
 }
 
 t_ast	*complete_env(t_env **env, t_ast **ast)
 {
-	if (!*env)
-		return (env_without(env, ast));
-	else
-		return (env_w(env, ast));
-	return (NULL);
+	if ((*ast))
+	{
+		if (*env)
+			return (env_w(env, ast));
+		else
+			return (env_without(env, ast));
+	}
+	return ((*ast));
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/08 10:33:07 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 16:20:35 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 16:25:25 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,20 @@ int		exec_job_pipe(t_job **job, t_env **env, int foreground)
 int		exec_env_pipe(t_ast **ast, t_env **env, t_env **r_env)
 {
 	int		i;
-	t_tok	*tok;
-	t_ast	*tmp;
 	t_ast	*new_ast;
-	char	*cmd;
 
 	i = 0;
-	tmp = *ast;
-	if ((cmd = recreat_cmd(&tmp)))
+	new_ast = NULL;
+	init_ast(&new_ast, NULL, CMD_SEQ);
+	init_ast(&new_ast->left, NULL, SIMP_CMD);
+	recreat_ast(&new_ast->left, ast);
+	if ((i = check_type_bin(&new_ast->left, r_env)) == 1)
 	{
-		tok = init_tok(&tok, C);
-		new_parser(&tok, cmd, 0);
-		ft_strdel(&cmd);
-		init_ast(&new_ast, NULL, 0);
-		primary_sequence(&new_ast, &tok);
-		delete_lst(&tok);
-		if ((i = check_type_bin(&(new_ast)->left, r_env)) == 1)
-		{
-			new_ast->left->left->type = CMD_NAME_ABS;
-			i = job_ast(&new_ast, env, 1);
-		}
-		print_error(i, new_ast->left->left->str);
-		destroy_ast(&new_ast);
+		new_ast->left->left->type = CMD_NAME_ABS;
+		i = job_ast(&new_ast, env, 1);
 	}
+	print_error(i, new_ast->left->left->str);
+	new_ast ? destroy_ast(&new_ast) : 0;
 	return (i);
 }
 

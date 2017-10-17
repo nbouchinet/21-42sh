@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/14 23:01:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 12:51:31 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/17 17:24:56 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,6 @@ int		exec_pro_bg(t_process **pro, t_env **env, t_job **job)
 	return (p->status);
 }
 
-// void	print_state(t_process *pro)
-// {
-// 	// t_process	*p;
-// 	//
-// 	// p = *pro;
-// 	// if (pro->argv)
-// 	// {
-// 	// 	fd_printf(2, "%d     %s\n", p->pid, )
-// 	// }
-// }
 int		pipe_bg(t_process **process, pid_t *pgid, char **env, int r)
 {
 	t_process	*p;
