@@ -96,7 +96,7 @@ int			handle_pipe_and_or(t_cmdl *cmdl)
 {
 	int		i;
 
-	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, 0))
+	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, -1))
 		return (check(cmdl, -1));
 	i = ft_strlen(cmdl->line.str) - (ft_strlen(cmdl->line.str) > 0 ? 1 : 0);
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')
