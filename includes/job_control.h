@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/17 17:34:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 18:25:34 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,4 +188,8 @@ int						cont_pipe_fg(t_process **pro, pid_t *pgid, char **env,
 						int *fd);
 						int		print_error_env(int err, char *str);
 						void 	recreat_ast(t_ast **n_ast, t_ast **ast);
+						int		dup_fd(char *std, char *fd);
+int						valid_fd(char *str);
+int						check_io(char *tmp);
+int		dup_fd(char *std, char *fd);
 #endif
