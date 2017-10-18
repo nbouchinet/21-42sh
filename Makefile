@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/18 14:10:20 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/18 16:49:19 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC=				gcc
 
 NAME=			42sh
 
-CFLAGS=			-g3 -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS=			-Wall -Werror -Wextra
 
 CPATH=			srcs/
 
