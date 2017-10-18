@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/15 16:25:25 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:11:40 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ void				remalloc_cmdl(t_line *line);
 
 int					print(t_cmdl *cmdl, char buf[]);
 int					regular_print(t_line *line, char buf[], int i, int j);
+int					graphical_print(t_cmdl *cmdl, char buf[]);
 int					search_history_print(t_cmdl *cmdl, char buf[]);
 
 /*
@@ -273,6 +274,7 @@ int					opt_left(t_cmdl *cmdl);
 
 int					ccp(t_cmdl *cmd);
 int					paste(t_cmdl *cmdl, int len_cpy);
+void				unset_ccp(t_cmdl *cmdl);
 
 /*
 **	Fonctions de gestion de l historique et recherche dans l historique
@@ -305,7 +307,7 @@ int					bs(char *str, int i, int opt);
 */
 
 int					only_space_comp(char *str);
-void 				fill_comp(t_comp **comp, char *name, int dir);
+void				fill_comp(t_comp **comp, char *name, int dir);
 char				*get_path(char **tmp);
 int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
 int					completion(t_cmdl *cmdl);

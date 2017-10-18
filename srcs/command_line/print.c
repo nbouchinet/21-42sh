@@ -92,6 +92,8 @@ int			print(t_cmdl *cmdl, char buf[])
 
 	if (!(PRINT(buf)) && !(SH(buf)))
 		return (1);
+	if (ft_strlen(buf) > 1)
+		return (graphical_print(cmdl, buf));
 	if (cmdl->opt & CCP)
 		return (write(2, "\7", 1));
 	if (PRINT(buf) && (cmdl->opt & CCOMP) && !(cmdl->opt & CCMODE))

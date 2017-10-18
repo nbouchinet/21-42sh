@@ -92,6 +92,7 @@ CFILES= 		main.c \
 				command_line/delete.c \
 				command_line/esc.c \
 				command_line/get_cmdl.c \
+				command_line/graphical_print.c \
 				command_line/history.c \
 				command_line/handle_ctrlc.c \
 				command_line/inhibiteur.c \

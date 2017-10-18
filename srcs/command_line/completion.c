@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/08 15:42:48 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/17 15:24:27 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:08:05 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 			continue ;
 		while ((rdd = readdir(dir)) != 0)
 			if (ft_strncmp(rdd->d_name, tmp, ft_strlen(tmp)) == 0 &&
-			!check_comp(&cmdl->comp, rdd->d_name))
+					!check_comp(&cmdl->comp, rdd->d_name))
 				fill_comp(&cmdl->comp, rdd->d_name, 0);
 		closedir(dir);
 	}
@@ -92,18 +92,18 @@ static void		get_comp(t_cmdl *cmdl, int i, char *tmp)
 
 	path = ft_strsplit(lst_at(&cmdl->lstenv, "PATH")->value, ':');
 	while (--i > 0 && cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
-			cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
-			cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
-				;
+	cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
+	cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
+		;
 	i += (i < 0 ? 1 : 0);
 	while (cmdl->line.str[cmdl->line.cur - cmdl->line.pr] && sep(cmdl, 0))
 		arrow_right(cmdl);
 	if (cmdl->line.str[cmdl->line.cur - cmdl->line.pr - 1] != ' ')
 		tmp = ft_strsub(cmdl->line.str, (i ? i + 1 : i),
-		cmdl->line.cur - cmdl->line.pr - i - (i ? 1 : 0));
+				cmdl->line.cur - cmdl->line.pr - i - (i ? 1 : 0));
 	if (tmp && tmp[0] == '~' && tmp[1] == '/' && lst_at(&cmdl->lstenv, "HOME"))
 		tmp = ft_strjoinf(lst_at(&cmdl->lstenv, "HOME")->value,
-		ft_strdups(tmp + 1, &tmp), 2);
+				ft_strdups(tmp + 1, &tmp), 2);
 	if (tmp && tmp[0] == '$')
 		list_locale(cmdl, &tmp);
 	else if (tmp && is_exec(cmdl))
@@ -127,11 +127,11 @@ int				completion(t_cmdl *cmdl)
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
 	if (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
-	only_space_comp(cmdl->line.str))
+			only_space_comp(cmdl->line.str))
 		return (1);
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
-	cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||
-	cmdl->line.str[i - 1] != '<' || cmdl->line.str[i - 1] != '>')
+			cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||
+			cmdl->line.str[i - 1] != '<' || cmdl->line.str[i - 1] != '>')
 		get_comp(cmdl, cmdl->line.cur - cmdl->line.pr, NULL);
 	return (1);
 }

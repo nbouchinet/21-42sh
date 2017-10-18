@@ -94,7 +94,7 @@ static char		*get_bang(int *i, char *cmd, t_bang *bang)
 	while (cmd[++(*i)] && cmd[(*i)] != '<' && cmd[(*i)] != '>' &&
 	cmd[(*i)] != '"' && cmd[(*i)] != '\'' && cmd[(*i)] != ';' &&
 	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!' && cmd[(*i)] != '*'
-	&& cmd[(*i)] != '$')
+	&& cmd[(*i)] != '$' && cmd[(*i)] != ' ')
 		;
 	end = *i;
 	bang->end = *i;

@@ -24,7 +24,7 @@ void		his_del(t_his **his, int mode)
 	while (tmp)
 	{
 		save = tmp->n;
-		free(tmp->cmdl);
+		ft_strdel(&tmp->cmdl);
 		free(tmp);
 		tmp = save;
 	}

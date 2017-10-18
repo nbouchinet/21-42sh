@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 12:52:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/15 13:02:52 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:10:25 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ static int	check_spacing(char *str, int i)
 
 int			handle_pipe_and_or(t_cmdl *cmdl, int i)
 {
-
 	if (cmdl->opt & (CPIPE | CAND | COR) && !check_spacing(cmdl->line.str, -1))
 		return (check(cmdl, -1));
 	while (i && cmdl->line.str[i] != '|' && cmdl->line.str[i] != '&')

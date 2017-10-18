@@ -85,27 +85,17 @@ static void	unrev_color(t_cmdl *cmdl)
 
 int			ccp(t_cmdl *cmdl)
 {
-	int		st;
-
-	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP) || (!cmdl->line.str[0] && !cmdl->ccp.ccp))
+	if (cmdl->opt & (CHIS_S | CCMODE | CCOMP) ||
+	(!cmdl->line.str[0] && !cmdl->ccp.ccp))
 		return (write(2, "\7", 1));
 	cmdl->opt |= CCP;
 	if (PST(cmdl->line.buf) && cmdl->ccp.cpy)
 		return (paste(cmdl, ft_strlen(cmdl->ccp.cpy)));
 	if (PST(cmdl->line.buf) && cmdl->ccp.end == -1)
 		return (1);
-	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2)
-	|| (CPY(cmdl->line.buf) && cmdl->ccp.ccp == 1) || cmdl->ccp.cpy)
-	{
-		cmdl->ccp.start = -1;
-		cmdl->ccp.end = -1;
-		st = cmdl->line.cur;
-		home(cmdl);
-		write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
-		cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
-		while (cmdl->line.cur > st)
-			arrow_left(cmdl);
-	}
+	if ((CUT(cmdl->line.buf) && cmdl->ccp.ccp == 2) || (CPY(cmdl->line.buf) &&
+	cmdl->ccp.ccp == 1) || cmdl->ccp.cpy)
+		unset_ccp(cmdl);
 	cmdl->ccp.ccp = CUT(cmdl->line.buf) ? 1 : 2;
 	mark_b_e(cmdl);
 	(cmdl->ccp.start != -1 && cmdl->ccp.end != -1) ? unrev_color(cmdl) : 0;

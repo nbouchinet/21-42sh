@@ -77,9 +77,7 @@ env | cat -e
 >>
 test << >>
 test ||
-test || test && test && test || test ; ; ; ; ; ; ; ungrosbuftest || t\
-est && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaung\
-rosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussa\test || test && test && test || test ; ; ; ; ; ; ; ungrosbuftest || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoustest || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertous;
+test || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoustest || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertous;
 test | ;pwd
 test | pwd ;
 test 1=2 && ls

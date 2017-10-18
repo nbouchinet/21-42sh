@@ -6,11 +6,25 @@
 /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/03 17:39:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/09/13 09:30:03 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 16:07:11 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+void		unset_ccp(t_cmdl *cmdl)
+{
+	int		st;
+
+	cmdl->ccp.start = -1;
+	cmdl->ccp.end = -1;
+	st = cmdl->line.cur;
+	home(cmdl);
+	write(1, cmdl->line.str, ft_strlen(cmdl->line.str));
+	cmdl->line.cur = ft_strlen(cmdl->line.str) + cmdl->line.pr;
+	while (cmdl->line.cur > st)
+		arrow_left(cmdl);
+}
 
 static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int i)
 {
@@ -37,7 +51,7 @@ static void	edit_cmdl(t_cmdl *cmdl, int len_cpy, int i)
 		write(1, cmdl->line.str + i, ft_strlen(cmdl->line.str + i));
 		cmdl->line.cur -= (cmdl->line.cur - cmdl->line.pr) - i;
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
-		tmp ? free(tmp) : 0;
+		tmp ? ft_strdel(&tmp) : 0;
 	}
 }
 

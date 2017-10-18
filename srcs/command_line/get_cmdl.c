@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 18:34:00 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/12 22:50:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:10:00 by khabbar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		get_cmdl(t_cmdl *cmdl)
 		else if (CTRL_L(cmdl->line.buf))
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
-				return ;
+			return ;
 		else if (i == 25)
 			print(cmdl, cmdl->line.buf);
 	}
