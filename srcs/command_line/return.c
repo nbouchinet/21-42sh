@@ -80,8 +80,8 @@ int			return_cmdl(t_cmdl *cmdl)
 		comp_del(&cmdl->comp);
 		return (1);
 	}
-	if ((!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, len - (len ? 1 : 0))) ||
-	((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1) || cmdl->opt & CHD)
+	if (cmdl->opt & CHD || (!(cmdl->opt & CHIS_S) && check_cmdl(cmdl, len - (len ? 1 : 0))) ||
+	((cmdl->opt & CHIS_S) && exit_search_mode(cmdl) == 1))
 		return (2);
 	return (1);
 }

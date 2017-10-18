@@ -108,7 +108,7 @@ int			just_norme(struct stat *st, t_ast *tmp, char **path, int opt)
 
 	ft_memset(buff, 0, MAXPATHLEN);
 	if (!(S_IXUSR & st->st_mode))
-		return (fd_printf(2, "cd: permission denied: %@\n", tmp->str));
+		return (fd_printf(2, "cd: %@: permission denied\n", tmp->str));
 	if (chdir((*path)) == -1)
 		return (fd_printf(2, "cd: %@: not a directory\n", tmp->str));
 	if (S_ISLNK(st->st_mode) && opt == 1)
