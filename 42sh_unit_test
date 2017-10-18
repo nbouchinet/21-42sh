@@ -117,11 +117,12 @@ cat << EOF\ncoucou\nsalut\nEOF
 < ls | cat -e
 ls -lR / &
 env -i SWAGG_VAR==
+<& ls
+ls -la >&0
+ls -la >&10
 
-<& ls ----------------_X NEED ANBIGUOUS REDIRECT
-ls -la >&0  -------------------_X DO NOT WORK
-ls -la >&10 ------------------_X NEED TO PRINT BAD FILE DESCRIPTOR
-env -q  --------------------X ADD USAGE
+
 <custom>setenv SWAGG_VAR SWAGG_VAL ----------------X
 ls >> cat | env -i ls -la >& 2 | << ls -----------_X SYN ERROR
 echo \'''""\""\''\"""$PATH""""''"$HOME\""\"'""' ---------------X DO NOT PRINT HOME
+env -q  --------------------X ADD USAGE
