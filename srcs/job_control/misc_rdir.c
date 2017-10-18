@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 17:44:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:34:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 17:17:27 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		check_io(char *tmp)
 	int		i;
 
 	i = *tmp == '-' ? 0 : -1;
+	if (tmp[0] == '-' && tmp[1] == '\0')
+		return (0);
 	while (tmp[++i])
 		if (!ft_isdigit(tmp[i]))
 			return (0);
