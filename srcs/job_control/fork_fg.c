@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:28:47 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 17:34:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 
 int		pipe_fg(t_process **process, pid_t *pgid, char **env, int r)
 {
+	int			status;
 	t_process	*p;
 	int			fd[2];
 
+	status = 0;
 	p = *process;
 	if (!pipe(fd))
 	{
@@ -52,17 +54,20 @@ int		pipe_fg(t_process **process, pid_t *pgid, char **env, int r)
 		else
 		{
 			init_father(&p->pid, pgid, 1);
-			cont_pipe_fg(&p, pgid, env, fd);
+			status = cont_pipe_fg(&p, pgid, env, fd);
 			waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED);
 		}
 	}
-	return (p->status);
+	return (status == 0 ? p->status : status);
 }
 
 int		cont_pipe_fg(t_process **pro, pid_t *pgid, char **env, int *fd)
 {
+	int		status;
+
+	status = 0;
 	close(fd[1]);
-	(*pro)->next ? pipe_fg(&(*pro)->next, pgid, env, fd[0]) : 0;
+	status = (*pro)->next ? pipe_fg(&(*pro)->next, pgid, env, fd[0]) : 0;
 	close(fd[0]);
-	return (1);
+	return (status);
 }
