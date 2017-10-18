@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:34:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 12:51:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:09:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	change_env(t_env **env, char *var)
 	if ((tmp = find_node(env, var, NULL)))
 	{
 		tmp->value ? ft_strdel(&tmp->value) : 0;
-		tmp->value = st + 1 ? ft_strdup(st + 1): NULL;
+		tmp->value = st + 1 ? ft_strdup(st + 1) : NULL;
 	}
 	else
 	{
@@ -88,28 +88,7 @@ void	change_env(t_env **env, char *var)
 	}
 }
 
-void	complete_node(t_env **node, char *env)
-{
-	char	*st;
-
-	st = ft_strchr(env, '=');
-	st[0] = '\0';
-	(*node)->var = ft_strdup(env);
-	(*node)->value = st + 1 ? ft_strdup(st + 1) : NULL;
-	(*node)->next = NULL;
-}
-
-
-void init_env_ast(t_ast **ast, char *str, int type)
-{
-	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
-		return ;
-	(*ast)->right = NULL;
-	(*ast)->left = NULL;
-	(*ast)->str = str ? ft_strdup(str) : NULL;
-	(*ast)->type = type;
-}
-void 	recreat_ast(t_ast **n_ast, t_ast **ast)
+void	recreat_ast(t_ast **n_ast, t_ast **ast)
 {
 	t_ast	*tmp;
 	t_ast	*save;
@@ -121,7 +100,8 @@ void 	recreat_ast(t_ast **n_ast, t_ast **ast)
 		if (*ast)
 		{
 			save = *ast;
-			init_env_ast(&tmp->left, save->str, ft_strchr(save->str, '/') ? CMD_NAME_ABS : CMD_NAME_RLT);
+			init_env_ast(&tmp->left, save->str, ft_strchr(save->str, '/') ?
+				CMD_NAME_ABS : CMD_NAME_RLT);
 			save = save->right;
 			while (save)
 			{
@@ -132,6 +112,7 @@ void 	recreat_ast(t_ast **n_ast, t_ast **ast)
 		}
 	}
 }
+
 int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/11 14:44:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:02:49 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int		unset_env(t_env **env, char *str)
 
 	tmp = *env;
 	prev = NULL;
+	if (!ft_strcmp(str, "PATH"))
+		hash(NULL, NULL, CLEAN);
 	while (tmp && ft_strcmp(tmp->var, str))
 	{
 		prev = tmp;

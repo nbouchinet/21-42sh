@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/17 18:25:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:13:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct			s_job
 	pid_t				pgid;
 	char				notified;
 	struct s_job		*next;
-	struct termios		tmodes;
 }						t_job;
 
 typedef struct			s_jseq
@@ -186,10 +185,11 @@ int						pipe_fg(t_process **process, pid_t *pgid, char **env,
 						int r);
 int						cont_pipe_fg(t_process **pro, pid_t *pgid, char **env,
 						int *fd);
-						int		print_error_env(int err, char *str);
-						void 	recreat_ast(t_ast **n_ast, t_ast **ast);
-						int		dup_fd(char *std, char *fd);
+int						print_error_env(int err, char *str);
+void					recreat_ast(t_ast **n_ast, t_ast **ast);
+int						dup_fd(char *std, char *fd);
 int						valid_fd(char *str);
 int						check_io(char *tmp);
 int		dup_fd(char *std, char *fd);
+void	init_env_ast(t_ast **ast, char *str, int type);
 #endif

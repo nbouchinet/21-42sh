@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/18 12:51:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 13:21:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void		loop(t_cmdl *cmdl)
 		job_control(NULL, NULL, CHK);
 		init_cmdl();
 		get_cmdl(cmdl);
-g		if (cmdl->opt & CCTRLD)
+		if (cmdl->opt & CCTRLD)
 			break ;
 		exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
 		if (cmdl->exit != 256)

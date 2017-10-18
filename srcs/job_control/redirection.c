@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 08:54:16 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:16:41 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:35:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,23 @@ int		agre(t_ast **ast, int mod)
 
 	(void)mod;
 	tmp = *ast;
-	if ((i = dup_fd(tmp->str, tmp->left->str)) == 0)
+	if ((i = dup_fd(tmp->str, tmp->left->str)) != 0)
+		return (i == 1 ? 1 : 0);
+	std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
+	if (ft_strcmp(tmp->left->str, "-") == 0)
 	{
-		std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
-		if (ft_strcmp(tmp->left->str, "-") == 0)
-		{
-			if (close(std) == 0)
-				return (1);
-		}
-		else if (io_number(tmp->left->str) == 1)
-		{
-			fd = ft_atoi(tmp->left->str);
-			if (dup2(fd, std) != -1)
-				return (1);
-		}
-		else
-			return (wtf_rdir(&tmp, mod));
-		return (0);
+		if (close(std) == 0)
+			return (1);
 	}
-	return (i == 1 ? 1 : 0);
+	else if (io_number(tmp->left->str) == 1)
+	{
+		fd = ft_atoi(tmp->left->str);
+		if (dup2(fd, std) != -1)
+			return (1);
+	}
+	else
+		return (wtf_rdir(&tmp, mod));
+	return (0);
 }
 
 int		bbdir(t_ast **ast, int mod)

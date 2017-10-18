@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 17:44:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:16:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:34:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		check_io(char *tmp)
 	int		i;
 
 	i = *tmp == '-' ? 0 : -1;
-	while(tmp[++i])
+	while (tmp[++i])
 		if (!ft_isdigit(tmp[i]))
 			return (0);
 	return (1);
@@ -33,7 +33,7 @@ int		valid_fd(char *str)
 		if (fd >= 0 && fd <= 2)
 			return (1);
 		else
-			return(ft_errormsg("42sh: ", str, ": Bad file descriptor"));
+			return (ft_errormsg("42sh: ", str, ": Bad file descriptor"));
 	}
 	return (0);
 }

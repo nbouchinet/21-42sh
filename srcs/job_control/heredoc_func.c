@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 13:58:23 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/16 13:22:30 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:33:56 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 		cmdl->opt = -1;
 }
 
-int			hd_signal(t_cmdl *cmdl)
+int				hd_signal(t_cmdl *cmdl)
 {
 	struct sigaction	sig;
 
@@ -74,8 +74,7 @@ int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
 			break ;
-		else if (i == 25)
-			print(cmdl, cmdl->line.buf);
+		i == 25 ? print(cmdl, cmdl->line.buf) : 0;
 	}
 	return (0);
 }

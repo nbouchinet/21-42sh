@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 12:42:25 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:44:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:03:03 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	add_env(t_env **env, char **arg)
 {
 	t_env	*tmp;
 
+	if (!ft_strcmp(arg[0], "PATH"))
+		hash(NULL, NULL, CLEAN);
 	if ((tmp = find_node(env, arg[0], NULL)))
 		replace_value(&tmp, arg[1]);
 	else

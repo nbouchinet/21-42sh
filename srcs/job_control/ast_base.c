@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 09:55:33 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:23:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ int		exec_job(t_job **job, t_env **env, int fg)
 			return (1);
 	}
 	else
-	{
 		status = exec_pro_bg(&(*job)->first_process, env, job);
-		return (1);
-	}
 	return (0);
 }

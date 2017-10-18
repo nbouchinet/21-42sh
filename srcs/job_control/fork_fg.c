@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:46:28 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:28:47 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 	n_env = get_env(env, tmp->argv[0]);
 	if (!(tmp->pid = fork()))
 	{
-		active_sig(tmp->pid, (*j)->pgid, 1);
+		init_fork(&(*j)->pgid, 1);
 		exec_fork(&tmp, n_env, -1);
 	}
 	else
 	{
-		set_pid(tmp->pid, &(*j)->pgid, 1);
+		init_father(&tmp->pid, &(*j)->pgid, 1);
 		waitpid(tmp->pid, &tmp->status, WCONTINUED | WUNTRACED);
 		tcsetpgrp(g_shell_terminal, g_shell_pgid);
 	}
@@ -36,8 +36,9 @@ int		exec_pro(t_process **lst, t_env **env, t_job **j)
 
 int		pipe_fg(t_process **process, pid_t *pgid, char **env, int r)
 {
-	t_process *p;
+	t_process	*p;
 	int			fd[2];
+
 	p = *process;
 	if (!pipe(fd))
 	{

@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/17 18:26:17 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/18 14:10:20 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,6 +113,7 @@ CFILES= 		main.c \
 				job_control/env_builtin.c \
 				job_control/exec_env.c \
 				job_control/exec_env_tools.c \
+				job_control/misc_env.c \
 				job_control/fg_bg.c \
 				job_control/fork_fg.c \
 				job_control/fork_bg.c \

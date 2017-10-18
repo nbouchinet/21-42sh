@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 20:48:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:05:24 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,14 @@ int		search(t_ast **ast, t_hash **table, int i)
 		while (tmp)
 		{
 			if (tmp->rlt_key == key || tmp->abs_key == key)
-			{
-				if (tmp_a->type == CMD_NAME_RLT ?
-					(!ft_strcmp(tmp_a->str, tmp->path)) :
-					(!ft_strcmp(tmp_a->str, ft_strrchr(tmp->path, '/'))))
+				if (!ft_strcmp(tmp_a->str, ft_strrchr(tmp->path, '/') + 1))
 				{
 					tmp_a->str = ft_strdups(tmp->path, &tmp_a->str);
 					tmp->hits++;
-					if (check_abs_bin(tmp_a->str) == 1)
+					if (check_abs_bin(tmp_a->str))
 						return (1);
 					return (0);
 				}
-			}
 			tmp = tmp->next;
 		}
 	return (0);
@@ -101,11 +97,11 @@ int		hash(t_ast **ast, t_job **job, int mod)
 {
 	int					i;
 	static t_hash		*table = NULL;
-	static const t_mod	state[3] = {{FIND, &find_search}, {PUT, &put_cmd},
-									{BUILTIN, &builtin_hash}};
+	static const t_mod	state[4] = {{FIND, &find_search}, {PUT, &put_cmd},
+							{BUILTIN, &builtin_hash}, {CLEAN, &clean_table}};
 
 	i = -1;
-	while (++i < 3)
+	while (++i < 4)
 		if (state[i].mod == mod)
 			if (state[i].f(ast, job, &table) == 1)
 				return (1);
