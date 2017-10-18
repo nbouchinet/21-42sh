@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:45:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:37:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 18:09:34 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		bgre(t_ast **ast, int mod)
 	}
 	else if (io_number(tmp->left->str) == 1)
 	{
+		ft_putendl(tmp->left->str);
 		fd = ft_atoi(tmp->left->str);
 		if (dup2(std, fd) != -1)
 			return (1);
