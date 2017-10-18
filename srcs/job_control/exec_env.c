@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:34:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:18:36 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 12:51:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ int		exec_env(t_ast **ast, t_env **env, t_env **r_env)
 	if ((i = check_type_bin(&new_ast->left, r_env)) == 1)
 	{
 		new_ast->left->left->type = CMD_NAME_ABS;
-		ft_putast(new_ast);
 		i = job_ast(&new_ast, env, 1);
 	}
 	print_error_env(i, new_ast->left->left->str);

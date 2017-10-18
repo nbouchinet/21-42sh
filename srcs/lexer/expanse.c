@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/15 16:11:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:11:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 12:16:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	expanse_stack(char **stack, char *line, int *i)
 		st_tok(stack, line[j - 1], 0);
 	else
 	{
-		while (line[(*i)] && !is_space(line[(*i)]) &&
-				line[(*i)] != '"' && line[(*i)] != '\'' && line[(*i)] != '\\')
+		while (line[(*i)] && !is_space(line[(*i)]) && line[(*i)] != '"' &&
+		line[(*i)] != '\'' && line[(*i)] != '\\' && line[(*i)] != '/')
 			(*i)++;
 		str = ft_strsub(line, j, (*i) - j);
 		find_var(str, stack);

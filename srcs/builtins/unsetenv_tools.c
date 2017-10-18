@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 20:51:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 20:53:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 12:58:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	deletevarenv(t_env **lst, char *var)
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		ft_errormsg("env: ", var, ": Variable not set.");
+		ft_errormsg("42sh: ", var, ": Variable not set.");
 	else if (!prev)
 		deletefirstnode(lst);
 	else if (tmp && ft_strcmp(tmp->var, var) == 0)

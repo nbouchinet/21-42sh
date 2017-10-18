@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 09:46:18 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 12:29:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 	type = (quote == '\'' ? QUOTE : DQUOTE);
 	in_quote(stack, line, i, quote);
 	if (line[(*i)] && !is_space(line[(*i)]) &&
-			line[(*i)] != '"' && line[(*i)] != '\'')
+			line[(*i)] != '"' && line[(*i)] != '\'' && is_sep(line[(*i)]) != 1)
 		after_quote(stack, line, i);
-	if (line[(*i)] && (line[(*i)] == '\'' || line[(*i)] == '"'))
+	if (line[(*i)] && (line[(*i)] == '\'' || line[(*i)] == '"') )
 		stuck_quote(stack, line, i);
 	tok_save(lst, stack, QUOTE);
 	if (line[(*i)] && line[(*i) + 1] && check_end(line + ((*i) + 1)))
@@ -31,8 +31,7 @@ void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 		(*lst)->n = init_tok(lst, NE);
 		*lst = (*lst)->n;
 	}
-	if (line[(*i)] == '\0')
-		(*i)--;
+	(*i)--;
 }
 
 void	chevron(t_tok **lst, char **stack, char *line, int *i)
