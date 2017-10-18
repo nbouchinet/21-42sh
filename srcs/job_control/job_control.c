@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 14:57:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 12:42:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 		{
 			if (check_kill(&j))
 			{
-				ft_putendl_fd(j->command, 2);
 				delete_tnode(&j, &prev, table);
 				if ((j = *table))
 					prev = NULL;
