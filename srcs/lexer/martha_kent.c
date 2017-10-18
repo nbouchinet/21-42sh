@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 19:08:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/05/24 13:46:53 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 12:32:09 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,12 @@ int		check_end(char *line)
 	int		i;
 
 	i = 0;
-	while (line[i] && is_space(line[i]) == 1)
+	while (line[i] && (is_space(line[i]) == 1 || line[i] == '\\'))
+	{
+		if (line[i] == '\\' && line[i + 1])
+			break ;
 		i++;
+	}
 	if (!line[i])
 		return (0);
 	return (1);

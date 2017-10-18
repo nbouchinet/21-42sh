@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:46:33 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 19:31:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 10:46:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		pipe_fg(t_process **process, pid_t *pgid, char **env, int r)
 		{
 			init_father(&p->pid, pgid, 1);
 			cont_pipe_fg(&p, pgid, env, fd);
-			waitpid(p->pid, &p->status, WCONTINUED | WUNTRACED);
+			waitpid(p->pid, &p->status, WUNTRACED | WCONTINUED);
 		}
 	}
 	return (p->status);
