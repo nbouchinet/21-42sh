@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:02:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:46:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 		tmp->argv = creat_argv(&(*ast)->left);
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
 	}
-	return (print_error(i, (*ast)->left->left->str));
+	return (print_error(i, (*ast)->left->left ?
+		(*ast)->left->left->str : NULL));
 }
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
@@ -95,15 +96,16 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 	t_ast	*tmp;
 
 	tmp = *ast;
-	if (tmp->type == PIPE)
+	if (tmp && tmp->type == PIPE)
 	{
 		if (tmp->left && init_process(&tmp->left, p, env))
 			return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
 	{
-		if (init_process(&tmp, p, env))
-			return (1);
+		if (tmp)
+			if (init_process(&tmp, p, env))
+				return (1);
 	}
 	return (0);
 }
