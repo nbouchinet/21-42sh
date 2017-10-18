@@ -79,10 +79,14 @@ static int	register_cmdl(t_cmdl *cmdl, int w)
 
 static int	cbs_case(t_cmdl *cmdl)
 {
+	char	*tmp;
+
 	if (cmdl->line.str[0])
 		return (0);
+	tmp = cmdl->line.str;
 	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	*(ft_strrchr(cmdl->line.str, '\\')) = 0;
+	ft_strdel(&tmp);
 	ft_strdel(&cmdl->line.save);
 	cmdl->opt &= ~CBS;
 	return (1);
