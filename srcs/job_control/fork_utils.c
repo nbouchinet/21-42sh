@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 22:06:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 19:47:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 10:09:32 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ void	exec_fork(t_process **process, char **env, int r)
 	p = *process;
 	r != -1 ? dup2(r, STDIN_FILENO) : 0;
 	if (p->rdir && !io_seq(&p->rdir, 0))
+	{
+		ft_putendl("FAILED");
 		exit(EXIT_FAILURE);
+	}
 	if (p->builtin && !pipe_builtin(&p->builtin, &p->env, 1))
 		exit(EXIT_FAILURE);
 	else if (p->argv)
