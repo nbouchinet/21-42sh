@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/06 18:33:54 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 15:54:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:16:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int		check_type_bin(t_ast **ast, t_env **env)
 {
-	ft_putast(*ast);
 	if ((*ast)->left && (*ast)->left->type == CMD_NAME_RLT &&
 		hash(&(*ast)->left, NULL, FIND))
 		return (1);
