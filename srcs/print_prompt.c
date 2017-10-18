@@ -111,13 +111,13 @@ void		print_prompt(void)
 		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
 		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
 		if (buff)
-			print_and_del(&buff, 2, cmdl->ret);
+			print_and_del(&buff, 2, cmdl->color);
 		else if ((buff = getcwd(buff, MAXPATHLEN)))
-			print_and_del(&buff, 0, cmdl->ret);
+			print_and_del(&buff, 0, cmdl->color);
 		buff = NULL;
 		get_git(&buff);
 		if (buff)
-			print_and_del(&buff, 1, cmdl->ret);
+			print_and_del(&buff, 1, cmdl->color);
 		write(2, "\n$> ", 4);
 	}
 	else if ((cmdl->opt & (CSQ | CDQ)))

@@ -149,6 +149,7 @@ typedef struct		s_cmdl
 	int				opt;
 	int				col;
 	int				offset;
+	int				color;
 	t_line			line;
 	t_ccp			ccp;
 	t_env			*lstenv;

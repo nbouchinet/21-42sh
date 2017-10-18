@@ -49,7 +49,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 		{
 			specified_dir(&cmd);
 			if (heredoc(&cmd) != -1)
-				cmdl->ret = prepare_cmd(&cmd, env, cmdl);
+				cmdl->color = prepare_cmd(&cmd, env, cmdl);
 		}
 		cmd ? destroy_tok(&cmd) : 0;
 	}
