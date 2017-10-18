@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 11:54:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:35:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	flush(t_tok **lst, char **stack, char *line, int *i)
 	(*i)--;
 }
 
-void		new_parser(t_tok **cmd, char *line, int i)
+void	new_parser(t_tok **cmd, char *line, int i)
 {
 	int					j;
 	char				*stack;

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 20:51:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 12:58:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:02:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	deletevarenv(t_env **lst, char *var)
 
 	prev = NULL;
 	tmp = (*lst);
+	if (!ft_strcmp(var, "PATH"))
+		hash(NULL, NULL, CLEAN);
 	while (tmp && ft_strcmp(tmp->var, var) != 0)
 	{
 		prev = tmp;

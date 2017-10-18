@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 17:24:31 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:10:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 int		foreground(t_job **job, t_ast **ast, t_job **table)
 {
 	t_job		*j;
-	// t_process	*p;
 
 	(void)job;
 	if ((j = *table))
@@ -109,11 +108,6 @@ int		foreground(t_job **job, t_ast **ast, t_job **table)
 				if (kill(-j->pgid, SIGCONT) < 0)
 					ft_errormsg("42sh: ", NULL, "No such process");
 				tcsetpgrp(g_shell_terminal, j->pgid);
-				// p = j->first_process;
-				// while (p)
-				// {
-				// 	p = p->next;
-				// }
 				wait_for_job(&j);
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 				return (return_exec(j->first_process->status));

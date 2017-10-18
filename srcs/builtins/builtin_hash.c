@@ -6,11 +6,19 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/09/14 17:59:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:04:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int		clean_table(t_ast **ast, t_job **job, t_hash **table)
+{
+	(void)ast;
+	(void)job;
+	clear_table(table);
+	return (1);
+}
 
 int		clear_table(t_hash **table)
 {

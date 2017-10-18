@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:45:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:16:54 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:04:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,21 @@ int		bgre(t_ast **ast, int mod)
 
 	(void)mod;
 	tmp = *ast;
-	if ((i = dup_fd(tmp->str, tmp->left->str)) == 0)
+	if ((i = dup_fd(tmp->str, tmp->left->str)) != 0)
+		return (i == 1 ? 1 : 0);
+	std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
+	if (ft_strcmp(tmp->left->str, "-") == 0)
 	{
-		std = tmp->str ? ft_atoi(tmp->str) : STDIN_FILENO;
-		if (ft_strcmp(tmp->left->str, "-") == 0)
-		{
-			if (close(std) == 0)
-				return (1);
-		}
-		else if (io_number(tmp->left->str) == 1)
-		{
-			fd = ft_atoi(tmp->left->str);
-			if (dup2(std, fd) != -1)
-				return (1);
-		}
-		else
-			ft_errormsg("42sh: ", tmp->left->str, ": ambiguous redirect.");
-		return (0);
+		if (close(std) == 0)
+			return (1);
 	}
-	return (i == 1 ? 1 : 0);
+	else if (io_number(tmp->left->str) == 1)
+	{
+		fd = ft_atoi(tmp->left->str);
+		if (dup2(std, fd) != -1)
+			return (1);
+	}
+	else
+		ft_errormsg("42sh: ", tmp->left->str, ": ambiguous redirect.");
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 17:34:22 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 15:59:43 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int					fd(t_read *var, char **arg, int *i, int j);
 # define BUILTIN 64
 # define PUT 65
 # define FIND 66
+# define CLEAN 67
 
 typedef struct		s_hash
 {
@@ -192,6 +193,7 @@ int					init_hash(t_hash **lst, char *cmd);
 int					hashing(t_ast **ast, t_env **env);
 int					builtin_hash(t_ast **ast, t_job **job, t_hash **table);
 int					hash(t_ast **ast, t_job **job, int mod);
+int					clean_table(t_ast **ast, t_job **job, t_hash **table);
 int					search_mod(t_ast **ast, t_hash **table);
 int					put_cmd(t_ast **ast, t_job **job, t_hash **table);
 int					search(t_ast **ast, t_hash **table, int i);

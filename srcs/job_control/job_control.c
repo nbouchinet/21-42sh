@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 12:42:06 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:32:33 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 
 	(void)job;
 	(void)ast;
+	prev = NULL;
 	if ((j = *table))
-	{
-		prev = NULL;
 		while (j)
 		{
 			if (check_kill(&j))
@@ -78,9 +77,8 @@ int		check_job(t_job **job, t_ast **ast, t_job **table)
 				j = j->next;
 			}
 		}
-	}
 	return (1);
-} // Condition kill a revoir....
+}
 
 int		update_status(t_job **job, t_ast **ast, t_job **table)
 {

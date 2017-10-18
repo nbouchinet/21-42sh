@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:24:30 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 10:14:55 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 14:29:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ void			creat_file(t_tok **lst)
 			close(fd);
 }
 
+static int		exist_file(char *str)
+{
+	struct stat buf;
+
+	if (stat(str, &buf) != -1)
+	{
+		if (S_IRUSR & buf.st_mode)
+			return (0);
+		else
+			return (ft_errormsg("42sh: ", str, ": Permission denied."));
+	}
+	return (ft_errormsg("42sh: ", str, ": No such file or directory."));
+}
+
 int				heredoc(t_tok **lst)
 {
 	t_tok	*tmp;
@@ -60,6 +74,9 @@ int				heredoc(t_tok **lst)
 		}
 		else if ((tmp->type & (RDIR | RRDIR)))
 			creat_file(&tmp);
+		else if (tmp->type & BDIR)
+			if (exist_file(tmp->n->str) == -1)
+				return (-1);
 		tmp = tmp->n;
 	}
 	return (0);

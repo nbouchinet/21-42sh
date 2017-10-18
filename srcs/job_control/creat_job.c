@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:19:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 13:42:34 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/18 14:02:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int		init_proc(t_process **process)
 	(*process)->stopped = 0;
 	(*process)->completed = 0;
 	(*process)->pid = 0;
-	// (*process)->tmodes = (*cmdl_slg())->term;
 	(*process)->next = NULL;
 	return (1);
 }
@@ -88,10 +87,7 @@ int		init_process(t_ast **ast, t_process **p, t_env **env)
 		tmp->argv = creat_argv(&(*ast)->left);
 		tmp->rdir = (*ast)->right != NULL ? (*ast)->right->right : NULL;
 	}
-	if ((*ast)->left->left)
-		return (print_error(i, (*ast)->left->left->str));
-	else
-		return (print_error(i, NULL));
+	return (print_error(i, (*ast)->left->left->str));
 }
 
 int		complete_process(t_ast **ast, t_process **p, t_env **env)
