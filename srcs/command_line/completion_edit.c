@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   completion_edit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 18:05:43 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/10 19:01:59 by khabbar          ###   ########.fr       */
+/*   Updated: 2017/10/18 19:38:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void			check_built_in(t_cmdl *cmdl, char *tmp)
 
 	i = -1;
 	while (++i < 5)
-		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0)
+		if (ft_strncmp(builtin[i], tmp, ft_strlen(tmp)) == 0 &&
+		!check_comp(&cmdl->comp, (char *)builtin[i]))
 			fill_comp(&cmdl->comp, (char *)builtin[i], 0);
 }
 
