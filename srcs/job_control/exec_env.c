@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:34:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 17:41:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 10:18:36 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_ast	*env_without(t_env **env, t_ast **ast)
 	t_ast	*tmp_a;
 
 	tmp_a = NULL;
-	ft_putendl("KOUDOURO");
 	if ((*ast) && test((*ast)->str))
 	{
 		if (!(*env = (t_env*)malloc(sizeof(t_env))))

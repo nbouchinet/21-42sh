@@ -76,7 +76,6 @@ cd .. && ls
 env | cat -e
 >>
 test << >>
-test &&
 test ||
 test || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoustest || test && test && test || test ; ; ; ; ; ; ; ungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertoussatoussaungrosbuffertous;
 test | ;pwd
@@ -86,7 +85,6 @@ setenv TRUC toto ; echo TRUC ; echo truc; setenv TRUC titi ; echo TRUC ; echo sd
 ls > toto ; date >> toto ; >> toto ls ; < toto cat ;
 cd ../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../ ; pwd ; cd -
 unsetenv OLD_PWD ; unsetenv OLDPWD ; cd -
-ls *c*
 ls /dev | grep tty | sort -r | rev > toto ; < toto cat | rev | wc -l > titi
 cat Makefile
 Unexisting
@@ -120,9 +118,9 @@ env -i SWAGG_VAR==
 <& ls
 ls -la >&0
 ls -la >&10
+env -q
+echo \'''""\""\''\"""$PATH""""''"$HOME\""\"'""'
+<custo>setenv SWAGG_VAR SWAGG_VAL
+ls >> cat | env -i ls -la >& 2 | << ls
 
-
-<custom>setenv SWAGG_VAR SWAGG_VAL ----------------X
-ls >> cat | env -i ls -la >& 2 | << ls -----------_X SYN ERROR
-echo \'''""\""\''\"""$PATH""""''"$HOME\""\"'""' ---------------X DO NOT PRINT HOME
-env -q  --------------------X ADD USAGE
+"ls -a"<custom>setenv SWAGG_VAR OUI; setenv SWAGG_VAR NON; env | sortenv SWAGG_VAR=NON | sorttest && ---------------X MARCHE PAS
