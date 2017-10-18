@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 16:19:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 09:55:33 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 			return (delete_job(&job));
 		return (exec_job(&job, env, foreground));
 	}
-	return (-1);
+	return (0);
 }
 
 int		return_exec(int status)
