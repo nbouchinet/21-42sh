@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:31:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 15:31:18 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 10:10:26 by nbouchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	env_opt(char *str, int *flags)
 			ft_putstr_fd("env : illegal option -- ", 2);
 			ft_putchar_fd(str[i], 2);
 			ft_putendl_fd("", 2);
+			ft_putendl_fd("usage: env [-i] [name=value ...]\n"
+						"\t   [utility [argument ...]]", 2);
 			(*flags) = -1;
 			return ;
 		}

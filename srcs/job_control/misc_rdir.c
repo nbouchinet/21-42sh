@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 17:44:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 18:47:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 10:16:26 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int		valid_fd(char *str)
 	if (check_io(str))
 	{
 		fd = ft_atoi(str);
-		if (fd != 0 && fd != 1 && fd != 2)
-			return(ft_errormsg("42sh : ", str, ": Bad file descriptor"));
-		else
+		if (fd >= 0 && fd <= 2)
 			return (1);
+		else
+			return(ft_errormsg("42sh: ", str, ": Bad file descriptor"));
 	}
 	return (0);
 }
@@ -44,7 +44,7 @@ int		dup_fd(char *std, char *fd)
 	int		num;
 	int		io;
 
-	if ((i = valid_fd(fd)))
+	if ((i = valid_fd(fd)) == 1)
 	{
 		num = ft_atoi(fd);
 		io = std ? ft_atoi(std) : STDOUT_FILENO;
