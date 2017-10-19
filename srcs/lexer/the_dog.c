@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:36:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 12:58:21 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	backslash(t_tok **lst, char **stack, char *line, int *i)
 	(void)lst;
 	if (line[(*i) + 1])
 		st_tok(stack, line[++(*i)], 0);
-	else
+	else if (line[(*i) + 1])
 		(*i)++;
 }
 

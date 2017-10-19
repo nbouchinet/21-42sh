@@ -6,7 +6,7 @@
 /*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 15:06:31 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/15 00:12:39 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 12:13:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,20 @@ void	print_job_message(t_job **j, int *len, int *pos)
 		((*len) == (*pos)) ? symb = '+' : 0;
 		((*len) - 1 == (*pos)) ? symb = '-' : 0;
 		if ((*j)->status == SIGSEGV)
-			fd_printf(2, "[%d]%c Segmentation fault: 11 \t%s\n",
-			(*j)->num, symb, (*j)->command);
+			fd_printf(2, "[%d]%c %d Segmentation fault: 11 \t%s\n",
+			(*j)->num, symb, (*j)->pgid, (*j)->command);
 		else if ((*j)->status == SIGABRT)
-			fd_printf(2, "[%d]%c Abort trap: 6 \t\t%s\n",
-			(*j)->num, symb, (*j)->command);
+			fd_printf(2, "[%d]%c %d Abort trap: 6 \t\t%s\n",
+			(*j)->num, symb, (*j)->pgid, (*j)->command);
 		else if ((*j)->status == SIGTSTP)
-			fd_printf(2, "[%d]%c Bus error: 10 \t\t%s\n",
-			(*j)->num, symb, (*j)->command);
+			fd_printf(2, "[%d]%c %d Bus error: 10 \t\t%s\n",
+			(*j)->num, symb, (*j)->pgid, (*j)->command);
 		else if ((*j)->status == 15)
-			fd_printf(2, "[%d]%c Terminated: \t\t15 %s\n",
-			(*j)->num, symb, (*j)->command);
+			fd_printf(2, "[%d]%c %d Terminated: \t\t15 %s\n",
+			(*j)->num, symb, (*j)->pgid, (*j)->command);
 		else
-			fd_printf(2, "[%d]%c Stopped\t\t\t%s\n",
-			(*j)->num, symb, (*j)->command);
+			fd_printf(2, "[%d]%c %d Stopped\t\t\t%s\n",
+			(*j)->num, symb, (*j)->pgid, (*j)->command);
 		(*j) = (*j)->next;
 	}
 }

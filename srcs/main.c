@@ -6,7 +6,7 @@
 /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/10/18 16:58:23 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 12:38:44 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	i = 0;
 	if (*line)
 	{
+		ft_putendl(*line);
 		init_token(&cmd);
 		new_parser(&cmd, *line, 0);
 		restruct_lst(&cmd);
