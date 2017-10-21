@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:22:12 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:10:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 16:57:59 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		background(t_job **job, t_ast **ast, t_job **table)
 			{
 				mark_job_as_running(&j);
 				if (kill(-j->pgid, SIGCONT) < 0)
-					perror("kill (SIGCONT)");
+					ft_errormsg("42sh: ", NULL, "No such process");
 				tcsetpgrp(g_shell_terminal, g_shell_pgid);
 			}
 			else

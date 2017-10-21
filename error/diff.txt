@@ -160,7 +160,7 @@ index ef798fe..801eeb0 100644
  #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
  #                                                 +#+#+#+#+#+   +#+            #
  #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
--#    Updated: 2017/10/15 17:59:38 by khabbar          ###   ########.fr        #
+-#    Updated: 2017/10/15 17:59:38 by zadrien          ###   ########.fr        #
 +#    Updated: 2017/10/15 18:04:29 by zadrien          ###   ########.fr        #
  #                                                                              #
  # **************************************************************************** #
@@ -192,10 +192,10 @@ index 23cd374..a21f5d2 100644
 --- a/includes/command_line.h
 +++ b/includes/command_line.h
 @@ -6,7 +6,7 @@
- /*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+ /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
  /*                                                +#+#+#+#+#+   +#+           */
- /*   Created: 2017/08/31 17:03:41 by khabbar           #+#    #+#             */
--/*   Updated: 2017/10/15 16:25:25 by khabbar          ###   ########.fr       */
+ /*   Created: 2017/08/31 17:03:41 by zadrien           #+#    #+#             */
+-/*   Updated: 2017/10/15 16:25:25 by zadrien          ###   ########.fr       */
 +/*   Updated: 2017/10/11 11:51:11 by zadrien          ###   ########.fr       */
  /*                                                                            */
  /* ************************************************************************** */
@@ -248,7 +248,7 @@ index 0f298ba..268a349 100644
  /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
  /*                                                +#+#+#+#+#+   +#+           */
  /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
--/*   Updated: 2017/10/15 16:27:45 by khabbar          ###   ########.fr       */
+-/*   Updated: 2017/10/15 16:27:45 by zadrien          ###   ########.fr       */
 +/*   Updated: 2017/10/11 14:34:21 by zadrien          ###   ########.fr       */
  /*                                                                            */
  /* ************************************************************************** */
@@ -317,11 +317,11 @@ index e90d7be..15a8d2a 100644
 --- a/libft/printf/fd_printf.c
 +++ b/libft/printf/fd_printf.c
 @@ -6,7 +6,7 @@
- /*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+ /*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
  /*                                                +#+#+#+#+#+   +#+           */
- /*   Created: 2017/03/10 09:35:04 by khabbar           #+#    #+#             */
--/*   Updated: 2017/10/15 18:50:35 by khabbar          ###   ########.fr       */
-+/*   Updated: 2017/03/15 18:45:57 by khabbar          ###   ########.fr       */
+ /*   Created: 2017/03/10 09:35:04 by zadrien           #+#    #+#             */
+-/*   Updated: 2017/10/15 18:50:35 by zadrien          ###   ########.fr       */
++/*   Updated: 2017/03/15 18:45:57 by zadrien          ###   ########.fr       */
  /*                                                                            */
  /* ************************************************************************** */
  
