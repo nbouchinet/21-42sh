@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 18:05:43 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/19 13:33:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 19:38:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void			completion_edit(t_line *line, t_comp **comp, char *tmp,
 		ft_strlen(line->str + (line->cur - line->pr)));
 		tputs(tgetstr("cd", NULL), 1, ft_putchar);
 		tputs(tgetstr("rc", NULL), 1, ft_putchar);
-		ft_strdel(&tmp);
+		tmp ? ft_strdel(&tmp) : 0;
 	}
 }
 

@@ -17,7 +17,7 @@ int		ppa_err(t_cmdl *cmdl, int *i)
 	*i -= (*i > 0 && cmdl->line.str[*i - 1] == cmdl->line.str[*i]) ? 1 : 0;
 	if (cmdl->line.str[*i - 1] == '|' || cmdl->line.str[*i - 1] == '&')
 	{
-		cmd_save_history(cmdl->line.str);
+		cmd_save_history(cmdl->line.str, 0);
 		fd_printf(2, "\n42sh: syntax error near unexpected token `");
 		write(2, cmdl->line.str + *i,
 			cmdl->line.str[*i + 1] == cmdl->line.str[*i] ? 2 : 1);

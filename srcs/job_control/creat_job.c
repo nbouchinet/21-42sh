@@ -100,6 +100,8 @@ int		complete_process(t_ast **ast, t_process **p, t_env **env)
 	{
 		if (tmp->left && init_process(&tmp->left, p, env))
 			return (complete_process(&tmp->right, &(*p)->next, env));
+		else
+			return (complete_process(&tmp->right, &(*p)->next, env));
 	}
 	else
 	{

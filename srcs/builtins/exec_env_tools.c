@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:31:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 10:10:26 by nbouchin         ###   ########.fr       */
+/*   Updated: 2017/10/20 13:45:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,6 @@ t_env	*next_node(t_env **env)
 		return (NULL);
 	(*env)->next->next = NULL;
 	return ((*env)->next);
-}
-
-char	*recreat_cmd(t_ast **ast)
-{
-	t_ast	*tmp;
-	char	*new_cmd;
-
-	tmp = *ast;
-	new_cmd = ft_strdup(tmp->str);
-	if ((tmp = tmp->right))
-		new_cmd = ft_strjoinf(new_cmd, " ", 1);
-	while (tmp)
-	{
-		new_cmd = ft_strjoinf(new_cmd, tmp->str, 1);
-		if ((tmp = tmp->right))
-			new_cmd = ft_strjoinf(new_cmd, " ", 1);
-	}
-	return (new_cmd);
 }
 
 t_ast	*env_option(t_ast **ast, int *flags)

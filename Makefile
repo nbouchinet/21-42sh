@@ -6,7 +6,7 @@
 #    By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/05/02 18:16:06 by zadrien           #+#    #+#              #
-#    Updated: 2017/10/18 16:49:19 by zadrien          ###   ########.fr        #
+#    Updated: 2017/10/20 18:57:53 by zadrien          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,8 @@ CFILES= 		main.c \
 				lexer/misc_lexer.c \
 				lexer/expanse.c \
 				lexer/misc_exp.c \
+				lexer/heredoc.c \
+				lexer/heredoc_func.c \
 				AST/ast_tools.c \
 				AST/creat_ast.c \
 				AST/creat_io_seq.c \
@@ -52,28 +54,36 @@ CFILES= 		main.c \
 				builtins/unsetenv_tools.c \
 				builtins/setenv.c \
 				builtins/env.c \
+				builtins/env_builtin.c \
+				builtins/exec_env_tools.c \
+				builtins/exec_env.c \
+				builtins/env_pipe.c \
+				builtins/misc_env.c \
 				builtins/echo.c \
 				builtins/exit.c \
 				builtins/hash.c \
 				builtins/hash_tools.c \
 				builtins/builtin_hash.c \
+				builtins/hash_clean.c \
 				builtins/local.c \
 				builtins/unset.c \
 				builtins/export.c \
 				builtins/history.c \
+				builtins/history_no_opt.c \
 				builtins/history_opt.c \
 				builtins/history_opt2.c \
+				builtins/misc_history.c \
 				builtins/read.c \
 				builtins/read_parse.c \
 				builtins/read_opt1.c \
 				builtins/read_opt2.c \
 				builtins/fg.c \
-				builtins/hash_clean.c \
-				builtins/misc_builtins.c \
+				builtins/fg_bg.c \
 				command_line/arrows_fucn1.c \
 				command_line/arrows_fucn2.c \
 				command_line/bang.c \
 				command_line/bang_parse.c \
+				command_line/bang_parse2.c \
 				command_line/bang_check_ed.c \
 				command_line/bang_sub.c \
 				command_line/clear.c \
@@ -111,16 +121,9 @@ CFILES= 		main.c \
 				job_control/creat_job.c \
 				job_control/creat_job_name.c \
 				job_control/delete_job.c \
-				job_control/env_builtin.c \
-				job_control/exec_env.c \
-				job_control/exec_env_tools.c \
-				job_control/misc_env.c \
-				job_control/fg_bg.c \
 				job_control/fork_fg.c \
 				job_control/fork_bg.c \
 				job_control/fork_utils.c \
-				job_control/heredoc.c \
-				job_control/heredoc_func.c \
 				job_control/job_control.c \
 				job_control/job_control_tools.c \
 				job_control/job_tools.c \
@@ -131,7 +134,6 @@ CFILES= 		main.c \
 				job_control/redirection.c \
 				job_control/misc_rdir.c \
 				job_control/find_bin.c \
-				job_control/env_pipe.c \
 				job_control/find_bin_tools.c \
 				job_control/job_message.c \
 
@@ -179,4 +181,4 @@ re: fclean all
 
 norme:
 	@norminette srcs/**/**.[ch]
-	@norminette libft/*.[ch]
+	@norminette libft/**/**.[ch]

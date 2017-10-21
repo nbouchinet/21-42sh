@@ -75,7 +75,7 @@ void		hist_session(void)
 	while (get_next_line(fd, &line))
 	{
 		if (ft_is_valid(line))
-			cmd_save_history(line);
+			cmd_save_history(line, 0);
 		ft_strdel(&line);
 	}
 	close(fd);

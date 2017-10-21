@@ -24,7 +24,7 @@ static void	exit_cmdl(t_cmdl *cmdl)
 		ft_strdel(&s1);
 		ft_strdel(&cmdl->line.save);
 	}
-	cmd_save_history(cmdl->line.str);
+	cmd_save_history(cmdl->line.str, 1);
 	cmdl->opt |= CRESET;
 	cmd_history(cmdl);
 	cmdl->opt = 0;

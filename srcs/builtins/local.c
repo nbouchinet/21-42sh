@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 16:56:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 20:50:38 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 11:15:29 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,5 @@ int			local(char *str)
 	}
 	else
 		put_into_lst(str, sub);
-	ft_strdel(&sub);
 	return (1);
 }

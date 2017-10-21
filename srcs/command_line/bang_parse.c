@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   bang_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 18:21:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:46:58 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 18:56:06 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	get_modifiers(char *event, t_bang *bang)
+int		get_modifiers(char *event, t_bang *bang)
 {
 	event[0] == 'h' ? bang->mod |= HB : 0;
 	event[0] == 't' ? bang->mod |= TB : 0;
@@ -29,7 +29,7 @@ static int	get_modifiers(char *event, t_bang *bang)
 	return (0);
 }
 
-static int	get_designators(char *event, t_bang *bang, int max_arg)
+int		get_designators(char *event, t_bang *bang, int max_arg)
 {
 	char	*ptr;
 
@@ -45,7 +45,7 @@ static int	get_designators(char *event, t_bang *bang, int max_arg)
 	}
 	else if (ft_strchr(event, '*'))
 	{
-		bang->x = event[0] == '*' ? 0 : ft_atoi(event);
+		bang->x = event[0] == '*' ? 1 : ft_atoi(event);
 		bang->y = max_arg;
 	}
 	else
@@ -54,29 +54,7 @@ static int	get_designators(char *event, t_bang *bang, int max_arg)
 	return (0);
 }
 
-static int	ft_nbr_words(char const *s, char c)
-{
-	int		i;
-	int		nbr;
-
-	i = 0;
-	nbr = 0;
-	if (s[i] == c || s[i] == '\t')
-		i++;
-	while (s[i])
-	{
-		if (s[i] == c || s[i] == '\t')
-			if (s[i - 1] != c && s[i - 1] != '\t')
-				nbr++;
-		i++;
-		if (s[i] == '\0')
-			if (s[i - 1] != c && s[i - 1] != '\t')
-				nbr++;
-	}
-	return (nbr);
-}
-
-static int	get_event(char *cmdl, t_bang *bang)
+int		get_event(char *cmdl, t_bang *bang)
 {
 	char	**qsub;
 
@@ -103,31 +81,24 @@ static int	get_event(char *cmdl, t_bang *bang)
 	return (0);
 }
 
-int			bang_parse(char *sub, t_bang *bang)
+int		bang_parse(char *sub, t_bang *bang)
 {
 	t_his		*his;
 	char		**opt;
 
+	if (!sub)
+		return (1);
 	opt = ft_strsplit(sub, ':');
 	if (!(his = (*his_slg())->n))
 		return (bang_error(sub, opt));
-	if ((opt && opt[0] && get_event(opt[0], bang)) || (bang->n ?
-	get_line(his, bang) : get_match(his, bang)) ||
-	(check_ed(bang, his_len(&his), ft_nbr_words(bang->tmp, ' ') - 1, 0)))
-		return (ft_free(opt, NULL, 1));
-	if ((opt && opt[1]) && ((((opt[1][0] >= '0' && opt[1][0] <= '9') ||
-	((opt[1][0] == '^' || opt[1][0] == '$' || opt[1][0] == '*' || opt[1][0] ==
-	'-'))) && (get_designators(opt[1], bang, ft_nbr_words(bang->tmp, ' ') - 1)))
-	|| ((check_ed(bang, his_len(&his), ft_nbr_words(bang->tmp, ' ') - 1, 1)))))
-		return (ft_free(opt, &bang->tmp, 3));
-	if ((opt && opt[1] && opt[2] && !ft_isdigit(opt[2][0]) && (opt[2][0] != '^'
-	&& opt[2][0] != '$' && opt[2][0] != '*' && opt[2][0] != '-' &&
-	get_modifiers(opt[2], bang))) || (opt && opt[1] && !ft_isdigit(opt[1][0]) &&
-	(opt[1][0] != '$' && opt[1][0] != '*' && opt[1][0] != '-' && opt[1][0] !=
-	'^' && get_modifiers(opt[1], bang))))
-		return (ft_free(opt, &bang->tmp, 3));
+	if (call_get_event(bang, his, opt, &sub))
+		return (1);
+	if (call_get_designators(bang, his, opt, &sub))
+		return (1);
+	if (call_get_modifiers(bang, opt, &sub))
+		return (1);
 	if (sub[0] != '^' && bang_sub(bang))
-		return (ft_free(opt, &sub, 2));
+		return (ft_free(opt, &sub, 3));
 	ft_free(opt, &sub, 3);
 	return (0);
 }

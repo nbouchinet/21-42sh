@@ -94,7 +94,7 @@ void			call_print_lst(t_cmdl *cmdl, t_comp **comp)
 	}
 	cmdl->line.cur = cur_save;
 	write(2, "\n", 1);
-	if ((get_nbr_col(cmdl, comp, &winsize)) < cmdl->line.li)
+	if ((get_nbr_col(cmdl, comp, &winsize)) + 2 < cmdl->line.li)
 	{
 		print_lst(comp, cmdl, &winsize, &up);
 		restor_cursor_position(cmdl, up);

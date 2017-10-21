@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:44:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 13:53:17 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 12:02:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ void			pipe_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	}
 }
 
+void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
+{
+	t_tok	*tmp;
+	t_ast	*tmp_ast;
+
+	tmp = *lst;
+	tmp_ast = *ast;
+	while (tmp && (tmp->type == WORD || tmp->type == QUOTE ||
+		tmp->type == DQUOTE || tmp->type == LOCAL))
+		tmp = tmp->n;
+	init_ast(&tmp_ast->left, NULL, SIMP_CMD);
+	simple_sequence(&tmp_ast->left, lst, &tmp);
+	if (tmp != *sep)
+	{
+		init_ast(&(*ast)->right, NULL, IO_SEQ);
+		io_sequence(&(*ast)->right, &tmp, sep);
+	}
+}
+
 void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
@@ -62,24 +81,5 @@ void			simple_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		if (tmp->n && tmp->n != *sep)
 			tmp_ast = tmp_ast->right;
 		tmp = tmp->n;
-	}
-}
-
-void			command_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
-{
-	t_tok	*tmp;
-	t_ast	*tmp_ast;
-
-	tmp = *lst;
-	tmp_ast = *ast;
-	while (tmp && (tmp->type == WORD || tmp->type == QUOTE ||
-		tmp->type == DQUOTE || tmp->type == LOCAL))
-		tmp = tmp->n;
-	init_ast(&tmp_ast->left, NULL, SIMP_CMD);
-	simple_sequence(&tmp_ast->left, lst, &tmp);
-	if (tmp != *sep)
-	{
-		init_ast(&(*ast)->right, NULL, IO_SEQ);
-		io_sequence(&(*ast)->right, &tmp, sep);
 	}
 }

@@ -6,41 +6,11 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 19:08:51 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 12:32:09 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 12:24:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
-
-int		count_tab(char **ta)
-{
-	int		i;
-
-	i = 0;
-	while (ta[i])
-		i++;
-	return (i);
-}
-
-int		arg_check(int ac, int i, char **av, char **envp)
-{
-	if (ac != i)
-	{
-		ft_errormsg("usage: ", NULL, "./21sh");
-		return (0);
-	}
-	if (count_tab(envp) == 0)
-	{
-		ft_errormsg("21sh: ", NULL, "env not found.");
-		return (0);
-	}
-	if (!av)
-	{
-		ft_errormsg("argv: ", NULL, "Impossible error");
-		return (0);
-	}
-	return (1);
-}
 
 int		io_number(char *str)
 {

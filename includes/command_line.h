@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/31 17:03:41 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 16:11:40 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 18:51:57 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ t_his				*findcmdl(char *str, char buf[], int reset);
 void				hist_session();
 void				hist_add(t_his **his);
 void				his_del(t_his **his, int mode);
-void				cmd_save_history(char *str);
+void				cmd_save_history(char *str, int mode);
 int					cmd_history(t_cmdl *cmdl);
 int					cmd_search_history(t_cmdl *cmdl);
 int					his_len(t_his **his);
@@ -373,5 +373,12 @@ int					check_ed(t_bang *bang, int his_len,
 					int match_len, int w);
 int					get_line(t_his *his, t_bang *bang);
 int					get_match(t_his *his, t_bang *bang);
-
+int					call_get_event(t_bang *bang, t_his *his, char **opt,
+					char **sub);
+int					call_get_designators(t_bang *bang, t_his *his, char **opt,
+					char **sub);
+int					call_get_modifiers(t_bang *bang, char **opt, char **sub);
+int					get_event(char *cmdl, t_bang *bang);
+int					get_designators(char *event, t_bang *bang, int max_arg);
+int					get_modifiers(char *event, t_bang *bang);
 #endif

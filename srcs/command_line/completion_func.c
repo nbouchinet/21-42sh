@@ -55,7 +55,7 @@ void		fill_comp(t_comp **comp, char *name, int dir)
 		return ;
 	}
 	save = *comp;
-	while (save && ft_strcmp(save->str, name) < 0)
+	while (save && ft_strncmp(save->str, name, ft_strlen(name)) < 0)
 	{
 		i++;
 		save = save->n;

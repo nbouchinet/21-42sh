@@ -47,14 +47,15 @@ static void	head_smasher(t_his **head)
 	tmp = NULL;
 }
 
-void		cmd_save_history(char *str)
+void		cmd_save_history(char *str, int mode)
 {
 	t_his	*head;
 	t_his	*new;
 
 	head = *his_slg();
-	if (!str[0] || bang(str))
-		return ;
+	if (mode)
+		if (!str[0] || (bang(str)))
+			return ;
 	if (!(new = (t_his *)malloc(sizeof(t_his))))
 		exit(0);
 	new->cmdl = ft_strdup(str);

@@ -44,7 +44,7 @@ int				nchars(t_read *var, char **arg, int *i, int j)
 		if (!ft_isdigit(arg[(*i)][j]))
 		{
 			return (fd_printf(2, "42sh: read: %s: invalid number\n",
-			&arg[(*i)][j]));
+			arg[(*i)] + j));
 		}
 		var->nchars = ft_atoi(arg[(*i)] + j);
 	}
@@ -53,7 +53,7 @@ int				nchars(t_read *var, char **arg, int *i, int j)
 		if (!ft_isdigit(arg[(*i) + 1][0]))
 		{
 			return (fd_printf(2, "42sh: read: %s: invalid number\n",
-			&arg[(*i) + 1]));
+			arg[(*i) + 1]));
 		}
 		var->nchars = ft_atoi(arg[++(*i)]);
 	}
@@ -66,11 +66,11 @@ int				prompt(t_read *var, char **arg, int *i, int j)
 {
 	var->opt |= PR;
 	if (arg[(*i)][j])
-		write(1, &arg[(*i)][j], ft_strlen(&arg[(*i)][j]));
+		write(1, arg[(*i)] + j, ft_strlen(arg[(*i)] + j));
 	else if (arg[(*i) + 1])
 		write(1, arg[++(*i)], ft_strlen(arg[(*i)]));
 	else
-		return (error_msg('n'));
+		return (error_msg('p'));
 	var->local = ft_strdup("REPLY");
 	return (0);
 }

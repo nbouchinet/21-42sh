@@ -96,11 +96,7 @@ static int	parse_opt(t_ast **ast, char **arg, int *opt, int *offset)
 		if (str[0] == '-' && (ret = options(tmp, opt, offset)))
 			return (1);
 		else if (tmp->str[0] == '-' && ret == 0 && (*opt & S))
-		{
-			*arg = tmp->right && tmp->right->str ?
-			ft_strdup(tmp->right->str) : NULL;
-			return (0);
-		}
+			return (get_history_arg(&tmp, arg));
 		tmp = tmp->right;
 	}
 	return (0);
@@ -122,5 +118,7 @@ int			ft_history(t_ast **ast, t_env **env)
 	&arg, &opt, &offset))
 		return (0);
 	run_his(arg, opt, offset, (*his_slg())->n ? his_len(his_slg()) : 0);
+	if (arg)
+		ft_strdel(&arg);
 	return (1);
 }

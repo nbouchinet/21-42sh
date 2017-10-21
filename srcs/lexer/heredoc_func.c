@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/10 13:58:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 16:36:16 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 14:00:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ int				hd_loop(t_tok **stop, t_cmdl *cmdl, int p[2], int ret)
 			ctrl_l(cmdl);
 		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
 			break ;
-		else if (i == 25)
-			print(cmdl, cmdl->line.buf);
+		i == 25 ? print(cmdl, cmdl->line.buf) : 0;
 	}
 	return (0);
 }

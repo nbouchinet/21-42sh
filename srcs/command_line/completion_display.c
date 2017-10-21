@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/09 16:59:26 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/19 13:33:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/17 13:07:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void		get_elem_per_line(t_cmdl *cmdl, t_comp **comp,
+void			get_elem_per_line(t_cmdl *cmdl, t_comp **comp,
 	size_t winsize, size_t len)
 {
 	int		col;

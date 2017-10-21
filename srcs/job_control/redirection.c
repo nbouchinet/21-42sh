@@ -60,7 +60,7 @@ int		agre(t_ast **ast, int mod)
 
 	(void)mod;
 	tmp = *ast;
-	if ((i = dup_fd(tmp->str, tmp->left->str)) != 0)
+	if ((i = dup_fd(tmp->str, tmp->left->str, AGRE)) != 0)
 		return (i == 1 ? 1 : 0);
 	std = tmp->str ? ft_atoi(tmp->str) : STDOUT_FILENO;
 	if (ft_strcmp(tmp->left->str, "-") == 0)

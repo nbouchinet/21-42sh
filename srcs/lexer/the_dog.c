@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:43:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/19 12:58:21 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 12:23:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,6 @@ int		is_sep(char c)
 	if (c == '<' || c == '>' || c == '|' || c == '&' || c == ';')
 		return (1);
 	return (0);
-}
-
-void	delete_lst(t_tok **cmd)
-{
-	t_tok *tmp;
-
-	while ((*cmd))
-	{
-		tmp = *cmd;
-		(*cmd) = (*cmd)->n;
-		ft_strdel(&tmp->str);
-		free(tmp);
-	}
-	*cmd = NULL;
 }
 
 void	backslash(t_tok **lst, char **stack, char *line, int *i)

@@ -56,7 +56,7 @@ void		hist_read(t_his **his, int offset, int his_len, char *arg)
 	}
 	while (get_next_line(fd, &line))
 	{
-		cmd_save_history(line);
+		cmd_save_history(line, 0);
 		ft_strdel(&line);
 	}
 }

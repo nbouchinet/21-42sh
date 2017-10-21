@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bang.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 18:37:00 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:32:19 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 18:56:53 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void			fill_buf(t_bang *bang, char **cmd, int *i)
 	}
 	sub = ft_strdup(*cmd + bang->end);
 	len_sub = ft_strlen(bang->tmp);
-	ft_memset(*cmd + bang->start, 0, len_cmd + bang->start);
-	while (len_cmd - (bang->end - bang->start) + len_sub >
+	ft_memset(*cmd + bang->start - 1, 0,
+	len_cmd + bang->start - 1);
+	while (len_cmd - (bang->end - bang->start - 1) + len_sub >
 	(*cmdl_slg())->line.len)
 		remalloc_cmdl(&(*cmdl_slg())->line);
 	*cmd = ft_strcat(*cmd, bang->tmp);
@@ -79,27 +80,23 @@ void			fill_buf(t_bang *bang, char **cmd, int *i)
 
 static char		*get_bang(int *i, char *cmd, t_bang *bang)
 {
-	int		start;
-	int		end;
-
-	start = 0;
-	end = 0;
 	ft_memset(bang, 0, sizeof(t_bang));
+	bang->start = *i + 1;
 	bang->x = -1;
 	bang->y = -1;
 	bang->des = -1;
-	bang->start = *i;
-	start = cmd[*i] == '!' ? *i + 1 : *i;
-	(*i) += cmd[*i + 1] == '!' ? 1 : 0;
 	while (cmd[++(*i)] && cmd[(*i)] != '<' && cmd[(*i)] != '>' &&
 	cmd[(*i)] != '"' && cmd[(*i)] != '\'' && cmd[(*i)] != ';' &&
-	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != '!' && cmd[(*i)] != '*'
-	&& cmd[(*i)] != '$' && cmd[(*i)] != ' ')
-		;
-	end = *i;
+	cmd[(*i)] != '|' && cmd[(*i)] != '&' && cmd[(*i)] != ' ')
+		if (cmd[(*i)] == '!' && cmd[(*i) + 1] && cmd[(*i) + 1] != ':')
+		{
+			if (cmd[(*i) - ((*i) ? 1 : 0)] == '!')
+				(*i)++;
+			break ;
+		}
 	bang->end = *i;
-	*i -= 1;
-	return (ft_strsub(cmd, start, end - start));
+	(*i)--;
+	return (ft_strsub(cmd, bang->start, bang->end - bang->start));
 }
 
 int				bang(char *cmd)
@@ -111,8 +108,9 @@ int				bang(char *cmd)
 	i = -1;
 	ret = 0;
 	while (cmd[++i])
-		if ((cmd[i] == '!' || (cmd[i] == '^' && i == 0)) && cmd[i + 1] != ' ' &&
-		cmd[i + 1] != '\t' && cmd[i + 1] != '=' && cmd[i + 1] != '\0')
+		if ((cmd[i] == '!' && cmd[i + 1] && (cmd[i + 1] == '!' ||
+		ft_isalnum(cmd[i + 1] == '-' ? cmd[i + 2] : cmd[i + 1]))) ||
+		(i == 0 && cmd[i] == '^'))
 		{
 			if ((ret = bang_parse(get_bang(&i, cmd, &bang), &bang)))
 			{

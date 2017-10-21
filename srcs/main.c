@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/19 13:33:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 11:10:15 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,13 @@ static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
 	i = 0;
 	if (*line)
 	{
-		ft_putendl(*line);
 		init_token(&cmd);
 		new_parser(&cmd, *line, 0);
 		restruct_lst(&cmd);
 		if (new_lexercheck(&cmd))
 		{
 			specified_dir(&cmd);
-			if (heredoc(&cmd) != -1)
+			if (heredoc(&cmd, NULL) != -1)
 				cmdl->color = prepare_cmd(&cmd, env, cmdl);
 		}
 		cmd ? destroy_tok(&cmd) : 0;

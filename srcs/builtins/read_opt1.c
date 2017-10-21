@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_opt1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbouchin <nbouchin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/13 12:36:37 by nbouchin          #+#    #+#             */
-/*   Updated: 2017/10/11 10:12:54 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/09/13 12:36:37 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/19 14:02:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int				rtimeout(t_read *var, char **arg, int *i, int j)
 	var->opt |= TR;
 	if (arg[(*i)][j])
 	{
-		if (!ft_strdigit(&arg[(*i)][j]))
+		if (!ft_strdigit(arg[(*i)] + j))
 		{
 			return (fd_printf(2, "42sh: read: %s: invalid"
-			" timeout specification\n", &arg[(*i)][j]));
+			" timeout specification\n", arg[(*i)] + j));
 		}
 		seconds = ft_atoi(arg[(*i)] + j);
 	}
@@ -38,7 +38,7 @@ int				rtimeout(t_read *var, char **arg, int *i, int j)
 		if (!ft_strdigit(&arg[(*i) + 1][0]))
 		{
 			return (fd_printf(2, "42sh: read: %s: invalid"
-			" timeout specification\n", &arg[(*i) + 1]));
+			" timeout specification\n", arg[(*i) + 1]));
 		}
 		seconds = ft_atoi(arg[++(*i)]);
 	}
@@ -57,7 +57,7 @@ int				fd(t_read *var, char **arg, int *i, int j)
 		{
 			return (fd_printf(2,
 			"42sh: read: %s: invalid file"
-			"descriptor specification\n", &arg[(*i)][j]));
+			"descriptor specification\n", arg[(*i)] + j));
 		}
 		var->fd = ft_atoi(arg[(*i)] + j);
 	}
@@ -67,7 +67,7 @@ int				fd(t_read *var, char **arg, int *i, int j)
 		{
 			return (fd_printf(2,
 			"42sh: read: %s: invalid file descriptor specification\n",
-			&arg[(*i) + 1]));
+			arg[(*i) + 1]));
 		}
 		var->fd = ft_atoi(arg[++(*i)]);
 	}

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/15 16:11:19 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/19 12:41:25 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 11:58:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	find_var(char *var, char **stack)
 	if ((loc = find_local(local_slg(0), var)))
 	{
 		while (loc->val[++i])
-			st_tok(stack, loc->var[i], 0);
+			st_tok(stack, loc->val[i], 0);
 	}
 	else if ((env = find_node(&(*cmdl_slg())->lstenv, var, NULL)))
 	{
@@ -41,8 +41,8 @@ void	expanse_stack(char **stack, char *line, int *i)
 		st_tok(stack, line[j - 1], 0);
 	else
 	{
-		while (line[(*i)] && !is_space(line[(*i)]) && line[(*i)] != '"' &&
-		line[(*i)] != '\'' && line[(*i)] != '\\' && line[(*i)] != '/')
+		while (line[(*i)] && !is_space(line[(*i)]) &&
+			(ft_isalnum(line[(*i)]) || line[(*i)] == '_'))
 			(*i)++;
 		str = ft_strsub(line, j, (*i) - j);
 		find_var(str, stack);

@@ -12,29 +12,17 @@
 
 #include "header.h"
 
-void	no_options(t_his **his, int offset, int len, int i)
+int		get_history_arg(t_ast **tmp, char **arg)
 {
-	int		nbr;
-
-	nbr = 0;
-	if (i == 7 && (!offset || offset > len))
-		while ((*his) && ft_strcmp((*his)->cmdl, ""))
-		{
-			ft_printf("    %d  %s\n", ++nbr, (*his)->cmdl);
-			(*his) = (*his)->n;
-		}
-	else if (i == 7 && offset)
+	if (!(*tmp)->right || !(*tmp)->right->str)
+		return (0);
+	*arg = ft_strdup((*tmp)->right->str);
+	(*tmp) = (*tmp)->right;
+	while ((*tmp)->right && (*tmp)->right->str)
 	{
-		len = len - offset;
-		while (--len)
-		{
-			(*his) = (*his)->n;
-			nbr += 1;
-		}
-		while ((*his) && ft_strcmp((*his)->cmdl, ""))
-		{
-			ft_printf("    %d  %s\n", ++nbr, (*his)->cmdl);
-			(*his) = (*his)->n;
-		}
+		*arg = ft_strjoinf(ft_strjoinf(*arg, " ", 1),
+		(*tmp)->right->str, 1);
+		(*tmp) = (*tmp)->right;
 	}
+	return (0);
 }

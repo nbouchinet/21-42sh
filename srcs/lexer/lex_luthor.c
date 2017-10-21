@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/02 15:14:13 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:35:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 12:20:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,6 @@ void	init_token(t_tok **lst)
 	(*lst)->str = NULL;
 	(*lst)->hd = 0;
 	(*lst)->n = NULL;
-}
-
-t_tok	*init_tok(t_tok **lst, int mod)
-{
-	t_tok	*tmp;
-
-	mod = 0;
-	(void)lst;
-	if (!(tmp = (t_tok*)malloc(sizeof(t_tok))))
-		return (NULL);
-	tmp->type = 0;
-	tmp->hd = 0;
-	tmp->str = NULL;
-	tmp->n = NULL;
-	return (tmp);
 }
 
 void	tok_save(t_tok **lst, char **stack, int type)

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 14:40:06 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:36:34 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 12:30:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_quote(t_tok **lst, char **stack, char *line, int *i)
 	tok_save(lst, stack, QUOTE);
 	if (line[(*i)] && line[(*i) + 1] && check_end(line + ((*i) + 1)))
 	{
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 	(*i)--;
@@ -42,7 +42,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, io_number(*stack) ? IO_N : WORD);
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)++], 0);
@@ -58,7 +58,7 @@ void	chevron(t_tok **lst, char **stack, char *line, int *i)
 	tok_save(lst, stack, CHEVRON);
 	if (line[(*i) + 1] != '\0' && check_end(line + ((*i) + 1)))
 	{
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 }
@@ -68,14 +68,14 @@ void	question_mark(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)], 0);
 	tok_save(lst, stack, QM);
 	if (check_end(line + (*i) + 1) == 1)
 	{
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 }
@@ -85,7 +85,7 @@ void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)], 0);
@@ -98,7 +98,7 @@ void	pipe_pars(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, PIPE);
 	if (check_end(line + (*i) + 1))
 	{
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 }
@@ -108,7 +108,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 	if (ft_strlen(*stack) > 0)
 	{
 		tok_save(lst, stack, WORD);
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 	st_tok(stack, line[(*i)], 0);
@@ -121,7 +121,7 @@ void	and_pars(t_tok **lst, char **stack, char *line, int *i)
 		tok_save(lst, stack, BGE);
 	if (check_end(line + (*i) + 1) == 1)
 	{
-		(*lst)->n = init_tok(lst, NE);
+		init_token(&(*lst)->n);
 		*lst = (*lst)->n;
 	}
 }

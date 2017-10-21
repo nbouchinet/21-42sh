@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bang_sub.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/14 10:32:50 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 18:51:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 19:09:51 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static void	process_mod(t_bang *bang, char *ptr)
 	char	**arr;
 	int		i;
 
-	bang->mod & HB && (ptr = ft_strchr(bang->tmp, '/')) ?
+	bang->mod & HB && (ptr = ft_strrchr(bang->tmp, '/')) ?
 	*ptr = 0 : 0;
 	bang->mod & RB && (ptr = ft_strchr(bang->tmp, '.')) ?
 	*ptr = 0 : 0;
 	bang->mod & QB ? (bang->tmp) = ft_strjoinf(ft_strjoinf("\'", bang->tmp, 2),
 	"\'", 1) : 0;
-	bang->mod & PB ? write(1, bang->tmp, ft_strlen(bang->tmp)) : 0;
-	if (bang->mod & TB && (ptr = ft_strchr(bang->tmp, '/')) && *(ptr + 1))
+	bang->mod & PB ? ft_printf("\n%s", bang->tmp) : 0;
+	if (bang->mod & TB && (ptr = ft_strrchr(bang->tmp, '/')) && *(ptr + 1))
 		bang->tmp = ft_strdups(ptr + 1, &bang->tmp);
 	if (bang->mod & EB && (ptr = ft_strchr(bang->tmp, '.')))
 		bang->tmp = ft_strdups(ptr, &bang->tmp);
@@ -57,7 +57,7 @@ static void	process_des_and_mod(t_bang *bang, char *match[])
 				1), " ", 1);
 		}
 	}
-	if (bang->mod && bang->mod < 128)
+	if (bang->mod && bang->mod & (HB | TB | RB | EB | PB | QB | XB))
 		process_mod(bang, NULL);
 }
 

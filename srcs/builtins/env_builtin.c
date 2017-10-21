@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:30:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/17 17:41:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/20 14:42:19 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,18 @@ int		env_builtin(t_ast **ast, t_env **env, t_env **r_env)
 	tmp = *ast;
 	if (tmp)
 		return (exec_env(&tmp, env, r_env));
+	if (env)
+		print_env(*env);
+	return (1);
+}
+
+int		env_builtin_pipe(t_ast **ast, t_env **env, t_env **r_env)
+{
+	t_ast	*tmp;
+
+	tmp = *ast;
+	if (tmp)
+		return (exec_env_pipe(&tmp, env, r_env));
 	if (env)
 		print_env(*env);
 	return (1);

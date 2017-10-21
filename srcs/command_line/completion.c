@@ -17,6 +17,8 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 	struct dirent	*rdd;
 	DIR				*dir;
 
+	if (!(lst_at(&cmdl->lstenv, "PATH")) || !arr_path || !arr_path[0])
+		return (0);
 	while (*arr_path++)
 	{
 		if (!(dir = opendir(*arr_path)))
@@ -28,8 +30,7 @@ static int		list_exec(t_cmdl *cmdl, char *tmp, char *arr_path[])
 		closedir(dir);
 	}
 	check_built_in(cmdl, tmp);
-	cmdl->comp ? cmdl->comp->bol = 1 : 0;
-	if (cmdl->comp)
+	if (cmdl->comp && (cmdl->comp->bol = 1))
 		return (display_comp(cmdl, &cmdl->comp, ft_strlen(tmp)));
 	write(2, "\7", 1);
 	return (0);
@@ -48,11 +49,10 @@ static void		list_files(t_cmdl *cmdl, char **tmp)
 		return ;
 	}
 	while ((rdd = readdir(dir)) != 0)
-		if (!*tmp || (ft_strncmp(rdd->d_name, (*tmp), ft_strlen(*tmp)) == 0
-		&& ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name, "..")))
-			if ((!*tmp && ft_strcmp(rdd->d_name, ".") &&
-			ft_strcmp(rdd->d_name, "..")) || (*tmp && rdd->d_name[0] != '.'))
-				fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type);
+		if ((!(*tmp) && ft_strcmp(rdd->d_name, ".") && ft_strcmp(rdd->d_name,
+		"..")) || (*tmp && (ft_strncmp(rdd->d_name, (*tmp),
+		ft_strlen(*tmp)) == 0)))
+			fill_comp(&cmdl->comp, rdd->d_name, rdd->d_type);
 	closedir(dir);
 	ft_strdel(&path);
 	if (cmdl->comp && (cmdl->comp->bol = 1))
@@ -90,7 +90,8 @@ static void		get_comp(t_cmdl *cmdl, int i, char *tmp)
 {
 	char	**path;
 
-	path = ft_strsplit(lst_at(&cmdl->lstenv, "PATH")->value, ':');
+	path = lst_at(&cmdl->lstenv, "PATH") ?
+	ft_strsplit(lst_at(&cmdl->lstenv, "PATH")->value, ':') : NULL;
 	while (--i > 0 && cmdl->line.str[i] != ' ' && cmdl->line.str[i] != '|' &&
 	cmdl->line.str[i] != ';' && cmdl->line.str[i] != '&' &&
 	cmdl->line.str[i] != '<' && cmdl->line.str[i] != '>')
@@ -126,8 +127,7 @@ int				completion(t_cmdl *cmdl)
 		comp_del(&cmdl->comp);
 	if (cmdl->opt & CHIS_S)
 		return (return_cmdl(cmdl));
-	if (!cmdl->lstenv || !lst_at(&cmdl->lstenv, "PATH") ||
-			only_space_comp(cmdl->line.str))
+	if (only_space_comp(cmdl->line.str))
 		return (1);
 	if (i - 1 < 0 || cmdl->line.str[i - 1] != '|' ||
 			cmdl->line.str[i - 1] != ';' || cmdl->line.str[i - 1] != '&' ||

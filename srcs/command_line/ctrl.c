@@ -72,7 +72,7 @@ static int	register_cmdl(t_cmdl *cmdl, int w)
 				cmdl->opt & CSQ ? '\'' : '"');
 	cmdl->line.str = ft_strjoin(cmdl->line.save, cmdl->line.str);
 	ft_strdel(&tmp);
-	cmd_save_history(cmdl->line.str);
+	cmd_save_history(cmdl->line.str, 0);
 	init_cmdl();
 	return (1);
 }
@@ -95,7 +95,7 @@ static int	cbs_case(t_cmdl *cmdl)
 int			ctrl_d(t_cmdl *cmdl)
 {
 	if (cmdl->line.str && !cmdl->line.str[0] &&
-			((cmdl->opt & (CPIPE | CAND | COR))))
+		((cmdl->opt & (CPIPE | CAND | COR))))
 		return (register_cmdl(cmdl, 0));
 	else if (cmdl->line.str && !cmdl->line.str[0] && (cmdl->opt & (CSQ | CDQ)))
 		return (register_cmdl(cmdl, 1));

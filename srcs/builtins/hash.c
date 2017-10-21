@@ -27,7 +27,6 @@ int		search(t_ast **ast, t_hash **table, int i)
 				if (!ft_strcmp(tmp_a->str, ft_strrchr(tmp->path, '/') + 1))
 				{
 					tmp_a->str = ft_strdups(tmp->path, &tmp_a->str);
-					tmp->hits++;
 					if (check_abs_bin(tmp_a->str))
 						return (1);
 					return (0);

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 16:04:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 14:02:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		builtin_hash(t_ast **ast, t_job **job, t_hash **table)
 	else
 	{
 		ft_errormsg("usage: hash: ", NULL, " [command]");
-		ft_errormsg("21sh: ", "hash: ", "Too many argument.");
+		ft_errormsg("42sh: ", "hash: ", "Too many argument.");
 	}
 	return (1);
 }
