@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:43:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 19:16:04 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void	handle_env(t_env **env, t_env **tmp)
 		if (!((*tmp) = (t_env *)malloc(sizeof(t_env))))
 			exit(EXIT_FAILURE);
 		*env = *tmp;
+		(*cmdl_slg())->lstenv = *env;
 	}
 }
 

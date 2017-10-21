@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/03 12:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 16:05:24 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 19:13:08 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ int		search(t_ast **ast, t_hash **table, int i)
 	int		key;
 	t_hash	*tmp;
 	t_ast	*tmp_a;
+	t_env	*env;
 
 	tmp_a = i == 1 ? (*ast) : (*ast)->left;
+	if (!(env = find_node(&(*(cmdl_slg()))->lstenv, "PATH", NULL)))
+		return (0);
+	if (!env->value)
+		return (0);
 	key = hash_cmd(tmp_a->str);
 	if ((tmp = *table))
 		while (tmp)

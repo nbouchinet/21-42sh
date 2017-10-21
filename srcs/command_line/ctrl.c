@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/10 16:39:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/10 22:26:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:54:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,15 @@ int			ctrl_d(t_cmdl *cmdl)
 		return (cbs_case(cmdl));
 	else if (cmdl->opt & CCOMP || (cmdl->line.str && cmdl->line.str[0]))
 		return (write(1, "\7", 1) - 1);
+	else if (job_control(NULL, NULL, EXT))
+		return (1);
 	if (cmdl->line.save && !cmdl->line.str[0])
 		ft_strdel(&cmdl->line.save);
 	if (cmdl->line.str && !cmdl->line.str[0])
 	{
 		ft_strdel(&cmdl->line.str);
 		cmdl->opt |= CCTRLD;
-		return (set_exiting_value(&cmdl, 1));
+		return (set_exiting_value(cmdl, 1));
 	}
 	return (0);
 }

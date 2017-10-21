@@ -3,83 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   read_opt2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/15 13:34:50 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/15 13:34:59 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 17:28:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int				aname(t_read *var, char **arg, int *i, int j)
-{
-	var->opt |= AR;
-	if (arg[(*i)][j])
-		var->local = ft_strdup(arg[(*i)] + j);
-	else if (arg[(*i) + 1])
-		var->local = ft_strdup(arg[++(*i)]);
-	else
-		return (error_msg('a'));
-	return (0);
-}
-
-int				delim(t_read *var, char **arg, int *i, int j)
+int				delim(t_read *var, t_ast **tmp, char *str)
 {
 	var->opt |= DR;
-	if (arg[(*i)][j])
-		var->delim = ft_strsub(arg[(*i)], j, 1);
-	else if (arg[(*i) + 1])
-		var->delim = ft_strsub(arg[++(*i)], 0, 1);
+	if (*str)
+		var->delim = ft_strsub(str, 0, 1);
+	else if (((*tmp) = (*tmp)->right))
+		var->delim = ft_strsub((*tmp)->str, 0, 1);
 	else
 		return (error_msg('d'));
 	return (0);
 }
 
-int				nchars(t_read *var, char **arg, int *i, int j)
+int				nchars(t_read *var, t_ast **tmp, char *str)
 {
 	var->opt |= NR;
-	if (arg[(*i)][j])
+	if (*str)
 	{
-		if (!ft_isdigit(arg[(*i)][j]))
+		if (!ft_isdigit(str[0]))
 		{
-			return (fd_printf(2, "42sh: read: %s: invalid number\n",
-			arg[(*i)] + j));
+			return (fd_printf(2, "21sh: read: %s: invalid number\n",
+			str));
 		}
-		var->nchars = ft_atoi(arg[(*i)] + j);
+		var->nchars = ft_atoi(str);
 	}
-	else if (arg[(*i) + 1])
+	else if (((*tmp) = (*tmp)->right))
 	{
-		if (!ft_isdigit(arg[(*i) + 1][0]))
+		if (!ft_isdigit((*tmp)->str[0]))
 		{
-			return (fd_printf(2, "42sh: read: %s: invalid number\n",
-			arg[(*i) + 1]));
+			return (fd_printf(2, "21sh: read: %s: invalid number\n",
+			(*tmp)->str));
 		}
-		var->nchars = ft_atoi(arg[++(*i)]);
+		var->nchars = ft_atoi((*tmp)->str);
 	}
 	else
 		return (error_msg('n'));
 	return (0);
 }
 
-int				prompt(t_read *var, char **arg, int *i, int j)
+int				prompt(t_read *var, t_ast **tmp, char *str)
 {
 	var->opt |= PR;
-	if (arg[(*i)][j])
-		write(1, arg[(*i)] + j, ft_strlen(arg[(*i)] + j));
-	else if (arg[(*i) + 1])
-		write(1, arg[++(*i)], ft_strlen(arg[(*i)]));
+	if (*str)
+		write(1, str, ft_strlen(str));
+	else if (((*tmp) = (*tmp)->right))
+		write(1, (*tmp)->str, ft_strlen((*tmp)->str));
 	else
 		return (error_msg('p'));
-	var->local = ft_strdup("REPLY");
 	return (0);
 }
 
-int				back_slash(t_read *var, char **arg, int *i, int j)
+int				back_slash(t_read *var, t_ast **tmp, char *str)
 {
-	(void)arg;
-	(void)i;
-	(void)j;
+	(void)var;
+	(void)tmp;
+	(void)str;
 	var->opt |= RR;
 	return (0);
 }

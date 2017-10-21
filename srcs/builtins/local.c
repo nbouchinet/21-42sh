@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/15 16:56:27 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/20 11:15:29 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:15:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,23 @@ int			local(char *str)
 {
 	t_env	**env;
 	t_env	*match;
+	char	*dup;
 	char	*sep;
 	char	*sub;
 
 	env = &(*cmdl_slg())->lstenv;
-	sep = ft_strchr(str, '=');
+	dup = ft_strdup(str);
+	sep = ft_strchr(dup, '=');
 	sub = ft_strdup(sep + 1);
 	*sep = 0;
-	if ((match = lst_at(env, str)))
+	if ((match = lst_at(env, dup)))
 	{
 		ft_strdel(&(match)->value);
 		match->value = sub[0] ? ft_strdup(sub) : NULL;
 	}
 	else
-		put_into_lst(str, sub);
+		put_into_lst(dup, sub);
+	dup ? ft_strdel(&dup) : 0;
+	sub ? ft_strdel(&sub) : 0;
 	return (1);
 }

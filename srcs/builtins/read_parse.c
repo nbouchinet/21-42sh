@@ -6,90 +6,123 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 15:08:22 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/11 14:44:07 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 17:50:05 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static int	inner_loop(t_read *var, char **arg, int *i, const t_opt opt[])
+static int		check_local_name(t_ast *tmp, int *len)
 {
-	int		j;
-	int		k;
-
-	j = 0;
-	k = -1;
-	while (++k < 8 && arg[(*i)][j])
+	*len = 1;
+	while (tmp)
 	{
-		j += j == 0 && arg[(*i)][j] == '-' ? 1 : 0;
-		if (!j && arg[(*i)][j] != '-' && (var->local = ft_strdup(arg[(*i)])))
-			return (0);
-		if (arg[(*i)][j] == opt[k].c[0])
+		if (!ft_isalpha(tmp->str[0]))
 		{
-			if (opt[k].f(var, arg, i, ++j))
-				return (1);
-			if (opt[k].c[0] != 's' && opt[k].c[0] != 'r')
-				break ;
+			fd_printf(2, "21sh: %s: not a valid identifier\n", tmp->str);
+			return (-1);
 		}
+		(*len)++;
+		tmp = tmp->right;
 	}
-	if (k == 8)
-		return (fd_printf(2, "42sh: read: -%c: invalid option\n%s%s\n",
-		arg[(*i)][j], RU1, RU2));
-		return (-1);
+	return (*len);
 }
 
-static int	get_opt(t_read *var, char **arg, int *i)
+static int		get_local(t_ast **ast, t_read *var)
 {
-	int					ret;
-	static const t_opt	opt[8] = {{"a", &aname}, {"d", &delim}, {"n", &nchars},
+	t_ast		*tmp;
+	t_ast		*prev;
+	int			i;
+	int			len;
+
+	tmp = *ast;
+	i = -1;
+	if (check_local_name(tmp, &len) == -1)
+		return (1);
+	if (!(var->local = (char **)malloc(sizeof(char *) * len)))
+		exit (EXIT_FAILURE);
+	var->local[len - 1] = NULL;
+	while (tmp)
+	{
+		var->local[++i] = ft_strjoin(tmp->str, "=");
+		prev = tmp;
+		tmp = tmp->right;
+	}
+	*ast = prev;
+	return (0);
+}
+
+static int		options(t_ast **tmp, t_read *var, int *ret)
+{
+	static const t_opt	opt[7] = {{"d", &delim}, {"n", &nchars},
 	{"p", &prompt}, {"r", &back_slash}, {"s", &silent}, {"t", &rtimeout},
 	{"u", &fd}};
+	char				*str;
+	int					i;
 
-	while (arg[++(*i)])
+	str = (*tmp)->str + 1;
+	i = -1;
+	while (*str)
 	{
-		ret = inner_loop(var, arg, i, opt);
-		if (ret >= 0)
-			return (ret);
+		while (++i < 7)
+			if (opt[i].c[0] == *str && opt[i].f(var, tmp, str + 1))
+				return (1);
+		if (!ft_strchr("dnprstu", *str))
+			return (fd_printf(2, "21sh: read: -%c: invalid option\n%s%s\n",
+			*str, RU1, RU2));
+		str++;
+	}
+	*ret = 1;
+	return (0);
+}
+
+static int		parse_opt(t_ast **ast, t_read *var)
+{
+	t_ast		*tmp;
+	int			ret;
+
+	tmp = *ast;
+	while (tmp)
+	{
+		ret = 0;
+		if (tmp->str[0] == '-' && ((tmp->str[1] == '-' && !tmp->str[2]) ||
+		!tmp->str[1]))
+			return (0);
+		if (tmp->str[0] == '-' && options(&tmp, var, &ret))
+			return (1);
+		if (!ret && tmp->str[0] != '-' && get_local(&tmp, var))
+			return (1);
+		tmp = tmp->right;
 	}
 	return (0);
 }
 
-static int	free_var(t_cmdl *cmdl, t_read *var, char **targ)
+int				ft_read(t_ast **ast, t_env **env)
 {
-	cmdl->opt &= ~RRET;
-	ft_free(targ, NULL, 1);
-	var->delim ? ft_strdel(&var->delim) : 0;
-	var->local ? ft_strdel(&var->local) : 0;
-	var->stack ? ft_strdel(&var->stack) : 0;
-	(var->eot || var->opt & (DR | TR)) ? write(1, "\n", 1) : 0;
-	return (1);
-}
-
-int			ft_read(t_ast **ast, t_env **env)
-{
-	t_read	var;
-	t_cmdl	*cmdl;
-	char	buf[6];
-	char	**targ;
-	int		i;
+	t_read		var;
+	t_cmdl		*cmdl;
+	char		buf[6];
 
 	(void)env;
-	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
 	cmdl = *cmdl_slg();
 	ft_memset(&var, 0, sizeof(t_read));
-	targ = creat_arg_env(&(*ast)->left->right);
-	i = -1;
-	if (targ && get_opt(&var, targ, &i))
+	if ((*ast)->left->right && parse_opt(&(*ast)->left->right, &var))
 		return (0);
-	!var.local ? var.local = ft_strdup("REPLY") : 0;
+	if (!var.local)
+	{
+		if (!(var.local = (char**)malloc(sizeof(char*) * 2)))
+			exit (EXIT_FAILURE);
+		var.local[0] = ft_strdup("REPLY=");
+		var.local[1] = NULL;
+	}
 	mode_on(*cmdl_slg());
 	cmdl->term.c_lflag &= ~ECHO;
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
 	signal(SIGINT, &handle_c);
-	read_input(&var, -1, 0, buf);
+	read_input(&var, ft_memalloc(512), buf);
 	mode_off(*cmdl_slg());
-	if (!(cmdl->opt & RRET))
-		save_input(&var);
-	return (free_var(cmdl, &var, targ));
+	var.local ? ft_freetab(var.local) : 0;
+	var.delim ? ft_strdel(&var.delim) : 0;
+	return (1);
 }

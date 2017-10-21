@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 13:16:09 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/16 20:38:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:27:48 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ static void	print_and_del(char **str, int w, int ret)
 		ret ? write(2, "\e[32m42sh: ", ft_strlen("\e[32m42sh: ")) :
 		write(2, "\e[31m42sh: ", ft_strlen("\e[31m42sh: "));
 		ft_putstr_fd(*str, 2);
-		write(2, "\033[0m", 1);
-		ft_strdel(str);
+		write(2, "\033[0m", ft_strlen("\033[0m"));
 	}
 	else if (w == 1)
 	{
@@ -89,13 +88,6 @@ static void	print_and_del(char **str, int w, int ret)
 		write(2, "\033[0m", ft_strlen("\033[0m"));
 		write(2, ")", 1);
 		ft_strdel(str);
-	}
-	else
-	{
-		ret ? write(2, "\e[32m42sh: ", ft_strlen("\e[32m42sh: ")) :
-		write(2, "\e[31m42sh: ", ft_strlen("\e[31m42sh: "));
-		ft_putstr_fd(*str, 2);
-		write(2, "\033[0m", ft_strlen("\033[0m"));
 	}
 }
 
@@ -108,13 +100,7 @@ void		print_prompt(void)
 	buff = NULL;
 	if (!(cmdl->opt & (CSQ | CDQ | CHD)))
 	{
-		buff = cmdl->lstenv && lst_at(&(cmdl)->lstenv, "PWD") ?
-		lst_at(&(cmdl)->lstenv, "PWD")->value : NULL;
-		if (buff)
-			print_and_del(&buff, 2, cmdl->color);
-		else if ((buff = getcwd(buff, MAXPATHLEN)))
-			print_and_del(&buff, 0, cmdl->color);
-		buff = NULL;
+		print_and_del(&cmdl->pwd, 0, cmdl->color);
 		get_git(&buff);
 		if (buff)
 			print_and_del(&buff, 1, cmdl->color);

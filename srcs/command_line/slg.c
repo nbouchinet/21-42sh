@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/12 11:54:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:45:30 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_cmdl		**cmdl_slg(void)
 		cmdl->comp = NULL;
 		cmdl->pwd = NULL;
 		cmdl->color = 1;
+		cmdl->job = 0;
 		cmdl->pwd = getcwd(cmdl->pwd, MAXPATHLEN);
 	}
 	return (&cmdl);

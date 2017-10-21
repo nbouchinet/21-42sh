@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/23 19:35:36 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/20 14:55:52 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:48:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,22 +157,20 @@ void				hist_clear(t_his **his, int offset, int his_len, char *arg);
 /*
 ************************************ READ **************************************
 */
-# define AR	1
-# define DR	2
-# define NR	4
-# define PR	8
-# define RR	16
-# define SR	32
-# define TR	64
-# define UR	128
+# define DR	1
+# define NR	2
+# define PR	4
+# define RR	8
+# define SR	16
+# define TR	32
+# define UR	64
 # define RU1	"read: usage: read [-ers] [-u fd] [-t timeout] [-p prompt]"
-# define RU2	"[-a array] [-n nchars] [-d delim] [name ...]"
+# define RU2	"[-n nchars] [-d delim] [name ...]"
 
 typedef struct		s_read
 {
+	char			**local;
 	char			*delim;
-	char			*local;
-	char			*stack;
 	int				opt;
 	int				nchars;
 	time_t			time;
@@ -184,22 +182,21 @@ typedef struct		s_read
 typedef struct		s_opt
 {
 	char			c[2];
-	int				(*f)(t_read *var, char **arg, int *i, int j);
+	int				(*f)(t_read *var, t_ast **ast, char *str);
 }					t_opt;
 
 int					ft_read(t_ast **ast, t_env **env);
-int					read_input(t_read *var, int i, int nchar, char buf[]);
-void				handle_c(int sig);
-void				save_input(t_read *var);
-int					silent(t_read *var, char **arg, int *i, int j);
-int					fd(t_read *var, char **arg, int *i, int j);
-int					rtimeout(t_read *var, char **arg, int *i, int j);
 int					error_msg(char c);
-int					back_slash(t_read *var, char **arg, int *i, int j);
-int					prompt(t_read *var, char **arg, int *i, int j);
-int					nchars(t_read *var, char **arg, int *i, int j);
-int					delim(t_read *var, char **arg, int *i, int j);
-int					aname(t_read *var, char **arg, int *i, int j);
+void				save_input(t_read *var, char *stack);
+void				read_input(t_read *v, char *stack, char buf[]);
+void				handle_c(int sig);
+int					delim(t_read *var, t_ast **tmp, char *str);
+int					nchars(t_read *var, t_ast **tmp, char *str);
+int					prompt(t_read *var, t_ast **tmp, char *str);
+int					back_slash(t_read *var, t_ast **tmp, char *str);
+int					silent(t_read *var, t_ast **tmp, char *str);
+int					rtimeout(t_read *var, t_ast **tmp, char *str);
+int					fd(t_read *var, t_ast **tmp, char *str);
 /*
 ********************************** CD ECHO EXIT ********************************
 */
@@ -210,7 +207,7 @@ void				mod_env(t_env **env, char *path, char *save);
 char				*construct_path(t_env **env, char *save, char *path);
 int					ft_echo(t_ast **ast, t_env **env);
 int					ft_exit(t_ast **ast, t_env **env);
-int					set_exiting_value(t_cmdl **cmdl, int r_value);
+int					set_exiting_value(t_cmdl *cmdl, int r_value);
 /*
 ************************** FOREGROUND & BACKGROUNG *****************************
 */

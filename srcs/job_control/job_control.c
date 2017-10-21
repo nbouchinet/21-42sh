@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 00:09:20 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/18 14:32:33 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/21 18:39:14 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int		job_control(t_job **job, t_ast **ast, int mod)
 {
 	int					i;
 	static t_job		*table = NULL;
-	static const t_tab	state[6] = {{ADD, &ft_joblstadd},
-									{CHK, &check_job}, {FG, &foreground},
-									{UPT, &update_status},
-									{BUILTIN, &builtin_job}, {BG, &background}};
+	static const t_tab	state[7] = {{ADD, &ft_joblstadd}, {CHK, &check_job},
+									{FG, &foreground}, {UPT, &update_status},
+									{BUILTIN, &builtin_job}, {BG, &background},
+									{EXT, &check_exit}};
 
 	i = -1;
-	while (++i < 6)
+	while (++i < 7)
 		if (state[i].mod == mod)
 			if (state[i].f(job, ast, &table) == 1)
 				return (1);
