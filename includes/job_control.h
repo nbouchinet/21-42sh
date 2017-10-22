@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/12 16:47:48 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 18:45:26 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 14:22:12 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,5 +171,5 @@ int						delete_process(t_process **head, t_process **prev,
 						t_process **process);
 int						check_kill(t_job **job);
 void					catch_error(t_job **job, int status);
-int		check_exit(t_job **new, t_ast **ast, t_job **table);
+int						check_exit(t_job **new, t_ast **ast, t_job **table);
 #endif

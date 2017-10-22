@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/18 13:26:01 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 17:38:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 14:20:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static int	buf_save(char **stack, char buf[], int *len)
 	return (1);
 }
 
-
 static int	rbs(t_read *v, char *stack, int c)
 {
 	int		nbr;
@@ -94,6 +93,7 @@ void		read_input(t_read *v, char *stack, char buf[])
 	int		len;
 
 	len = 512;
+	signal(SIGINT, &handle_c);
 	while (v->time ? v->time < v->endwait : 1)
 	{
 		if ((*cmdl_slg())->opt & RRET && (write(1, "\n", 1)))
@@ -106,10 +106,10 @@ void		read_input(t_read *v, char *stack, char buf[])
 		v->opt & NR && PRINT(buf) ? v->nchars-- : 0;
 		(PRINT(buf) && !v->delim) || (PRINT(buf) && v->delim && v->delim[0] !=
 		buf[0]) ? buf_save(&stack, buf, &len) : 0;
-		if ((v->opt & NR && !v->nchars) || (v->delim ? v->delim[0] == buf[0] : 0
-		) || (!(v->opt & NR) && !(v->opt & DR) && RETURN(buf) && !rbs(v, stack,
-		ft_strlen(stack) - (*stack ? 1 : 0))))
-				break ;
+		if ((v->opt & NR && !v->nchars) || (v->delim ? v->delim[0] == buf[0] :
+			0) || (!(v->opt & NR) && !(v->opt & DR) && RETURN(buf) &&
+		!rbs(v, stack, ft_strlen(stack) - (*stack ? 1 : 0))))
+			break ;
 		v->time = v->time ? time(NULL) : 0;
 	}
 	*stack ? save_input(v, stack) : 0;

@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 15:24:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 19:16:04 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 14:17:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,26 @@ static void	handle_env(t_env **env, t_env **tmp)
 		if (!((*tmp) = (t_env *)malloc(sizeof(t_env))))
 			exit(EXIT_FAILURE);
 		*env = *tmp;
-		(*cmdl_slg())->lstenv = *env;
 	}
 }
 
-static void	export_local(t_env **env, char *str)
+static int	export_local(t_env **env, char *str)
 {
 	t_local		*local;
 	t_env		*tmp;
 
 	local = *local_slg(0);
 	if (!local)
-		return ;
+		return (-1);
 	while (local && ft_strcmp(local->var, str))
 		local = local->n;
 	if (!local)
-		return ;
+		return (-1);
 	handle_env(env, &tmp);
 	tmp->var = ft_strdup(local->var);
 	tmp->value = ft_strdup(local->val);
 	tmp->next = NULL;
+	return (1);
 }
 
 static void	export_to_env(t_env **env, char *copy)
@@ -81,6 +81,8 @@ int			ft_export(t_ast **ast, t_env **env)
 	if ((*ast)->right)
 		io_seq(&(*ast)->right->right, 1);
 	tmp = (*ast)->left->right;
+	if (!tmp)
+		return (0);
 	while (tmp)
 	{
 		if (!ft_isalpha(tmp->str[0]))
@@ -93,8 +95,8 @@ int			ft_export(t_ast **ast, t_env **env)
 			export_to_env(env, ft_strdup(tmp->str));
 			local(tmp->str);
 		}
-		else
-			export_local(env, tmp->str);
+		else if (export_local(env, tmp->str) == -1)
+			return (0);
 		tmp = tmp->right;
 	}
 	return (1);

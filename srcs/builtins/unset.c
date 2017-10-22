@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/17 14:12:07 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 19:16:10 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 13:43:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,5 @@ int				ft_unset(t_ast **ast, t_env **env)
 		unset_env(env, tmp->str);
 		tmp = tmp->right;
 	}
-	if (!*env)
-		(*cmdl_slg())->lstenv = NULL;
 	return (1);
 }

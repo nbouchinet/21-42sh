@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/01 08:33:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 17:50:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 13:53:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_freetab(char **trash)
 	int		i;
 
 	i = -1;
-	if (!trash && !*trash)
+	if (!trash)
 		return ;
 	while (trash[++i])
 		ft_strdel(&trash[i]);

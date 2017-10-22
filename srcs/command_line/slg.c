@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/05 16:06:23 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 18:45:30 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 13:26:02 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void		init_cmdl(void)
 	cmdl = *cmdl_slg();
 	cmdl->opt = 0;
 	cmdl->col = 0;
-	cmdl->ret = 0;
 	cmdl->offset = -1;
 	cmdl->exit = 256;
 	cmdl->comp ? comp_del(&cmdl->comp) : 0;
@@ -63,6 +62,7 @@ t_cmdl		**cmdl_slg(void)
 		cmdl->ccp.cpy = NULL;
 		cmdl->comp = NULL;
 		cmdl->pwd = NULL;
+		cmdl->ret = 0;
 		cmdl->color = 1;
 		cmdl->job = 0;
 		cmdl->pwd = getcwd(cmdl->pwd, MAXPATHLEN);

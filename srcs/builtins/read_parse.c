@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 15:08:22 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 17:50:05 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 14:13:23 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int		get_local(t_ast **ast, t_read *var)
 	if (check_local_name(tmp, &len) == -1)
 		return (1);
 	if (!(var->local = (char **)malloc(sizeof(char *) * len)))
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	var->local[len - 1] = NULL;
 	while (tmp)
 	{
@@ -68,8 +68,11 @@ static int		options(t_ast **tmp, t_read *var, int *ret)
 			if (opt[i].c[0] == *str && opt[i].f(var, tmp, str + 1))
 				return (1);
 		if (!ft_strchr("dnprstu", *str))
-			return (fd_printf(2, "21sh: read: -%c: invalid option\n%s%s\n",
-			*str, RU1, RU2));
+		{
+			fd_printf(2, "21sh: read: -%c: invalid option\n%s%s\n",
+			*str, RU1, RU2);
+			return (1);
+		}
 		str++;
 	}
 	*ret = 1;
@@ -111,7 +114,7 @@ int				ft_read(t_ast **ast, t_env **env)
 	if (!var.local)
 	{
 		if (!(var.local = (char**)malloc(sizeof(char*) * 2)))
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		var.local[0] = ft_strdup("REPLY=");
 		var.local[1] = NULL;
 	}
@@ -119,7 +122,6 @@ int				ft_read(t_ast **ast, t_env **env)
 	cmdl->term.c_lflag &= ~ECHO;
 	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
-	signal(SIGINT, &handle_c);
 	read_input(&var, ft_memalloc(512), buf);
 	mode_off(*cmdl_slg());
 	var.local ? ft_freetab(var.local) : 0;

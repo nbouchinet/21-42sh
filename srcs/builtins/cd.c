@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/03 14:08:34 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 19:22:51 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/22 14:14:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ static int	check_arg(t_ast **ast, t_env **env)
 		return (fd_printf(2, "cd: OLDPWD not set\n"));
 	else if (((*env && !lst_at(env, "HOME")) || (!*env)) && !tmp)
 		return (fd_printf(2, "cd: HOME not set\n"));
-	else if (((*env && !lst_at(env, "PWD")) || (!*env)) && tmp && tmp->str[0] == '.'
-	&& !tmp->str[1])
+	else if (((*env && !lst_at(env, "PWD")) || (!*env)) && tmp &&
+		tmp->str[0] == '.' && !tmp->str[1])
 		return (1);
 	return (0);
 }
