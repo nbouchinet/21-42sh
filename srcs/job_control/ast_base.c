@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/01 21:12:24 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/22 14:00:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/23 17:12:01 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		job_ast(t_ast **ast, t_env **env, int foreground)
 			if (seq[i].type == tmp->type)
 				if (!seq[i].f(&tmp, env, foreground))
 					j = 0;
+		stock_restore(0);
 		tmp = tmp->right;
 	}
 	return (j);
@@ -50,7 +51,10 @@ int		job_cmd_seq(t_ast **ast, t_env **env, int foreground)
 	tmp = *ast;
 	while (++i < 14)
 		if (tmp->left->left && !ft_strcmp(cmd[i].cmd, tmp->left->left->str))
+		{
+			stock_restore(1);
 			return (cmd[i].f(&tmp, env));
+		}
 	if (tmp->left->left && init_job(&job) &&
 		(job->command = init_job_name(ast)))
 	{

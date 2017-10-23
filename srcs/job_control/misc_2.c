@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/02 02:43:03 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/21 18:56:48 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/23 17:14:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,22 @@ char	*var_value(int i, char *var, char *value)
 
 void	stock_restore(int mod)
 {
-	static int		stdin = -1;
-	static int		stdout = -1;
-	static int		stderr = -1;
+	int				i;
+	static t_std	std[3] = {{-1, STDIN_FILENO}, {-1, STDOUT_FILENO},
+								{-1, STDERR_FILENO}};
 
+	i = -1;
 	if (mod)
 	{
-		stdin = dup(STDIN_FILENO);
-		stdout = dup(STDOUT_FILENO);
-		stderr = dup(STDERR_FILENO);
+		while (++i < 3)
+			std[i].fd = dup(std[i].std);
 	}
 	else
-	{
-		dup2(stdin, STDIN_FILENO);
-		dup2(stdout, STDOUT_FILENO);
-		dup2(stderr, STDERR_FILENO);
-		close(stdin);
-		close(stdout);
-		close(stderr);
-	}
+		while (++i < 3)
+			if (std[i].fd != -1)
+			{
+				dup2(std[i].fd, std[i].std);
+				close(std[i].fd);
+				std[i].fd = -1;
+			}
 }

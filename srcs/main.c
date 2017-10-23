@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 13:01:45 by zadrien           #+#    #+#             */
-/*   Updated: 2017/10/20 11:10:15 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/23 17:13:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ static int		prepare_cmd(t_tok **cmd, t_env **env, t_cmdl *cmdl)
 		init_ast(&ast, NULL, 0);
 		primary_sequence(&ast, cmd);
 		mode_off(cmdl);
-		stock_restore(1);
 		i = job_ast(&ast, env, 1);
 		close_rdir(0, 0);
-		stock_restore(0);
 		destroy_ast(&ast);
 		mode_on(cmdl);
 	}
