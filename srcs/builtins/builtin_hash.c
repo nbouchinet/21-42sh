@@ -6,11 +6,19 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/04 12:47:39 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:35:37 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/19 14:02:11 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+
+int		clean_table(t_ast **ast, t_job **job, t_hash **table)
+{
+	(void)ast;
+	(void)job;
+	clear_table(table);
+	return (1);
+}
 
 int		clear_table(t_hash **table)
 {
@@ -51,7 +59,7 @@ void	print_hash(t_hash **table)
 {
 	t_hash *tmp;
 
-	if (table)
+	if (*table)
 	{
 		tmp = *table;
 		if (tmp)
@@ -64,12 +72,15 @@ void	print_hash(t_hash **table)
 			}
 		}
 	}
+	else
+		ft_errormsg("42sh: ", NULL, "hash table is empty.");
 }
 
-int		builtin_hash(t_ast **ast, t_hash **table)
+int		builtin_hash(t_ast **ast, t_job **job, t_hash **table)
 {
 	int		i;
 
+	(void)job;
 	i = count_opt(&(*ast)->left->right);
 	if (i == 0)
 		print_hash(table);
@@ -80,12 +91,12 @@ int		builtin_hash(t_ast **ast, t_hash **table)
 		else if (i == 2)
 			return (reset_table(table));
 		else if (i == 0)
-			ft_errormsg("Usage: hash:", "-c = clean table", "-r : reset hits");
+			ft_errormsg("Usage: hash", NULL, " [-cr]");
 	}
 	else
 	{
 		ft_errormsg("usage: hash: ", NULL, " [command]");
-		ft_errormsg("21sh: ", "hash: ", "Too many argument.");
+		ft_errormsg("42sh: ", "hash: ", "Too many argument.");
 	}
 	return (1);
 }

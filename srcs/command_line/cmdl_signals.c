@@ -3,65 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   cmdl_signals.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/19 11:01:02 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:29:01 by khabbar          ###   ########.fr       */
+/*   Created: 2017/09/08 13:26:17 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/10 18:53:37 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-extern int g_loop;
-
-static void		winsize(t_win **win, char **save, char **cmd)
+static void		sig_handler(int sig, siginfo_t *siginfo, void *context)
 {
-	char	*line;
+	t_cmdl		*cmdl;
+	int			save;
 
-	line = (*save) ? (*save) : (*cmd);
-	tputs(tgetstr("cl", NULL), 1, ft_putchar);
-	get_win_data(win);
-	print_prompt(win);
-	write(1, line, ft_strlen(line));
+	(void)siginfo;
+	(void)context;
+	cmdl = *cmdl_slg();
+	save = cmdl->line.cur;
+	if (sig == SIGWINCH)
+		resize_win(cmdl, save);
+	else if (sig == SIGINT)
+		handle_ctrlc(cmdl);
+	else if (sig == SIGQUIT)
+		;
 }
 
-static void		cmdl_wins(int signal)
+void			cmdl_signals(t_cmdl *cmdl)
 {
-	if (signal == 28)
-		g_loop = 4;
-}
+	struct sigaction	sig;
 
-static void		cmdl_ctrc(int signal)
-{
-	if (signal == 2)
-		g_loop = 3;
-}
-
-static void		canon_mode(int signal)
-{
-	if (signal == 21)
-		g_loop = 6;
-}
-
-int				cmdl_signal(char **cmd, char *save, t_win **win)
-{
-	signal(2, cmdl_ctrc);
-	signal(21, canon_mode);
-	signal(28, cmdl_wins);
-	g_loop == 4 ? winsize(win, &save, cmd) : 0;
-	g_loop == 6 ? mode_on(win) : 0;
-	g_loop == 6 ? print_prompt(win) : 0;
-	if (g_loop == 3)
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_sigaction = &sig_handler;
+	sig.sa_flags = SA_SIGINFO;
+	if (sigaction(SIGWINCH, &sig, NULL) == -1 ||
+		sigaction(SIGINT, &sig, NULL) == -1 ||
+		sigaction(SIGQUIT, &sig, NULL) == -1)
 	{
-		(*cmd) ? end(*win, *cmd, NULL) : 0;
-		(*cmd) ? free((*cmd)) : 0;
-		save ? ft_strdel(&save) : 0;
-		(*win)->hd ? del_hd(&(*win)->hd) : 0;
-		(*cmd) = NULL;
-		write(1, "\n", 1);
-		g_loop = 256;
-		return (1);
+		unset_shell(cmdl);
+		exit(fd_printf(2, "cmdl_signals: sigaction error\n"));
 	}
-	g_loop = 256;
-	return (0);
 }

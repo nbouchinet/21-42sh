@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libftprintf.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/04 14:58:14 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/22 14:45:17 by khabbar          ###   ########.fr       */
+/*   Created: 2016/12/04 14:58:14 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/11 10:45:35 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ typedef struct		s_list
 
 size_t				ft_strlen(const char *str);
 size_t				ft_strlcat(char *dst, char *src, size_t size);
-
 void				ft_streplace(char **str, char c, char r);
-int					ft_free(char **tab, char **line);
+int					ft_free(char *tab[], char **line, int w);
 void				ft_strleft(char **str, int c);
 void				display_int_tab(int **tab);
 void				ft_putnbrl(int c);
@@ -58,6 +57,7 @@ void				ft_putnbr_fd(int n, int fd);
 void				ft_lstdelone(t_list **alst, void(*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void(*del)(void*, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
+void				ft_lstaddend(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 void				ft_putendl(char const *s);
 void				ft_sort_int_tab(int *tab, int size);
@@ -67,6 +67,7 @@ t_list				*ft_lstnew(void const *content, size_t content_size);
 void				ft_display_tab(char **tab);
 
 size_t				ft_intlen(size_t nbr);
+int					only(char *str, int lower, int upper);
 int					ft_strdigit(char *str);
 int					ft_tablen(char **tab);
 int					get_next_line(const int fd, char **line);
@@ -115,6 +116,6 @@ char				*ft_strat(char **env, int i);
 char				*ft_strtrimf(char *s);
 char				*ft_strenv(char *s1, char *s2);
 char				*ft_strndup(const char *s1, int len);
-void				ft_errormsg(char *env, char *cmd, char *str); // Maybe to delete
+int					ft_errormsg(char *env, char *cmd, char *str);
 void				ft_putendn(int i);
 #endif

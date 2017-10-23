@@ -3,27 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/21 15:57:35 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/13 13:51:44 by khabbar          ###   ########.fr       */
+/*   Created: 2017/03/21 15:57:35 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/11 17:17:13 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-int		ft_free(char **tab, char **line)
+int		ft_free(char *tab[], char **line, int w)
 {
 	int			i;
 
 	i = -1;
-	if (line)
+	if (w == 2 || w == 3)
 		ft_strdel(line);
-	if (tab)
+	if (w == 1 || w == 3)
 	{
-		while (tab[++i])
-			tab[i] ? ft_strdel(&tab[i]) : 0;
-		free(tab);
+		if (tab)
+		{
+			while (tab[++i])
+				tab[i] ? ft_strdel(&tab[i]) : 0;
+			free(tab);
+		}
 	}
 	return (1);
 }

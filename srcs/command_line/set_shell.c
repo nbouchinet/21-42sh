@@ -3,99 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   set_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/07 10:16:20 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/08/31 17:55:35 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/20 13:59:38 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void		save_his_session(t_win **win)
+int				get_win_data(t_cmdl *cmdl)
 {
-	int			fd;
-	t_his		*tmp;
-	t_his		*save;
+	struct winsize	w;
 
-	if (!(*win)->his)
-		return ;
-	while ((*win)->his->prev)
-		(*win)->his = (*win)->his->prev;
-	tmp = (*win)->his;
-	if ((fd = open(".42sh_history", O_RDWR | O_APPEND | O_CREAT, 0700)) == -1)
-			fd_printf(2, "Could no write history list to history file\n");
-
-	while (tmp && fd != -1)
+	if (ioctl(0, TIOCGWINSZ, &w) != -1)
 	{
-		save = tmp->next;
-		!tmp->add ? ft_putendl_fd(tmp->cmdl, fd) : 0;
-		ft_strdel(&tmp->cmdl);
-		free(tmp);
-		tmp = save;
+		cmdl->line.co = w.ws_col;
+		cmdl->line.li = w.ws_row;
+		return (0);
 	}
-	fd != -1 ? close(fd) : 0;
+	return (1);
 }
 
-int				mode_on(t_win **win)
+int				mode_off(t_cmdl *cmdl)
 {
-	(*win)->term.c_lflag &= ~(ICANON);
-	(*win)->term.c_lflag &= ~(ECHO);
-	(*win)->term.c_cc[VMIN] = 0;
-	(*win)->term.c_cc[VTIME] = 0;
-	// (*win)->term.c_cc[VMIN] = 0;
-	// (*win)->term.c_cc[VTIME] = 1;
-	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
+	cmdl->term.c_lflag |= ICANON;
+	cmdl->term.c_lflag |= ECHO;
+	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
+		return (fd_printf(2, "unset_shell: tcsetattr: ERROR\n"));
+	return (0);
+}
+
+int				mode_on(t_cmdl *cmdl)
+{
+	cmdl->term.c_lflag &= ~(ICANON);
+	cmdl->term.c_lflag &= ~(ECHO);
+	cmdl->term.c_cc[VMIN] = 0;
+	cmdl->term.c_cc[VTIME] = 1;
+	while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+		kill(-g_shell_pgid, SIGTTIN);
+	tcsetpgrp(g_shell_terminal, g_shell_pgid);
+	if (tcsetattr(1, TCSADRAIN, &cmdl->term) == -1)
 		return (fd_printf(2, "set-shell: tcsetattr: ERROR\n"));
 	return (0);
 }
 
-int			mode_off(t_win **win)
+t_cmdl			*win_sgt(void)
 {
-	(*win)->term.c_lflag |= ICANON;
-	(*win)->term.c_lflag |= ECHO;
-	if (tcsetattr(1, TCSADRAIN, &(*win)->term) == -1)
-		return (fd_printf(2, "unset-shell: tcsetattr: ERROR\n"));
-	return (0);
-}
-
-int			unset_shell(t_win **win)
-{
-	if (mode_off(win) != 0)
-		return (-1);
-	tputs(tgetstr("am", NULL), 1, ft_putchar);
-	save_his_session(win);
-	(*win)->hd ? del_hd(&(*win)->hd) : 0;
-	write(1, "Bye\n", 4);
-	return (0);
-}
-
-t_win		*win_sgt(void)
-{
-	static t_win *win = NULL;
+	static t_cmdl *win = NULL;
 
 	if (!win)
 	{
-		if ((win = (t_win*)malloc(sizeof(t_win))) == NULL)
+		if (!(win = (t_cmdl*)malloc(sizeof(t_cmdl))))
 			exit(fd_printf(2, "malloc error\n"));
 		return (win);
 	}
 	return (win);
 }
 
-int			set_shell(t_win **win)
+int				set_shell(t_cmdl *cmdl)
 {
-	char			*shl_name;
+	char		*shl_name;
 
-	tputs(tgetstr("nam", NULL), 1, ft_putchar);
-	*win = win_sgt();
-	if ((shl_name = getenv("TERM")) == NULL)
-		shl_name = "xterm-256color";
-	if (tgetent(0, shl_name) == ERR)
-		return (fd_printf(2, "tgetent: ERROR\n"));
-	if (tcgetattr(1, &(*win)->term) == -1)
-		return (fd_printf(2, "tcgetattr: ERROR\n"));
-	if (mode_on(win) != 0)
-		return (1);
+	signal(SIGCHLD, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
+	g_shell_terminal = STDIN_FILENO;
+	if ((g_shell_is_interactive = isatty(g_shell_terminal)))
+	{
+		while (tcgetpgrp(g_shell_terminal) != (g_shell_pgid = getpgrp()))
+			kill(-g_shell_pgid, SIGTTIN);
+		shell_sig();
+		if ((shl_name = getenv("TERM")) == NULL)
+			shl_name = "xterm-256color";
+		if ((tgetent(0, shl_name)) == ERR)
+			return (fd_printf(2, "tgetent: ERROR\n"));
+		if (tcgetattr(1, &cmdl->term) == -1)
+			return (fd_printf(2, "tcgetattr: ERROR\n"));
+		if (mode_on(cmdl))
+			return (1);
+	}
 	return (0);
 }

@@ -3,93 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   delete.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/29 18:17:30 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:45:25 by khabbar          ###   ########.fr       */
+/*   Created: 2017/09/05 14:44:23 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/10 22:24:22 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-extern int	g_loop;
+static int		delete_sh(t_cmdl *cmdl)
+{
+	t_his	*match;
+	int		len;
 
-void		del_his(char **cmd, t_win *win, t_his **his)
+	if ((cmdl->line.cur - cmdl->line.pr) == 0)
+		return (1);
+	match = findcmdl(cmdl->line.str, cmdl->line.buf, 2);
+	len = ft_strlen(match->cmdl) + 4;
+	cmdl->line.cur -= 1;
+	if (cmdl->line.cur == 19)
+		findcmdl(cmdl->line.str, 0, 1);
+	cmdl->line.str[cmdl->line.cur - cmdl->line.pr] = 0;
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	tputs(tgetstr("le", NULL), 1, ft_putchar);
+	tputs(tgetstr("dc", NULL), 1, ft_putchar);
+	tputs(tgetstr("sc", NULL), 1, ft_putchar);
+	(cmdl->line.cur - cmdl->line.pr) == 0 ?
+		write(1, "':", 2) : ft_printf("': %@", match->cmdl);
+	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	return (1);
+}
+
+static int		delete_comp_lst(t_cmdl *cmdl)
+{
+	int		save_cmdl;
+
+	save_cmdl = cmdl->line.cur - cmdl->line.pr;
+	comp_del(&cmdl->comp);
+	cmdl->opt &= ~CCOMP;
+	end(cmdl);
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.cur - cmdl->line.pr > save_cmdl)
+		arrow_left(cmdl);
+	return (1);
+}
+
+int				back_del(t_cmdl *cmdl)
 {
 	int		i;
-	int		j;
 
-	if (win->cur == win->pr)
-		return ;
-	arrow_left(win, NULL, NULL);
-	i = win->cur - win->pr - 1;
-	j = i + (*his)->len + 5;
-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	while (i < j)
+	i = cmdl->line.cur - cmdl->line.pr;
+	if (cmdl->opt & CCOMP)
+		return (delete_comp_lst(cmdl));
+	if (cmdl->opt & (CCMODE | CHIS_S | CCP) ||
+	i == (int)ft_strlen(cmdl->line.str))
+		return (write(2, "\7", 1));
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.str[i])
 	{
-		write(1, " ", 1);
-		i += 1;
+		cmdl->line.str[i] = cmdl->line.str[i + 1];
+		i++;
 	}
-	i = win->cur - win->pr - 1;
-	while ((*cmd)[++i])
-		(*cmd)[i] = (*cmd)[i + 1];
-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	ft_putstr("': ");
-	findstr(his, *cmd);
-	ft_putstr((*his)->cmdl);
+	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
+			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
+	tputs(tgetstr("me", NULL), 1, ft_putchar);
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
+	return (1);
 }
 
-void		del(char **cmd, t_win *win, t_his **his)
+int				del(t_cmdl *cmdl)
 {
 	int		i;
 
-	if (win->sh)
-	{
-		del_his(cmd, win, his);
-		return ;
-	}
-	if (win->cur == win->pr)
-		return ;
-	arrow_left(win, NULL, NULL);
-	win->cpy_b -= win->cpy_b != -1 ? 1 : 0;
-	i = win->cur - win->pr - 1;
+	if (cmdl->opt & CHIS_S)
+		return (delete_sh(cmdl));
+	if (cmdl->opt & CCOMP)
+		return (delete_comp_lst(cmdl));
+	if (cmdl->opt & (CCMODE | CCP) || cmdl->line.cur == cmdl->line.pr)
+		return (write(2, "\7", 1));
+	arrow_left(cmdl);
+	i = cmdl->line.cur - cmdl->line.pr - 1;
+	tputs(tgetstr("cd", NULL), 1, ft_putchar);
+	while (cmdl->line.str[++i])
+		cmdl->line.str[i] = cmdl->line.str[i + 1];
 	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	(*cmd) ? del_all(*cmd, win) : 0;
-	while ((*cmd)[++i])
-		(*cmd)[i] = (*cmd)[i + 1];
+	write(1, cmdl->line.str + (cmdl->line.cur - cmdl->line.pr),
+			ft_strlen(cmdl->line.str + (cmdl->line.cur - cmdl->line.pr)));
 	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-	tputs(tgetstr("sc", NULL), 1, ft_putchar);
-	write(1, (*cmd) + win->cur - win->pr,
-	ft_strlen((*cmd) + win->cur - win->pr));
-	tputs(tgetstr("rc", NULL), 1, ft_putchar);
-}
-
-void		del_all(char *cmd, t_win *win)
-{
-	int		i;
-	int		j;
-
-	i = win->cur - win->pr - 1;
-	j = ft_strlen(cmd);
-	while (++i < j)
-		write(1, " ", 1);
-}
-
-void		init_var(t_win **win)
-{
-	(*win)->cur = 3;
-	(*win)->pr = 3;
-	(*win)->cpy_b = -1;
-	(*win)->cpy_e = -1;
-	(*win)->ccp = 0;
-	(*win)->copy = NULL;
-	(*win)->quote = 0;
-	(*win)->sh = 0;
-	(*win)->ctrld = 0;
-	(*win)->pao = 0;
-	(*win)->hd = NULL;
-	g_loop = 256;
-	print_prompt(win);
+	return (1);
 }

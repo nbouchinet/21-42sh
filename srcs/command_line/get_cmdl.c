@@ -3,80 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmdl.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/29 17:51:25 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/04 14:38:14 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/08/31 18:34:00 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/18 16:10:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-extern int g_loop;
-
-static int		print(char **cmd, char buf[], t_win *win, int i)
+static void	exit_cmdl(t_cmdl *cmdl)
 {
-	char	*tmp;
-	char	*save;
-	int		len;
+	char	*s1;
 
-	len = (int)ft_strlen((*cmd));
-	if ((int)ft_strlen((*cmd)) + win->pr >= win->co * win->li - (win->co + 1))
-		return (beep());
-	if (!(*cmd) || !((*cmd)[i]))
-		(*cmd) = ft_strjoinf((*cmd), buf, 1);
-	else
+	if (cmdl->line.save)
 	{
-		tmp = ft_strsub((*cmd), i, ft_strlen((*cmd) + i));
-		save = (*cmd);
-		(*cmd) = ft_strjoinf(ft_strsub((*cmd), 0, i), buf, 1);
-		free(save);
-		(*cmd) = ft_strjoinf((*cmd), tmp, 3);
+		s1 = cmdl->line.str;
+		cmdl->line.str = ft_strtrimf(ft_strjoin(cmdl->line.save,
+					cmdl->line.str));
+		ft_strdel(&s1);
+		ft_strdel(&cmdl->line.save);
 	}
-	write(1, (*cmd) + i, ft_strlen((*cmd) + i));
-	win->cur += ft_strlen((*cmd) + i);
-	!(win->cur % win->co) ? tputs(tgetstr("do", NULL), 1, ft_putchar) : 0;
-	i += (len = (int)ft_strlen((*cmd)) - len) > 1 ? len : 0;
-	while (win->cur - win->pr - 1 > i)
-		arrow_left(win, NULL, NULL);
-	return (1);
+	cmd_save_history(cmdl->line.str, 1);
+	cmdl->opt |= CRESET;
+	cmd_history(cmdl);
+	cmdl->opt = 0;
+	write(1, "\n", 1);
 }
 
-static void		exit_get_cmdl(char **cmd, t_win **win, char **save)
+void		get_op(t_cmdl *cmdl, int *ret, int *i)
 {
-	(*cmd) = (*save) && (*save)[0] ?
-		ft_strtrimf(ft_strjoinf((*save), (*cmd), 3)) : NULL;
-	save_history(*win, cmd, &(*win)->his);
-	(*cmd) ? end(*win, *cmd, NULL) : 0;
-	!(*win)->ctrld ? write(1, "\n", 1) : 0;
-	(*win)->copy ? ft_strdel(&(*win)->copy) : 0;
-	g_loop = 256;
+	static const	t_op		op[25] = {{{-61, -89, 0, 0}, &ccp},
+	{{-30, -120, -102, 0}, &ccp}, {{-30, -119, -120, 0}, &ccp},
+	{{27, 91, 68, 0}, &arrow_left}, {{27, 91, 67, 0}, &arrow_right},
+	{{27, 91, 72, 0}, &home}, {{27, 91, 70, 0}, &end},
+	{{27, 27, 91, 68}, &opt_left}, {{27, 27, 91, 67}, &opt_right},
+	{{27, 27, 91, 65}, &up_dwn}, {{27, 27, 91, 66}, &up_dwn},
+	{{27, 91, 65, 0}, &cmd_history}, {{27, 91, 66, 0}, &cmd_history},
+	{{10, 0, 0, 0}, &return_cmdl}, {{127, 0, 0, 0}, &del},
+	{{18, 0, 0, 0}, &cmd_search_history}, {{14, 0, 0, 0}, &cmd_search_history},
+	{{9, 0, 0, 0}, &completion}, {{1, 0, 0, 0}, &home}, {{5, 0, 0, 0}, &end},
+	{{21, 0, 0, 0}, &ctrl_u}, {{20, 0, 0, 0}, &ctrlt}, {{27, 0, 0, 0}, &esc},
+	{{27, 91, 51, 126}, &back_del}, {{27, 91, 90, 0}, &arrow_left}};
+
+	*ret = -1;
+	*i = -1;
+	ft_memset(cmdl->line.buf, '\0', 6);
+	read(0, cmdl->line.buf, 6);
+	while (++(*i) < 25)
+		if (cmdl->line.buf[0] == op[(*i)].key[0] &&
+		cmdl->line.buf[1] == op[(*i)].key[1]
+		&& cmdl->line.buf[2] == op[(*i)].key[2] &&
+		cmdl->line.buf[3] == op[(*i)].key[3]
+		&& cmdl->line.buf[4] == op[(*i)].key[4])
+			if (((*ret) = op[(*i)].f(cmdl)))
+				break ;
 }
 
-void			get_cmdl(char **cmd, t_win **win, char *save, char buf[])
+void		get_cmdl(t_cmdl *cmdl)
 {
-	init_var(win);
-	while (g_loop)
+	int				i;
+	int				ret;
+
+	ret = 0;
+	print_prompt();
+	while (1)
 	{
-		if (cmdl_signal(cmd, save, win) == 1)
-					return ;
-		ft_memset(buf, '\0', 6);
-		read(0, buf, 6);
-		if (buf[0] == 12 && !buf[1])
-			ctrl_l(win, cmd);
-		else if (PRINT)
-			!(*win)->sh ? print(cmd, buf, *win, (*win)->cur - (*win)->pr)
-			: print_search(cmd, buf, &(*win)->his, *win);
-		else if (MOVE)
-			!(*win)->sh ? arrows(*win, *cmd, buf) :
-					exit_sh_mode(*win, &(*win)->his, cmd, buf);
-		COMP ? completion(win, cmd) : 0;
-		DEL && (*cmd) ? del(cmd, *win, &(*win)->his) : 0;
-		CCP && !(*win)->sh ? ccp(cmd, buf, *win) : 0;
-		!(*win)->sh && UD ? move_history(&(*win)->his, cmd, buf[2], *win) : 0;
-		OPT_S && !(*win)->sh ? search_history(cmd, win) : 0;
-		if ((RETURN || EOT) && check_cmdl(&save, cmd, win, buf))
+		i = -1;
+		cmdl_signals(cmdl);
+		get_op(cmdl, &ret, &i);
+		if (ret == 2)
 			break ;
+		else if (CTRL_L(cmdl->line.buf))
+			ctrl_l(cmdl);
+		else if (CTRL_D(cmdl->line.buf) && ctrl_d(cmdl))
+			return ;
+		else if (i == 25)
+			print(cmdl, cmdl->line.buf);
 	}
-	exit_get_cmdl(cmd, win, &save);
+	exit_cmdl(cmdl);
 }

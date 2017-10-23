@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoinf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/21 17:00:46 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/13 13:51:09 by khabbar          ###   ########.fr       */
+/*   Created: 2017/02/21 17:00:46 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/12 17:14:42 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-static char *dupstr(char *s1, char *s2, int w)
+static char	*dupstr(char *s1, char *s2, int w)
 {
 	if (s1)
 	{
@@ -28,7 +28,7 @@ static char *dupstr(char *s1, char *s2, int w)
 		return (NULL);
 }
 
-char	*ft_strjoinf(char *s1, char *s2, int w)
+char		*ft_strjoinf(char *s1, char *s2, int w)
 {
 	char	*str;
 	size_t	s1_l;

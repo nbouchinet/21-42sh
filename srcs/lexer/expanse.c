@@ -5,114 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/06 10:03:40 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 14:43:13 by zadrien          ###   ########.fr       */
+/*   Created: 2017/10/15 16:11:19 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/20 11:58:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static char		*replace_env(char *str, int s, int len, t_env **env)
-{
-	char	*beg;
-	char	*end;
-	char	*var;
-	t_env	*var_env;
-
-	beg = ft_strndup(str, s);
-	end = ft_strdup(str + (s + len));
-	var = ft_strsub(str, s + 1, len - 1);
-	if ((var_env = find_node(env, var, NULL)))
-		beg = ft_strjoinf(beg, var_env->value, 1);
-	else
-	{
-		free(beg);
-		free(end);
-		free(var);
-		return (NULL);
-	}
-	beg = ft_strjoinf(beg, end, 3);
-	free(var);
-	return (beg);
-}
-
-
-static int		check_expanse(char **str, t_env **env)
+void	find_var(char *var, char **stack)
 {
 	int		i;
-	int		end;
-	char	*tmp;
+	t_local	*loc;
+	t_env	*env;
 
-	i = 0;
-	while ((*str)[i])
-		if ((*str)[i] == '$')
-		{
-			end = 0;
-			while ((*str)[i + end] && is_space((*str)[i + end]) == 0)
-				end++;
-			if ((tmp = replace_env(*str, i, end, env)))
-			{
-				ft_strdel(str);
-				*str = ft_strdup(tmp);
-				ft_strdel(&tmp);
-				i = 0;
-			}
-			else
-				return (1);
-		}
-		else if (i == 0 && (*str)[i] == '\\')
-		{
-			ft_strleft(str, (*str)[i]);
-			return (0);
-		}
-		else
-			i++;
-	return (0);
-}
-
-static void		tild(char **str, t_env **env)
-{
-	char 	*tmp;
-	char 	*tmp2;
-	t_env	*var_env;
-
-	if ((var_env = find_node(env, "HOME", NULL)))
+	i = -1;
+	if ((loc = find_local(local_slg(0), var)))
 	{
-		if ((*str)[0] == '~' && ((*str)[1] == '/' || (*str)[1] == '\0'))
-		{
-			tmp = ft_strdup((*str) + 1);
-			tmp2 = ft_strdup(var_env->value);
-			tmp2 = ft_strjoinf(tmp2, tmp, 3);
-			*str = ft_strdupf(&tmp2);
-		}
+		while (loc->val[++i])
+			st_tok(stack, loc->val[i], 0);
+	}
+	else if ((env = find_node(&(*cmdl_slg())->lstenv, var, NULL)))
+	{
+		while (env->value[++i])
+			st_tok(stack, env->value[i], 0);
 	}
 }
 
-void			expanse(t_tok **lst, t_env **env)
+void	expanse_stack(char **stack, char *line, int *i)
 {
-	t_tok	*tmp;
-	t_tok	*prev;
-	t_tok	*save;
+	int		j;
+	char	*str;
 
-	tmp = *lst;
-	prev = NULL;
-	save = NULL;
-	while (tmp)
+	j = (*i) += 1;
+	if (line[j] == ' ' || line[j] == '\0' || line[j] == '\'' || line[j] == '"')
+		st_tok(stack, line[j - 1], 0);
+	else
 	{
-		if (tmp->type == DQUOTE || tmp->type == WORD)
+		while (line[(*i)] && !is_space(line[(*i)]) &&
+			(ft_isalnum(line[(*i)]) || line[(*i)] == '_'))
+			(*i)++;
+		str = ft_strsub(line, j, (*i) - j);
+		find_var(str, stack);
+		ft_strdel(&str);
+	}
+}
+
+void	in_quote(char **stack, char *line, int *i, char type)
+{
+	while (line[(*i)] && line[(*i)] != type)
+	{
+		if (type == '"' && line[(*i)] == '\\')
 		{
-			tmp->type == WORD ? tild(&tmp->str, env) : 0;
-			if (check_expanse(&tmp->str, env))
-			{
-				save = tmp;
-				!prev ? *lst = tmp->n : 0;
-				prev ? prev->n = tmp->n : 0;
-			}
+			st_tok(stack, line[++(*i)], 0);
+			(*i)++;
 		}
-		prev = tmp;
-		tmp = tmp->n;
-		save ? free(save->str) : 0;
-		save ? free(save) : 0;
-		save ? save = NULL : 0;
+		else if (type == '"' && line[(*i)] == '$')
+			expanse_stack(stack, line, i);
+		else if (line[(*i)] != type)
+			st_tok(stack, line[(*i)++], 0);
+		else
+			(*i)++;
+	}
+	(*i)++;
+}
+
+void	after_quote(char **stack, char *line, int *i)
+{
+	while (line[(*i)] && !is_space(line[(*i)]) &&
+			line[(*i)] != '"' && line[(*i)] != '\'')
+	{
+		if (line[(*i)] == '\\')
+		{
+			st_tok(stack, line[++(*i)], 0);
+			(*i)++;
+		}
+		else if (line[(*i)] == '$')
+			expanse_stack(stack, line, i);
+		else
+			st_tok(stack, line[(*i)++], 0);
 	}
 }

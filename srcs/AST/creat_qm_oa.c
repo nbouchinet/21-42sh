@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 10:40:18 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:50:20 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/09/17 18:12:41 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			qm_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		;
 	if (tmp_first != *lst)
 	{
-		init_ast(&tmp_ast->left, new_sep->str, new_sep->type);
+		init_ast(&tmp_ast->left, &new_sep, new_sep->type);
 		tmp_ast = tmp_ast->left;
 		init_ast(&tmp_ast->right, NULL, 0);
 		secondary_sequence(&tmp_ast->right, &tmp_first, &tmp);
@@ -78,7 +78,7 @@ void			oa_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 		;
 	if (tmp_first != *lst)
 	{
-		init_ast(&tmp_ast->left, new_sep->str, new_sep->type);
+		init_ast(&tmp_ast->left, &new_sep, new_sep->type);
 		tmp_ast = tmp_ast->left;
 		init_ast(&tmp_ast->right, NULL, 0);
 		tertiary_sequence(&tmp_ast->right, &tmp_first, &tmp);

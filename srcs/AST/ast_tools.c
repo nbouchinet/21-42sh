@@ -6,24 +6,29 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/30 17:11:46 by zadrien           #+#    #+#             */
-/*   Updated: 2017/06/30 18:49:31 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/02 02:59:16 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	init_ast(t_ast **ast, char *str, int type)
+void	init_ast(t_ast **ast, t_tok **tok, int type)
 {
 	if (!(*ast = (t_ast*)malloc(sizeof(t_ast))))
 	{
 		*ast = NULL;
 		return ;
 	}
-	if (str)
-		(*ast)->str = ft_strdup(str);
+	if (tok && *tok)
+	{
+		(*tok)->str ? (*ast)->str = ft_strdup((*tok)->str) : 0;
+		(*ast)->type = (*tok)->hd != 0 ? (*tok)->hd : type;
+	}
 	else
+	{
 		(*ast)->str = NULL;
-	(*ast)->type = type;
+		(*ast)->type = type;
+	}
 	(*ast)->left = NULL;
 	(*ast)->right = NULL;
 }

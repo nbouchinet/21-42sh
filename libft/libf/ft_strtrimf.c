@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrimf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/25 12:25:10 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/09 15:54:52 by khabbar          ###   ########.fr       */
+/*   Created: 2017/03/25 12:25:10 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/11 13:36:00 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
+
+void	boucle(char *s1, unsigned int *i, unsigned int *len)
+{
+	while (s1[*i] != '\0' && (s1[*i] == ' ' ||
+		s1[*i] == '\n' || s1[*i] == '\t'))
+		(*i)++;
+	while (*len && (s1[*len] == ' ' || s1[*len] == '\n' || s1[*len] == '\t'))
+		(*len)--;
+}
 
 char	*ft_strtrimf(char *s)
 {
@@ -25,10 +34,7 @@ char	*ft_strtrimf(char *s)
 	s1 = (char*)s;
 	if (s1[i] == '\0')
 		return (ft_strnew(1));
-	while ((s1[i] == ' ' || s1[i] == '\n' || s1[i] == '\t') && (s1[i]))
-		i++;
-	while ((s1[len] == ' ' || s1[len] == '\n' || s1[len] == '\t') && (len))
-		len--;
+	boucle(s1, &i, &len);
 	if (i == ft_strlen(s) && len == 0)
 	{
 		ft_strdel(&s);

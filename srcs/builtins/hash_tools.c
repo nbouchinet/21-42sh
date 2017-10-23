@@ -6,7 +6,7 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/07/09 14:52:17 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/09 15:30:45 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 16:06:36 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 int		hashing(t_ast **ast, t_env **env)
 {
 	(void)(*env);
-	return (hash(ast, BUILTIN));
+	(*ast)->right ? io_seq(&(*ast)->right->right, 1) : 0;
+	return (hash(ast, NULL, BUILTIN));
 }
 
-int		find_search(t_ast **ast, t_hash **table)
+int		find_search(t_ast **ast, t_job **job, t_hash **table)
 {
+	(void)job;
 	if (search(ast, table, 1) == 1)
 		return (1);
 	return (0);
@@ -40,7 +42,7 @@ int		init_hash(t_hash **lst, char *cmd)
 int		count_opt(t_ast **ast)
 {
 	int		i;
-	t_ast *tmp;
+	t_ast	*tmp;
 
 	i = 0;
 	if (*ast)

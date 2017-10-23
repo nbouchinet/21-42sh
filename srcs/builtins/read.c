@@ -3,148 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   read.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/18 13:26:01 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/18 13:26:09 by khabbar          ###   ########.fr       */
+/*   Created: 2017/07/18 13:26:01 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/22 14:20:17 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void   save_input(t_read *var)
+void		save_input(t_read *v, char *stack)
 {
-	char	**aname;
-	char	*bs;
+	char	**words;
+	int		i;
+	int		j;
 
-	if (!var->stack)
-		var->stack[0] = 0;
-	if (!(var->opt & RR) && (bs = ft_strchr(var->stack, '\\')))
-		while (*bs)
+	words = ft_strsplit(stack, ' ');
+	i = -1;
+	while (v->local[++i] && words[i])
+		if (words[i] && (v->local[i] = ft_strjoinf(v->local[i], words[i], 1)))
+			local(v->local[i]);
+	if (words[i])
+	{
+		j = i - 1;
+		v->local[j] = ft_strjoinf(v->local[j], " ", 1);
+		while (words[i])
 		{
-			(*bs) = *(bs + 1);
-			bs++;
+			v->local[j] = ft_strjoinf(v->local[j], words[i], 1);
+			if (words[i + 1])
+				v->local[j] = ft_strjoinf(v->local[j], " ", 1);
+			i++;
 		}
-	if (var->opt & AR)
-	{
-		aname = ft_strsplit(var->stack, ' ');
-		local(ft_strjoinf(ft_strjoin(var->local, "="), aname[0], 1));
-		ft_free(aname, NULL);
-		return ;
+		local(v->local[j]);
 	}
-	var->stack = ft_strjoinf(ft_strjoin(var->local, "="), var->stack, 3);
-	local(var->stack);
+	if (words)
+		ft_freetab(words);
 }
 
-static void   buf_save(char **stack, char buf[], int *i, int type)
+void		handle_c(int sig)
 {
-  char *tmp;
-  static int len = 512;
+	t_cmdl	*cmdl;
 
-  if ((*i) == len)
-  {
-    tmp = *stack;
-    if (!((*stack) = (char *)malloc(sizeof(char) * (len + 512))))
-      exit(fd_printf(2, "malloc error\n"));
-    (*stack) = ft_strcpy((*stack), tmp);
-    (*stack) = ft_strcat((*stack), buf);
-	(*i) += 1;
-	len += 512;
-  }
-  else
-	(*stack)[++(*i)] = !type ? buf[0] : 0;
+	(void)sig;
+	cmdl = *cmdl_slg();
+	cmdl->opt |= RRET;
 }
 
-static void   read_input(t_read *var, int i, int nchar)
+static int	buf_save(char **stack, char buf[], int *len)
 {
-  char buf[6];
+	char		*tmp;
+	int			i;
 
-  var->stack = ft_memalloc(512);
-  while (var->time ? var->time < var->endwait  : 1)
-  {
-    ft_memset(buf, '\0', 6);
-    read(var->fd, buf, 1);
-	if (EOT)
+	i = (int)ft_strlen(*stack);
+	if (i == *len - 1)
 	{
-		var->eot = 1;
-		return ;
+		*len += 512;
+		tmp = ft_strdup(*stack);
+		ft_strdel(&*stack);
+		if (!(*stack = ft_memalloc(*len)))
+			exit(EXIT_FAILURE);
+		*stack = ft_strcpy(*stack, tmp);
+		*stack = ft_strcat(*stack, buf);
+		ft_strdel(&tmp);
 	}
-	!(var->opt & SR) ? write(1, &buf[0], 1) : 0;
-    var->opt & NR && PRINT ? nchar += 1 : 0;
-	(PRINT && !var->delim) || (PRINT && var->delim && var->delim[0] != buf[0])
-	? buf_save(&var->stack, buf, &i, 0) : 0;
-    if ((var->nchars ? var->nchars == nchar : 0) || (var->delim ? var->delim[0]
-	== buf[0] : 0) || (!var->nchars && !var->delim && RETURN))
-    {
-      var->stack[i] == '\\' && !(var->opt & RR) ? write(var->fd, "$> ", 4) : 0;
-      if (!(var->stack[i] == '\\' && !(var->opt & RR)))
-      {
-        buf_save(&var->stack, buf, &i, 1);
-        return ;
-      }
-    }
-    var->time = var->time ? time(NULL) : 0;
-  }
+	else
+		*stack = ft_strcat(*stack, buf);
+	return (1);
 }
 
-static int  get_opt(t_read *var, char **arg, int *i)
+static int	rbs(t_read *v, char *stack, int c)
 {
-  int           j;
-  int           k;
-  static const  t_opt opt[8] = {{"a", &aname} ,{"d", &delim}, {"n", &nchars},
-  {"p", &prompt}, {"r", &back_slash}, {"s", &silent}, {"t", &rtimeout}, {"u", &fd}};
+	int		nbr;
 
-  while (arg[++(*i)])
-  {
-    j = 0;
-    k = -1;
-    while (++k < 8 && arg[(*i)][j])
-    {
-      j += j == 0 && arg[(*i)][j] == '-' ? 1 : 0;
-      if (j == 0 && arg[(*i)][j] != '-')
-      {
-        var->local = ft_strdup(arg[(*i)]);
-        return (0);
-      }
-      if (arg[(*i)][j] == opt[k].c[0])
-      {
-        if (opt[k].f(var, arg, i, ++j))
-          return (1);
-        if (opt[k].c[0] != 's' && opt[k].c[0] != 'r')
+	if ((v->opt & RR) || stack[c] != '\\')
+		return (0);
+	nbr = 0;
+	while (stack[c] == '\\')
+	{
+		nbr++;
+		c--;
+	}
+	if (nbr % 2)
+		return (write(1, "\n$> ", 4));
+	return (0);
+}
+
+void		read_input(t_read *v, char *stack, char buf[])
+{
+	int		len;
+
+	len = 512;
+	signal(SIGINT, &handle_c);
+	while (v->time ? v->time < v->endwait : 1)
+	{
+		if ((*cmdl_slg())->opt & RRET && (write(1, "\n", 1)))
 			break ;
-		k = 0;
-      }
-    }
-    if (k == 8)
-      return (fd_printf(2, "42sh: read: -%c: invalid option\n%s\n",
-      arg[(*i)][j], RU));
-  }
-  return (0);
-}
-
-int         ft_read(t_ast **ast, t_env **env)
-{
-  t_read  var;
-  t_win   *win;
-  char    **targ;
-  int     i;
-
-  (void)env;
-  ft_memset(&var, 0, sizeof(var));
-  targ = creat_arg_env(&(*ast)->left->right);
-  i = -1;
-  if (targ && get_opt(&var, targ, &i))
-    return (0);
-  !var.local ? var.local = ft_strdup("REPLY") : 0;
-  win = win_sgt();
-	mode_on(&win);
-  read_input(&var, -1, 0);
-  save_input(&var);
-    mode_off(&win);
-  ft_free(targ, NULL);
-  var.delim ? ft_strdel(&var.delim) : 0;
-  var.local ? ft_strdel(&var.local) : 0;
-  var.stack ? ft_strdel(&var.stack) : 0;
-  var.eot ? write(1, "\n", 1) : 0;
-  return (0);
+		ft_memset(buf, '\0', 6);
+		read(v->fd, buf, 1);
+		if (CTRL_D(buf) && (v->eot = 1))
+			break ;
+		!(v->opt & SR) ? write(1, &buf[0], 1) : 0;
+		v->opt & NR && PRINT(buf) ? v->nchars-- : 0;
+		(PRINT(buf) && !v->delim) || (PRINT(buf) && v->delim && v->delim[0] !=
+		buf[0]) ? buf_save(&stack, buf, &len) : 0;
+		if ((v->opt & NR && !v->nchars) || (v->delim ? v->delim[0] == buf[0] :
+			0) || (!(v->opt & NR) && !(v->opt & DR) && RETURN(buf) &&
+		!rbs(v, stack, ft_strlen(stack) - (*stack ? 1 : 0))))
+			break ;
+		v->time = v->time ? time(NULL) : 0;
+	}
+	*stack ? save_input(v, stack) : 0;
+	ft_strdel(&stack);
 }

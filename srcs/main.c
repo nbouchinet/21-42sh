@@ -3,101 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/24 13:01:45 by khabbar           #+#    #+#             */
-/*   Updated: 2017/08/04 16:10:26 by nbouchin         ###   ########.fr       */
+/*   Created: 2017/04/24 13:01:45 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/23 17:13:18 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-extern int g_loop;
-
-int			get_win_data(t_win **win)
+static int		prepare_cmd(t_tok **cmd, t_env **env, t_cmdl *cmdl)
 {
-	struct winsize	w;
-
-	if (ioctl(0, TIOCGWINSZ, &w) == -1)
-		return (fd_printf(2, "Error while accesing terminal data\n"));
-	(*win)->co = w.ws_col;
-	(*win)->li = w.ws_row;
-	return (0);
-}
-
-static void	exec_part(char **line, t_env **env)
-{
+	int		i;
 	t_ast	*ast;
+
+	i = 0;
+	ast = NULL;
+	if (*cmd)
+	{
+		init_ast(&ast, NULL, 0);
+		primary_sequence(&ast, cmd);
+		mode_off(cmdl);
+		i = job_ast(&ast, env, 1);
+		close_rdir(0, 0);
+		destroy_ast(&ast);
+		mode_on(cmdl);
+	}
+	return (i);
+}
+
+static int		exec_part(char **line, t_env **env, t_cmdl *cmdl)
+{
+	int		i;
 	t_tok	*cmd;
-	t_tok	*tok;
 
-	init_token(&cmd);
-	new_parser(&cmd, *line);
-	lexer_check(&cmd);
-	expanse(&cmd, env);
-	if (!cmd)
-		return ;
-		tok = cmd;
-	while (tok)
+	i = 0;
+	if (*line)
 	{
-		ft_printf("%@%s%@\n", BLUE, tok->str, I);
-		tok = tok->n;
+		init_token(&cmd);
+		new_parser(&cmd, *line, 0);
+		restruct_lst(&cmd);
+		if (new_lexercheck(&cmd))
+		{
+			specified_dir(&cmd);
+			if (heredoc(&cmd, NULL) != -1)
+				cmdl->color = prepare_cmd(&cmd, env, cmdl);
+		}
+		cmd ? destroy_tok(&cmd) : 0;
 	}
-	init_ast(&ast, NULL, 0);
-	primary_sequence(&ast, &cmd);
-	ft_putast(ast);
-	exec_ast(&ast, env);
-	destroy_ast(&ast);
-	destroy_tok(&cmd);
+	return (i);
 }
 
-static void	loop(t_win *win)
+void			lstfree(void *content, size_t type)
 {
-	char	*cmd;
-	char	buf[6];
+	(void)type;
+	free(content);
+}
 
-	while (g_loop)
+static void		loop(t_cmdl *cmdl)
+{
+	while (42)
 	{
-		cmd = NULL;
-		get_cmdl(&cmd, &win, NULL, buf);
-		if (win->ctrld)
+		job_control(NULL, NULL, UPT);
+		job_control(NULL, NULL, CHK);
+		init_cmdl();
+		get_cmdl(cmdl);
+		if (cmdl->opt & CCTRLD)
 			break ;
-		if (cmd && !(cmd[0] == '\\' && cmd[1] == 0))
-		{
-			ft_printf("\n%@%s%@\n", RED, cmd, I);
-			mode_off(&win);
-			exec_part(&cmd, &win->lstenv);
-			mode_on(&win);
-		}
-		cmd ? free(cmd) : 0;
-		t_local *loc = *local_sgt(0);
-		while (loc)
-		{
-			ft_printf("PRINT: %s=%s\n", loc->var, loc->val);
-			loc = loc->n;
-		}
+		exec_part(&cmdl->line.str, &cmdl->lstenv, cmdl);
+		if (cmdl->exit != 256)
+			break ;
 	}
-	unset_shell(&win);
+	unset_shell(cmdl);
 }
 
-int         main(int ac, char *av[], char *env[])
+int				main(int ac, char *av[], char *env[])
 {
-	t_win	*win;
+	t_cmdl	*cmdl;
 
 	ac = 0;
 	(void)av;
 	env = check_env(env);
-	if (set_shell(&win)|| get_win_data(&win) || init_env(&(win->lstenv), env))
+	cmdl = *cmdl_slg();
+	if (set_shell(cmdl) || get_win_data(cmdl) || init_env(&(cmdl)->lstenv, env))
 		return (1);
-	if (!(win->his = (t_his *)malloc(sizeof(t_his))))
-		exit(fd_printf(2, "malloc error\n"));
-	win->his->cmdl = ft_strdup("");
-	win->his->add = 1;
-	win->his->prev = NULL;
-  	win->his->next = NULL;
-	win->his->len = 0;
-	g_loop = 256;
-	hist_read(&win->his, 0, -50);
-	loop(win);
-	return (g_loop);
+	hist_session();
+	loop(cmdl);
+	return (cmdl->exit ? cmdl->exit : 0);
 }

@@ -3,138 +3,122 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/25 14:49:33 by khabbar           #+#    #+#             */
-/*   Updated: 2017/06/30 17:54:43 by khabbar          ###   ########.fr       */
+/*   Created: 2017/05/25 14:49:33 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/11 14:43:40 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-static void	exec_hist(int opt, int offset, t_his **his, int len)
+static int	opt_check(int *opt, int bit, int loop, int count)
 {
-	int				nbr;
-	int				i;
-	static const	t_hist	option[7] = {{1, &hist_clear}, {2 , &hist_del},
-	{4, &hist_append}, {8, &hist_read}, {16, &hist_read}, {32, &hist_append},
-	{128, &hist_sarg}};
+	int		j;
 
-	nbr = 0;
-	i = -1;
-	while (++i < 7)
-		if (opt & option[i].op)
-			option[i].f(his, offset, len);
-	if (!opt)
-		no_options(his, offset, len, i);
-}
-
-static int	is_digit(char *str)
-{
-	int		i;
-
-	i = -1;
-	if (str[0] == 0)
-		return (1);
-	while (str[++i])
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-	return (1);
-}
-
-static int	options(char **arg, int i, int *opt, int *offset)
-{
-	int     j;
-
-	j = 0;
-	while (arg[i][++j])
+	while (loop--)
 	{
-		arg[i][j] == 'c' ? (*opt) |= C : 0;
-		if (arg[i][j] == 'd')
-		{
-			(*opt) |= D;
-			if (is_digit(arg[i] + (j + 1)))
-				(*offset) = ft_atoi(arg[i] + (j + 1));
-			if (arg[i + 1] && is_digit(arg[i + 1]))
-				(*offset) = ft_atoi(arg[i + 1]);
-			else if (!(*offset))
-				return (fd_printf(2, "ici42sh: history: %s: %s\n", arg[i] + j + 1, HM));
-			break ;
-		}
-		arg[i][j] == 'a' ? (*opt) |= A : 0;
-		arg[i][j] == 'n' ? (*opt) |= N : 0;
-		arg[i][j] == 'r' ? (*opt) |= R : 0;
-		arg[i][j] == 'w' ? (*opt) |= W : 0;
-		arg[i][j] == 'p' ? (*opt) |= P : 0;
-		arg[i][j] == 's' ? (*opt) |= S : 0;
-		if (!ft_strchr("cdanrwps", arg[i][j]))
-			return (fd_printf(2, "history: -%c: %s\n%s", arg[i][j], HO, HU));
-	}
-	if ((*opt) & D && (*offset) == 0)
-		return (fd_printf(2, "42sh: history: -d: option requires an argument\n"));
-	return (0);
-}
-
-static int  get_opt(char **arg, int *opt, int *offset)
-{
-	int     i;
-
-	i = -1;
-	while (arg[++i])
-	{
-		if (arg[i][0] == '-' && ((arg[i][1] == '-' && arg[i][2] == 0)
-		|| arg[i][1] == 0))
-			return (0);
-		if (arg[i][0] == '-')
-		{
-			if (options(arg, i, opt, offset))
-				return (1);
-		}
-		else
-		{
-			if (is_digit(arg[i]))
-				(*offset) = ft_atoi(arg[i]);
-			else
-				return (fd_printf(2, "history: %s: %s\n", arg[i], HM));
-		}
+		j = loop + 2;
+		count = 0;
+		while (j--)
+			count += (*opt & (bit << j)) ? 1 : 0;
+		if (count > 1)
+			return (fd_printf(2, "history: cannot use "
+			"more than one of -anrw\n"));
+		bit += bit;
 	}
 	return (0);
 }
 
-static int run(t_his **his, int direction)
+static int	get_offset(t_ast *tmp, char *str, int *offset)
 {
-	if (direction)
-		while ((*his)->prev)
-			(*his) = (*his)->prev;
+	int		ret;
+
+	ret = 1;
+	if (*(str + 1) && (ret == only(str + 1, '0', '9')))
+		*offset = ft_atoi(str + 1);
+	else if (*(str + 1) && !ret)
+		return (fd_printf(2, "42sh: history: -d: %s "
+		"history position out of range\n", str + 1));
+	else if (tmp->right && (ret = (only(tmp->right->str, '0', '9'))))
+		*offset = ft_atoi(tmp->right->str);
+	else if (tmp->right && !ret)
+		return (fd_printf(2, "42sh: history: -d: %s "
+		"history position out of range\n", tmp->right->str));
 	else
-		while ((*his)->next)
-			(*his) = (*his)->next;
+		return (fd_printf(2, "42sh: history: -d: option "
+		"requires an argument\n"));
 	return (0);
 }
 
-int         ft_history(t_ast **ast, t_env **env)
+static int	options(t_ast *tmp, int *opt, int *offset)
 {
-	char	**targ;
+	char	*str;
+
+	str = tmp->str + 1;
+	while (*str)
+	{
+		if (!ft_strchr("cdanrwps", *str))
+			return (fd_printf(2, "history: -%c: %s\n%s%s", *str, HO, HU1, HU2));
+		if (*str == 'd' && (*opt |= D) && get_offset(tmp, str, offset))
+			return (1);
+		else if (*str == 'd' && (*opt |= D))
+			break ;
+		*str == 'c' ? (*opt) |= C : 0;
+		*str == 'a' ? (*opt) |= A : 0;
+		*str == 'n' ? (*opt) |= N : 0;
+		*str == 'r' ? (*opt) |= R : 0;
+		*str == 'w' ? (*opt) |= W : 0;
+		*str == 'p' ? (*opt) |= P : 0;
+		if (*str == 's' && (*opt |= S))
+			return (0);
+		str++;
+	}
+	if (opt_check(opt, 4, 3, 0))
+		return (1);
+	return (0);
+}
+
+static int	parse_opt(t_ast **ast, char **arg, int *opt, int *offset)
+{
+	t_ast	*tmp;
+	char	*str;
+	int		ret;
+
+	tmp = *ast;
+	str = tmp->str;
+	while (tmp)
+	{
+		ret = -1;
+		if (str[0] == '-' && ((str[1] == '-' && !str[2]) ||
+		!str[1]))
+			return (0);
+		if (str[0] == '-' && (ret = options(tmp, opt, offset)))
+			return (1);
+		else if (tmp->str[0] == '-' && ret == 0 && (*opt & S))
+			return (get_history_arg(&tmp, arg));
+		tmp = tmp->right;
+	}
+	return (0);
+}
+
+int			ft_history(t_ast **ast, t_env **env)
+{
 	int		opt;
-	int		off;
-	t_his	**his;
+	int		offset;
+	char	*arg;
 
 	(void)env;
 	opt = 0;
-	off = 0;
-	his = &win_sgt()->his;
-	run(his, 1);
-	while ((*his)->prev)
-		(*his) = (*his)->prev;
-	if ((targ = creat_arg_env(&(*ast)->left->right)) && get_opt(targ, &opt, &off))
-		return (run(his, 0));
-	if (opt == 12 || opt == 28 || opt == 60 || opt == 24 || opt == 40
-	|| opt == 20 || opt == 36 || opt == 46 || opt == 48)
-	{
-		fd_printf(2, "history: cannot use more than one of -anrw\n");
-		return (run(his, 0));
-	}
-	exec_hist(opt, off, his, lst_len(*his));
-	run(his, 0);
+	offset = 0;
+	arg = NULL;
+	if ((*ast)->right)
+		io_seq(&(*ast)->right->right, 1);
+	if ((*ast)->left->right && parse_opt(&(*ast)->left->right,
+	&arg, &opt, &offset))
+		return (0);
+	run_his(arg, opt, offset, (*his_slg())->n ? his_len(his_slg()) : 0);
+	if (arg)
+		ft_strdel(&arg);
 	return (1);
 }

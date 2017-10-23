@@ -6,13 +6,13 @@
 /*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/29 12:14:21 by zadrien           #+#    #+#             */
-/*   Updated: 2017/07/02 17:56:00 by zadrien          ###   ########.fr       */
+/*   Updated: 2017/10/18 09:50:45 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-t_tok	*find_rdi_tok(t_tok **lst, t_tok **stop)
+t_tok			*find_rdi_tok(t_tok **lst, t_tok **stop)
 {
 	t_tok	*tmp;
 
@@ -27,15 +27,15 @@ t_tok	*find_rdi_tok(t_tok **lst, t_tok **stop)
 	return (tmp);
 }
 
-static void 	exec_else(t_tok *t_f, t_ast *t_a)
+static void		exec_else(t_tok *t_f, t_ast *t_a)
 {
-	init_ast(&t_a->right, t_f->type == IO_N ? t_f->str : NULL, t_f->type == IO_N ?
-	t_f->n->type : t_f->type);
+	init_ast(&t_a->right, t_f->type == IO_N ? &t_f :
+		NULL, t_f->type == IO_N ? t_f->n->type : t_f->type);
 	t_a = t_a->right;
-	init_ast(&t_a->left, t_f->type == IO_N ? t_f->n->n->str : t_f->n->str, FIL);
+	init_ast(&t_a->left, t_f->type == IO_N ? &t_f->n->n : &t_f->n, FIL);
 }
 
-void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
+void			io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 {
 	t_tok	*tmp;
 	t_tok	*rdir;
@@ -54,9 +54,10 @@ void	io_sequence(t_ast **ast, t_tok **lst, t_tok **sep)
 	}
 	if (t_f != *lst)
 	{
-		init_ast(&t_a->right, io ? io->str : NULL, io ? io->n->type : rdir->type);
+		init_ast(&t_a->right, io ? &io : NULL, io ?
+		io->n->type : rdir->type);
 		t_a = t_a->right;
-		init_ast(&t_a->left, io ? io->n->n->str : rdir->n->str, FIL);
+		init_ast(&t_a->left, io ? &io->n->n : &rdir->n, FIL);
 		io_sequence(&t_a, lst, io ? &io : &rdir);
 	}
 	else

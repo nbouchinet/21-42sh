@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strat.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/24 11:15:17 by khabbar           #+#    #+#             */
-/*   Updated: 2017/04/04 15:57:41 by khabbar          ###   ########.fr       */
+/*   Created: 2017/03/24 11:15:17 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/11 10:48:28 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/libftprintf.h"
 
-char		*ft_strat(char **env, int i)
+char	*ft_strat(char **env, int i)
 {
 	int		k;
 	char	*home;
@@ -21,7 +21,7 @@ char		*ft_strat(char **env, int i)
 	home = NULL;
 	if (!env)
 		return ("");
-	while (env[k] && 
+	while (env[k] &&
 	((home = ft_strstr(env[k], i == 1 ? "HOME" : "OLDPWD")) == NULL))
 		k++;
 	if (!home)

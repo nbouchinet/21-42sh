@@ -3,80 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   local.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/15 16:56:27 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/15 16:56:42 by khabbar          ###   ########.fr       */
+/*   Created: 2017/07/15 16:56:27 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/21 18:15:39 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int 		check_local(t_ast *tmp, int type)
+static void	stock_loc(t_local **loc, char *str, char *sub, int match)
 {
-	if (type != PIPE_SEQ && ft_strchr(tmp->left->left->str, '='))
-		return (local(tmp->left->left->str));
-	else if (type == PIPE_SEQ && tmp->right->left->left->left->str &&
-	ft_strchr(tmp->right->left->left->left->str, '='))
-		return (local(tmp->right->left->left->left->str));
-	else if (type == PIPE_SEQ && tmp->right->right->left->left->str &&
-	ft_strchr(tmp->right->right->left->left->str, '='))
-		return (local(tmp->right->right->left->left->str));
-	return (0);
-}
-
-t_local		**local_sgt(int i)
-{
-	static t_local *loc = NULL;
-
-	if (!loc && i == 1)
+	if (match)
 	{
-		if (!(loc = (t_local*)malloc(sizeof(t_local))))
+		if (!((*loc)->n = (t_local*)malloc(sizeof(t_local))))
 			exit(fd_printf(2, "malloc error\n"));
-    loc->var = NULL;
-    loc->val = NULL;
-    loc->n = NULL;
-		return (&loc);
+		(*loc)->n->var = ft_strdup(str);
+		(*loc)->n->val = ft_strdup(sub);
+		(*loc)->n->n = NULL;
+		(*loc)->n->p = (*loc);
 	}
-	return (&loc);
+	else
+	{
+		ft_strdel(&(*loc)->val);
+		(*loc)->val = ft_strdup(sub);
+	}
 }
 
-static void stock_loc(int match, char **arr, t_local *loc)
+int			put_into_lst(char *str, char *sub)
 {
-  if (match)
-  {
-    if (!(loc->n = (t_local*)malloc(sizeof(t_local))))
-      exit(fd_printf(2, "malloc error\n"));
-    loc->n->var = ft_strdup(arr[0]);
-    loc->n->val = ft_strdup(arr[1]);
-    loc->n->n = NULL;
-  }
-  else
-  {
-    loc->var = ft_strdups(arr[0], &loc->var);
-    loc->val = ft_strdups(arr[1], &loc->val);
-  }
+	t_local		*loc;
+	int			match;
+
+	loc = *local_slg(1);
+	match = 0;
+	if (!loc->var)
+	{
+		loc->var = ft_strdup(str);
+		loc->val = ft_strdup(sub);
+		return (1);
+	}
+	while (loc->n && (match = ft_strcmp(loc->var, str)))
+		loc = loc->n;
+	if (!loc->n)
+		(match = ft_strcmp(loc->var, str));
+	stock_loc(&loc, str, sub, match);
+	return (1);
 }
 
-int   local(char *str)
+int			local(char *str)
 {
-  t_local   *loc;
-  char      **arr;
-  int       match;
+	t_env	**env;
+	t_env	*match;
+	char	*dup;
+	char	*sep;
+	char	*sub;
 
-  loc = *local_sgt(1);
-  arr = ft_strsplit(str, '=');
-  match = 0;
-  if (!loc->var)
-  {
-    loc->var = ft_strdup(arr[0]);
-    loc->val = ft_strdup(arr[1]);
-    ft_free(arr, NULL);
-    return (1);
-  }
-  while ((match = ft_strcmp(loc->var, arr[0])) && loc->n)
-    loc = loc->n;
-  stock_loc(match, arr, loc);
-  ft_free(arr, NULL);
-  return (1);
+	env = &(*cmdl_slg())->lstenv;
+	dup = ft_strdup(str);
+	sep = ft_strchr(dup, '=');
+	sub = ft_strdup(sep + 1);
+	*sep = 0;
+	if ((match = lst_at(env, dup)))
+	{
+		ft_strdel(&(match)->value);
+		match->value = sub[0] ? ft_strdup(sub) : NULL;
+	}
+	else
+		put_into_lst(dup, sub);
+	dup ? ft_strdel(&dup) : 0;
+	sub ? ft_strdel(&sub) : 0;
+	return (1);
 }

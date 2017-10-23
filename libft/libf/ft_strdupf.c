@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdupf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zadrien <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/09 10:07:04 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/12 15:51:58 by khabbar          ###   ########.fr       */
+/*   Created: 2017/05/09 10:07:04 by zadrien           #+#    #+#             */
+/*   Updated: 2017/07/12 15:51:58 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	*ft_strdupf(char **src)
 	if (dest)
 	{
 		ft_strcpy(dest, (*src));
-		free(*src);
-		*src = NULL;
+		ft_strdel(src);
 		return (dest);
 	}
+	ft_strdel(src);
 	return (NULL);
 }

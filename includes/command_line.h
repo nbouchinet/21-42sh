@@ -3,240 +3,382 @@
 /*                                                        :::      ::::::::   */
 /*   command_line.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: khabbar <khabbar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zadrien <zadrien@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/04/24 13:03:13 by khabbar           #+#    #+#             */
-/*   Updated: 2017/07/09 14:34:56 by zadrien          ###   ########.fr       */
+/*   Created: 2017/08/31 17:03:41 by zadrien           #+#    #+#             */
+/*   Updated: 2017/10/21 18:49:10 by zadrien          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_LINE_H
 # define COMMAND_LINE_H
-
-#include "lexer_parser.h"
-
-/*
-**	Key bidings
-*/
-
-#define UP		buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && buf[3] == 0
-#define DWN		buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && buf[3] == 0
-
-#define OPT_C	buf[0] != -61 && buf[1] != -89 && buf[2] != 0
-#define OPT_V	buf[0] != -30 && buf[1] != -120 && buf[2] != -102
-
-#define PRINT	(buf[0] > 31 && buf[0] < 127)
-
-#define COMP	(buf[0] == 9 && buf[1] == 0)
-
-#define CUT		(buf[0] == -30 && buf[1] == -119 && buf[2] == -120)
-#define CPY		(buf[0] == -61 && buf[1] == -89 && buf[2] == 0)
-#define	PST		(buf[0] == -30 && buf[1] == -120 && buf[2] == -102)
-
-#define RETURN	(buf[0] == 10 && buf[1] == 0 && buf[2] == 0)
-
-#define EOT		(buf[0] == 4 && buf[1] == 0)
-
-#define ARR_L	(buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && buf[3] == 0)
-#define ARR_R	(buf[0] == 27 && buf[1] == 91 && buf[2] == 67 && buf[3] == 0)
-#define HOME	buf[0] == 27 && buf[1] == 91 && buf[2] == 72 && buf[3] == 0
-#define END		buf[0] == 27 && buf[1] == 91 && buf[2] == 70 && buf[3] == 0
-#define OPT_L	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68)
-#define OPT_R	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67)
-#define OPT_U	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 65)
-#define OPT_D	(buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 66)
-#define MOVE	ARR_L || ARR_R || HOME || END || OPT_L || \
-				OPT_R || OPT_U || OPT_D
-
-#define DEL		buf[0] == 127 && buf[1] == 0 && buf[2] == 0
-
-#define OPT_S	buf[0] == -62 && buf[1] == -82 && buf[2] == 0
-
-#define CCP 	CUT || CPY || PST
-
-#define UD		((UP) || (DWN))
-
-#define SEP		(*cmd)[(*win)->cur - (*win)->pr] != ' ' && \
-				(*cmd)[(*win)->cur - (*win)->pr] != '|' && \
-				(*cmd)[(*win)->cur - (*win)->pr] != ';' && \
-				(*cmd)[(*win)->cur - (*win)->pr] != '&' && \
-				(*cmd)[(*win)->cur - (*win)->pr] != '<' && \
-				(*cmd)[(*win)->cur - (*win)->pr] != '>'
-
-#define OR_SEP	(*cmd)[(*win)->cur - (*win)->pr] == ' ' || \
-				(*cmd)[(*win)->cur - (*win)->pr] == '|' || \
-				(*cmd)[(*win)->cur - (*win)->pr] == ';' || \
-				(*cmd)[(*win)->cur - (*win)->pr] == '&' || \
-				(*cmd)[(*win)->cur - (*win)->pr] == '<' || \
-				(*cmd)[(*win)->cur - (*win)->pr] == '>'
-
-
-
-typedef struct			s_his
-{
-	size_t				len;
-	int					add;
-	char				*cmdl;
-	struct s_his		*next;
-	struct s_his		*prev;
-}						t_his;
-
-typedef struct			s_hdoc
-{
-	char				*hstring;
-	char				*fd;
-	struct s_hdoc		*next;
-}						t_hdoc;
-
-typedef struct			s_win
-{
-	int					co;
-	int					li;
-	int					pr;
-	int					cur;
-	int					cpy_b;
-	int					cpy_e;
-	int					ccp;
-	int					quote;
-	int					sh;
-	int					ctrld;
-	int					pao;
-	int					tmp;
-	char				*copy;
-	t_hdoc				*hd;
-	t_his				*his;
-	t_env				*lstenv;
-	struct termios		term;
-}						t_win;
+# include <term.h>
+# include <dirent.h>
 
 /*
-**	cmdl handling functions.
+**	Deplacement sur la cmdl
 */
+
+# define LEFT(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && !buf[3]
+# define RIGHT(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 68 && !buf[3]
+# define HOME(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 72 && !buf[3]
+# define END(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 70 && !buf[3]
+# define OPT_L(buf)	buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 68
+# define OPT_R(buf)	buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 67
+# define OPT_U(buf)	buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 65
+# define OPT_D(buf)	buf[0] == 27 && buf[1] == 27 && buf[2] == 91 && buf[3] == 66
+# define ARROW(buf)	(LEFT(buf)) || (RIGHT(buf)) || (UP(buf)) || (DOWN(buf))
+# define OPT(buf)	(OPT_L(buf)) || (OPT_R(buf)) || (OPT_U(buf)) || (OPT_D(buf))
 
 /*
-**	arrow func
+**	Caractere imprimable et recherche dans l historique
 */
 
-typedef struct 			s_arrow
+# define SH(buf)	buf[0] == 18 && !buf[1] && !buf[2] && !buf[3]
+# define NEXT(buf)	buf[0] == 14 && !buf[1] && !buf[2] && !buf[3]
+# define OPT_N(buf)	buf[0] == -62 && buf[1] == -82 && !buf[2] && !buf[3]
+# define UP(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 65 && !buf[3]
+# define DOWN(buf)	buf[0] == 27 && buf[1] == 91 && buf[2] == 66 && !buf[3]
+# define PRINT(buf)	(buf[0] > 31 && buf[0] < 127)
+
+/*
+**	Couper/Coller
+*/
+
+# define CUT(buf)	buf[0] == -30 && buf[1] == -119 && buf[2] == -120 && !buf[3]
+# define CPY(buf)	buf[0] == -61 && buf[1] == -89 && !buf[2] && !buf[3]
+# define PST(buf)	buf[0] == -30 && buf[1] == -120 && buf[2] == -102 && !buf[3]
+
+/*
+**	Return, CTRL-D, CTRL-L, CTRL-U, CTRL-T
+*/
+
+# define RETURN(buf) buf[0] == 10 && !buf[1] && !buf[2] && !buf[3]
+# define CTRL_D(buf) buf[0] == 4 && !buf[1] && !buf[2] && !buf[3]
+# define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
+# define CTRL_U(buf) buf[0] == 21 && !buf[1] && !buf[2] && !buf[3]
+# define CTRL_T(buf) buf[0] == 20 && !buf[1] && !buf[2] && !buf[3]
+# define CTRL_L(buf) buf[0] == 12 && !buf[1] && !buf[2] && !buf[3]
+
+/*
+**	Shift+Tab
+*/
+
+# define S_TAB(buf) buf[0] == 27 && buf[1] == 91 && buf[2] == 90 && !buf[3]
+
+/*
+**	Structure de gestion de la cmdl (deplacement, historique, couper/coller ...)
+*/
+
+typedef struct		s_env
 {
-	int					a;
-	int					b;
-	int					c;
-	int					d;
-	void 				(*f)(t_win *win, char *cmd, char buf[]);
-}						t_arrow;
+	char			*var;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
 
-void				arrows(t_win *win, char *cmd, char buf[]);
-void				arrow_left(t_win *win, char *cmd, char buf[]);
-void				arrow_rigth(t_win *win, char *cmd, char buf[]);
-void 				up_dwn(t_win *win, char *cmd, char buf[]);
-void 				home(t_win *win, char *cmd, char buf[]);
-void 				end(t_win *win, char *cmd, char buf[]);
-void 				opt_left(t_win *win, char *cmd, char buf[]);
-void 				opt_right(t_win *win, char *cmd, char buf[]);
+typedef struct		s_comp
+{
+	char			*str;
+	char			pad[512];
+	int				bol;
+	struct s_comp	*p;
+	struct s_comp	*n;
+}					t_comp;
 
+typedef struct		s_his
+{
+	char			*cmdl;
+	struct s_his	*n;
+	struct s_his	*p;
+}					t_his;
 
-void    			catcmd(t_win *win, char **cmd);
-void				call_chs(t_win **win, char **save);
-void				ccp(char **cmd, char buf[], t_win *win);
-int					check_cmdl(char **save, char **cmd, t_win **win, char buf[]);
-int					check_line(char **save, char **cmd, t_win **win, char buf[]);
-int					check_input(int i, char buf[], char **cmd);
-int					check_quotes(char **cmd, t_win **win);
-int					cmdl_signal(char **cmd, char *save, t_win **win);
-void				cmp_herestring(char **cmd, t_hdoc *tmp, int fdt[]);
-void				ctrl_l(t_win **win, char **cmd);
-void				del(char **cmd, t_win *win, t_his **his);
-void				del_all(char *cmd, t_win *win);
-void				del_hd(t_hdoc **hd);
-void 				del_his(char **cmd, t_win *win, t_his **his);
-void				e(t_win **win, t_his **his, char **cmd, char **save);
-void				exit_sh_mode(t_win *win, t_his **his, char **cmd, char buf[]);
-void				findstr(t_his **his, char *cmd);
-void 				get_be(t_win *win, char buf[]);
-void				get_cmdl(char **cmd, t_win **win, char *save, char buf[]);
-void				get_here_string(char **save, t_win **win, int i, int j);
-int					get_win_data(t_win **win);
-void				handle_pipe_and_or(char **save, t_win **win);
-void				heredoc(char **cmd, t_win **win, char buf[]);
-int					lst_len(t_his *his);
-int					mode_off(t_win **win);
-int					mode_on(t_win **win);
-void				move_history(t_his **his, char **cmd, char buf, t_win *win);
-void				get_history(t_his **his, char *tmp, char **cmd, char buf);
-void				init_var(t_win **win);
-void				print_prompt(t_win **win);
-void				print_search(char **cmd, char buf[], t_his **his, t_win *win);
-void				quote_removal(char **cmd);
-void				save_history(t_win *win, char **cmd, t_his **his);
-void				search_history(char **cmd, t_win **win);
-int					set_shell(t_win **win);
-void				tmp_pipe(int *p, int flag);
-int					unset_shell(t_win **win);
-t_win				*win_sgt(void);
+typedef struct		s_line
+{
+	char			*str;
+	char			*save;
+	char			buf[6];
+	int				co;
+	int				li;
+	int				cur;
+	int				pr;
+	int				len;
+}					t_line;
+
+typedef	struct		s_ccp
+{
+	char			*cpy;
+	int				start;
+	int				end;
+	int				ccp;
+
+}					t_ccp;
+
+typedef struct		s_local
+{
+	char			*var;
+	char			*val;
+	struct s_local	*n;
+	struct s_local	*p;
+}					t_local;
+
+/*
+**	Mode
+*/
+
+# define CCTRLD		1
+# define CHIS_S		2
+# define CSQ		4
+# define CDQ		8
+# define CRESET		16
+# define CPIPE		32
+# define CAND		64
+# define COR		128
+# define CHD		256
+# define CCOMP		512
+# define CCMODE		1024
+# define CCP		2048
+# define RRET		4096
+# define CBS		8192
+
+typedef struct		s_cmdl
+{
+	int				exit;
+	int				ret;
+	int				opt;
+	int				col;
+	int				offset;
+	int				color;
+	int				job;
+	char			*pwd;
+	t_line			line;
+	t_ccp			ccp;
+	t_env			*lstenv;
+	t_comp			*comp;
+	struct termios	term;
+}					t_cmdl;
+
+/*
+**	A supprimer
+*/
+
+t_env				*lst_at(t_env **env, char *cmp);
+
+/*
+**	Structure des commandes ds la cmdl
+*/
+
+typedef struct		s_op
+{
+	int				key[5];
+	int				(*f)(t_cmdl *cmdl);
+}					t_op;
+
+/*
+**	Affichage du promt
+*/
+
+void				print_prompt(void);
+int					only_space(t_cmdl *cmdl, int limit, int w);
+
+/*
+**	Renvoi les tete de listes
+*/
+
+t_cmdl				**cmdl_slg(void);
+t_his				**his_slg(void);
+t_local				**local_slg(int mode);
+
+/*
+**	Suppression des listes
+*/
+
+void				del_all(t_cmdl **cmdl_head, t_his **his_head,
+					t_local **loc_head);
+
+/*
+**	Check l env
+*/
+
+char				**check_env(char **env);
+
+/*
+**	Active/desactive le mode canonique et l echo du term
+**	Recup de la taille du term
+*/
+
+int					mode_off(t_cmdl *cmdl);
+int					unset_shell(t_cmdl *cmdl);
+int					mode_on(t_cmdl *cmdl);
+int					set_shell(t_cmdl *cmdl);
+int					get_win_data(t_cmdl *cmdl);
+void				shell_sig(void);
+
+/*
+**	========	Fonctions de la ligne de commande	========
+*/
+
+void				get_cmdl(t_cmdl *cmdl);
+void				get_op(t_cmdl *cmdl, int *ret, int *i);
+void				init_cmdl(void);
+void				remalloc_cmdl(t_line *line);
+
+/*
+**	Affichage
+*/
+
+int					print(t_cmdl *cmdl, char buf[]);
+int					regular_print(t_line *line, char buf[], int i, int j);
+int					graphical_print(t_cmdl *cmdl, char buf[]);
+int					search_history_print(t_cmdl *cmdl, char buf[]);
+
+/*
+**	Gestion des signaux
+*/
+
+void				cmdl_signals(t_cmdl *cmdl);
+void				resize_win(t_cmdl *cmdl, int save);
+void				ccp_case(t_cmdl *cmdl, int save);
+void				handle_ctrlc(t_cmdl *cmdl);
+
+/*
+**	Suppression
+*/
+
+int					del(t_cmdl *cmdl);
+int					back_del(t_cmdl *cmdl);
+
+/*
+**	Ctrl, esc
+*/
+
+int					ctrl_l(t_cmdl *cmdl);
+int					ctrl_u(t_cmdl *cmdl);
+int					ctrlt(t_cmdl *cmdl);
+int					esc(t_cmdl *cmdl);
+
+/*
+**	Deplacement
+*/
+
+int					arrow_left(t_cmdl *cmdl);
+int					arrow_right(t_cmdl *cmdl);
+int					home(t_cmdl *cmdl);
+int					end(t_cmdl *cmdl);
+int					up_dwn(t_cmdl *cmdl);
+int					opt_right(t_cmdl *cmdl);
+int					opt_left(t_cmdl *cmdl);
+
+/*
+**	Functions du Copier/Couper/Coller
+*/
+
+int					ccp(t_cmdl *cmd);
+int					paste(t_cmdl *cmdl, int len_cpy);
+void				unset_ccp(t_cmdl *cmdl);
+
+/*
+**	Fonctions de gestion de l historique et recherche dans l historique
+*/
+
+t_his				*findcmdl(char *str, char buf[], int reset);
+void				hist_session();
+void				hist_add(t_his **his);
+void				his_del(t_his **his, int mode);
+void				cmd_save_history(char *str, int mode);
+int					cmd_history(t_cmdl *cmdl);
+int					cmd_search_history(t_cmdl *cmdl);
+int					his_len(t_his **his);
+
+/*
+**	Fonction de verification de la cmdl (quick-in suite a un return ou un ctrld)
+*/
+
+int					return_cmdl(t_cmdl *cmdl);
+int					exit_search_mode(t_cmdl *cmdl);
+int					check_quote(t_cmdl *cmdl);
+int					handle_pipe_and_or(t_cmdl *cmdl, int len);
+int					ppa_err(t_cmdl *cmdl, int *i);
+int					inhibiteur(t_cmdl *cmdl, int len);
+int					ctrl_d(t_cmdl *cmdl);
+int					bs(char *str, int i, int opt);
 
 /*
 **	Completion
 */
 
-typedef struct			s_ls
-{
-    char				padx[512];
-    char				*name;
-    struct s_ls			*next;
-}						t_ls;
-
-int					call_print_lst(t_win **win, char **cmd, t_ls *list, int i);
-void				display_list(t_ls *list, char **cmd, char *path, t_win **win);
-void	    		completion(t_win **win, char **cmd);
-t_ls				*fill_lst(t_ls **head, struct dirent *rdd, int param);
-void				ft_padd_x(t_ls **ls, int *maxlen);
-void				ft_putpaddx(t_ls **ls, int maxlen);
-int 				is_first_word(char *cmd, int i);
-void				list_del(t_ls **list);
-int 				list_exe(char *tmp, char **path, t_win **win, char **cmd);
-void				list_files(char **tmp, t_win **win, char **cmd);
-int					list_len(t_ls **list);
-void				print_lst(t_ls **head, t_win **win, char *cmd, int len);
-
+int					only_space_comp(char *str);
+void				fill_comp(t_comp **comp, char *name, int dir);
+char				*get_path(char **tmp);
+int					display_comp(t_cmdl *cmdl, t_comp **comp, int offset);
+int					completion(t_cmdl *cmdl);
+int					sep(t_cmdl *cmdl, int w);
+int					is_exec(t_cmdl *cmdl);
+int					check_comp(t_comp **head, char *name);
+void				completion_edit(t_line *line, t_comp **comp,
+					char *tmp, int offset);
+void				comp_del(t_comp **head);
+int					c_move(t_comp **comp);
+void				print_lst(t_comp **comp, t_cmdl *cmdl, size_t *winsize,
+					int *up);
+void				call_print_lst(t_cmdl *cmdl, t_comp **comp);
+void				call_completion_edit(t_cmdl *cmdl, t_comp **comp,
+					int offset);
+int					c_arrow_down(t_comp **comp);
+int					c_arrow_up(t_comp **comp);
+int					c_arrow_right(t_comp **comp);
+int					c_arrow_left(t_comp **comp);
+void				restor_cursor_position(t_cmdl *cmdl, int up);
+void				print_comp(t_comp **comp);
+void				check_built_in(t_cmdl *cmdl, char *tmp);
+void				insert(t_comp **comp, t_comp *lnk, int i);
+void				escape_metha(char **str, int meta);
 
 /*
 **	Bang
 */
 
-/*
-**	bang options
-*/
+# define HB		1
+# define TB		2
+# define RB		4
+# define EB		8
+# define PB		16
+# define QB		32
+# define XB		64
 
-#define 	HB			1
-#define 	TB 			2
-#define 	RB 			4
-#define 	EB 			8
-#define 	PB 			16
-#define 	QB 			32
-#define 	XB 			64
-
-typedef struct			s_bang
+typedef struct		s_bang
 {
-	int					n;
-	char				*string;
-	char				*s1;
-	char				*s2;
-	int					des;
-	int					x;
-	int					y;
-	int					mod;
-	int					s;
-	int					b;
-	int					e;
-}						t_bang;
+	int				n;
+	int				qm;
+	char			*string;
+	char			*s1;
+	char			*s2;
+	int				des;
+	int				x;
+	int				y;
+	int				mod;
+	int				start;
+	int				end;
+	char			*tmp;
+}					t_bang;
 
-int     		    bang_bang(char **cmd, char *str, t_bang *bang, int len);
-int 		        do_sub(t_his *his, t_bang *bang, char **cmd, char *array);
-int 				fill_buf(char *tmp, char **cmd, int i, int j);
-int					mod_cmd(char **cmd, char **array, t_bang *bang);
-void   				process_mod(char **tmp, t_bang *bang, int i, char *ptr);
-
-void				delete_lstenv(t_env **cmd);
-
+void				fill_buf(t_bang *bang, char **cmd, int *i);
+int					bang(char *str);
+int					bang_parse(char *sub, t_bang *bang);
+int					bang_error(char *sub, char **opt);
+int					bang_range(t_bang *bang, char *edit, char *ptr,
+					int max_arg);
+int					bang_sub(t_bang *bang);
+int					check_ed(t_bang *bang, int his_len,
+					int match_len, int w);
+int					get_line(t_his *his, t_bang *bang);
+int					get_match(t_his *his, t_bang *bang);
+int					call_get_event(t_bang *bang, t_his *his, char **opt,
+					char **sub);
+int					call_get_designators(t_bang *bang, t_his *his, char **opt,
+					char **sub);
+int					call_get_modifiers(t_bang *bang, char **opt, char **sub);
+int					get_event(char *cmdl, t_bang *bang);
+int					get_designators(char *event, t_bang *bang, int max_arg);
+int					get_modifiers(char *event, t_bang *bang);
 #endif
